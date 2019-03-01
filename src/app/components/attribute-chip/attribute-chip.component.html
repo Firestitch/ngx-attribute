@@ -1,6 +1,7 @@
 <mat-chip
   [style.backgroundColor]="config.backgroundColor"
   [style.color]="config.textColor"
+  [disableRipple]="true"
   [ngClass]="{ 'mat-chip-image': config.image, 'mat-chip-removable': config.removable }">
   <img *ngIf="config.image" [src]="config.image" class="image">
   <ng-content></ng-content>

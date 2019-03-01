@@ -8,11 +8,13 @@
 }
 
 mat-chip {
+  user-select: none;
   &.mat-standard-chip {
     background-color: unset;
   }
 
   &.mat-chip-image {
+    overflow: hidden;
     padding-left: 0;
   }
 }
