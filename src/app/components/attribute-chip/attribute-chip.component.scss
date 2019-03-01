@@ -1,0 +1,32 @@
+.image {
+  height: 32px;
+  border-radius: 50%;
+  object-fit: cover;
+  width: 32px;
+  margin-left: -1px;
+  margin-right: 8px;
+}
+
+mat-chip {
+  &.mat-standard-chip {
+    background-color: unset;
+  }
+
+  &.mat-chip-image {
+    padding-left: 0;
+  }
+}
+
+mat-chip.mat-chip-removable {
+  padding-right: 3px;
+}
+
+.removable {
+  display: flex;
+  margin-left: 5px;
+  cursor: pointer;
+  mat-icon {
+    transform: scale(.9);
+    color: #929292;
+  }
+}

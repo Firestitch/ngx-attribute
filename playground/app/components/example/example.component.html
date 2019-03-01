@@ -1,1 +1,28 @@
-<fs-component></fs-component>
+
+<div fxLayout="row" fxLayoutGap="15px">
+  <fs-label-field>
+    <fs-label>Enable Image</fs-label>
+    <mat-checkbox [(ngModel)]="image"></mat-checkbox>
+  </fs-label-field>
+
+  <fs-label-field>
+      <fs-label>Enable Remove</fs-label>
+      <mat-checkbox [(ngModel)]="removable"></mat-checkbox>
+    </fs-label-field>
+
+  <mat-form-field>
+    <input matInput fsColorPicker [(ngModel)]="backgroundColor" placeholder="Background Color">
+  </mat-form-field>
+
+  <mat-form-field>
+    <input matInput fsColorPicker [(ngModel)]="textColor" placeholder="Text Color">
+  </mat-form-field>
+</div>
+
+
+<fs-attribute
+  [backgroundColor]="backgroundColor"
+  [textColor]="textColor"
+  [removable]="removable"
+  [image]="image ?  '/assets/headshot.jpg' : ''">Tag A
+</fs-attribute>
