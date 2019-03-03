@@ -1,11 +1,10 @@
-<div mat-dialog-title>{{pluralName}}</div>
+<div mat-dialog-title>Attributes</div>
 <mat-dialog-content>
 
     <fs-attributes
       [attributes]="attributes"
       [selectable]="true"
-      [selected]="selectedAttributes"
-      (selectionChanged)="selectionChange">
+      [selected]="selectedAttributes">
     </fs-attributes>
 
 </mat-dialog-content>

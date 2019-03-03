@@ -31,4 +31,12 @@ export class FsAttributeSelectorComponent implements OnInit {
   done() {
     this.dialogRef.close({ attributes: this.selectedAttributes });
   }
+
+  create() {
+
+  }
+
+  manage() {
+
+  }
 }
