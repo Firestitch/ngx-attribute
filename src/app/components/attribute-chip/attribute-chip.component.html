@@ -1,9 +1,14 @@
-<mat-chip
-  [style.backgroundColor]="config.backgroundColor"
-  [style.color]="config.textColor"
-  [disableRipple]="true"
-  [ngClass]="{ 'mat-chip-image': config.image, 'mat-chip-removable': config.removable }">
-  <img *ngIf="config.image" [src]="config.image" class="image">
-  <ng-content></ng-content>
-  <a *ngIf="config.removable" class="removable"><mat-icon disableRipple>cancel</mat-icon></a>
-</mat-chip>
+<div class="mat-chip mat-standard-chip"
+  [style.backgroundColor]="backgroundColor"
+  [style.color]="textColor"
+  [ngClass]="{ 'imaged': image, 'removable': removable, selectable: selectable, selected: selected }"
+  (click)="clicked.emit(attribute)">
+  <div class="content">
+    <div class="selected-check" *ngIf="selectable && selected">
+      <mat-icon [style.color]="textColor">check</mat-icon>
+    </div>
+    <img *ngIf="image" [src]="image" class="image">
+    <ng-content></ng-content>
+    <a *ngIf="removable" class="remove"><mat-icon [style.color]="textColor">cancel</mat-icon></a>
+  </div>
+</div>

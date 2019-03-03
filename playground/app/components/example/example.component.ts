@@ -11,4 +11,23 @@ export class ExampleComponent {
   public removable;
   public backgroundColor;
   public textColor;
+  public config: any = {};
+
+  public attribute;
+
+  public changed() {
+    this.attribute = {
+      backgroundColor: this.backgroundColor,
+      textColor: this.textColor,
+      image: '/assets/headshot2.jpg'
+    };
+
+    this.config = {
+      backgroundColor: !!this.backgroundColor,
+      textColor: !!this.textColor,
+      image: this.image,
+      removable: this.removable
+    };
+  }
+
 }

@@ -7,23 +7,68 @@
   margin-right: 8px;
 }
 
-mat-chip {
+.mat-chip {
   user-select: none;
   &.mat-standard-chip {
-    background-color: unset;
   }
 
-  &.mat-chip-image {
-    overflow: hidden;
+  &.imaged {
+    overflow: visible;
     padding-left: 0;
   }
 }
 
-mat-chip.mat-chip-removable {
-  padding-right: 3px;
+.content {
+  position: relative;
+  display: flex;
+  align-items: center;
+}
+
+.selected-check {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  align-items: center;
+  display: flex;
+  justify-content: center;
+}
+
+
+.mat-chip {
+  &.imaged .selected-check {
+    position: absolute;
+    background: rgba(179, 171, 171, 0.7);
+    margin-left: -1px;
+  }
+
+  &:not(.imaged) .selected-check {
+  }
+
+  &.selectable {
+    cursor: pointer;
+
+    &:not(.imaged).selected {
+      padding-left: 6px;
+    }
+  }
+}
+
+.mat-standard-chip {
+  transition: box-shadow 280ms cubic-bezier(.4,0,.2,1);
+  display: inline-flex;
+  padding: 0px 12px;
+  border-radius: 16px;
+  align-items: center;
+  cursor: default;
+  min-height: 32px;
+  height: 1px;
 }
 
 .removable {
+  padding-right: 3px;
+}
+
+.remove {
   display: flex;
   margin-left: 5px;
   cursor: pointer;

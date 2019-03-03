@@ -1,0 +1,4 @@
+<div class="attributes">
+  <fs-attribute *ngFor="let attribute of attributes" [attribute]="attribute">{{attribute.name}}</fs-attribute>
+  <a mat-button (click)="select()">select</a>
+</div>

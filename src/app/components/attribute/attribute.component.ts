@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, Output, EventEmitter } from '@angular/core';
 
 @Component({
   selector: 'fs-attribute',
@@ -7,23 +7,13 @@ import { Component, Input } from '@angular/core';
 })
 export class FsAttributeComponent {
 
-  @Input() config: any = { textColor: '#fff' };
-
-  @Input('backgroundColor') set backgroundColor(value) {
-    this.config.backgroundColor = value;
-  }
-
-  @Input('textColor') set textColor(value) {
-    this.config.textColor = value;
-  }
-
-  @Input('image') set image(value) {
-    this.config.image = value;
-  }
-
-  @Input('removable') set removable(value) {
-    this.config.removable = value;
-  }
+  @Input() config: any;
+  @Input() removable: any;
+  @Input() selectable: any;
+  @Input() selected: any;
+  @Input() attribute: any = {};
+  @Input() class: string;
+  @Output() selectionChanged = new EventEmitter();
 
   constructor() {
   }

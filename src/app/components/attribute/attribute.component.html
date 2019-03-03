@@ -1,4 +1,11 @@
-<mat-chip-list
-  [selectable]="false">
-  <fs-attribute-chip [config]="config"><ng-content></ng-content></fs-attribute-chip>
-</mat-chip-list>
+
+  <fs-attribute-chip
+    [config]="config"
+    [class]="class"
+    [removable]="removable"
+    [selectable]="selectable"
+    [selected]="selected"
+    (selectionChanged)="selectionChanged.emit($event)"
+    [attribute]="attribute">
+    <ng-content></ng-content>
+  </fs-attribute-chip>

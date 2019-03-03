@@ -1,0 +1,16 @@
+<div mat-dialog-title>{{pluralName}}</div>
+<mat-dialog-content>
+
+    <fs-attributes
+      [attributes]="attributes"
+      [selectable]="true"
+      [selected]="selectedAttributes"
+      (selectionChanged)="selectionChange">
+    </fs-attributes>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="done()" color="primary">Done</button>
+  <button mat-button (click)="create()">Create</button>
+  <button mat-button (click)="manage()">Manage</button>
+</mat-dialog-actions>

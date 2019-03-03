@@ -2,27 +2,26 @@
 <div fxLayout="row" fxLayoutGap="15px">
   <fs-label-field>
     <fs-label>Enable Image</fs-label>
-    <mat-checkbox [(ngModel)]="image"></mat-checkbox>
+    <mat-checkbox [(ngModel)]="image" (ngModelChange)="changed()"></mat-checkbox>
   </fs-label-field>
 
   <fs-label-field>
-      <fs-label>Enable Remove</fs-label>
-      <mat-checkbox [(ngModel)]="removable"></mat-checkbox>
-    </fs-label-field>
+    <fs-label>Enable Remove</fs-label>
+    <mat-checkbox [(ngModel)]="removable" (ngModelChange)="changed()"></mat-checkbox>
+  </fs-label-field>
 
   <mat-form-field>
-    <input matInput fsColorPicker [(ngModel)]="backgroundColor" placeholder="Background Color">
+    <input matInput fsColorPicker [(ngModel)]="backgroundColor" placeholder="Background Color" (ngModelChange)="changed()">
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput fsColorPicker [(ngModel)]="textColor" placeholder="Text Color">
+    <input matInput fsColorPicker [(ngModel)]="textColor" placeholder="Text Color" (ngModelChange)="changed()">
   </mat-form-field>
 </div>
 
-
 <fs-attribute
-  [backgroundColor]="backgroundColor"
-  [textColor]="textColor"
+  [attribute]="attribute"
   [removable]="removable"
-  [image]="image ?  '/assets/headshot.jpg' : ''">Tag A
+  [config]="config">
+    Tag A
 </fs-attribute>

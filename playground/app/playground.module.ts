@@ -16,7 +16,9 @@ import { FsAttributeModule } from '@firestitch/package';
 import { AppMaterialModule } from './material.module';
 import {
   ExampleComponent,
-  ExamplesComponent
+  ExamplesComponent,
+  FieldExampleComponent,
+  ConfigExampleComponent
 } from './components';
 import { AppComponent } from './app.component';
 
@@ -28,7 +30,20 @@ const routes: Routes = [
   bootstrap: [ AppComponent ],
   imports: [
     BrowserModule,
-    FsAttributeModule.forRoot(),
+    FsAttributeModule.forRoot({
+      configs: [
+        {
+          class: 'everything',
+          image: true,
+          backgroundColor: true,
+          textColor: true
+        },
+        {
+          class: 'background-color',
+          backgroundColor: true
+        }
+      ]
+    }),
     BrowserAnimationsModule,
     AppMaterialModule,
     FormsModule,
@@ -44,7 +59,9 @@ const routes: Routes = [
   declarations: [
     AppComponent,
     ExamplesComponent,
-    ExampleComponent
+    ExampleComponent,
+    ConfigExampleComponent,
+    FieldExampleComponent
   ],
   providers: [
   ],
