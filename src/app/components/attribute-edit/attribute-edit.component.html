@@ -1,0 +1,30 @@
+<form (fsForm)="save()">
+  <div mat-dialog-title>Create/Edit {{attributeConfig.name}}</div>
+  <mat-dialog-content>
+    <div class="fields">
+
+      <fs-file-image-picker
+        (select)="selectImage($event)"
+        [url]="attribute.image"
+        imageQuality=".8"
+        imageWidth="500"
+        imageHeight="500"
+        previewDiameter="75"
+        label="Image"
+        *ngIf="attributeConfig.image">
+      </fs-file-image-picker>
+
+      <mat-form-field>
+        <input matInput placeholder="Name" [(ngModel)]="attribute.name" name="name">
+      </mat-form-field>
+
+      <mat-form-field *ngIf="attributeConfig.backgroundColor">
+        <input matInput placeholder="Color" fsColorPicker [(ngModel)]="attribute.backgroundColor" name="color">
+      </mat-form-field>
+    </div>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button mat-button color="primary">Create/Save</button>
+    <button mat-button (click)="close()" type="button">Cancel</button>
+  </mat-dialog-actions>
+</form>

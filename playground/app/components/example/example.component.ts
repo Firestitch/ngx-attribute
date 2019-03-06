@@ -9,7 +9,7 @@ export class ExampleComponent {
 
   public image;
   public removable;
-  public backgroundColor;
+  public backgroundColor = '';
   public textColor;
   public config: any = {};
 

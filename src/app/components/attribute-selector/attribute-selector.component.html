@@ -1,15 +1,15 @@
-<div mat-dialog-title>Attributes</div>
+<div mat-dialog-title>{{attributeConfig.pluralName}}</div>
 <mat-dialog-content>
 
     <fs-attributes
       [attributes]="attributes"
       [selectable]="true"
-      [selected]="selectedAttributes">
+      [selected]="selectedAttributes"
+      [class]="data.class">
     </fs-attributes>
 
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button (click)="done()" color="primary">Done</button>
-  <button mat-button (click)="create()">Create</button>
-  <button mat-button (click)="manage()">Manage</button>
+  <button mat-button (click)="create()">Create {{attributeConfig.name}}</button>
 </mat-dialog-actions>

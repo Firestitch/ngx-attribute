@@ -1,7 +1,7 @@
 import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
 import { takeUntil } from 'rxjs/operators';
 import { Subject } from 'rxjs';
-import { remove } from 'lodash-es';
+import { remove, isEqual } from 'lodash-es';
 
 
 @Component({
@@ -12,15 +12,24 @@ import { remove } from 'lodash-es';
 })
 export class FsAttributesFieldComponent implements OnInit, OnDestroy {
 
-  @Output() selectionChanged = new EventEmitter();
   @Input() config: any;
   @Input() attributes: any = [];
   @Input() selected: any = [];
   @Input() selectable: Boolean;
+  @Input() class: string;
+  @Output() selectionChanged = new EventEmitter();
 
   public $destroy = new Subject();
 
-  constructor() {
+  constructor() {}
+
+  compareSelected(attribute) {
+    for (let i = 0; i < this.selected.length; i++) {
+      if (isEqual(attribute, this.selected[i])) {
+        return true;
+      }
+    }
+    return false;
   }
 
   ngOnDestroy() {

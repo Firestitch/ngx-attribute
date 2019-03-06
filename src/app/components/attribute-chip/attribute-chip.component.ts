@@ -1,7 +1,5 @@
 import {  Component, Input, OnInit, Inject, OnChanges,
           SimpleChanges, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { FS_ATTRIBUTE_CONFIG } from 'src/app/providers';
-import { filter, merge } from 'lodash-es';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
@@ -12,55 +10,36 @@ import { takeUntil } from 'rxjs/operators';
 })
 export class FsAttributeChipComponent implements OnInit, OnChanges, OnDestroy {
 
-  @Output() clicked = new EventEmitter();
-  @Output() selectionChanged = new EventEmitter();
   @Input() attribute: any;
   @Input() selectable: Boolean = false;
   @Input() selected: Boolean = false;
   @Input() removable: Boolean = false;
-  @Input('class') set class(value) {
-    this._class = value;
-  }
+  @Input() backgroundColor: string;
+  @Input() textColor = '#474747';
+  @Input() image: string;
 
-  @Input('config') set _config(value) {
-    if (value) {
-      this.config = value;
-    }
-  }
+  @Output() clicked = new EventEmitter();
+  @Output() selectionChanged = new EventEmitter();
 
   public $destroy = new Subject();
-  public config: any = {};
-  public _class;
-  public backgroundColor;
-  public textColor;
-  public image;
 
-  constructor(@Inject(FS_ATTRIBUTE_CONFIG) private attributeConfig) {}
-
-  private init() {
-
-    if (!this.config || !this.attribute) {
-      return;
+  private isContrastYIQBlack(hexcolor) {
+    if (!hexcolor) {
+      return true;
     }
 
-
-    if ((this.selected || !this.selectable) && this.config.backgroundColor) {
-      this.backgroundColor = this.attribute.backgroundColor;
-    } else {
-      this.backgroundColor = '';
-    }
-
-    if ((this.selected || !this.selectable) && this.config.textColor) {
-      this.textColor = this.attribute.textColor;
-    } else {
-      this.textColor = '';
-    }
-
-    this.image = this.config.image ? this.attribute.image : '';
+    hexcolor = hexcolor.replace('#', '');
+    const r = parseInt(hexcolor.substr(0, 2), 16);
+    const g = parseInt(hexcolor.substr(2, 2), 16);
+    const b = parseInt(hexcolor.substr(4, 2), 16);
+    const yiq = ((r * 299) + (g * 587) + (b * 114)) / 1000;
+    return yiq >= 200;
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    this.init();
+    if (changes.backgroundColor && !this.textColor) {
+      this.textColor = this.isContrastYIQBlack(this.backgroundColor) ? '#474747' : '#fff';
+    }
   }
 
   ngOnDestroy() {
@@ -76,24 +55,7 @@ export class FsAttributeChipComponent implements OnInit, OnChanges, OnDestroy {
       .subscribe(attribute => {
         this.selected = !this.selected;
         this.selectionChanged.emit({ attribute: attribute, selected: this.selected });
-        this.init();
       });
     }
-
-    const attributeConfig = filter(this.attributeConfig.configs, { class: this._class })[0];
-
-    let config = {
-      backgroundColor: true,
-      textColor: true,
-      image: true
-    };
-
-    if (attributeConfig) {
-      config = attributeConfig
-    }
-
-    this.config = merge(config, this.config);
-
-    this.init();
   }
 }

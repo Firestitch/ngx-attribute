@@ -1,4 +1,5 @@
 <fs-attribute-field
+  class="everything"
   [attributes]="selectedAttributes"
-  [fetch]="fetch">
+  (attributeSaved)="save($event)">
 </fs-attribute-field>

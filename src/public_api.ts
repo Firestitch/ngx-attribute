@@ -3,3 +3,4 @@
  */
 
 export { FsAttributeModule } from './app/fs-attribute.module';
+export * from './app/interfaces/attribute-config.interface';

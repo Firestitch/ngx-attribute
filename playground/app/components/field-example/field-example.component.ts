@@ -1,6 +1,6 @@
-import { Component, OnInit } from '@angular/core';
-import { random } from 'lodash-es';
-import { of } from 'rxjs';
+import { Component, OnInit, Inject } from '@angular/core';
+import { FS_ATTRIBUTE_CONFIG } from 'src/app/providers';
+import { FsAttributeConfig } from 'src/app/interfaces/attribute-config.interface';
 
 @Component({
   selector: 'field-example',
@@ -9,48 +9,21 @@ import { of } from 'rxjs';
 })
 export class FieldExampleComponent implements OnInit {
 
-  public attributes = [
-    {
-      class: 'everything',
-      backgroundColor: '#19A8E2',
-      textColor: '#fff',
-      image: this.image(),
-      name: 'Attribute 1'
-    },
-    {
-      class: 'everything',
-      backgroundColor: '#19A8E2',
-      textColor: '#fff',
-      image: this.image(),
-      name: 'Attribute 2'
-    },
-    {
-      class: 'everything',
-      backgroundColor: '#19A8E2',
-      textColor: '#fff',
-      image: this.image(),
-      name: 'Attribute 3'
-    },
-    {
-      class: 'everything',
-      backgroundColor: '#19A8E2',
-      textColor: '#fff',
-      image: this.image(),
-      name: 'Attribute 4'
-    }
-  ];
-
   public selectedAttributes = [];
 
+  constructor(@Inject(FS_ATTRIBUTE_CONFIG) private attributeConfig: FsAttributeConfig) {}
+
   ngOnInit() {
-    this.selectedAttributes = this.attributes.slice(0).slice(1, 2);
+
+    this.attributeConfig.attributesFetch({})
+    .subscribe(attributes => {
+      this.selectedAttributes = attributes.data.slice(0).slice(1, 2);
+    });
   }
 
-  image() {
-    return 'https://unsplash.it/30/30?' + random(0, 9999999);
-  }
+  public save(attribute) {
 
-  public fetch = (query) => {
-    return of(this.attributes);
+    debugger;
+    attribute.class = 'everything';
   }
 }

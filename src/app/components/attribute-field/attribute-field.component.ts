@@ -1,4 +1,4 @@
-import { Component, Input } from '@angular/core';
+import { Component, Input, EventEmitter, Output } from '@angular/core';
 import { FsAttributeSelectorComponent } from '../attribute-selector/attribute-selector.component';
 import { MatDialog } from '@angular/material';
 
@@ -10,8 +10,14 @@ import { MatDialog } from '@angular/material';
 export class FsAttributeFieldComponent {
 
   @Input() config: any;
-  @Input() fetch;
+  @Input() attributesFetch;
   @Input() attributes: any = [];
+  @Output() attributeSaved = new EventEmitter();
+  @Input('class') set _class(value) {
+    this.class = value;
+  }
+
+  private class = '';
 
   constructor(private dialog: MatDialog) {}
 
@@ -19,7 +25,9 @@ export class FsAttributeFieldComponent {
     const dialogRef = this.dialog.open(FsAttributeSelectorComponent, {
       data: {
         selectedAttributes: this.attributes,
-        fetch: this.fetch
+        attributeSaved: this.attributeSaved,
+        config: this.config,
+        class: this.class
       }
     });
 

@@ -2,7 +2,8 @@
   *ngFor="let attribute of attributes"
   [attribute]="attribute"
   [selectable]="selectable"
-  [selected]="selected.indexOf(attribute)>=0"
+  [selected]="compareSelected(attribute)"
+  [class]="class"
   (selectionChanged)="selectionChanged.emit($event)">
   {{attribute.name}}
 </fs-attribute>

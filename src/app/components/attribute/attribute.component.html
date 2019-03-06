@@ -1,10 +1,12 @@
 
   <fs-attribute-chip
-    [config]="config"
     [class]="class"
     [removable]="removable"
     [selectable]="selectable"
     [selected]="selected"
+    [backgroundColor]="backgroundColor"
+    [textColor]="textColor"
+    [image]="image"
     (selectionChanged)="selectionChanged.emit($event)"
     [attribute]="attribute">
     <ng-content></ng-content>
