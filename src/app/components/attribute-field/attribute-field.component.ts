@@ -13,11 +13,7 @@ export class FsAttributeFieldComponent {
   @Input() attributesFetch;
   @Input() attributes: any = [];
   @Output() attributeSaved = new EventEmitter();
-  @Input('class') set _class(value) {
-    this.class = value;
-  }
-
-  private class = '';
+  @Input('class') class;
 
   constructor(private dialog: MatDialog) {}
 

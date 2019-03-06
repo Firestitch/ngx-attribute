@@ -10,8 +10,8 @@ import { filter } from 'lodash-es';
 })
 export class FsAttributeEditComponent implements OnInit {
 
-  public attribute = {};
-  public attributeConfig = {};
+  public attribute: any;
+  public attributeConfig: any;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               @Inject(FS_ATTRIBUTE_CONFIG) private fsAttributeConfig: FsAttributeConfig,

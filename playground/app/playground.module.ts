@@ -39,91 +39,7 @@ let attributes = [];
   bootstrap: [ AppComponent ],
   imports: [
     BrowserModule,
-    FsAttributeModule.forRoot({
-      configs: [
-        {
-          class: 'everything',
-          image: true,
-          backgroundColor: true,
-          textColor: true,
-          name: 'Attribute',
-          pluralName: 'Attributes',
-          order: AttributeOrder.Custom
-        },
-        {
-          class: 'background-color',
-          backgroundColor: true,
-          name: 'Background Color',
-          pluralName: 'Background Colors',
-        }
-      ],
-      attributeSave: (attribute) => {
-
-        if (!attribute.id) {
-          attribute.id = attributes.length + 2;
-          attributes.push(attribute);
-        }
-      },
-      attributesReorder: (data) => {
-        attributes = data;
-      },
-      attributeImageSave: (attribute, file) => {
-
-      },
-      attributeDelete: (attribute) => {
-        attributes.forEach((item, index) => {
-          if (isEqual(attribute, item)) {
-            attributes.splice(index, 1);
-          }
-        });
-        return of(true);
-      },
-      attributesFetch: (query) => {
-
-        if (!attributes.length) {
-          attributes = [
-            {
-              id: 1,
-              class: 'everything',
-              backgroundColor: '#19A8E2',
-              image: '/assets/headshot2.jpg',
-              name: 'Attribute 1',
-            },
-            {
-              id: 2,
-              class: 'everything',
-              backgroundColor: '#008A75',
-              image: '/assets/headshot3.jpg',
-              name: 'Attribute 2'
-            },
-            {
-              id: 3,
-              class: 'everything',
-              backgroundColor: '#61b4c0',
-              image: '/assets/headshot4.jpg',
-              name: 'Attribute 3'
-            },
-            {
-              id: 4,
-              class: 'everything',
-              backgroundColor: '#ffd204',
-              image: '/assets/headshot5.jpg',
-              name: 'Attribute 4'
-            }
-          ];
-        }
-
-        let filteredAttributes = attributes.splice(0);
-
-        if (query.keyword) {
-          filteredAttributes = filter(filteredAttributes, (attribute) => {
-            return attribute.name.indexOf(query.keyword) >= 0;
-          });
-        }
-
-        return of({ data: filteredAttributes, paging: { records: attributes.length, limit: 10 } });
-      }
-    }),
+    FsAttributeModule.forRoot(),
     BrowserAnimationsModule,
     AppMaterialModule,
     FormsModule,
@@ -145,8 +61,96 @@ let attributes = [];
     ListExampleComponent
   ],
   providers: [
-    { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'auto' } }
+    { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'auto' } },
+    { provide: 'sss', useFactory: attributeConfigFactory }
   ]
 })
-export class PlaygroundModule {
+export class PlaygroundModule {}
+
+export function attributeConfigFactory() {
+  return {
+    configs: [
+      {
+        class: 'everything',
+        image: true,
+        backgroundColor: true,
+        textColor: true,
+        name: 'Attribute',
+        pluralName: 'Attributes',
+        order: AttributeOrder.Custom
+      },
+      {
+        class: 'background-color',
+        backgroundColor: true,
+        name: 'Background Color',
+        pluralName: 'Background Colors',
+      }
+    ],
+    attributeSave: (attribute) => {
+
+      if (!attribute.id) {
+        attribute.id = attributes.length + 2;
+        attributes.push(attribute);
+      }
+    },
+    attributesReorder: (data) => {
+      attributes = data;
+    },
+    attributeImageSave: (attribute, file) => {
+
+    },
+    attributeDelete: (attribute) => {
+      attributes.forEach((item, index) => {
+        if (isEqual(attribute, item)) {
+          attributes.splice(index, 1);
+        }
+      });
+      return of(true);
+    },
+    attributesFetch: (query) => {
+
+      if (!attributes.length) {
+        attributes = [
+          {
+            id: 1,
+            class: 'everything',
+            backgroundColor: '#19A8E2',
+            image: '/assets/headshot2.jpg',
+            name: 'Attribute 1',
+          },
+          {
+            id: 2,
+            class: 'everything',
+            backgroundColor: '#008A75',
+            image: '/assets/headshot3.jpg',
+            name: 'Attribute 2'
+          },
+          {
+            id: 3,
+            class: 'everything',
+            backgroundColor: '#61b4c0',
+            image: '/assets/headshot4.jpg',
+            name: 'Attribute 3'
+          },
+          {
+            id: 4,
+            class: 'everything',
+            backgroundColor: '#ffd204',
+            image: '/assets/headshot5.jpg',
+            name: 'Attribute 4'
+          }
+        ];
+      }
+
+      let filteredAttributes = attributes.splice(0);
+
+      if (query.keyword) {
+        filteredAttributes = filter(filteredAttributes, (attribute) => {
+          return attribute.name.indexOf(query.keyword) >= 0;
+        });
+      }
+
+      return of({ data: filteredAttributes, paging: { records: attributes.length, limit: 10 } });
+    }
+  };
 }

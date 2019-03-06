@@ -66,23 +66,20 @@ export class FsAttributeModule {
     return {
       ngModule: FsAttributeModule,
       providers: [
-        { provide: FS_ATTRIBUTE_CONFIG, useValue: config },
+        { provide: FS_ATTRIBUTE_DEFAULT_CONFIG, useValue: config },
         {
-          provide: FS_ATTRIBUTE_DEFAULT_CONFIG,
+          provide: FS_ATTRIBUTE_CONFIG,
           useFactory: FsAttributeConfigFactory,
-          deps: [FS_ATTRIBUTE_CONFIG]
+          deps: [FS_ATTRIBUTE_DEFAULT_CONFIG, 'sss']
         }
       ]
     };
   }
 }
 
-export function FsAttributeConfigFactory(config: FsAttributeConfig) {
-  return merge({
-    attributeSave: (attribute) => {},
-    attributeDelete: (attribute) => {},
-    attributesFetch: (query) => {},
-  }, config);
+export function FsAttributeConfigFactory(config: FsAttributeConfig, configProvider: FsAttributeConfig) {
+
+  return merge(configProvider, config);
 }
 
 
