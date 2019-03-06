@@ -16,6 +16,7 @@ export class FsAttributeListComponent implements OnInit {
 
   @ViewChild('list') list;
   @Input() class: string;
+  @Input() data: string;
   public listConfig: FsListConfig;
   public attributeConfig: AttributeConfig = null;
 
@@ -37,12 +38,13 @@ export class FsAttributeListComponent implements OnInit {
       ],
       actions: [
         {
-          label: 'Create ' + this.attributeConfig.pluralName,
+          label: 'Create ' + this.attributeConfig.name,
           click: () => {
             const dialogRef = this.dialog.open(FsAttributeEditComponent, {
               data: {
                 attibute: {},
-                class: this.class
+                class: this.class,
+                data: this.data
               }
             });
 
@@ -55,7 +57,13 @@ export class FsAttributeListComponent implements OnInit {
       rowActions: [
         {
           click: (row, event) => {
-            return this.fsAttributeConfig.attributeDelete(row);
+            const e = {
+              attribute: row,
+              data: this.data,
+              class: this.class
+            };
+
+            return this.fsAttributeConfig.deleteAttribute(e);
           },
           remove: true,
           icon: 'delete',
@@ -63,8 +71,13 @@ export class FsAttributeListComponent implements OnInit {
         }
       ],
       fetch: (query) => {
+        const e = {
+          query: query,
+          data: this.data,
+          class: this.class
+        };
 
-        return this.fsAttributeConfig.attributesFetch(query)
+        return this.fsAttributeConfig.getAttributes(e)
           .pipe(
             map((response: any) => ({ data: response.data, paging: response.paging }))
           );
@@ -76,7 +89,13 @@ export class FsAttributeListComponent implements OnInit {
         position: ReorderPosition.Left,
         strategy: ReorderStrategy.Always,
         done: (data) => {
-          this.fsAttributeConfig.attributesReorder(data);
+
+          const e = {
+            attributes: data,
+            data: this.data,
+            class: this.class
+          };
+          this.fsAttributeConfig.reorderAttributes(e);
         }
       }
     }
@@ -86,7 +105,8 @@ export class FsAttributeListComponent implements OnInit {
     const dialogRef = this.dialog.open(FsAttributeEditComponent, {
       data: {
         attribute: attribute,
-        class: this.class
+        class: this.class,
+        data: this.data
       }
     });
 

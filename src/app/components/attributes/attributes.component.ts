@@ -38,11 +38,12 @@ export class FsAttributesFieldComponent implements OnInit, OnDestroy {
   }
 
   ngOnInit() {
-    if (this.selectable) {
-      this.selectionChanged
-      .pipe(takeUntil(this.$destroy))
-      .subscribe((e: any) => {
 
+    this.selectionChanged
+    .pipe(takeUntil(this.$destroy))
+    .subscribe((e: any) => {
+
+      if (this.selectable) {
         if (e.selected) {
           this.selected.push(e.attribute);
         } else {
@@ -50,7 +51,7 @@ export class FsAttributesFieldComponent implements OnInit, OnDestroy {
             return e.attribute == attribute;
           });
         }
-      });
-    }
+      }
+    });
   }
 }

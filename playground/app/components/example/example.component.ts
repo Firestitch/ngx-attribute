@@ -8,26 +8,21 @@ import { Component } from '@angular/core';
 export class ExampleComponent {
 
   public image;
+  public showImage;
   public removable;
+  public outlined = false;
+  public selected = false;
+  public selectable = false;
   public backgroundColor = '';
-  public textColor;
+  public color;
   public config: any = {};
 
-  public attribute;
+  imageChanged() {
+    this.image = this.showImage ? '/assets/headshot2.jpg' : '';
+  }
 
-  public changed() {
-    this.attribute = {
-      backgroundColor: this.backgroundColor,
-      textColor: this.textColor,
-      image: '/assets/headshot2.jpg'
-    };
-
-    this.config = {
-      backgroundColor: !!this.backgroundColor,
-      textColor: !!this.textColor,
-      image: this.image,
-      removable: this.removable
-    };
+  selectionChanged(e) {
+    this.selected = e.selected;
   }
 
 }

@@ -3,6 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FS_ATTRIBUTE_CONFIG } from '../../providers';
 import { FsAttributeConfig } from '../../interfaces/attribute-config.interface';
 import { filter } from 'lodash-es';
+import { getAttributeValue } from '../../helpers/helpers';
 
 @Component({
   templateUrl: 'attribute-edit.component.html',
@@ -12,6 +13,10 @@ export class FsAttributeEditComponent implements OnInit {
 
   public attribute: any;
   public attributeConfig: any;
+  public image;
+  public backgroundColor;
+  public name;
+  public id;
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               @Inject(FS_ATTRIBUTE_CONFIG) private fsAttributeConfig: FsAttributeConfig,
@@ -21,14 +26,41 @@ export class FsAttributeEditComponent implements OnInit {
 
   ngOnInit() {
     this.attributeConfig = filter(this.fsAttributeConfig.configs, { class: this.data.class })[0] || {};
+
+    const mapping = this.fsAttributeConfig.mapping;
+
+    this.id = getAttributeValue(this.attribute, mapping.id);
+    this.name = getAttributeValue(this.attribute, mapping.name);
+    this.backgroundColor = getAttributeValue(this.attribute, mapping.backgroundColor);
+    this.image = getAttributeValue(this.attribute, mapping.image);
   }
 
   selectImage(file) {
-    this.fsAttributeConfig.attributeImageSave(this.attribute, file);
+
+    const e = {
+      attribute: this.attribute,
+      class: this.data.class,
+      data: this.data.data,
+      file: file
+    };
+
+    this.fsAttributeConfig.saveAttributeImage(e);
   }
 
   save() {
-    this.fsAttributeConfig.attributeSave(this.attribute);
+
+    const mapping = this.fsAttributeConfig.mapping;
+
+    this.attribute[mapping.name] = this.name;
+    this.attribute[mapping.backgroundColor] = this.backgroundColor;
+
+    const e = {
+      attribute: this.attribute,
+      class: this.data.class,
+      data: this.data.data
+    };
+
+    this.fsAttributeConfig.saveAttribute(e);
     this.close();
   }
 

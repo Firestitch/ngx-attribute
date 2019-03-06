@@ -5,7 +5,8 @@
       [attributes]="attributes"
       [selectable]="true"
       [selected]="selectedAttributes"
-      [class]="data.class">
+      [class]="data.class"
+      (selectionChanged)="selectionChanged.emit($event)">
     </fs-attributes>
 
 </mat-dialog-content>

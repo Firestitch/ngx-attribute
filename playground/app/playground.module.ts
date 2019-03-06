@@ -10,9 +10,9 @@ import { FsColorPickerModule } from '@firestitch/colorpicker';
 import { FsLabelModule } from '@firestitch/label';
 
 import { ToastrModule } from 'ngx-toastr';
-import { filter, isEqual } from 'lodash-es';
+import { filter, isEqual, clone } from 'lodash-es';
 
-import { FsAttributeModule, AttributeOrder } from '@firestitch/package';
+import { FsAttributeModule, AttributeOrder, FsAttributeConfig, FS_ATTRIBUTE_CONFIG } from '@firestitch/package';
 
 import { of } from 'rxjs';
 
@@ -33,7 +33,44 @@ const routes: Routes = [
   { path: '', component: ExamplesComponent },
 ];
 
-let attributes = [];
+let attributesStore = [
+  {
+    id: 1,
+    class: 'everything',
+    background_color: '#19A8E2',
+    image: {
+      small: '/assets/headshot2.jpg'
+    },
+    name: 'Attribute 1',
+  },
+  {
+    id: 2,
+    class: 'everything',
+    background_color: '#008A75',
+    image: {
+      small: '/assets/headshot3.jpg',
+    },
+    name: 'Attribute 2'
+  },
+  {
+    id: 3,
+    class: 'everything',
+    background_color: '#61b4c0',
+    image: {
+      small: '/assets/headshot4.jpg',
+    },
+    name: 'Attribute 3'
+  },
+  {
+    id: 4,
+    class: 'everything',
+    background_color: '#ffd204',
+    image: {
+      small: '/assets/headshot5.jpg',
+    },
+    name: 'Attribute 4'
+  }
+];
 
 @NgModule({
   bootstrap: [ AppComponent ],
@@ -62,19 +99,19 @@ let attributes = [];
   ],
   providers: [
     { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'auto' } },
-    { provide: 'sss', useFactory: attributeConfigFactory }
+    { provide: FS_ATTRIBUTE_CONFIG, useFactory: attributeConfigFactory, deps: [] }
   ]
 })
 export class PlaygroundModule {}
 
-export function attributeConfigFactory() {
+export function attributeConfigFactory(): FsAttributeConfig {
   return {
     configs: [
       {
-        class: 'everything',
+        class: 'everything', //type
         image: true,
         backgroundColor: true,
-        textColor: true,
+        color: true,
         name: 'Attribute',
         pluralName: 'Attributes',
         order: AttributeOrder.Custom
@@ -86,71 +123,68 @@ export function attributeConfigFactory() {
         pluralName: 'Background Colors',
       }
     ],
-    attributeSave: (attribute) => {
+    mapping: {
+      id: 'id',
+      name: 'name',
+      image: 'image.small',
+      backgroundColor: 'background_color'
+    },
+    saveAttribute: (e) => {
+      console.log('saveAttribute', e);
+      // if(!attribute.state){
+      //   attribute.state = 'draft';
+      // }
 
-      if (!attribute.id) {
-        attribute.id = attributes.length + 2;
-        attributes.push(attribute);
-      }
-    },
-    attributesReorder: (data) => {
-      attributes = data;
-    },
-    attributeImageSave: (attribute, file) => {
+      // if (attribute.state==='draft') {
+      //   attribute.state = 'active';
+      // }
+      // attributeService.save()
 
-    },
-    attributeDelete: (attribute) => {
-      attributes.forEach((item, index) => {
-        if (isEqual(attribute, item)) {
-          attributes.splice(index, 1);
-        }
-      });
-      return of(true);
-    },
-    attributesFetch: (query) => {
-
-      if (!attributes.length) {
-        attributes = [
-          {
-            id: 1,
-            class: 'everything',
-            backgroundColor: '#19A8E2',
-            image: '/assets/headshot2.jpg',
-            name: 'Attribute 1',
-          },
-          {
-            id: 2,
-            class: 'everything',
-            backgroundColor: '#008A75',
-            image: '/assets/headshot3.jpg',
-            name: 'Attribute 2'
-          },
-          {
-            id: 3,
-            class: 'everything',
-            backgroundColor: '#61b4c0',
-            image: '/assets/headshot4.jpg',
-            name: 'Attribute 3'
-          },
-          {
-            id: 4,
-            class: 'everything',
-            backgroundColor: '#ffd204',
-            image: '/assets/headshot5.jpg',
-            name: 'Attribute 4'
-          }
-        ];
+      if (!e.attribute.id) {
+        e.attribute.id = attributesStore.length + 2;
+        attributesStore.push(e.attribute);
       }
 
-      let filteredAttributes = attributes.splice(0);
+      return of({ attribute: e.attribute });
+    },
+    getAttributes: (e) => {
+      console.log('getAttributes', e);
 
-      if (query.keyword) {
+      let filteredAttributes = clone(attributesStore);
+
+      if (e.query && e.query.keyword) {
         filteredAttributes = filter(filteredAttributes, (attribute) => {
-          return attribute.name.indexOf(query.keyword) >= 0;
+          return attribute.name.indexOf(e.query.keyword) >= 0;
         });
       }
 
-      return of({ data: filteredAttributes, paging: { records: attributes.length, limit: 10 } });
+      return of({ data: filteredAttributes, paging: { records: attributesStore.length, limit: 10 } });
+    },
+    getSelectedAttributes: (e) => {
+      console.log('getSelectedAttributes', e);
+      return of({ data: clone(attributesStore).splice(1, 3), paging: {} });
+    },
+    reorderAttributes: (e) => {
+      console.log('reorderAttributes', e);
+      attributesStore = e.attributes;
+      return of({ attributes: e.attributes });
+    },
+    attributeSelectionChanged: (e) => {
+      console.log('attributeSelectionChanged', e);
+      return of({ attribute: e.attribute });
+    },
+    saveAttributeImage: (e) => {
+      console.log('saveAttributeImage', e);
+      return of({ attribute: e.attribute });
+    },
+    deleteAttribute: (e) => {
+      console.log('deleteAttribute', e);
+      attributesStore.forEach((item, index) => {
+        if (isEqual(e.attribute, item)) {
+          attributesStore.splice(index, 1);
+        }
+      });
+      return of({ attribute: e.attribute });
     }
   };
 }

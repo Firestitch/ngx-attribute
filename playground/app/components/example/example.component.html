@@ -1,27 +1,47 @@
 
 <div fxLayout="row" fxLayoutGap="15px">
   <fs-label-field>
-    <fs-label>Enable Image</fs-label>
-    <mat-checkbox [(ngModel)]="image" (ngModelChange)="changed()"></mat-checkbox>
+    <fs-label>Show Image</fs-label>
+    <mat-checkbox [(ngModel)]="showImage" (ngModelChange)="imageChanged()"></mat-checkbox>
   </fs-label-field>
 
   <fs-label-field>
-    <fs-label>Enable Remove</fs-label>
-    <mat-checkbox [(ngModel)]="removable" (ngModelChange)="changed()"></mat-checkbox>
+    <fs-label>Show Remove</fs-label>
+    <mat-checkbox [(ngModel)]="removable"></mat-checkbox>
   </fs-label-field>
 
-  <mat-form-field>
-    <input matInput fsColorPicker [(ngModel)]="backgroundColor" placeholder="Background Color" (ngModelChange)="changed()">
+  <fs-label-field>
+    <fs-label>Show Selected</fs-label>
+    <mat-checkbox [(ngModel)]="selected"></mat-checkbox>
+  </fs-label-field>
+
+  <fs-label-field>
+    <fs-label>Allow Selectable</fs-label>
+    <mat-checkbox [(ngModel)]="selectable"></mat-checkbox>
+  </fs-label-field>
+
+  <fs-label-field>
+    <fs-label>Show Outlined</fs-label>
+    <mat-checkbox [(ngModel)]="outlined"></mat-checkbox>
+  </fs-label-field>
+
+  <mat-form-field *ngIf="!outlined">
+    <input matInput fsColorPicker [(ngModel)]="backgroundColor" placeholder="Background Color">
   </mat-form-field>
 
   <mat-form-field>
-    <input matInput fsColorPicker [(ngModel)]="textColor" placeholder="Text Color" (ngModelChange)="changed()">
+    <input matInput fsColorPicker [(ngModel)]="color" placeholder="Color">
   </mat-form-field>
 </div>
 
-<fs-attribute
-  [attribute]="attribute"
+<fs-attribute-chip
+  [backgroundColor]="backgroundColor"
+  [image]="image"
+  [color]="color"
+  [selected]="selected"
+  [selectable]="selectable"
   [removable]="removable"
-  [config]="config">
+  [outlined]="outlined"
+  (selectionChanged)="selectionChanged($event)">
     Tag A
-</fs-attribute>
+</fs-attribute-chip>

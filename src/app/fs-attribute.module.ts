@@ -22,6 +22,7 @@ import { FsListModule } from '@firestitch/list';
 import { merge } from 'lodash-es';
 import { FsScrollModule } from '@firestitch/scroll';
 import { FsFileModule } from '@firestitch/file';
+import { FsLabelModule } from '@firestitch/label';
 
 
 @NgModule({
@@ -36,6 +37,7 @@ import { FsFileModule } from '@firestitch/file';
     MatFormFieldModule,
     FsColorPickerModule,
     FsFormModule,
+    FsLabelModule,
     FsListModule.forRoot(),
     FsScrollModule.forRoot(),
     FsFileModule.forRoot()
@@ -43,7 +45,8 @@ import { FsFileModule } from '@firestitch/file';
   exports: [
     FsAttributeComponent,
     FsAttributeFieldComponent,
-    FsAttributeListComponent
+    FsAttributeListComponent,
+    FsAttributeChipComponent
   ],
   entryComponents: [
     FsAttributeSelectorComponent,
@@ -62,16 +65,11 @@ import { FsFileModule } from '@firestitch/file';
   ]
 })
 export class FsAttributeModule {
-  static forRoot(config: FsAttributeConfig = {}): ModuleWithProviders {
+  static forRoot(config?: FsAttributeConfig): ModuleWithProviders {
     return {
       ngModule: FsAttributeModule,
       providers: [
-        { provide: FS_ATTRIBUTE_DEFAULT_CONFIG, useValue: config },
-        {
-          provide: FS_ATTRIBUTE_CONFIG,
-          useFactory: FsAttributeConfigFactory,
-          deps: [FS_ATTRIBUTE_DEFAULT_CONFIG, 'sss']
-        }
+        { provide: FS_ATTRIBUTE_DEFAULT_CONFIG, useValue: config || {} }
       ]
     };
   }

@@ -9,7 +9,7 @@ export class ConfigExampleComponent {
 
   public attribute = {
     backgroundColor: '#8942CA',
-    textColor: 'white',
+    color: 'white',
     image: '/assets/headshot1.jpg'
   };
 }

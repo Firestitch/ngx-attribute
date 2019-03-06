@@ -1,4 +1,4 @@
-import {  Component, Input, OnInit, Inject, OnChanges,
+import {  Component, Input, OnInit, OnChanges,
           SimpleChanges, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -13,15 +13,22 @@ export class FsAttributeChipComponent implements OnInit, OnChanges, OnDestroy {
   @Input() attribute: any;
   @Input() selectable: Boolean = false;
   @Input() selected: Boolean = false;
+  @Input() outlined: Boolean = false;
   @Input() removable: Boolean = false;
   @Input() backgroundColor: string;
-  @Input() textColor = '#474747';
+  @Input() borderColor: string;
+  @Input() color = '';
   @Input() image: string;
 
   @Output() clicked = new EventEmitter();
   @Output() selectionChanged = new EventEmitter();
 
   public $destroy = new Subject();
+  public styles = {
+    backgroundColor: '',
+    borderColor: '',
+    color: ''
+  };
 
   private isContrastYIQBlack(hexcolor) {
     if (!hexcolor) {
@@ -37,8 +44,21 @@ export class FsAttributeChipComponent implements OnInit, OnChanges, OnDestroy {
   }
 
   ngOnChanges(changes: SimpleChanges) {
-    if (changes.backgroundColor && !this.textColor) {
-      this.textColor = this.isContrastYIQBlack(this.backgroundColor) ? '#474747' : '#fff';
+
+    this.styles.backgroundColor = this. backgroundColor;
+    this.styles.borderColor = this. borderColor;
+    this.styles.color = this. color;
+
+    if (!this.color && !this.outlined) {
+      this.styles.color = this.isContrastYIQBlack(this.backgroundColor) ? '#474747' : '#fff';
+    }
+
+    if (this.outlined) {
+      this.styles.backgroundColor = '';
+
+      if (this.color) {
+        this.styles.borderColor = this.color;
+      }
     }
   }
 
@@ -49,13 +69,13 @@ export class FsAttributeChipComponent implements OnInit, OnChanges, OnDestroy {
 
   ngOnInit() {
 
-    if (this.selectable) {
-      this.clicked
-      .pipe(takeUntil(this.$destroy))
-      .subscribe(attribute => {
+    this.clicked
+    .pipe(takeUntil(this.$destroy))
+    .subscribe(attribute => {
+      if (this.selectable) {
         this.selected = !this.selected;
         this.selectionChanged.emit({ attribute: attribute, selected: this.selected });
-      });
-    }
+      }
+    });
   }
 }

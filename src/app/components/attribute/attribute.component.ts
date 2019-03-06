@@ -1,6 +1,7 @@
 import { Component, Input, Output, EventEmitter, Inject, OnInit, OnChanges } from '@angular/core';
 import { FS_ATTRIBUTE_CONFIG } from '../../providers';
-import { filter, merge } from 'lodash-es';
+import { filter } from 'lodash-es';
+import { getAttributeValue } from '../../helpers/helpers';
 
 
 @Component({
@@ -10,7 +11,7 @@ import { filter, merge } from 'lodash-es';
 })
 export class FsAttributeComponent implements OnInit, OnChanges {
 
-  @Input() config: any = { background: true, textColor: true, image: true};
+  @Input() config: any = { background: true, color: true, image: true};
   @Input() removable: any;
   @Input() selectable: any;
   @Input() selected: any;
@@ -19,10 +20,10 @@ export class FsAttributeComponent implements OnInit, OnChanges {
   @Output() selectionChanged = new EventEmitter();
 
   public backgroundColor;
-  public textColor;
+  public color;
   public image;
 
-  constructor(@Inject(FS_ATTRIBUTE_CONFIG) private attributeConfig) {}
+  constructor(@Inject(FS_ATTRIBUTE_CONFIG) private fsAttributeConfig) {}
 
   private init() {
 
@@ -30,17 +31,22 @@ export class FsAttributeComponent implements OnInit, OnChanges {
       return;
     }
 
-    if ((this.selected || !this.selectable) && this.config.backgroundColor) {
-      this.backgroundColor = this.attribute.backgroundColor;
+    if (!this.selectable && this.config.backgroundColor) {
+      this.backgroundColor = this.getAttributeValue('backgroundColor');
     } else {
       this.backgroundColor = '';
     }
 
-    if ((this.selected || !this.selectable) && this.config.textColor) {
-      this.textColor = this.attribute.textColor;
+    if ((this.selected || !this.selectable) && this.config.color) {
+      this.color = this.getAttributeValue('color');
     }
 
-    this.image = this.config.image ? this.attribute.image : '';
+    this.image = this.config.image ? this.getAttributeValue('image') : '';
+  }
+
+  private getAttributeValue(name) {
+    const mapping = this.fsAttributeConfig.mapping[name];
+    return getAttributeValue(this.attribute, mapping);
   }
 
   ngOnChanges() {
@@ -49,10 +55,10 @@ export class FsAttributeComponent implements OnInit, OnChanges {
 
   ngOnInit() {
 
-    const attributeConfig = filter(this.attributeConfig.configs, { class: this.class })[0];
+    const config = filter(this.fsAttributeConfig.configs, { class: this.class })[0];
 
-    if (attributeConfig) {
-      this.config = attributeConfig
+    if (config) {
+      this.config = config
     }
 
     this.init();

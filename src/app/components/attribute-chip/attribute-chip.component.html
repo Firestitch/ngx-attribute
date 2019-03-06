@@ -1,14 +1,15 @@
 <div class="mat-chip mat-standard-chip"
-  [style.backgroundColor]="backgroundColor"
-  [style.color]="textColor"
-  [ngClass]="{ 'imaged': image, 'removable': removable, selectable: selectable, selected: selected }"
+  [style.backgroundColor]="styles.backgroundColor"
+  [style.color]="styles.color"
+  [style.borderColor]="styles.borderColor"
+  [ngClass]="{ 'imaged': image, 'removable': removable, selectable: selectable, selected: selected, outlined: outlined }"
   (click)="clicked.emit(attribute)">
   <div class="content">
-    <div class="selected-check" *ngIf="selectable && selected">
-      <mat-icon [style.color]="textColor">check</mat-icon>
-    </div>
     <img *ngIf="image" [src]="image" class="image">
     <ng-content></ng-content>
-    <a *ngIf="removable" class="remove"><mat-icon [style.color]="textColor">cancel</mat-icon></a>
+    <div class="selected-check" *ngIf="selected">
+      <mat-icon [style.color]="color">check</mat-icon>
+    </div>
+    <a *ngIf="removable" class="remove"><mat-icon [style.color]="styles.color">cancel</mat-icon></a>
   </div>
 </div>

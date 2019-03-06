@@ -48,7 +48,7 @@
     "@firestitch/example": "^7.0.0",
     "@firestitch/iframe": "^0.2.0",
     "@firestitch/message": "^0.2.1",
-    "@firestitch/colorpicker": "^7.0.3",
+    "@firestitch/colorpicker": "^7.0.4",
     "@firestitch/label": "^0.2.0",
     "@firestitch/form": "^1.3.0",
     "@firestitch/common": "^7.0.0",
@@ -85,10 +85,11 @@
   },
   "peerDependencies": {
     "lodash-es": ">=4.17.11",
-    "@firestitch/colorpicker": "^7.0.3",
+    "@firestitch/colorpicker": "^7.0.4",
     "@firestitch/form": "^1.3.0",
     "@firestitch/common": "^7.0.0",
     "@firestitch/list": "^0.5.2",
-    "@firestitch/file": "^7.0.1"
+    "@firestitch/file": "^7.0.1",
+    "@firestitch/label": "^0.2.0"
   }
 }

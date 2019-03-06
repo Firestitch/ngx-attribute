@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, Output, EventEmitter } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
 import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.component';
 import { FS_ATTRIBUTE_CONFIG } from '../../providers';
@@ -15,6 +15,7 @@ export class FsAttributeSelectorComponent implements OnInit {
   public selectedAttributes = [];
   public attributes = [];
   public attributeConfig: AttributeConfig = null;
+  @Output() selectionChanged = new EventEmitter();
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               @Inject(FS_ATTRIBUTE_CONFIG) private fsAttributeConfig: FsAttributeConfig,
@@ -33,11 +34,21 @@ export class FsAttributeSelectorComponent implements OnInit {
     });
 
     this.fetch();
+
+    this.selectionChanged
+    .subscribe((e) => {
+      e.data = this.data.data;
+      e.class = this.data.class;
+      this.fsAttributeConfig.attributeSelectionChanged(e);
+    });
   }
 
   private fetch() {
+    const e = { query: {},
+                class: this.data.class,
+                data: this.data.data };
 
-    this.fsAttributeConfig.attributesFetch({})
+    this.fsAttributeConfig.getAttributes(e)
     .subscribe(response => {
       this.attributes = response.data;
     });
