@@ -1,24 +1,27 @@
-import { Component, Inject, OnInit, Input, ViewChild } from '@angular/core';
+import { Component, Inject, OnInit, Input, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material';
 import { FS_ATTRIBUTE_CONFIG } from '../../providers';
 import { FsAttributeConfig, AttributeConfig, AttributeOrder } from '../../interfaces/attribute-config.interface';
 import { filter } from 'lodash-es';
-import { map } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.component';
 import { ReorderPosition, ReorderStrategy, FsListConfig } from '@firestitch/list';
+import { ItemType } from '@firestitch/filter';
+import { Subject } from 'rxjs';
 
 @Component({
   selector: 'fs-attribute-list',
   templateUrl: 'attribute-list.component.html',
   styleUrls: [ 'attribute-list.component.scss' ]
 })
-export class FsAttributeListComponent implements OnInit {
+export class FsAttributeListComponent implements OnInit, OnDestroy {
 
   @ViewChild('list') list;
   @Input() class: string;
   @Input() data: string;
   public listConfig: FsListConfig;
   public attributeConfig: AttributeConfig = null;
+  private $destroy = new Subject();
 
   constructor(@Inject(FS_ATTRIBUTE_CONFIG) private fsAttributeConfig: FsAttributeConfig,
               private dialog: MatDialog) {}
@@ -32,7 +35,7 @@ export class FsAttributeListComponent implements OnInit {
       filters: [
         {
           name: 'keyword',
-          type: 'text',
+          type: ItemType.Text,
           label: 'Search'
         }
       ],
@@ -95,7 +98,14 @@ export class FsAttributeListComponent implements OnInit {
             data: this.data,
             class: this.class
           };
-          this.fsAttributeConfig.reorderAttributes(e);
+
+          this.fsAttributeConfig.reorderAttributes(e)
+          .pipe(
+            takeUntil(this.$destroy)
+          )
+          .subscribe(() => {
+
+          });
         }
       }
     }
@@ -113,5 +123,10 @@ export class FsAttributeListComponent implements OnInit {
     dialogRef.afterClosed().subscribe(response => {
       this.list.reload();
     });
+  }
+
+  ngOnDestroy() {
+    this.$destroy.next();
+    this.$destroy.complete();
   }
 }

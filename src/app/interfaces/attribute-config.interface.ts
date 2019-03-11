@@ -9,6 +9,7 @@ export interface FsAttributeConfig {
   attributeSelectionChanged(e: any): Observable<any>;
   getSelectedAttributes(e: any): Observable<{ data: [], paging: {} }>;
   saveAttributeImage(e: any): Observable<{ attribute }>;
+  compareAttributes(o1: any, o2: any): boolean;
   mapping?: { id: string, name: string, backgroundColor: string, image: string }
 }
 

@@ -1,0 +1,14 @@
+img {
+  height: 28px;
+  border-radius: 50%;
+  -o-object-fit: cover;
+  object-fit: cover;
+  width: 28px;
+  margin-right: 8px;
+}
+
+.option {
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+}

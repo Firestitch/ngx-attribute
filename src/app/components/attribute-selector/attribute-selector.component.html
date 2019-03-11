@@ -1,13 +1,19 @@
 <div mat-dialog-title>{{attributeConfig.pluralName}}</div>
 <mat-dialog-content>
 
-    <fs-attributes
-      [attributes]="attributes"
+  <fs-chips
+    [(ngModel)]="selectedAttributes"
+    [compare]="compare">
+    <fs-chip
+      *ngFor="let attribute of attributes"
       [selectable]="true"
-      [selected]="selectedAttributes"
-      [class]="data.class"
-      (selectionChanged)="selectionChanged.emit($event)">
-    </fs-attributes>
+      [image]="attribute.image"
+      [backgroundColor]="attribute.backgroundColor"
+      [value]="attribute"
+      (selectedToggled)="selectedToggled.emit($event)">
+      {{ attribute.name }}
+    </fs-chip>
+  </fs-chips>
 
 </mat-dialog-content>
 <mat-dialog-actions>

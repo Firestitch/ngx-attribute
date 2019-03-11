@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, Inject, OnInit, OnChanges } from '@angular/core';
+import { Component, Input, Output, EventEmitter, Inject, OnInit, OnChanges, HostBinding } from '@angular/core';
 import { FS_ATTRIBUTE_CONFIG } from '../../providers';
 import { filter } from 'lodash-es';
 import { getAttributeValue } from '../../helpers/helpers';
@@ -11,13 +11,16 @@ import { getAttributeValue } from '../../helpers/helpers';
 })
 export class FsAttributeComponent implements OnInit, OnChanges {
 
+  @HostBinding('class') hostClass = '';
+
+
   @Input() config: any = { background: true, color: true, image: true};
   @Input() removable: any;
   @Input() selectable: any;
   @Input() selected: any;
   @Input() attribute: any = {};
-  @Input() class: string;
-  @Output() selectionChanged = new EventEmitter();
+  @Output() selectedToggled = new EventEmitter();
+  @Input() class = '';
 
   public backgroundColor;
   public color;
@@ -57,6 +60,8 @@ export class FsAttributeComponent implements OnInit, OnChanges {
 
     const config = filter(this.fsAttributeConfig.configs, { class: this.class })[0];
 
+    this.hostClass = 'fs-attribute fs-attribute-' + this.class;
+
     if (config) {
       this.config = config
     }
@@ -64,3 +69,4 @@ export class FsAttributeComponent implements OnInit, OnChanges {
     this.init();
   }
 }
+

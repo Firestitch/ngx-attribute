@@ -1,14 +1,18 @@
 :host.fs-attributes {
-  display: flex;
+  display: inline-flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
 
   fs-attribute {
-    margin-right: 10px;
+    margin-right: 8px;
 
     &:last-child {
       margin-right: 0;
     }
+  }
+
+  ::ng-deep .fs-chip {
+    margin-top: 0;
   }
 }

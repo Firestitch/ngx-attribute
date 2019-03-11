@@ -1,15 +1,17 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FS_ATTRIBUTE_CONFIG } from '../../providers';
 import { FsAttributeConfig } from '../../interfaces/attribute-config.interface';
 import { filter } from 'lodash-es';
 import { getAttributeValue } from '../../helpers/helpers';
+import { Observable, Subject } from 'rxjs';
+import { takeLast, takeUntil } from 'rxjs/operators';
 
 @Component({
   templateUrl: 'attribute-edit.component.html',
   styleUrls: [ 'attribute-edit.component.scss' ]
 })
-export class FsAttributeEditComponent implements OnInit {
+export class FsAttributeEditComponent implements OnInit, OnDestroy {
 
   public attribute: any;
   public attributeConfig: any;
@@ -17,6 +19,8 @@ export class FsAttributeEditComponent implements OnInit {
   public backgroundColor;
   public name;
   public id;
+
+  private $destroy = new Subject();
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               @Inject(FS_ATTRIBUTE_CONFIG) private fsAttributeConfig: FsAttributeConfig,
@@ -44,7 +48,10 @@ export class FsAttributeEditComponent implements OnInit {
       file: file
     };
 
-    this.fsAttributeConfig.saveAttributeImage(e);
+    this.fsAttributeConfig.saveAttributeImage(e)
+    .pipe(
+      takeUntil(this.$destroy)
+    );
   }
 
   save() {
@@ -60,11 +67,21 @@ export class FsAttributeEditComponent implements OnInit {
       data: this.data.data
     };
 
-    this.fsAttributeConfig.saveAttribute(e);
-    this.close();
+    this.fsAttributeConfig.saveAttribute(e)
+    .pipe(
+      takeUntil(this.$destroy)
+    )
+    .subscribe(() => {
+      this.close();
+    });
   }
 
   close() {
     this.dialogRef.close();
+  }
+
+  ngOnDestroy() {
+    this.$destroy.next();
+    this.$destroy.complete();
   }
 }

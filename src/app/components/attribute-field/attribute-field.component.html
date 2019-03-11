@@ -1,7 +1,12 @@
 <fs-label-field>
-  <fs-label>Selected People</fs-label>
+  <fs-label>{{attributeConfig.pluralName}}</fs-label>
   <div class="attributes">
-    <fs-attribute *ngFor="let attribute of selectedAttributes" [class]="class" [attribute]="attribute">{{attribute.name}}</fs-attribute>
-    <a mat-button (click)="select()">select</a>
+    <fs-attribute
+      *ngFor="let attribute of attributes"
+      [class]="class"
+      [attribute]="attribute">
+        {{attribute.name}}
+    </fs-attribute>
+    <a href="javascript:;" (click)="select()" class="select-button"><small>Select</small></a>
   </div>
 </fs-label-field>

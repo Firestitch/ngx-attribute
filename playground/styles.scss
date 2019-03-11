@@ -3,6 +3,8 @@
 @import '../src/app/styles.scss';
 @import '~@angular/material/theming';
 @import '~@firestitch/file/styles.scss';
+@import '~@firestitch/chip/styles.scss';
 
 @include mat-core();
 @include fs-file($mat-blue);
+@include fs-chip($mat-blue);

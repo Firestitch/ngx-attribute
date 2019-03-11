@@ -3,26 +3,31 @@ import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
 
 import { FsAttributeComponent } from './components/attribute/attribute.component';
-import { FsAttributeChipComponent } from './components/attribute-chip/attribute-chip.component';
 import { FsAttributeFieldComponent } from './components/attribute-field/attribute-field.component';
-import { FsAttributesFieldComponent } from './components/attributes/attributes.component';
+import { FsAttributesComponent } from './components/attributes/attributes.component';
 import { FsAttributeSelectorComponent } from './components/attribute-selector/attribute-selector.component';
 import { FsAttributeEditComponent } from './components/attribute-edit/attribute-edit.component';
 import { FsAttributeManageComponent } from './components/attribute-manage/attribute-manage.component';
 import { FsAttributeListComponent } from './components/attribute-list/attribute-list.component';
+import { FsAttributeSelectComponent } from './components/attribute-select/attribute-select.component';
+import { FsAttributeAutocompleteComponent } from './components/attribute-autocomplete/attribute-autocomplete.component';
 
 import {  MatChipsModule, MatIconModule, MatDialogModule,
-          MatButtonModule, MatFormFieldModule, MatInputModule } from '@angular/material';
-import { FS_ATTRIBUTE_CONFIG, FS_ATTRIBUTE_DEFAULT_CONFIG } from './providers';
+          MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule } from '@angular/material';
+
+import { FS_ATTRIBUTE_DEFAULT_CONFIG } from './providers';
 import { FsAttributeConfig } from './interfaces/attribute-config.interface';
 import { FsColorPickerModule } from '@firestitch/colorpicker';
 import { FsFormModule } from '@firestitch/form';
 import { FsListModule } from '@firestitch/list';
 
-import { merge } from 'lodash-es';
 import { FsScrollModule } from '@firestitch/scroll';
 import { FsFileModule } from '@firestitch/file';
 import { FsLabelModule } from '@firestitch/label';
+import { FsChipModule } from '@firestitch/chip';
+import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
+
+
 
 
 @NgModule({
@@ -35,18 +40,23 @@ import { FsLabelModule } from '@firestitch/label';
     MatButtonModule,
     MatInputModule,
     MatFormFieldModule,
+    MatSelectModule,
     FsColorPickerModule,
     FsFormModule,
     FsLabelModule,
+    FsAutocompleteChipsModule.forRoot(),
+    FsChipModule.forRoot(),
     FsListModule.forRoot(),
     FsScrollModule.forRoot(),
     FsFileModule.forRoot()
   ],
   exports: [
     FsAttributeComponent,
+    FsAttributesComponent,
     FsAttributeFieldComponent,
     FsAttributeListComponent,
-    FsAttributeChipComponent
+    FsAttributeSelectComponent,
+    FsAttributeAutocompleteComponent
   ],
   entryComponents: [
     FsAttributeSelectorComponent,
@@ -55,13 +65,14 @@ import { FsLabelModule } from '@firestitch/label';
   ],
   declarations: [
     FsAttributeComponent,
-    FsAttributeChipComponent,
+    FsAttributesComponent,
     FsAttributeFieldComponent,
-    FsAttributesFieldComponent,
     FsAttributeSelectorComponent,
     FsAttributeEditComponent,
     FsAttributeManageComponent,
-    FsAttributeListComponent
+    FsAttributeListComponent,
+    FsAttributeSelectComponent,
+    FsAttributeAutocompleteComponent
   ]
 })
 export class FsAttributeModule {
@@ -74,10 +85,3 @@ export class FsAttributeModule {
     };
   }
 }
-
-export function FsAttributeConfigFactory(config: FsAttributeConfig, configProvider: FsAttributeConfig) {
-
-  return merge(configProvider, config);
-}
-
-

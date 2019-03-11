@@ -1,8 +1,25 @@
+:host ::ng-deep {
+
+  .fs-attribute {
+    margin-top: 8px;
+  }
+
+  .fs-chip {
+    margin-top: 0;
+  }
+}
+
 .attributes {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
+  margin-top: -8px;
+
+  .select-button {
+    margin-top: 8px;
+    align-self: center;
+  }
 
   > * {
     margin-right: 10px;

@@ -1,32 +1,41 @@
-import { Component, Inject, OnInit, Output, EventEmitter } from '@angular/core';
+import { Component, Inject, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
 import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.component';
 import { FS_ATTRIBUTE_CONFIG } from '../../providers';
 import { FsAttributeConfig, AttributeConfig } from '../../interfaces/attribute-config.interface';
 import { FsAttributeManageComponent } from '../attribute-manage/attribute-manage.component';
-import { filter } from 'lodash-es';
+import { filter, clone, map } from 'lodash-es';
+import { takeUntil } from 'rxjs/operators';
+import { Subject } from 'rxjs';
+import { getAttributeValue, wrapAttributes } from '../../helpers/helpers';
+
 
 @Component({
   templateUrl: 'attribute-selector.component.html',
   styleUrls: [ 'attribute-selector.component.scss' ]
 })
-export class FsAttributeSelectorComponent implements OnInit {
+export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
 
   public selectedAttributes = [];
   public attributes = [];
   public attributeConfig: AttributeConfig = null;
-  @Output() selectionChanged = new EventEmitter();
+  private $destroy = new Subject();
+  @Output() selectedToggled = new EventEmitter();
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               @Inject(FS_ATTRIBUTE_CONFIG) private fsAttributeConfig: FsAttributeConfig,
               private dialogRef: MatDialogRef<FsAttributeSelectorComponent>,
               private dialog: MatDialog) {
-    this.selectedAttributes = this.data.selectedAttributes;
+    this.attributeConfig = filter(this.fsAttributeConfig.configs, { class: this.data.class })[0] || {};
+    this.selectedAttributes =  wrapAttributes(fsAttributeConfig, clone(this.data.selectedAttributes));
+  }
+
+  public compare = (o1, o2) => {
+    return this.fsAttributeConfig.compareAttributes(o1, o2);
   }
 
   ngOnInit() {
 
-    this.attributeConfig = filter(this.fsAttributeConfig.configs, { class: this.data.class })[0] || {};
 
     this.dialogRef.disableClose = true;
     this.dialogRef.backdropClick().subscribe(result => {
@@ -35,11 +44,20 @@ export class FsAttributeSelectorComponent implements OnInit {
 
     this.fetch();
 
-    this.selectionChanged
-    .subscribe((e) => {
+    this.selectedToggled
+    .pipe(
+      takeUntil(this.$destroy)
+    )
+    .subscribe((e: any) => {
       e.data = this.data.data;
       e.class = this.data.class;
-      this.fsAttributeConfig.attributeSelectionChanged(e);
+      e.attribute = e.value;
+
+      this.fsAttributeConfig.attributeSelectionChanged(e)
+      .pipe(
+        takeUntil(this.$destroy)
+      )
+      .subscribe((e: any) => {});
     });
   }
 
@@ -49,13 +67,17 @@ export class FsAttributeSelectorComponent implements OnInit {
                 data: this.data.data };
 
     this.fsAttributeConfig.getAttributes(e)
+    .pipe(
+      takeUntil(this.$destroy)
+    )
     .subscribe(response => {
-      this.attributes = response.data;
+      this.attributes = wrapAttributes(this.fsAttributeConfig, response.data);
     });
   }
 
   done() {
-    this.dialogRef.close({ attributes: this.selectedAttributes });
+    const attributes = map(this.selectedAttributes, 'attribute');
+    this.dialogRef.close({ attributes: attributes });
   }
 
   create() {
@@ -63,11 +85,16 @@ export class FsAttributeSelectorComponent implements OnInit {
       data: {
         attibute: {},
         class: this.data.class,
-        config: this.data.config
+        config: this.data.config,
+        data: this.data.data
       }
     });
 
-    dialogRef.afterClosed().subscribe(response => {
+    dialogRef.afterClosed()
+    .pipe(
+      takeUntil(this.$destroy)
+    )
+    .subscribe(response => {
       this.fetch();
     });
   }
@@ -79,8 +106,17 @@ export class FsAttributeSelectorComponent implements OnInit {
       }
     });
 
-    dialogRef.afterClosed().subscribe(response => {
+    dialogRef.afterClosed()
+    .pipe(
+      takeUntil(this.$destroy)
+    )
+    .subscribe(response => {
       this.fetch();
     });
+  }
+
+  ngOnDestroy() {
+    this.$destroy.next();
+    this.$destroy.complete();
   }
 }

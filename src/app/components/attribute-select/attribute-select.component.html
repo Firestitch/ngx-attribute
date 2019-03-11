@@ -1,0 +1,10 @@
+<mat-form-field>
+  <mat-select [placeholder]="label" (selectionChange)="selectionChange($event)">
+    <mat-option *ngFor="let attribute of attributes" [value]="attribute">
+      <div class="option">
+        <img *ngIf="attribute.image" [src]="attribute.image">
+        <div>{{attribute.name}}</div>
+      </div>
+    </mat-option>
+  </mat-select>
+</mat-form-field>
