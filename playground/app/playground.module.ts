@@ -29,6 +29,9 @@ import { FsPromptModule } from '@firestitch/prompt';
 import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material';
 import { SelectFieldExampleComponent } from './components/select-field-example';
 
+//HACK: to get dragula to work
+(window as any).global = window;
+
 const routes: Routes = [
   { path: '', component: ExamplesComponent },
 ];
