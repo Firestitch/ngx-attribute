@@ -1,6 +1,54 @@
-import { AttributeOrder, FsAttributeConfig } from "@firestitch/package";
+import { AttributeOrder, FsAttributeConfig, AttributeColor } from "@firestitch/package";
 import { filter, isEqual, clone } from 'lodash-es';
 import { of } from 'rxjs';
+import { ListVisibleComponent } from "../components/list-visible";
+import { EditVisibleComponent } from "../components/edit-visible";
+
+let attributeTree = [
+  {
+    id: 1,
+    class: 'aroma_type',
+    background_color: '#19A8E2',
+    image: {
+      small: '/assets/headshot2.jpg'
+    },
+    name: 'Aroma Type 1',
+    attributes: [
+      {
+        id: 3,
+        class: 'aroma',
+        name: 'Aroma 1',
+      },
+      {
+        id: 4,
+        class: 'aroma',
+        name: 'Aroma 2'
+      },
+    ]
+  },
+  {
+    id: 2,
+    class: 'aroma_type',
+    background_color: '#008A75',
+    image: {
+      small: '/assets/headshot3.jpg',
+    },
+    name: 'Aroma Type 2',
+    attributes: [
+      {
+        id: 5,
+        class: 'aroma',
+        name: 'Aroma 3',
+      },
+      {
+        id: 6,
+        class: 'aroma',
+        name: 'Aroma 4'
+      },
+    ]
+  },
+
+]
 
 
 let attributesStore = [
@@ -50,9 +98,34 @@ export function attributeConfigFactory(): FsAttributeConfig {
         image: true,
         backgroundColor: true,
         color: true,
-        name: 'Attribute',
-        pluralName: 'Attributes',
-        order: AttributeOrder.Custom
+        name: 'Person',
+        pluralName: 'People',
+        order: AttributeOrder.Custom,
+        fields: [
+          {
+            label: 'Visible on List',
+            listComponent: ListVisibleComponent,
+            editComponent: EditVisibleComponent
+          }
+        ]
+      },
+      {
+        class: 'aroma_type',
+        //image: AttributeColor.Enabled,
+        //backgroundColor: AttributeColor.Enabled,
+        //color: AttributeColor.Disabled,
+        order: AttributeOrder.Custom,
+        name: 'Aroma Type',
+        pluralName: 'Aroma Types',
+      },
+      {
+        class: 'aroma',
+        //image: AttributeColor.Disabled,
+        //backgroundColor: AttributeColor.Parent,
+        //color: AttributeColor.Disabled,
+        order: AttributeOrder.Alphabetical,
+        name: 'Aroma',
+        pluralName: 'Aromas',
       },
       {
         class: 'background-color',
@@ -67,16 +140,23 @@ export function attributeConfigFactory(): FsAttributeConfig {
       image: 'image.small',
       backgroundColor: 'background_color'
     },
+    getAttributeTree: (e) => {
+
+      console.log('getAttributeTree', e);
+      return of({ attributes: [] });
+    },
+    saveAttributeTree: (e) => {
+      console.log('saveAttributeTree', e);
+      return of({ attributes: attributeTree });
+    },
+    reorderAttributeTree: (e) => {
+
+      // e.attribute <-parent attributes which has the children attribites (e.attribute.attributes)
+      console.log('reorderAttributeTree', e);
+      return of();
+    },
     saveAttribute: (e) => {
       console.log('saveAttribute', e);
-      // if(!attribute.state){
-      //   attribute.state = 'draft';
-      // }
-
-      // if (attribute.state==='draft') {
-      //   attribute.state = 'active';
-      // }
-      // attributeService.save()
 
       if (!e.attribute.id) {
         e.attribute.id = attributesStore.length + 2;
