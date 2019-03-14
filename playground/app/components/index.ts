@@ -4,4 +4,7 @@ export * from './config-example';
 export * from './list-example';
 export * from './attribtues-example';
 export * from './autocomplete-field-example';
+export * from './list-visible';
+export * from './edit-visible';
+export * from './select-field-example';
 

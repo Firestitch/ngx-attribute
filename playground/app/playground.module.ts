@@ -21,13 +21,15 @@ import {
   ConfigExampleComponent,
   ListExampleComponent,
   AttribtuesExampleComponent,
-  AutocompleteFieldExampleComponent
+  AutocompleteFieldExampleComponent,
+  ListVisibleComponent,
+  EditVisibleComponent,
+  SelectFieldExampleComponent
 } from './components';
 import { AppComponent } from './app.component';
 import { FsSelectionModule } from '@firestitch/selection';
 import { FsPromptModule } from '@firestitch/prompt';
 import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material';
-import { SelectFieldExampleComponent } from './components/select-field-example';
 
 //HACK: to get dragula to work
 (window as any).global = window;
@@ -61,7 +63,9 @@ const routes: Routes = [
     ListExampleComponent,
     AttribtuesExampleComponent,
     SelectFieldExampleComponent,
-    AutocompleteFieldExampleComponent
+    AutocompleteFieldExampleComponent,
+    ListVisibleComponent,
+    EditVisibleComponent
   ],
   providers: [
     { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'auto' } },
