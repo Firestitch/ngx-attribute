@@ -1,23 +1,21 @@
-import { Component, Input, OnInit, Inject, OnDestroy, Output, EventEmitter, HostBinding } from '@angular/core';
-import { FsAttributeSelectorComponent } from '../attribute-selector/attribute-selector.component';
+import { Component, Input, OnInit, Inject, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { FS_ATTRIBUTE_CONFIG } from '../../providers';
-import { FsAttributeConfig, AttributeConfig } from '../../interfaces/attribute-config.interface';
-import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+
 import { filter } from 'lodash-es';
+
+import { FS_ATTRIBUTE_CONFIG } from '../../providers';
+import { FsAttributeConfig } from '../../interfaces/attribute-config.interface';
 
 
 @Component({
   selector: 'fs-attribute-field',
-  templateUrl: 'attribute-field.component.html',
-  styleUrls: [ 'attribute-field.component.scss' ],
+  templateUrl: './attribute-field.component.html',
+  styleUrls: [ './attribute-field.component.scss' ],
 })
 export class FsAttributeFieldComponent implements OnInit, OnDestroy {
 
   public attributes: any = [];
   public attributeConfig: any = {};
-  private $destroy = new Subject();
 
   @Input() data;
   @Input('class') class;
@@ -28,30 +26,30 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
 
 
   ngOnInit() {
-    this.fsAttributeConfig.getAttributeTree()
-    .pipe(
+    this.fsAttributeConfig.getAttributeTree({})
+      .pipe(
 
-    )
-    .subscribe(data) {
+      )
+      .subscribe((data) => {
 
-      /*
-      data =  {
-        attrbitues: [
-          {
-            name: 'Tropial',
-            background..
-
-            attrbitues: [
+        /*
+        data =  {
+          attrbitues: [
             {
-              name: 'Peach',
+              name: 'Tropial',
+              background..
+
+              attrbitues: [
+              {
+                name: 'Peach',
+              }
+            ]
             }
           ]
-          }
-        ]
-      }
+        }
 
-      */
-    })
+        */
+      });
   }
 
   ngOnDestroy() {

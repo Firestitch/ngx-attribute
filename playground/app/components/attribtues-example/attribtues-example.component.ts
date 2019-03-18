@@ -16,10 +16,10 @@ export class AttribtuesExampleComponent implements OnInit {
   constructor(@Inject(FS_ATTRIBUTE_CONFIG) private attributeConfig: FsAttributeConfig) {}
 
   ngOnInit() {
-
     this.attributeConfig.getAttributes({})
-    .subscribe((response) => {
-      this.attributes = response.data;
-    });
+      .subscribe((response) => {
+        console.log(response.data);
+        this.attributes = response.data;
+      });
   }
 }

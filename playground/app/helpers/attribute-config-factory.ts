@@ -1,10 +1,15 @@
-import { AttributeOrder, FsAttributeConfig, AttributeColor } from "@firestitch/package";
+import {
+  AttributeColor,
+  AttributeImage,
+  AttributeOrder,
+  FsAttributeConfig
+} from '@firestitch/attribute';
 import { filter, isEqual, clone } from 'lodash-es';
 import { of } from 'rxjs';
-import { ListVisibleComponent } from "../components/list-visible";
-import { EditVisibleComponent } from "../components/edit-visible";
+import { ListVisibleComponent } from '../components/list-visible';
+import { EditVisibleComponent } from '../components/edit-visible';
 
-let attributeTree = [
+const attributeTree = [
   {
     id: 1,
     class: 'aroma_type',
@@ -48,7 +53,7 @@ let attributeTree = [
     ]
   },
 
-]
+];
 
 
 let attributesStore = [
@@ -94,10 +99,10 @@ export function attributeConfigFactory(): FsAttributeConfig {
   return {
     configs: [
       {
-        class: 'everything', //type
-        image: true,
-        backgroundColor: true,
-        color: true,
+        class: 'everything', // type
+        image: AttributeImage.Enabled,
+        backgroundColor: AttributeColor.Enabled,
+        color: AttributeColor.Enabled,
         name: 'Person',
         pluralName: 'People',
         order: AttributeOrder.Custom,
@@ -111,25 +116,25 @@ export function attributeConfigFactory(): FsAttributeConfig {
       },
       {
         class: 'aroma_type',
-        //image: AttributeColor.Enabled,
-        //backgroundColor: AttributeColor.Enabled,
-        //color: AttributeColor.Disabled,
+        // image: AttributeColor.Enabled,
+        // backgroundColor: AttributeColor.Enabled,
+        // color: AttributeColor.Disabled,
         order: AttributeOrder.Custom,
         name: 'Aroma Type',
         pluralName: 'Aroma Types',
       },
       {
         class: 'aroma',
-        //image: AttributeColor.Disabled,
-        //backgroundColor: AttributeColor.Parent,
-        //color: AttributeColor.Disabled,
+        // image: AttributeColor.Disabled,
+        // backgroundColor: AttributeColor.Parent,
+        // color: AttributeColor.Disabled,
         order: AttributeOrder.Alphabetical,
         name: 'Aroma',
         pluralName: 'Aromas',
       },
       {
         class: 'background-color',
-        backgroundColor: true,
+        backgroundColor: AttributeColor.Enabled,
         name: 'Background Color',
         pluralName: 'Background Colors',
       }

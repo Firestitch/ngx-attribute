@@ -3,17 +3,19 @@ import { FormsModule } from '@angular/forms';
 import { RouterModule, Routes } from '@angular/router';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
+import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material';
 
 import { FsExampleModule } from '@firestitch/example';
 import { FsMessageModule } from '@firestitch/message';
 import { FsColorPickerModule } from '@firestitch/colorpicker';
 import { FsLabelModule } from '@firestitch/label';
+import { FsAttributeModule, FS_ATTRIBUTE_CONFIG } from '@firestitch/attribute';
+import { FsSelectionModule } from '@firestitch/selection';
+import { FsPromptModule } from '@firestitch/prompt';
 
 import { ToastrModule } from 'ngx-toastr';
+
 import { attributeConfigFactory } from './helpers/attribute-config-factory';
-import { FsAttributeModule, FS_ATTRIBUTE_CONFIG } from '@firestitch/package';
-
-
 import { AppMaterialModule } from './material.module';
 import {
   ExamplesComponent,
@@ -27,11 +29,8 @@ import {
   SelectFieldExampleComponent
 } from './components';
 import { AppComponent } from './app.component';
-import { FsSelectionModule } from '@firestitch/selection';
-import { FsPromptModule } from '@firestitch/prompt';
-import { MAT_LABEL_GLOBAL_OPTIONS } from '@angular/material';
 
-//HACK: to get dragula to work
+// HACK: to get dragula to work
 (window as any).global = window;
 
 const routes: Routes = [

@@ -4,8 +4,8 @@ import { FS_ATTRIBUTE_CONFIG } from '../../providers';
 import { FsAttributeConfig } from '../../interfaces/attribute-config.interface';
 
 @Component({
-  templateUrl: 'attribute-manage.component.html',
-  styleUrls: [ 'attribute-manage.component.scss' ]
+  templateUrl: './attribute-manage.component.html',
+  styleUrls: [ './attribute-manage.component.scss' ]
 })
 export class FsAttributeManageComponent implements OnInit {
 

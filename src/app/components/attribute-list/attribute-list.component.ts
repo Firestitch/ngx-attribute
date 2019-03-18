@@ -1,18 +1,22 @@
 import { Component, Inject, OnInit, Input, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material';
-import { FS_ATTRIBUTE_CONFIG } from '../../providers';
-import { FsAttributeConfig, AttributeConfig, AttributeOrder } from '../../interfaces/attribute-config.interface';
-import { filter } from 'lodash-es';
-import { map, takeUntil } from 'rxjs/operators';
-import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.component';
+
 import { ReorderPosition, ReorderStrategy, FsListConfig } from '@firestitch/list';
 import { ItemType } from '@firestitch/filter';
+
 import { Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
+import { filter } from 'lodash-es';
+
+import { FS_ATTRIBUTE_CONFIG } from '../../providers';
+import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.component';
+import { FsAttributeConfig, AttributeConfig } from '../../interfaces/attribute-config.interface';
+import { AttributeOrder } from '../../enums/enums';
 
 @Component({
   selector: 'fs-attribute-list',
-  templateUrl: 'attribute-list.component.html',
-  styleUrls: [ 'attribute-list.component.scss' ]
+  templateUrl: './attribute-list.component.html',
+  styleUrls: [ './attribute-list.component.scss' ]
 })
 export class FsAttributeListComponent implements OnInit, OnDestroy {
 
@@ -21,7 +25,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   @Input() data: string;
   public listConfig: FsListConfig;
   public attributeConfig: AttributeConfig = null;
-  private $destroy = new Subject();
+  private destroy$ = new Subject();
 
   constructor(@Inject(FS_ATTRIBUTE_CONFIG) private fsAttributeConfig: FsAttributeConfig,
               private dialog: MatDialog) {}
@@ -101,7 +105,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
 
           this.fsAttributeConfig.reorderAttributes(e)
           .pipe(
-            takeUntil(this.$destroy)
+            takeUntil(this.destroy$)
           )
           .subscribe(() => {
 
@@ -126,7 +130,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.$destroy.next();
-    this.$destroy.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }

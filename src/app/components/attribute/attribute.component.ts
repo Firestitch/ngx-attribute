@@ -1,13 +1,13 @@
 import { Component, Input, Output, EventEmitter, Inject, OnInit, OnChanges, HostBinding } from '@angular/core';
-import { FS_ATTRIBUTE_CONFIG } from '../../providers';
 import { filter } from 'lodash-es';
+import { FS_ATTRIBUTE_CONFIG } from '../../providers';
 import { getAttributeValue } from '../../helpers/helpers';
 
 
 @Component({
   selector: 'fs-attribute',
-  templateUrl: 'attribute.component.html',
-  styleUrls: [ 'attribute.component.scss' ],
+  templateUrl: './attribute.component.html',
+  styleUrls: [ './attribute.component.scss' ],
 })
 export class FsAttributeComponent implements OnInit, OnChanges {
 
@@ -19,8 +19,8 @@ export class FsAttributeComponent implements OnInit, OnChanges {
   @Input() selectable: any;
   @Input() selected: any;
   @Input() attribute: any = {};
-  @Output() selectedToggled = new EventEmitter();
   @Input() class = '';
+  @Output() selectedToggled = new EventEmitter();
 
   public backgroundColor;
   public color;

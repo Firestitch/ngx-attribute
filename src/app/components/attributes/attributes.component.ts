@@ -1,4 +1,4 @@
-import { Component, Input, Output, EventEmitter, OnInit, OnDestroy } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy } from '@angular/core';
 import { Subject } from 'rxjs';
 
 
@@ -12,7 +12,7 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
 
   @Input() config: any;
   @Input() attributes: any = [];
-  @Input() class: string;
+  @Input('class') klass: string;
 
   public $destroy = new Subject();
 

@@ -1,16 +1,18 @@
 import { Component, Input, OnInit, Inject, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { FS_ATTRIBUTE_CONFIG } from '../../providers';
-import { FsAttributeConfig } from '../../interfaces/attribute-config.interface';
+
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { filter } from 'lodash-es';
+
 import { wrapAttributes } from '../../helpers/helpers';
+import { FS_ATTRIBUTE_CONFIG } from '../../providers';
+import { FsAttributeConfig } from '../../interfaces/attribute-config.interface';
 
 
 @Component({
   selector: 'fs-attribute-select',
-  templateUrl: 'attribute-select.component.html',
-  styleUrls: [ 'attribute-select.component.scss' ],
+  templateUrl: './attribute-select.component.html',
+  styleUrls: [ './attribute-select.component.scss' ],
 })
 export class FsAttributeSelectComponent implements OnInit, OnDestroy {
 

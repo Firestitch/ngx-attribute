@@ -1,26 +1,28 @@
-import { Component, Input, OnInit, Inject, OnDestroy, Output, EventEmitter, HostBinding } from '@angular/core';
+import { Component, Input, OnInit, Inject, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { FsAttributeSelectorComponent } from '../attribute-selector/attribute-selector.component';
 import { MatDialog } from '@angular/material';
-import { FS_ATTRIBUTE_CONFIG } from '../../providers';
-import { FsAttributeConfig, AttributeConfig } from '../../interfaces/attribute-config.interface';
+
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { filter } from 'lodash-es';
 
+import { FS_ATTRIBUTE_CONFIG } from '../../providers';
+import { FsAttributeConfig } from '../../interfaces/attribute-config.interface';
+
 
 @Component({
   selector: 'fs-attribute-field',
-  templateUrl: 'attribute-field.component.html',
-  styleUrls: [ 'attribute-field.component.scss' ],
+  templateUrl: './attribute-field.component.html',
+  styleUrls: [ './attribute-field.component.scss' ],
 })
 export class FsAttributeFieldComponent implements OnInit, OnDestroy {
 
   public attributes: any = [];
   public attributeConfig: any = {};
-  private $destroy = new Subject();
+  private destroy$ = new Subject();
 
   @Input() data;
-  @Input('class') class;
+  @Input('class') klass: string;
   @Output() changed = new EventEmitter();
 
   constructor(private dialog: MatDialog,
@@ -30,14 +32,14 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(FsAttributeSelectorComponent, {
       data: {
         selectedAttributes: this.attributes,
-        class: this.class,
+        class: this.klass,
         data: this.data
       }
     });
 
     dialogRef.afterClosed()
     .pipe(
-      takeUntil(this.$destroy)
+      takeUntil(this.destroy$)
     )
     .subscribe(response => {
       if (response && response.attributes) {
@@ -48,16 +50,16 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
 
-    this.attributeConfig = filter(this.fsAttributeConfig.configs, { class: this.class })[0] || {};
+    this.attributeConfig = filter(this.fsAttributeConfig.configs, { class: this.klass })[0] || {};
 
     const e = {
       data: this.data,
-      class: this.class
+      class: this.klass
     };
 
     this.fsAttributeConfig.getSelectedAttributes(e)
     .pipe(
-      takeUntil(this.$destroy)
+      takeUntil(this.destroy$)
     )
     .subscribe((response) => {
       this.attributes = response.data;
@@ -65,7 +67,7 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
 
     this.changed
     .pipe(
-      takeUntil(this.$destroy)
+      takeUntil(this.destroy$)
     )
     .subscribe((attributes) => {
       this.attributes = attributes;
@@ -73,7 +75,7 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
   }
 
   ngOnDestroy() {
-    this.$destroy.next();
-    this.$destroy.complete();
+    this.destroy$.next();
+    this.destroy$.complete();
   }
 }
