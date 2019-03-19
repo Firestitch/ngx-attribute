@@ -1,1 +1,22 @@
-<fs-tree></fs-tree>
+<div class="heading">
+  <h2 *ngIf="heading">
+    {{ heading }}
+  </h2>
+  <div class="actions" *ngIf="showExpand || showCollapse || showCreate">
+    <button *ngIf="showExpand" mat-button (click)="expandAll()">Expand All</button>
+    &nbsp;
+    <button *ngIf="showCollapse" mat-button (click)="collapseAll()">Collapse All</button>
+    &nbsp;
+    <button *ngIf="showCreate" mat-raised-button color="primary" (click)="createRootNode()">Create Aroma Type</button>
+  </div>
+</div>
+<fs-tree *ngIf="treeConfig" [config]="treeConfig">
+  <ng-template fsTreeNode let-name="name" let-level="level" let-image="image" let-color="background_color">
+    <img *ngIf="image && image.small" [src]="image.small" alt="">
+    <div class="color"
+         *ngIf="level === 0"
+         [style.background]="color"
+    ></div>
+    {{ name }}
+  </ng-template>
+</fs-tree>

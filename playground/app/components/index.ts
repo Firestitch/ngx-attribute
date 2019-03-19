@@ -7,4 +7,5 @@ export * from './autocomplete-field-example';
 export * from './list-visible';
 export * from './edit-visible';
 export * from './select-field-example';
+export * from './tree-example';
 

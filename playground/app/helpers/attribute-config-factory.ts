@@ -8,6 +8,7 @@ import { filter, isEqual, clone } from 'lodash-es';
 import { of } from 'rxjs';
 import { ListVisibleComponent } from '../components/list-visible';
 import { EditVisibleComponent } from '../components/edit-visible';
+import { FlatItemNode } from '@firestitch/tree';
 
 const attributeTree = [
   {
@@ -99,7 +100,7 @@ let attributesStore = [
 ];
 
 export function attributeConfigFactory(): FsAttributeConfig {
-  return {
+  const config = {
     configs: [
       {
         class: 'everything', // type
@@ -119,13 +120,20 @@ export function attributeConfigFactory(): FsAttributeConfig {
       },
       {
         class: 'aroma_type',
-        // image: AttributeColor.Enabled,
-        // backgroundColor: AttributeColor.Enabled,
+        image: AttributeImage.Enabled,
+        backgroundColor: AttributeColor.Enabled,
         // color: AttributeColor.Disabled,
         order: AttributeOrder.Custom,
         name: 'Aroma Type',
         pluralName: 'Aroma Types',
         childClass: 'aroma',
+        fields: [
+          {
+            label: 'Visible on List',
+            listComponent: ListVisibleComponent,
+            editComponent: EditVisibleComponent
+          }
+        ],
       },
       {
         class: 'aroma',
@@ -147,22 +155,67 @@ export function attributeConfigFactory(): FsAttributeConfig {
       id: 'id',
       name: 'name',
       image: 'image.small',
-      backgroundColor: 'background_color'
+      backgroundColor: 'background_color',
+      childAttributes: 'attributes',
     },
     getAttributeTree: (e) => {
 
       console.log('getAttributeTree', e);
-      return of({ attributes: [] });
-    },
-    saveAttributeTree: (e) => {
-      console.log('saveAttributeTree', e);
       return of({ attributes: attributeTree });
     },
-    reorderAttributeTree: (e) => {
+    saveAttributeTree: (e) => {
+      const attribute = e.attribute;
 
-      // e.attribute <-parent attributes which has the children attribites (e.attribute.attributes)
-      console.log('reorderAttributeTree', e);
-      return of();
+      if (!attribute.id) {
+        attribute.id = (Math.random() * 10) + (Math.random() * 100)
+      }
+
+      attribute.class = e.class;
+
+      // Append new root element
+      if (!e.parent) {
+        attributeTree.push(attribute);
+
+        return of({ attribute: attribute });
+      }
+
+      // Edit
+      if (e.parent && e.parent.id === e.attribute.id) {
+        const index = attributeTree.findIndex((item) => item.id === e.parent.id);
+
+        if (index !== -1) {
+          attributeTree[index] = attribute;
+        }
+
+        return of({ attribute: attribute });
+      } else {
+        const index = attributeTree.findIndex((item) => item.id === e.parent.id);
+
+        if (index !== -1) {
+          if (!attributeTree[index][config.mapping.childAttributes]) {
+            attributeTree[index][config.mapping.childAttributes] = [];
+          }
+
+          attributeTree[index][config.mapping.childAttributes].push(attribute);
+        }
+
+        console.log(attributeTree);
+        return of({ attribute: attribute });
+      }
+
+    },
+    reorderAttributeTree: (
+      node?: FlatItemNode,
+      fromParent?: FlatItemNode,
+      toParent?: FlatItemNode,
+      dropPosition?: any,
+      prevElement?: FlatItemNode,
+      nextElement?: FlatItemNode
+    ) => {
+      return (!fromParent && !toParent) || (fromParent && toParent && fromParent.data.class === toParent.data.class);
+    },
+    sortByAttributeTree: (data) => {
+      return data;
     },
     saveAttribute: (e) => {
       console.log('saveAttribute', e);
@@ -224,4 +277,6 @@ export function attributeConfigFactory(): FsAttributeConfig {
       return o1 && o2 && o1.id === o2.id;
     }
   };
+
+  return config;
 }

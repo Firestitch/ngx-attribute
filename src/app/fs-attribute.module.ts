@@ -1,8 +1,16 @@
-import { NgModule, ModuleWithProviders } from '@angular/core';
+import { ModuleWithProviders, NgModule } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-import {  MatChipsModule, MatIconModule, MatDialogModule,
-          MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule } from '@angular/material';
+
+import {
+  MatButtonModule,
+  MatChipsModule,
+  MatDialogModule,
+  MatFormFieldModule,
+  MatIconModule,
+  MatInputModule,
+  MatSelectModule
+} from '@angular/material';
 
 import { FsColorPickerModule } from '@firestitch/colorpicker';
 import { FsFormModule } from '@firestitch/form';
@@ -13,7 +21,7 @@ import { FsFileModule } from '@firestitch/file';
 import { FsLabelModule } from '@firestitch/label';
 import { FsChipModule } from '@firestitch/chip';
 import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
-
+import { FsTreeModule } from '@firestitch/tree';
 
 import { FsAttributeComponent } from './components/attribute/attribute.component';
 import { FsAttributeFieldComponent } from './components/attribute-field/attribute-field.component';
@@ -25,7 +33,7 @@ import { FsAttributeListComponent } from './components/attribute-list/attribute-
 import { FsAttributeSelectComponent } from './components/attribute-select/attribute-select.component';
 import { FsAttributeAutocompleteComponent } from './components/attribute-autocomplete/attribute-autocomplete.component';
 import { FsAttributeComponentWrapperComponent } from './components/attribute-list/component-wrapper/component-wrapper.component';
-
+import { FsAttributeTreeComponent } from './components/attribute-tree/attribute-tree.component';
 
 import { FS_ATTRIBUTE_DEFAULT_CONFIG } from './providers';
 import { FsAttributeConfig } from './interfaces/attribute-config.interface';
@@ -45,11 +53,12 @@ import { FsAttributeConfig } from './interfaces/attribute-config.interface';
     FsColorPickerModule,
     FsFormModule,
     FsLabelModule,
-    FsAutocompleteChipsModule.forRoot(),
-    FsChipModule.forRoot(),
-    FsListModule.forRoot(),
-    FsScrollModule.forRoot(),
-    FsFileModule.forRoot()
+    FsAutocompleteChipsModule,
+    FsChipModule,
+    FsListModule,
+    FsScrollModule,
+    FsFileModule,
+    FsTreeModule,
   ],
   exports: [
     FsAttributeComponent,
@@ -57,12 +66,14 @@ import { FsAttributeConfig } from './interfaces/attribute-config.interface';
     FsAttributeFieldComponent,
     FsAttributeListComponent,
     FsAttributeSelectComponent,
-    FsAttributeAutocompleteComponent
+    FsAttributeAutocompleteComponent,
+    FsAttributeTreeComponent,
+
   ],
   entryComponents: [
     FsAttributeSelectorComponent,
     FsAttributeEditComponent,
-    FsAttributeManageComponent
+    FsAttributeManageComponent,
   ],
   declarations: [
     FsAttributeComponent,
@@ -74,7 +85,8 @@ import { FsAttributeConfig } from './interfaces/attribute-config.interface';
     FsAttributeListComponent,
     FsAttributeSelectComponent,
     FsAttributeAutocompleteComponent,
-    FsAttributeComponentWrapperComponent
+    FsAttributeComponentWrapperComponent,
+    FsAttributeTreeComponent,
   ]
 })
 export class FsAttributeModule {

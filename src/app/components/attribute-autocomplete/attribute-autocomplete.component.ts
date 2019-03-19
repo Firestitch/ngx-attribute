@@ -8,7 +8,6 @@ import { FS_ATTRIBUTE_CONFIG } from '../../providers';
 import { FsAttributeConfig } from '../../interfaces/attribute-config.interface';
 import { wrapAttributes } from '../../helpers/helpers';
 
-
 @Component({
   selector: 'fs-attribute-autocomplete',
   templateUrl: './attribute-autocomplete.component.html',

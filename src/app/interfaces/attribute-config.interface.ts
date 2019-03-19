@@ -1,14 +1,17 @@
+import { CanDrop } from '@firestitch/tree/app/interfaces/config.interface';
 import { Observable } from 'rxjs';
+
 import { AttributeOrder, AttributeImage, AttributeColor } from '../enums/enums';
 
 export interface FsAttributeConfig {
   configs?: AttributeConfig[]
   mapping?: { id: string, name: string, backgroundColor: string, image: string, childAttributes?: string }
   saveAttribute(e: any): Observable<{ attribute }>
-  saveAttributeTree(e: any): Observable<{ attributes }>
+  saveAttributeTree(e: any): Observable<{ attribute }>
   deleteAttribute(e: any): Observable<{ attribute }>
   reorderAttributes(e: any): Observable<{ attributes }>
-  reorderAttributeTree(e: any): Observable<any>
+  sortByAttributeTree: (data: any[], parent?: any) => any[];
+  reorderAttributeTree: CanDrop
   getAttributes(e: any): Observable<{ data: [], paging: {} }>
   getAttributeTree(e: any): Observable<{ attributes }>
   attributeSelectionChanged(e: any): Observable<any>
@@ -22,14 +25,15 @@ export interface AttributeConfig {
   backgroundColor?: AttributeColor
   color?: AttributeColor,
   image?: AttributeImage
-  // backgroundColor?: AttributeColor
-  // color?: AttributeColor
-  // image?: AttributeImage
-  name: string
-  pluralName: string
-  order?: AttributeOrder
-  fields?: AttributeConfigField[],
-  parentAttributes?: boolean
+  // backgroundColor?: AttributeColor;
+  // color?: AttributeColor;
+  // image?: AttributeImage;
+  name: string;
+  pluralName: string;
+  childClass?: string;
+  order?: AttributeOrder;
+  fields?: AttributeConfigField[];
+  parentAttributes?: boolean;
 }
 
 export interface AttributeConfigField {

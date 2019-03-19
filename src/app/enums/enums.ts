@@ -1,16 +1,16 @@
 export const enum AttributeColor {
-  Enabled,
-  Disabled,
-  Parent,
+  Disabled = 0,
+  Enabled = 1,
+  Parent = 2,
 }
 
 export const enum AttributeImage {
-  Enabled,
-  Disabled,
-  Parent,
+  Disabled = 0,
+  Enabled = 1,
+  Parent = 2,
 }
 
 export const enum AttributeOrder {
-  Custom,
-  Alphabetical,
+  Custom = 1,
+  Alphabetical = 2,
 }
