@@ -59,29 +59,55 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
   }
 
   save() {
-
     const mapping = this.fsAttributeConfig.mapping;
 
     this.attribute[mapping.name] = this.name;
     this.attribute[mapping.backgroundColor] = this.backgroundColor;
 
-    const e = {
+    if (this.data.type === 'list') {
+      this.saveAttribute();
+    } else if (this.data.type === 'tree') {
+      this.saveTreeAttribute();
+    }
+  }
+
+  public saveAttribute() {
+
+    const eventData = {
       attribute: this.attribute,
       class: this.data.class,
       data: this.data.data
     };
 
-    this.fsAttributeConfig.saveAttribute(e)
-    .pipe(
-      takeUntil(this.destroy$)
-    )
-    .subscribe(() => {
-      this.close();
-    });
+    this.fsAttributeConfig.saveAttribute(eventData)
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe(() => {
+        this.close();
+      });
   }
 
-  close() {
-    this.dialogRef.close();
+  public saveTreeAttribute() {
+
+    const eventData = {
+      attribute: this.attribute,
+      class: this.data.class,
+      data: this.data.data,
+      parent: this.data.parent
+    };
+
+    this.fsAttributeConfig.saveAttributeTree(eventData)
+      .pipe(
+        takeUntil(this.destroy$)
+      )
+      .subscribe((response) => {
+        this.close(response);
+      });
+  }
+
+  close(data = null) {
+    this.dialogRef.close(data);
   }
 
   ngOnDestroy() {

@@ -26,9 +26,15 @@ import {
   AutocompleteFieldExampleComponent,
   ListVisibleComponent,
   EditVisibleComponent,
-  SelectFieldExampleComponent
+  SelectFieldExampleComponent,
+  TreeExampleComponent
 } from './components';
 import { AppComponent } from './app.component';
+import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
+import { FsChipModule } from '@firestitch/chip';
+import { FsListModule } from '@firestitch/list';
+import { FsScrollModule } from '@firestitch/scroll';
+import { FsFileModule } from '@firestitch/file';
 
 const routes: Routes = [
   { path: '', component: ExamplesComponent },
@@ -42,6 +48,11 @@ const routes: Routes = [
     BrowserAnimationsModule,
     AppMaterialModule,
     FormsModule,
+    FsAutocompleteChipsModule.forRoot(),
+    FsChipModule.forRoot(),
+    FsListModule.forRoot(),
+    FsScrollModule.forRoot(),
+    FsFileModule.forRoot(),
     FsExampleModule.forRoot(),
     FsMessageModule.forRoot(),
     FsSelectionModule.forRoot(),
@@ -61,7 +72,8 @@ const routes: Routes = [
     SelectFieldExampleComponent,
     AutocompleteFieldExampleComponent,
     ListVisibleComponent,
-    EditVisibleComponent
+    EditVisibleComponent,
+    TreeExampleComponent,
   ],
   entryComponents: [
     ListVisibleComponent,

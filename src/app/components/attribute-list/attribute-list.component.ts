@@ -45,7 +45,8 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
       data: {
         attribute: attribute,
         class: this.class,
-        data: this.data
+        data: this.data,
+        type: 'list',
       }
     });
 
@@ -81,7 +82,8 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
               data: {
                 attibute: {},
                 class: this.class,
-                data: this.data
+                data: this.data,
+                type: 'list',
               }
             });
 
@@ -98,7 +100,8 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
               data: {
                 attribute: row,
                 class: this.class,
-                data: this.data
+                data: this.data,
+                type: 'list',
               }
             });
 

@@ -1,10 +1,12 @@
-@import '../tools/assets/playground.scss';
+@import '../tools/assets/playground';
 @import '~@firestitch/message/styles';
-@import '../src/app/styles.scss';
+@import '../src/app/styles';
 @import '~@angular/material/theming';
-@import '~@firestitch/file/styles.scss';
-@import '~@firestitch/chip/styles.scss';
+@import '~@firestitch/file/styles';
+@import '~@firestitch/chip/styles';
+@import '~@firestitch/tree/styles';
 
 @include mat-core();
 @include fs-file($mat-blue);
 @include fs-chip($mat-blue);
+@include fs-tree($mat-blue);
