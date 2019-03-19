@@ -29,6 +29,7 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
               @Inject(FS_ATTRIBUTE_CONFIG) private fsAttributeConfig: FsAttributeConfig,
               private dialogRef: MatDialogRef<FsAttributeEditComponent>) {
     this.attribute = this.data.attribute || {};
+    debugger;
   }
 
   ngOnInit() {

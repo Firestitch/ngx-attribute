@@ -75,6 +75,9 @@ import 'zone.js/dist/zone';  // Included with Angular CLI.
 
 
 
+// HACK: to get dragula to work
+(window as any).global = window;
+
 /***************************************************************************************************
  * APPLICATION IMPORTS
  */

@@ -13,7 +13,7 @@ import { FsAttributeConfig } from '../../interfaces/attribute-config.interface';
   styleUrls: [ './attribute-field.component.scss' ],
 })
 export class FsAttributeFieldComponent implements OnInit, OnDestroy {
-
+/*
   public attributes: any = [];
   public attributeConfig: any = {};
 
@@ -32,23 +32,6 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
       )
       .subscribe((data) => {
 
-        /*
-        data =  {
-          attrbitues: [
-            {
-              name: 'Tropial',
-              background..
-
-              attrbitues: [
-              {
-                name: 'Peach',
-              }
-            ]
-            }
-          ]
-        }
-
-        */
       });
   }
 
@@ -56,4 +39,53 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
     this.$destroy.next();
     this.$destroy.complete();
   }
+
+  private _setTreeConfig() {
+    this.treeConfig = {
+        data: this.attributes,
+        levels: 2,
+        selection: false,
+        childrenName: this.fsAttributeConfig.mapping.childAttributes,
+        changed: (data) => {
+          this.fsAttributeConfig.saveAttributeTree(data);
+          // this.changed.next(data);
+        },
+        canDrop: this.fsAttributeConfig.reorderAttributeTree,
+        actions: [
+          {
+            type: TreeActionType.Menu,
+            icon: 'move_vert',
+            items: [
+              {
+                label: 'Create Level 2 Object',
+                show: (node) => {
+                  return node.level === 0;
+                },
+                click: (node) => {
+                  const dialogRef = this.dialog.open(FsAttributeEditTreeComponent, {
+                    data: {
+                      attibute: { },
+                      mode: 'tree',
+                      parentAttribute: node,
+                      class: this.klass,
+                      data: this.data,
+                    }
+                  });
+
+                  dialogRef.afterClosed()
+                    .pipe(
+                      takeUntil(this._destroy$),
+                    )
+                    .subscribe(data => {
+                      // debugger;
+                      this.tree.insertElementAbove(data, node);
+                    });
+                }
+            ]
+          }
+        ]
+      }
+
+      *!/
+  });*/
 }

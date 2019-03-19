@@ -1,22 +1,9 @@
 import { NgModule, ModuleWithProviders } from '@angular/core';
 import { FormsModule } from '@angular/forms';
 import { CommonModule } from '@angular/common';
-
-import { FsAttributeComponent } from './components/attribute/attribute.component';
-import { FsAttributeFieldComponent } from './components/attribute-field/attribute-field.component';
-import { FsAttributesComponent } from './components/attributes/attributes.component';
-import { FsAttributeSelectorComponent } from './components/attribute-selector/attribute-selector.component';
-import { FsAttributeEditComponent } from './components/attribute-edit/attribute-edit.component';
-import { FsAttributeManageComponent } from './components/attribute-manage/attribute-manage.component';
-import { FsAttributeListComponent } from './components/attribute-list/attribute-list.component';
-import { FsAttributeSelectComponent } from './components/attribute-select/attribute-select.component';
-import { FsAttributeAutocompleteComponent } from './components/attribute-autocomplete/attribute-autocomplete.component';
-
 import {  MatChipsModule, MatIconModule, MatDialogModule,
           MatButtonModule, MatFormFieldModule, MatInputModule, MatSelectModule } from '@angular/material';
 
-import { FS_ATTRIBUTE_DEFAULT_CONFIG } from './providers';
-import { FsAttributeConfig } from './interfaces/attribute-config.interface';
 import { FsColorPickerModule } from '@firestitch/colorpicker';
 import { FsFormModule } from '@firestitch/form';
 import { FsListModule } from '@firestitch/list';
@@ -28,6 +15,20 @@ import { FsChipModule } from '@firestitch/chip';
 import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
 
 
+import { FsAttributeComponent } from './components/attribute/attribute.component';
+import { FsAttributeFieldComponent } from './components/attribute-field/attribute-field.component';
+import { FsAttributesComponent } from './components/attributes/attributes.component';
+import { FsAttributeSelectorComponent } from './components/attribute-selector/attribute-selector.component';
+import { FsAttributeEditComponent } from './components/attribute-edit/attribute-edit.component';
+import { FsAttributeManageComponent } from './components/attribute-manage/attribute-manage.component';
+import { FsAttributeListComponent } from './components/attribute-list/attribute-list.component';
+import { FsAttributeSelectComponent } from './components/attribute-select/attribute-select.component';
+import { FsAttributeAutocompleteComponent } from './components/attribute-autocomplete/attribute-autocomplete.component';
+import { FsAttributeComponentWrapperComponent } from './components/attribute-list/component-wrapper/component-wrapper.component';
+
+
+import { FS_ATTRIBUTE_DEFAULT_CONFIG } from './providers';
+import { FsAttributeConfig } from './interfaces/attribute-config.interface';
 
 
 @NgModule({
@@ -72,7 +73,8 @@ import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
     FsAttributeManageComponent,
     FsAttributeListComponent,
     FsAttributeSelectComponent,
-    FsAttributeAutocompleteComponent
+    FsAttributeAutocompleteComponent,
+    FsAttributeComponentWrapperComponent
   ]
 })
 export class FsAttributeModule {

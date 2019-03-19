@@ -21,6 +21,10 @@
       <mat-form-field *ngIf="attributeConfig.backgroundColor">
         <input matInput placeholder="Color" fsColorPicker [(ngModel)]="backgroundColor" name="color">
       </mat-form-field>
+
+      <ng-container *ngFor="let field of attributeConfig.fields">
+        <fs-attribute-component-wrapper [field]="field" [data]="attribute" [component]="field.editComponent"></fs-attribute-component-wrapper>
+      </ng-container>
     </div>
   </mat-dialog-content>
   <mat-dialog-actions>

@@ -30,9 +30,6 @@ import {
 } from './components';
 import { AppComponent } from './app.component';
 
-// HACK: to get dragula to work
-(window as any).global = window;
-
 const routes: Routes = [
   { path: '', component: ExamplesComponent },
 ];
@@ -65,6 +62,10 @@ const routes: Routes = [
     AutocompleteFieldExampleComponent,
     ListVisibleComponent,
     EditVisibleComponent
+  ],
+  entryComponents: [
+    ListVisibleComponent,
+    EditVisibleComponent,
   ],
   providers: [
     { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'auto' } },

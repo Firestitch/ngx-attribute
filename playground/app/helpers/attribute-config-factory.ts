@@ -65,6 +65,7 @@ let attributesStore = [
       small: '/assets/headshot2.jpg'
     },
     name: 'Attribute 1',
+    configs: { visible_on_list: true }
   },
   {
     id: 2,
@@ -73,7 +74,8 @@ let attributesStore = [
     image: {
       small: '/assets/headshot3.jpg',
     },
-    name: 'Attribute 2'
+    name: 'Attribute 2',
+    configs: { visible_on_list: false }
   },
   {
     id: 3,
@@ -91,7 +93,8 @@ let attributesStore = [
     image: {
       small: '/assets/headshot5.jpg',
     },
-    name: 'Attribute 4'
+    name: 'Attribute 4',
+    configs: { visible_on_list: true }
   }
 ];
 
@@ -166,6 +169,12 @@ export function attributeConfigFactory(): FsAttributeConfig {
       if (!e.attribute.id) {
         e.attribute.id = attributesStore.length + 2;
         attributesStore.push(e.attribute);
+      } else {
+        const index = attributesStore.findIndex((attr) => attr.id === e.attribute.id);
+
+        if (index === -1) {
+          attributesStore[index] = e.attribute;
+        }
       }
 
       return of({ attribute: e.attribute });

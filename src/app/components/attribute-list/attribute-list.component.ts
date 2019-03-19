@@ -24,17 +24,47 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   @Input() class: string;
   @Input() data: string;
   public listConfig: FsListConfig;
+  // public listItems
   public attributeConfig: AttributeConfig = null;
+
   private destroy$ = new Subject();
 
-  constructor(@Inject(FS_ATTRIBUTE_CONFIG) private fsAttributeConfig: FsAttributeConfig,
-              private dialog: MatDialog) {}
+  constructor(
+    @Inject(FS_ATTRIBUTE_CONFIG) private fsAttributeConfig: FsAttributeConfig,
+    private dialog: MatDialog
+  ) {}
 
-  ngOnInit() {
-
+  public ngOnInit() {
     this.attributeConfig = filter(this.fsAttributeConfig.configs, { class: this.class })[0] || {};
 
-    this.listConfig = {
+    this._setListConfig();
+  }
+
+  public edit(attribute) {
+    const dialogRef = this.dialog.open(FsAttributeEditComponent, {
+      data: {
+        attribute: attribute,
+        class: this.class,
+        data: this.data
+      }
+    });
+
+    dialogRef.afterClosed()
+      .pipe(
+        takeUntil(this.destroy$),
+      )
+      .subscribe(response => {
+        this.list.reload();
+      });
+  }
+
+  public ngOnDestroy() {
+    this.destroy$.next();
+    this.destroy$.complete();
+  }
+
+  private _setListConfig() {
+    const config: any = {
       status: false,
       filters: [
         {
@@ -62,6 +92,23 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         }
       ],
       rowActions: [
+        {
+          click: (row, event) => {
+            const dialogRef = this.dialog.open(FsAttributeEditComponent, {
+              data: {
+                attribute: row,
+                class: this.class,
+                data: this.data
+              }
+            });
+
+            dialogRef.afterClosed().subscribe(response => {
+              // this.list.reload();
+            });
+          },
+          icon: 'edit',
+          label: 'Edit'
+        },
         {
           click: (row, event) => {
             const e = {
@@ -92,7 +139,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
     };
 
     if (this.attributeConfig.order === AttributeOrder.Custom) {
-      this.listConfig.reorder = {
+      config.reorder = {
         position: ReorderPosition.Left,
         strategy: ReorderStrategy.Always,
         done: (data) => {
@@ -104,33 +151,16 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
           };
 
           this.fsAttributeConfig.reorderAttributes(e)
-          .pipe(
-            takeUntil(this.destroy$)
-          )
-          .subscribe(() => {
+            .pipe(
+              takeUntil(this.destroy$)
+            )
+            .subscribe(() => {
 
-          });
+            });
         }
-      }
+      };
+
+      this.listConfig = config;
     }
-  }
-
-  edit(attribute) {
-    const dialogRef = this.dialog.open(FsAttributeEditComponent, {
-      data: {
-        attribute: attribute,
-        class: this.class,
-        data: this.data
-      }
-    });
-
-    dialogRef.afterClosed().subscribe(response => {
-      this.list.reload();
-    });
-  }
-
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
   }
 }

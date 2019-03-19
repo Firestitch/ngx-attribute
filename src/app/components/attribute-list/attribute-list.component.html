@@ -11,4 +11,11 @@
       </fs-attribute>
     </ng-template>
   </fs-list-column>
+
+  <fs-list-column *ngFor="let field of attributeConfig.fields">
+    <ng-template fs-list-header>{{field.label}}</ng-template>
+    <ng-template fs-list-cell let-row="row">
+      <fs-attribute-component-wrapper [data]="row" [component]="field.listComponent"></fs-attribute-component-wrapper>
+    </ng-template>
+  </fs-list-column>
 </fs-list>

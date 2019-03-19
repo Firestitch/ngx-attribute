@@ -1,5 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FS_ATTRIBUTE_CONFIG } from 'src/app/providers';
+import { FS_ATTRIBUTE_CONFIG, FS_ATTRIBUTE_FIELD_DATA } from 'src/app/providers';
 import { FsAttributeConfig } from 'src/app/interfaces/attribute-config.interface';
 
 
@@ -10,9 +10,9 @@ import { FsAttributeConfig } from 'src/app/interfaces/attribute-config.interface
 })
 export class ListVisibleComponent implements OnInit {
 
-  constructor(@Inject(FS_ATTRIBUTE_CONFIG) private attributeConfig: FsAttributeConfig) {}
+  constructor(@Inject(FS_ATTRIBUTE_FIELD_DATA) public data: any) {}
 
-  ngOnInit() {
+  public ngOnInit() {
 
   }
 }
