@@ -1,6 +1,5 @@
-import { Component, Inject, Injector, Input, OnInit } from '@angular/core';
-import { FS_ATTRIBUTE_CONFIG, FS_ATTRIBUTE_FIELD_DATA } from '../../../providers';
-import { AttributeConfig, FsAttributeConfig } from '../../../interfaces/attribute-config.interface';
+import { Component, Injector, Input, OnInit } from '@angular/core';
+import { FS_ATTRIBUTE_FIELD_DATA } from '../../../providers';
 
 @Component({
   selector: 'fs-attribute-component-wrapper',

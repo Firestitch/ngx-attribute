@@ -172,7 +172,7 @@ export function attributeConfigFactory(): FsAttributeConfig {
       } else {
         const index = attributesStore.findIndex((attr) => attr.id === e.attribute.id);
 
-        if (index === -1) {
+        if (index !== -1) {
           attributesStore[index] = e.attribute;
         }
       }

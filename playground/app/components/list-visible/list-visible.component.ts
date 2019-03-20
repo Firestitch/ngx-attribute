@@ -1,6 +1,5 @@
 import { Component, OnInit, Inject } from '@angular/core';
-import { FS_ATTRIBUTE_CONFIG, FS_ATTRIBUTE_FIELD_DATA } from 'src/app/providers';
-import { FsAttributeConfig } from 'src/app/interfaces/attribute-config.interface';
+import { FS_ATTRIBUTE_FIELD_DATA } from 'src/app/providers';
 
 
 @Component({

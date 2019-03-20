@@ -103,7 +103,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
             });
 
             dialogRef.afterClosed().subscribe(response => {
-              // this.list.reload();
+              this.list.reload();
             });
           },
           icon: 'edit',

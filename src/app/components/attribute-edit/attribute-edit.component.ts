@@ -3,7 +3,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { filter } from 'lodash-es';
+import { filter, cloneDeep } from 'lodash-es';
 
 import { FS_ATTRIBUTE_CONFIG } from '../../providers';
 import { FsAttributeConfig } from '../../interfaces/attribute-config.interface';
@@ -28,8 +28,8 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,
               @Inject(FS_ATTRIBUTE_CONFIG) private fsAttributeConfig: FsAttributeConfig,
               private dialogRef: MatDialogRef<FsAttributeEditComponent>) {
-    this.attribute = this.data.attribute || {};
-    debugger;
+    const attribute = this.data.attribute;
+    this.attribute = attribute && cloneDeep(attribute) || {};
   }
 
   ngOnInit() {
