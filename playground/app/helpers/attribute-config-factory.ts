@@ -125,6 +125,7 @@ export function attributeConfigFactory(): FsAttributeConfig {
         order: AttributeOrder.Custom,
         name: 'Aroma Type',
         pluralName: 'Aroma Types',
+        childClass: 'aroma',
       },
       {
         class: 'aroma',
