@@ -163,47 +163,6 @@ export function attributeConfigFactory(): FsAttributeConfig {
       console.log('getAttributeTree', e);
       return of({ attributes: attributeTree });
     },
-    saveAttributeTree: (e) => {
-      const attribute = e.attribute;
-
-      if (!attribute.id) {
-        attribute.id = (Math.random() * 10) + (Math.random() * 100)
-      }
-
-      attribute.class = e.class;
-
-      // Append new root element
-      if (!e.parent) {
-        attributeTree.push(attribute);
-
-        return of({ attribute: attribute });
-      }
-
-      // Edit
-      if (e.parent && e.parent.id === e.attribute.id) {
-        const index = attributeTree.findIndex((item) => item.id === e.parent.id);
-
-        if (index !== -1) {
-          attributeTree[index] = attribute;
-        }
-
-        return of({ attribute: attribute });
-      } else {
-        const index = attributeTree.findIndex((item) => item.id === e.parent.id);
-
-        if (index !== -1) {
-          if (!attributeTree[index][config.mapping.childAttributes]) {
-            attributeTree[index][config.mapping.childAttributes] = [];
-          }
-
-          attributeTree[index][config.mapping.childAttributes].push(attribute);
-        }
-
-        console.log(attributeTree);
-        return of({ attribute: attribute });
-      }
-
-    },
     reorderAttributeTree: (
       node?: FlatItemNode,
       fromParent?: FlatItemNode,

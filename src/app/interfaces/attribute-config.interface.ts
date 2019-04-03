@@ -7,7 +7,6 @@ export interface FsAttributeConfig {
   configs?: AttributeConfig[]
   mapping?: { id: string, name: string, backgroundColor: string, image: string, childAttributes?: string }
   saveAttribute(e: any): Observable<{ attribute }>
-  saveAttributeTree(e: any): Observable<{ attribute }>
   deleteAttribute(e: any): Observable<{ attribute }>
   reorderAttributes(e: any): Observable<{ attributes }>
   sortByAttributeTree: (data: any[], parent?: any) => any[];

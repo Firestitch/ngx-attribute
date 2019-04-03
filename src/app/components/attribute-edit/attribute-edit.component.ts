@@ -53,9 +53,12 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
     };
 
     this.fsAttributeConfig.saveAttributeImage(e)
-    .pipe(
-      takeUntil(this.destroy$)
-    );
+      .pipe(
+        takeUntil(this.destroy$),
+      )
+      .subscribe((attribute) => {
+        this.attribute = attribute;
+      });
   }
 
   save() {
@@ -64,11 +67,7 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
     this.attribute[mapping.name] = this.name;
     this.attribute[mapping.backgroundColor] = this.backgroundColor;
 
-    if (this.data.type === 'list') {
-      this.saveAttribute();
-    } else if (this.data.type === 'tree') {
-      this.saveTreeAttribute();
-    }
+    this.saveAttribute();
   }
 
   public saveAttribute() {
@@ -76,28 +75,11 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
     const eventData = {
       attribute: this.attribute,
       class: this.data.class,
-      data: this.data.data
+      data: this.data.data,
+      parent: this.data.parent,
     };
 
     this.fsAttributeConfig.saveAttribute(eventData)
-      .pipe(
-        takeUntil(this.destroy$)
-      )
-      .subscribe(() => {
-        this.close();
-      });
-  }
-
-  public saveTreeAttribute() {
-
-    const eventData = {
-      attribute: this.attribute,
-      class: this.data.class,
-      data: this.data.data,
-      parent: this.data.parent
-    };
-
-    this.fsAttributeConfig.saveAttributeTree(eventData)
       .pipe(
         takeUntil(this.destroy$)
       )

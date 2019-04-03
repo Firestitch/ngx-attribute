@@ -82,19 +82,21 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe((response) => {
-      if (response.attribute) {
+      if (response && response.attribute) {
         this.tree.appendElement(response.attribute)
       }
     });
   }
 
   private _loadData() {
-    this.fsAttributeConfig.getAttributeTree({})
+    this.fsAttributeConfig.getAttributeTree({
+      class: this.klass
+    })
       .pipe(
         takeUntil(this._destroy$),
       )
       .subscribe((response) => {
-        if (response.attributes) {
+        if (response && response.attributes) {
           this.attributes = response.attributes;
           this._setTreeConfig();
         }
@@ -110,6 +112,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
       changed: (data) => {
         this.changed.next(data);
       },
+      sortBy: this.fsAttributeConfig.sortByAttributeTree,
       canDrop: this.fsAttributeConfig.reorderAttributeTree,
       actions: [
         {
@@ -124,8 +127,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
                     attribute: node.data,
                     class: node.data.class,
                     data: this.data,
-                    parent: node.data,
-                    type: 'tree',
+                    parent: node.parent && node.parent.data,
                   }
                 });
 
@@ -152,7 +154,6 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
                     class: this.attributeConfig.childClass,
                     data: this.data,
                     parent: node.data,
-                    type: 'tree',
                   }
                 });
 
@@ -160,9 +161,9 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
                   .pipe(
                     takeUntil(this._destroy$),
                   )
-                  .subscribe((result) => {
-                    if (result) {
-                      this.tree.appendElement(result.attribute, node);
+                  .subscribe((response) => {
+                    if (response && response.attribute) {
+                      this.tree.appendElement(response.attribute, node);
                     }
                   });
               }
@@ -170,12 +171,15 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
             {
               label: 'Delete',
               click: (node) => {
-                this.tree.removeNode(node);
+                this.fsAttributeConfig.deleteAttribute(node.data)
+                  .subscribe(() => {
+                    this.tree.removeNode(node);
+                  });
               }
             },
           ]
         }
       ]
-    }
+    };
   }
 }
