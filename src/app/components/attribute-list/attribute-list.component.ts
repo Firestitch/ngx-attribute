@@ -100,8 +100,6 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
               data: {
                 attribute: row,
                 class: this.class,
-                data: this.data,
-                type: 'list',
               }
             });
 
@@ -114,13 +112,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         },
         {
           click: (row, event) => {
-            const e = {
-              attribute: row,
-              data: this.data,
-              class: this.class
-            };
-
-            return this.fsAttributeConfig.deleteAttribute(e);
+            return this.fsAttributeConfig.deleteAttribute(row);
           },
           remove: true,
           icon: 'delete',
@@ -162,8 +154,8 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
             });
         }
       };
-
-      this.listConfig = config;
     }
+
+    this.listConfig = config;
   }
 }

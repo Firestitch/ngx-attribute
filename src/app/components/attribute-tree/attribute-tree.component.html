@@ -7,11 +7,13 @@
     &nbsp;
     <button *ngIf="showCollapse" mat-button (click)="collapseAll()">Collapse All</button>
     &nbsp;
-    <button *ngIf="showCreate" mat-raised-button color="primary" (click)="createRootNode()">Create Aroma Type</button>
+    <button *ngIf="showCreate" mat-raised-button color="primary" (click)="createRootNode()">
+      Create {{ attributeConfig.name }}
+    </button>
   </div>
 </div>
 <fs-tree *ngIf="treeConfig" [config]="treeConfig">
-  <ng-template fsTreeNode let-name="name" let-level="level" let-image="image" let-color="background_color">
+  <ng-template fsTreeNode let-name="name" let-level="level" let-image="image" let-color="color">
     <img *ngIf="image && image.small" [src]="image.small" alt="">
     <div class="color"
          *ngIf="level === 0 && color"
