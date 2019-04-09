@@ -35,6 +35,7 @@ import { FsChipModule } from '@firestitch/chip';
 import { FsListModule } from '@firestitch/list';
 import { FsScrollModule } from '@firestitch/scroll';
 import { FsFileModule } from '@firestitch/file';
+import { FsFormModule } from '@firestitch/form';
 
 const routes: Routes = [
   { path: '', component: ExamplesComponent },
@@ -56,6 +57,7 @@ const routes: Routes = [
     FsExampleModule.forRoot(),
     FsMessageModule.forRoot(),
     FsSelectionModule.forRoot(),
+    FsFormModule.forRoot(),
     FsPromptModule.forRoot(),
     ToastrModule.forRoot({ preventDuplicates: true }),
     RouterModule.forRoot(routes),
