@@ -61,6 +61,8 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
       this._value = value;
       this.onChange(this._value);
       this.onTouch(this._value);
+
+      this.save();
     }
   }
 
@@ -101,6 +103,18 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
 
     return attrs$;
   };
+
+  public save() {
+    this.attributesConfig.attributeSelectionChanged({
+      class: this.klass,
+      data: this.data,
+      attributes: this.value,
+    })
+      .pipe(
+        takeUntil(this._destroy$),
+      )
+      .subscribe()
+  }
 
   public writeValue(value) {
     this.value = value;
