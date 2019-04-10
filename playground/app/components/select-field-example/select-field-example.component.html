@@ -1,5 +1,16 @@
-<fs-attribute-select
-  class="everything"
-  [data]="{ id: 999, name: 'Object A' }"
-  (changed)="changed($event)">
-</fs-attribute-select>
+<form (fsForm)="save()">
+  <fs-attribute-select
+    class="everything"
+    [(ngModel)]="attribute"
+    [required]="true"
+    [noneOption]="true"
+    name="attribute"
+    [data]="{ id: 999, name: 'Object A' }"
+    (ngModelChange)="changed($event)">
+  </fs-attribute-select>
+  <button mat-button color="primary">Submit</button>
+</form>
+<fieldset *ngIf="attribute">
+  <legend>Selected Attribute</legend>
+  <pre>{{attribute|json}}</pre>
+</fieldset>

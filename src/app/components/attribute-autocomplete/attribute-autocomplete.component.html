@@ -1,12 +1,9 @@
 <fs-autocomplete-chips
   removable="true"
-  [(ngModel)]="model"
+  [(ngModel)]="value"
   [fetch]="fetch"
   [placeholder]="label"
   [draggable]="draggable"
-  (selected)="change(model)"
-  (remove)="change(model)"
-  (drop)="change(model)"
 >
   <ng-template let-data="item" fs-autocomplete-chip>
     <div class="option">

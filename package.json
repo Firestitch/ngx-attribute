@@ -54,7 +54,7 @@
     "@firestitch/example": "^7.0.0",
     "@firestitch/file": "^7.0.2",
     "@firestitch/filter": "^7.0.3",
-    "@firestitch/form": "^7.0.0",
+    "@firestitch/form": "^7.5.0",
     "@firestitch/label": "^7.0.0",
     "@firestitch/list": "^7.0.1",
     "@firestitch/menu": "^7.0.0",

@@ -12,6 +12,12 @@ import { FsLabelModule } from '@firestitch/label';
 import { FsAttributeModule, FS_ATTRIBUTE_CONFIG } from '@firestitch/attribute';
 import { FsSelectionModule } from '@firestitch/selection';
 import { FsPromptModule } from '@firestitch/prompt';
+import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
+import { FsChipModule } from '@firestitch/chip';
+import { FsListModule } from '@firestitch/list';
+import { FsScrollModule } from '@firestitch/scroll';
+import { FsFileModule } from '@firestitch/file';
+import { FsFormModule } from '@firestitch/form';
 
 import { ToastrModule } from 'ngx-toastr';
 
@@ -30,11 +36,7 @@ import {
   TreeExampleComponent
 } from './components';
 import { AppComponent } from './app.component';
-import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
-import { FsChipModule } from '@firestitch/chip';
-import { FsListModule } from '@firestitch/list';
-import { FsScrollModule } from '@firestitch/scroll';
-import { FsFileModule } from '@firestitch/file';
+
 import { FieldWithGroupsExampleComponent } from './components/field-with-groups-example';
 
 const routes: Routes = [
@@ -57,6 +59,7 @@ const routes: Routes = [
     FsExampleModule.forRoot(),
     FsMessageModule.forRoot(),
     FsSelectionModule.forRoot(),
+    FsFormModule.forRoot(),
     FsPromptModule.forRoot(),
     ToastrModule.forRoot({ preventDuplicates: true }),
     RouterModule.forRoot(routes),

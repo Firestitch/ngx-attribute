@@ -10,12 +10,21 @@ import { FsAttributeConfig } from 'src/app/interfaces/attribute-config.interface
 })
 export class SelectFieldExampleComponent implements OnInit {
 
+  public attribute;
+
   constructor(@Inject(FS_ATTRIBUTE_CONFIG) private attributeConfig: FsAttributeConfig) {}
 
-  ngOnInit() {
+  public ngOnInit() {
+    /*setTimeout(() => {
+      this.attribute = { id: 2 }
+    }, 1000)*/
   }
 
-  changed(e) {
+  public changed(e) {
     console.log(e);
+  }
+
+  public save() {
+
   }
 }

@@ -1,8 +1,14 @@
 <mat-form-field>
-  <mat-select [placeholder]="label" (selectionChange)="selectionChange($event)">
+  <mat-select
+    [placeholder]="label"
+    [(ngModel)]="value"
+    [required]="required"
+    [compareWith]="compare"
+  >
+    <mat-option [value]="null" *ngIf="noneOption">None</mat-option>
     <mat-option *ngFor="let attribute of attributes" [value]="attribute">
       <div class="option">
-        <img *ngIf="attribute.image" [src]="attribute.image">
+        <img *ngIf="attribute.image" [src]="attribute.image" alt="">
         <div>{{attribute.name}}</div>
       </div>
     </mat-option>

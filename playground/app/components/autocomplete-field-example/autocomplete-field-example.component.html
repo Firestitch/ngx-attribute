@@ -1,5 +1,15 @@
-<fs-attribute-autocomplete
-  class="everything"
-  [data]="{ id: 999, name: 'Object A' }"
-  (changed)="changed($event)">
-</fs-attribute-autocomplete>
+<form (fsForm)="save()">
+  <fs-attribute-autocomplete
+    name="attribute"
+    class="everything"
+    [(ngModel)]="attribute"
+    [required]="true"
+    [data]="{ id: 999, name: 'Object A' }"
+    (ngModelChange)="changed($event)">
+  </fs-attribute-autocomplete>
+  <button mat-button color="primary">Submit</button>
+</form>
+<fieldset *ngIf="attribute">
+  <legend>Selected Attribute</legend>
+  <pre>{{attribute|json}}</pre>
+</fieldset>

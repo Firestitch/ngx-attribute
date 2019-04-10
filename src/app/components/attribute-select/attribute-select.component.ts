@@ -1,4 +1,13 @@
-import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  OnDestroy,
+  Output,
+  EventEmitter,
+  forwardRef
+} from '@angular/core';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -13,8 +22,13 @@ import { AttributeItem } from '../../models/attribute';
   selector: 'fs-attribute-select',
   templateUrl: './attribute-select.component.html',
   styleUrls: [ './attribute-select.component.scss' ],
+  providers: [{
+    provide: NG_VALUE_ACCESSOR,
+    useExisting: forwardRef(() => FsAttributeSelectComponent),
+    multi: true
+  }]
 })
-export class FsAttributeSelectComponent implements OnInit, OnDestroy {
+export class FsAttributeSelectComponent implements OnInit, OnDestroy, ControlValueAccessor {
 
   @Input()
   public data;
@@ -25,14 +39,37 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy {
   @Input()
   public label;
 
+  @Input()
+  public required = false;
+
+  @Input()
+  public noneOption = false;
+
   @Output()
   public changed = new EventEmitter();
 
   public attributes: AttributeItem[] = [];
   public attributeConfig: AttributeConfigItem;
+
+  public onChange: any = () => {};
+  public onTouch: any = () => {};
+
+  private _value;
   private _destroy$ = new Subject();
 
   constructor(public attributesConfig: AttributesConfig) {}
+
+  set value(value) {
+    if (value !== void 0 && value !== this._value) {
+      this._value = value;
+      this.onChange(this._value);
+      this.onTouch(this._value);
+    }
+  }
+
+  get value() {
+    return this._value;
+  }
 
   public ngOnInit() {
     this.attributeConfig = this.attributesConfig.configs.get(this.klass);
@@ -49,8 +86,8 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy {
     this._destroy$.complete();
   }
 
-  public selectionChange(e) {
-    this.changed.emit(e.value);
+  public writeValue(value) {
+    this.value = value;
   }
 
   public fetch() {
@@ -67,4 +104,11 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy {
         this.attributes =  response.data;
       });
   }
+
+  public registerOnChange(fn) { this.onChange = fn;  }
+  public registerOnTouched(fn) { this.onTouch = fn; }
+
+  public compare = (o1: any, o2: any) => {
+    return this.attributesConfig.compareAttributes(o1, o2);
+  };
 }
