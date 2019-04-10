@@ -12,6 +12,12 @@ import { FsLabelModule } from '@firestitch/label';
 import { FsAttributeModule, FS_ATTRIBUTE_CONFIG } from '@firestitch/attribute';
 import { FsSelectionModule } from '@firestitch/selection';
 import { FsPromptModule } from '@firestitch/prompt';
+import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
+import { FsChipModule } from '@firestitch/chip';
+import { FsListModule } from '@firestitch/list';
+import { FsScrollModule } from '@firestitch/scroll';
+import { FsFileModule } from '@firestitch/file';
+import { FsFormModule } from '@firestitch/form';
 
 import { ToastrModule } from 'ngx-toastr';
 
@@ -30,12 +36,7 @@ import {
   TreeExampleComponent
 } from './components';
 import { AppComponent } from './app.component';
-import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
-import { FsChipModule } from '@firestitch/chip';
-import { FsListModule } from '@firestitch/list';
-import { FsScrollModule } from '@firestitch/scroll';
-import { FsFileModule } from '@firestitch/file';
-import { FsFormModule } from '@firestitch/form';
+
 import { FieldWithGroupsExampleComponent } from './components/field-with-groups-example';
 
 const routes: Routes = [
