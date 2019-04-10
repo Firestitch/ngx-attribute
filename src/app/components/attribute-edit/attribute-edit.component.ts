@@ -38,7 +38,7 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.attributeConfig = this.attributesConfig.configs.get(this.data.klass);
+    this.attributeConfig = this.attributesConfig.getConfig(this.data.klass);
   }
 
   public selectImage(file) {

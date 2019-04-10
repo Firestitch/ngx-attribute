@@ -9,7 +9,7 @@ import { FlatItemNode } from '@firestitch/tree';
 
 @Injectable()
 export class AttributesConfig {
-  public readonly configs = new Map<string, AttributeConfigItem>();
+  private readonly _configs = new Map<string, AttributeConfigItem>();
 
   constructor(
     @Inject(FS_ATTRIBUTE_CONFIG) private _fsAttributeConfig: FsAttributeConfig,
@@ -102,16 +102,25 @@ export class AttributesConfig {
     return this._fsAttributeConfig.sortByAttributeTree(data);
   }
 
+  public getConfig(name: string) {
+    if (this._configs.has(name)) {
+      return this._configs.get(name);
+    } else {
+      throw new Error(`Configuration with class "${name}" can not be found. Please check your configs.`);
+    }
+  }
+
+
   private _initConfigs(configs: AttributeConfig[] = [], mappings) {
     configs.forEach((config) => {
       const configItem = new AttributeConfigItem(config, mappings);
 
-      this.configs.set(configItem.klass, configItem);
+      this._configs.set(configItem.klass, configItem);
     });
 
-    this.configs.forEach((configItem) => {
+    this._configs.forEach((configItem) => {
       if (!!configItem.childClass) {
-        const child = this.configs.get(configItem.childClass);
+        const child = this.getConfig(configItem.childClass);
 
         configItem.child = child;
         child.parent = configItem;

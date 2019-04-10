@@ -49,7 +49,7 @@ export class FsAttributeComponent implements OnInit {
   }
 
   public ngOnInit() {
-    const config = this._attributesConfig.configs.get(this.klass);
+    const config = this._attributesConfig.getConfig(this.klass);
 
     this.hostClass = 'fs-attribute fs-attribute-' + this.klass;
 

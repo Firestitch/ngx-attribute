@@ -32,7 +32,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
     private dialogRef: MatDialogRef<FsAttributeSelectorComponent>,
     private dialog: MatDialog
   ) {
-    this.attributeConfig = this.attributesConfig.configs.get(this.data.class);
+    this.attributeConfig = this.attributesConfig.getConfig(this.data.class);
     this.selectedAttributes = this.data.selectedAttributes;
   }
 

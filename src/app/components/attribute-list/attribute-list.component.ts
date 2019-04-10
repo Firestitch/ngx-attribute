@@ -42,7 +42,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit() {
-    this.attributeConfig = this.attributesConfig.configs.get(this.klass);
+    this.attributeConfig = this.attributesConfig.getConfig(this.klass);
 
     this._setListConfig();
   }

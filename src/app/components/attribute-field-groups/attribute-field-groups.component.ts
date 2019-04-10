@@ -14,7 +14,7 @@ import { AttributeConfigItem } from '../../models/attribute-config';
 @Component({
   selector: 'fs-attribute-field-groups',
   templateUrl: './attribute-field-groups.component.html',
-  styleUrls: [ './attribute-field-groups.component.scss' ],
+  styleUrls: [ '../attribute-field/attribute-field.component.scss' ],
 })
 export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
 
@@ -35,7 +35,7 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
   @Output()
   public changed = new EventEmitter<AttributeItem[]>();
 
-  public title: string;
+  public title: string | boolean;
   public attributes: AttributeItem[] = [];
   public selectedAttributes: AttributeItem[] = [];
 
@@ -48,9 +48,9 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit() {
-    this.attributeConfig = this.attributesConfig.configs.get(this.klass);
+    this.attributeConfig = this.attributesConfig.getConfig(this.klass);
 
-    if (!this.title && this.attributeConfig.child) {
+    if (this.title === void 0 && this.attributeConfig.child) {
       this.title = this.attributeConfig.child.pluralName
     }
 

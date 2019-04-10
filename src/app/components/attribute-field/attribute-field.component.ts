@@ -33,7 +33,7 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
   @Output()
   public changed = new EventEmitter<AttributeItem[]>();
 
-  public title: string;
+  public title: string | boolean;
   public attributes: AttributeItem[] = [];
   public attributeConfig: any = {};
   private destroy$ = new Subject();
@@ -45,9 +45,9 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit() {
-    this.attributeConfig = this.attributesConfig.configs.get(this.klass);
+    this.attributeConfig = this.attributesConfig.getConfig(this.klass);
 
-    if (!this.title && this.attributeConfig.child) {
+    if (this.title === void 0 && this.attributeConfig.child) {
       this.title = this.attributeConfig.child.pluralName
     }
 

@@ -68,7 +68,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
 
 
   public ngOnInit() {
-    this.attributeConfig = this.attributesConfig.configs.get(this.klass);
+    this.attributeConfig = this.attributesConfig.getConfig(this.klass);
     this.childAttributeConfig = this.attributeConfig.child;
 
     this._loadData();

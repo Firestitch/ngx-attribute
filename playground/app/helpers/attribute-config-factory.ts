@@ -4,11 +4,13 @@ import {
   AttributeOrder,
   FsAttributeConfig
 } from '@firestitch/attribute';
-import { filter, isEqual, clone } from 'lodash-es';
+import { FlatItemNode } from '@firestitch/tree';
+
 import { of } from 'rxjs';
+import { filter, isEqual, clone } from 'lodash-es';
+
 import { ListVisibleComponent } from '../components/list-visible';
 import { EditVisibleComponent } from '../components/edit-visible';
-import { FlatItemNode } from '@firestitch/tree';
 import { attributesStore } from './data';
 
 

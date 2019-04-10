@@ -1,7 +1,10 @@
 :host ::ng-deep {
 
-  .fs-attribute {
+  .fs-attribute, .not-selected {
     margin-top: 8px;
+  }
+  .not-selected {
+    font-size: 13px;
   }
 
   .fs-chip {

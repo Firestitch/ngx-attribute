@@ -1,19 +1,16 @@
 import {
   Component,
-  EventEmitter,
   forwardRef,
   Input,
   OnDestroy,
   OnInit,
-  Output
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { Subject } from 'rxjs';
-import { takeUntil, map, shareReplay } from 'rxjs/operators';
+import { takeUntil, map } from 'rxjs/operators';
 import { filter } from 'lodash-es';
 
-import { AttributeItem } from '../../models/attribute';
 import { AttributesConfig } from '../../services/attributes-config';
 import { AttributeConfigItem } from '../../models/attribute-config';
 
@@ -45,7 +42,6 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
   @Input()
   public draggable = true;
 
-  public attributes: AttributeItem[] = [];
   public attributeConfig: AttributeConfigItem;
 
   public onChange: any = () => {};
@@ -71,7 +67,7 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
   }
 
   public ngOnInit() {
-    this.attributeConfig = this.attributesConfig.configs.get(this.klass);
+    this.attributeConfig = this.attributesConfig.getConfig(this.klass);
 
     if (!this.label) {
       this.label = this.attributeConfig.name;
@@ -84,7 +80,7 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
   }
 
   public fetch = (keyword) => {
-    const attrs$ = this.attributesConfig.getAttributes({
+    return this.attributesConfig.getAttributes({
       class: this.klass,
       data: this.data,
       keyword: keyword,
@@ -93,15 +89,8 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
         map((response) => {
           return response.data;
         }),
-        shareReplay(1),
         takeUntil(this._destroy$)
       );
-
-    attrs$.subscribe((response: any) => {
-      this.attributes = response.data;
-    });
-
-    return attrs$;
   };
 
   public save() {
@@ -119,6 +108,10 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
   public writeValue(value) {
     this.value = value;
   }
+
+  public compare = (o1: any, o2: any) => {
+    return this.attributesConfig.compareAttributes(o1, o2);
+  };
 
   public registerOnChange(fn) { this.onChange = fn;  }
   public registerOnTouched(fn) { this.onTouch = fn; }

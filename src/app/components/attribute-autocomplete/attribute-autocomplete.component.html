@@ -1,14 +1,13 @@
 <fs-autocomplete-chips
   removable="true"
+  imageProperty="image"
+  [orderable]="draggable"
   [(ngModel)]="value"
   [fetch]="fetch"
   [placeholder]="label"
-  [draggable]="draggable"
+  [compareWith]="compare"
 >
-  <ng-template let-data="item" fs-autocomplete-chip>
-    <div class="option">
-      <img *ngIf="data.image" [src]="data.image" alt="">
-      <div>{{data.name}}</div>
-    </div>
+  <ng-template fsAutocompleteObject let-object="object">
+    {{ object.name }}
   </ng-template>
 </fs-autocomplete-chips>

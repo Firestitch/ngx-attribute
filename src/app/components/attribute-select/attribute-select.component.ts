@@ -72,7 +72,7 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy, ControlVal
   }
 
   public ngOnInit() {
-    this.attributeConfig = this.attributesConfig.configs.get(this.klass);
+    this.attributeConfig = this.attributesConfig.getConfig(this.klass);
 
     if (!this.label) {
       this.label = this.attributeConfig.name;

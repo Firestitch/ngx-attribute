@@ -1,6 +1,9 @@
 <fs-label-field>
-  <fs-label>{{attributeConfig.pluralName}}</fs-label>
+  <fs-label *ngIf="title !== false">{{attributeConfig.pluralName}}</fs-label>
   <div class="attributes">
+    <ng-container *ngIf="attributes.length === 0">
+      <span class="not-selected">Nothing selected</span>&nbsp;
+    </ng-container>
     <fs-attribute
       *ngFor="let attribute of attributes"
       [class]="klass"

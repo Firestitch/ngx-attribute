@@ -71,7 +71,7 @@ export class AttributeItem {
     this._attributesConfig = attributesConfig;
     this._parent = parent;
 
-    this._config = this._attributesConfig.configs.get(data.class);
+    this._config = this._attributesConfig.getConfig(data.class);
     this._initAttribute(data);
     this._initChildren(data);
   }
