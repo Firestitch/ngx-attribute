@@ -50,13 +50,19 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
   }
 
   public create() {
+    const attribute = new AttributeItem(
+      { class: this.attributeConfig.klass },
+      this.attributesConfig
+    );
+
     const dialogRef = this.dialog.open(FsAttributeEditComponent, {
       data: {
-        attibute: {},
-        class: this.data.class,
+        attribute: attribute,
+        klass: this.attributeConfig.klass,
         config: this.data.config,
         data: this.data.data
-      }
+      },
+      panelClass: `fs-attribute-${this.attributeConfig.klass}`,
     });
 
     dialogRef.afterClosed()

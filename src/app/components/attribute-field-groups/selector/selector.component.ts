@@ -71,7 +71,8 @@ export class FsAttributeTreeSelectorComponent implements OnInit, OnDestroy {
         attribute: attribute,
         klass: this.attributeConfig.childClass,
         selectParent: this.attributeConfig.klass,
-      }
+      },
+      panelClass: `fs-attribute-${this.attributeConfig.childClass}`,
     });
 
     dialogRef.afterClosed()

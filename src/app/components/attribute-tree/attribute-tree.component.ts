@@ -98,7 +98,8 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
       data: {
         attribute: attribute,
         klass: this.klass,
-      }
+      },
+      panelClass: `fs-attribute-${this.klass}`,
     });
 
     dialogRef.afterClosed().subscribe((result) => {
@@ -150,7 +151,8 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
                     klass: node.data.class,
                     data: this.data,
                     parent: node.parent && node.parent.data,
-                  }
+                  },
+                  panelClass: `fs-attribute-${this.klass}`,
                 });
 
                 dialogRef.afterClosed()
@@ -184,7 +186,8 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
                     klass: this.attributeConfig.childClass,
                     data: this.data,
                     parent: node.data,
-                  }
+                  },
+                  panelClass: `fs-attribute-${this.klass}`,
                 });
 
                 dialogRef.afterClosed()
