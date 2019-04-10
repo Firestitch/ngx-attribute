@@ -28,20 +28,34 @@ import { AttributeItem } from '../../models/attribute';
   styleUrls: ['./attribute-tree.component.scss'],
 })
 export class FsAttributeTreeComponent implements OnInit, OnDestroy {
-  public attributes: AttributeItem[] = [];
-  public attributeConfig: AttributeConfigItem;
-  public childAttributeConfig: AttributeConfigItem;
 
-  @Input() data;
-  @Input('class') klass;
-  @Input() heading;
-  @Input() showExpand = true;
-  @Input() showCollapse = true;
-  @Input() showCreate = true;
-  @Output() changed = new EventEmitter();
+  @Input()
+  public data;
+
+  @Input('class')
+  public klass;
+
+  @Input()
+  public heading;
+
+  @Input()
+  public showExpand = true;
+
+  @Input()
+  public showCollapse = true;
+
+  @Input()
+  public showCreate = true;
+
+  @Output()
+  public changed = new EventEmitter();
 
   @ViewChild(FsTreeComponent)
   public tree: FsTreeComponent<any>;
+
+  public attributes: AttributeItem[] = [];
+  public attributeConfig: AttributeConfigItem;
+  public childAttributeConfig: AttributeConfigItem;
 
   public treeConfig: ITreeConfig<any>;
 

@@ -21,14 +21,20 @@ import { AttributeItem } from '../../models/attribute';
 })
 export class FsAttributeListComponent implements OnInit, OnDestroy {
 
-  @ViewChild('list') list;
-  @Input('class') klass: string;
-  @Input() data: string;
+  @ViewChild('list')
+  public list;
+
+  @Input('class')
+  public klass: string;
+
+  @Input()
+  public data: string;
+
   public listConfig: FsListConfig;
   // public listItems
   public attributeConfig: AttributeConfigItem = null;
 
-  private destroy$ = new Subject();
+  private _destroy$ = new Subject();
 
   constructor(
     public attributesConfig: AttributesConfig,
@@ -52,7 +58,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed()
       .pipe(
-        takeUntil(this.destroy$),
+        takeUntil(this._destroy$),
       )
       .subscribe(response => {
         this.list.reload();
@@ -60,8 +66,8 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 
   private _setListConfig() {
@@ -146,7 +152,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
 
           this.attributesConfig.reorderAttributes(e)
             .pipe(
-              takeUntil(this.destroy$)
+              takeUntil(this._destroy$)
             )
             .subscribe(() => {
 

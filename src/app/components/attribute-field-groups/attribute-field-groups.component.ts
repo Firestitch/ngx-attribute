@@ -1,4 +1,4 @@
-import { Component, Input, OnInit, Inject, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import { Subject } from 'rxjs';
@@ -6,8 +6,6 @@ import { takeUntil } from 'rxjs/operators';
 import { filter } from 'lodash-es';
 
 import { FsAttributeTreeSelectorComponent } from './selector/selector.component';
-import { FS_ATTRIBUTE_CONFIG } from '../../providers';
-import { FsAttributeConfig } from '../../interfaces/attribute-config.interface';
 import { AttributesConfig } from '../../services/attributes-config';
 import { AttributeItem } from '../../models/attribute';
 import { AttributeConfigItem } from '../../models/attribute-config';
@@ -20,25 +18,33 @@ import { AttributeConfigItem } from '../../models/attribute-config';
 })
 export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
 
+  @Input()
+  public data;
+
+  @Input('class')
+  public klass: string;
+
+  @Input()
+  public mode;
+
+  @Input()
+  set heading(value) {
+    this.title = value;
+  }
+
+  @Output()
+  public changed = new EventEmitter<AttributeItem[]>();
+
   public title: string;
   public attributes: AttributeItem[] = [];
   public selectedAttributes: AttributeItem[] = [];
 
   public attributeConfig: AttributeConfigItem;
-  private destroy$ = new Subject();
-
-  @Input() data;
-  @Input() set heading(value) {
-    this.title = value;
-  }
-  @Input('class') klass: string;
-  @Input() public mode;
-  @Output() changed = new EventEmitter<AttributeItem[]>();
+  private _destroy$ = new Subject();
 
   constructor(
     public attributesConfig: AttributesConfig,
     private dialog: MatDialog,
-    @Inject(FS_ATTRIBUTE_CONFIG) private fsAttributeConfig: FsAttributeConfig
   ) {}
 
   public ngOnInit() {
@@ -55,7 +61,7 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
 
     this.attributesConfig.getSelectedAttributes(e)
     .pipe(
-      takeUntil(this.destroy$)
+      takeUntil(this._destroy$)
     )
     .subscribe((response) => {
       this.attributes = response.data;
@@ -69,7 +75,7 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
 
     this.changed
       .pipe(
-        takeUntil(this.destroy$)
+        takeUntil(this._destroy$)
       )
       .subscribe((attributes) => {
         this.selectedAttributes = attributes;
@@ -77,8 +83,8 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 
   public select() {
@@ -93,7 +99,7 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
 
     dialogRef.afterClosed()
       .pipe(
-        takeUntil(this.destroy$)
+        takeUntil(this._destroy$)
       )
       .subscribe(response => {
         if (response && response.attributes) {

@@ -10,11 +10,16 @@ import { Subject } from 'rxjs';
 })
 export class FsAttributesComponent implements OnInit, OnDestroy {
 
-  @Input() config: any;
-  @Input() attributes: any = [];
-  @Input('class') klass: string;
+  @Input()
+  public config: any;
 
-  public $destroy = new Subject();
+  @Input()
+  public attributes: any = [];
+
+  @Input('class')
+  public klass: string;
+
+  public _destroy$ = new Subject();
 
   constructor() {}
 
@@ -22,7 +27,7 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    this.$destroy.next();
-    this.$destroy.complete();
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 }

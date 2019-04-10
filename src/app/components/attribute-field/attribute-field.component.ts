@@ -19,17 +19,24 @@ import { AttributeItem } from '../../models/attribute';
 })
 export class FsAttributeFieldComponent implements OnInit, OnDestroy {
 
+  @Input()
+  public data;
+
+  @Input()
+  set heading(value) {
+    this.title = value;
+  }
+
+  @Input('class')
+  public klass: string;
+
+  @Output()
+  public changed = new EventEmitter<AttributeItem[]>();
+
   public title: string;
   public attributes: AttributeItem[] = [];
   public attributeConfig: any = {};
   private destroy$ = new Subject();
-
-  @Input() data;
-  @Input() set heading(value) {
-    this.title = value;
-  }
-  @Input('class') klass: string;
-  @Output() changed = new EventEmitter<AttributeItem[]>();
 
   constructor(
     public attributesConfig: AttributesConfig,

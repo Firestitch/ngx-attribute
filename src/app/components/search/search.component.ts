@@ -9,7 +9,8 @@ import { Component, EventEmitter, Output } from '@angular/core';
 })
 export class AttributeSearchComponent {
 
-  @Output() public keyword = new EventEmitter();
+  @Output()
+  public keyword = new EventEmitter();
 
   public searchText = '';
 
