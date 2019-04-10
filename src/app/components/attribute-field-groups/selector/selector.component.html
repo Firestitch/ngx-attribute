@@ -1,6 +1,8 @@
 <div mat-dialog-title>Select {{attributeConfig?.child?.pluralName}}</div>
 <mat-dialog-content>
 
+  <fs-attribute-search (keyword)="search($event)"></fs-attribute-search>
+
   <div class="group-container"
        *ngFor="let attribute of attributes"
   >

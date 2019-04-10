@@ -100,9 +100,10 @@ export class FsAttributeTreeSelectorComponent implements OnInit, OnDestroy {
       });
   }
 
-  private fetch() {
+  private fetch(keyword = null) {
     const e = {
       query: {},
+      keyword: keyword,
       class: this.data.class,
       data: this.data.data
     };
@@ -114,5 +115,9 @@ export class FsAttributeTreeSelectorComponent implements OnInit, OnDestroy {
       .subscribe((response) => {
         this.attributes = response.data;
       });
+  }
+
+  public search(text) {
+    this.fetch(text);
   }
 }
