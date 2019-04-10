@@ -3,20 +3,21 @@ import { clone } from 'lodash-es';
 import { AttributeConfigItem } from './attribute-config';
 import { getAttributeValue, setAttributeValue } from '../helpers/helpers';
 import { AttributesConfig } from '../services/attributes-config';
-import { AttributeImage } from '../enums/enums';
+import { AttributeColor, AttributeImage } from '../enums/enums';
 
 
 export class AttributeItem {
   public id = null;
   public klass = null;
   public name = null;
-  public backgroundColor = null;
-  public color = null;
   public configs = null;
+
   private _children: AttributeItem[] = [];
   private _config: AttributeConfigItem;
 
   private _image = null;
+  private _backgroundColor = null;
+  private _color = null;
 
   private _attributesConfig: AttributesConfig;
   private _parent: AttributeItem;
@@ -36,6 +37,22 @@ export class AttributeItem {
 
   set image(value) {
     this.setImage(value);
+  }
+
+  get backgroundColor() {
+    return this._backgroundColor;
+  }
+
+  set backgroundColor(value) {
+    this.setBackgroundColor(value);
+  }
+
+  get color() {
+    return this._color;
+  }
+
+  set color(value) {
+    this.setColor(value);
   }
 
   get children() {
@@ -67,6 +84,25 @@ export class AttributeItem {
     }
   }
 
+  public setBackgroundColor(value) {
+    if (this._config.backgroundColor === AttributeColor.Parent && this.parent) {
+      this._backgroundColor = this.parent.backgroundColor;
+    } else {
+      this._backgroundColor = value;
+    }
+  }
+
+  public setColor(value) {
+    if (this._config.color === AttributeColor.Parent && this.parent) {
+      this._color = this.parent.color;
+    } else {
+      this._color = value;
+    }
+  }
+
+  /**
+   * Prepare attirubte for save on the server
+   */
   public toJSON() {
     const mapping = this._config.mapping;
 
@@ -91,6 +127,11 @@ export class AttributeItem {
     return this._attribute;
   }
 
+  /**
+   * Data for using in attributes
+   *
+   * Unlike toJSON() this method will return an object based on mapping
+   */
   public getData() {
     const mapping = this._config.mapping;
     const attribute = {
@@ -125,10 +166,11 @@ export class AttributeItem {
     this.klass = data.class;
     this.id = getAttributeValue(data, mapping.id);
     this.name = getAttributeValue(data, mapping.name);
-    this.setImage(getAttributeValue(data, mapping.image));
-    this.backgroundColor = getAttributeValue(data, mapping.backgroundColor);
-    this.color = getAttributeValue(data, mapping.color);
     this.configs = getAttributeValue(data, mapping.configs);
+
+    this.setImage(getAttributeValue(data, mapping.image));
+    this.setBackgroundColor(getAttributeValue(data, mapping.backgroundColor));
+    this.setColor(getAttributeValue(data, mapping.color));
   }
 
   private _initChildren(data) {

@@ -1,12 +1,13 @@
 <fs-autocomplete-chips
-    [(ngModel)]="model"
-    [fetch]="fetch"
-    placeholder="Select..."
-    removable="true"
-    draggable="true"
-    (selected)="change(model)"
-    (remove)="change(model)"
-    (drop)="change(model)">
+  removable="true"
+  [(ngModel)]="model"
+  [fetch]="fetch"
+  [placeholder]="label"
+  [draggable]="draggable"
+  (selected)="change(model)"
+  (remove)="change(model)"
+  (drop)="change(model)"
+>
   <ng-template let-data="item" fs-autocomplete-chip>
     <div class="option">
       <img *ngIf="data.image" [src]="data.image" alt="">

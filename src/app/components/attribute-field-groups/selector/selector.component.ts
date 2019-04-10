@@ -18,7 +18,8 @@ import { AttributeItem } from '../../../models/attribute';
 })
 export class FsAttributeTreeSelectorComponent implements OnInit, OnDestroy {
 
-  @Output() public selectedToggled = new EventEmitter();
+  @Output()
+  public selectedToggled = new EventEmitter();
 
   public selectedAttributes = [];
   public attributes: AttributeItem[] = [];

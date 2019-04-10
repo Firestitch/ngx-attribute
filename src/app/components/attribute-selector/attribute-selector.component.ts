@@ -6,7 +6,6 @@ import { takeUntil } from 'rxjs/operators';
 import { clone, filter, map } from 'lodash-es';
 
 import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.component';
-import { FsAttributeManageComponent } from '../attribute-manage/attribute-manage.component';
 import { AttributeConfigItem } from '../../models/attribute-config';
 import { AttributesConfig } from '../../services/attributes-config';
 import { AttributeItem } from '../../models/attribute';
@@ -18,7 +17,8 @@ import { AttributeItem } from '../../models/attribute';
 })
 export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
 
-  @Output() selectedToggled = new EventEmitter();
+  @Output()
+  public selectedToggled = new EventEmitter();
 
   public selectedAttributes = [];
   public attributes: AttributeItem[] = [];

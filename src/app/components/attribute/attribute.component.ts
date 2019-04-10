@@ -13,11 +13,20 @@ export class FsAttributeComponent implements OnInit {
 
   @HostBinding('class') hostClass = '';
 
-  @Input() config: any = { background: true, color: true, image: true};
-  @Input() removable: any;
-  @Input() selectable: any;
-  @Input() selected: any;
-  @Input() set attribute(value) {
+  @Input()
+  public config: any = { background: true, color: true, image: true};
+
+  @Input()
+  public removable: any;
+
+  @Input()
+  public selectable: any;
+
+  @Input()
+  public selected: any;
+
+  @Input()
+  set attribute(value) {
     if (value instanceof AttributeItem) {
       this._attribute = value;
     } else {
@@ -25,8 +34,11 @@ export class FsAttributeComponent implements OnInit {
     }
   }
 
-  @Input('class') klass = '';
-  @Output() selectedToggled = new EventEmitter();
+  @Input('class')
+  public klass = '';
+
+  @Output()
+  public selectedToggled = new EventEmitter();
 
   private _attribute: AttributeItem;
 

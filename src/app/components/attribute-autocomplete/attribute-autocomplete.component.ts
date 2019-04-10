@@ -16,23 +16,35 @@ import { AttributeConfigItem } from '../../models/attribute-config';
 })
 export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy {
 
+  @Input()
+  public data;
+
+  @Input('class')
+  public klass;
+
+  @Input()
+  public label = 'Select...';
+
+  @Input()
+  public draggable = true;
+
+  @Output()
+  public changed = new EventEmitter();
+
   public attributes: AttributeItem[] = [];
   public attributeConfig: AttributeConfigItem;
-  public label = '';
   public model;
 
   private _destroy$ = new Subject();
 
-  @Input() data;
-  @Input('class') klass;
-  @Output() changed = new EventEmitter();
-
   constructor(public attributesConfig: AttributesConfig) {}
 
   public ngOnInit() {
-
     this.attributeConfig = this.attributesConfig.configs.get(this.klass);
-    this.label = this.attributeConfig.name;
+
+    if (!this.label) {
+      this.label = this.attributeConfig.name;
+    }
   }
 
   public change(model) {

@@ -5,6 +5,8 @@ import { takeUntil } from 'rxjs/operators';
 import { filter } from 'lodash-es';
 
 import { AttributesConfig } from '../../services/attributes-config';
+import { AttributeConfigItem } from '../../models/attribute-config';
+import { AttributeItem } from '../../models/attribute';
 
 
 @Component({
@@ -14,27 +16,37 @@ import { AttributesConfig } from '../../services/attributes-config';
 })
 export class FsAttributeSelectComponent implements OnInit, OnDestroy {
 
-  public attributes: any = [];
-  public attributeConfig: any = {};
-  public label = '';
-  private $destroy = new Subject();
+  @Input()
+  public data;
 
-  @Input() data;
-  @Input('class') klass;
-  @Output() changed = new EventEmitter();
+  @Input('class')
+  public klass;
+
+  @Input()
+  public label;
+
+  @Output()
+  public changed = new EventEmitter();
+
+  public attributes: AttributeItem[] = [];
+  public attributeConfig: AttributeConfigItem;
+  private _destroy$ = new Subject();
 
   constructor(public attributesConfig: AttributesConfig) {}
 
   public ngOnInit() {
     this.attributeConfig = this.attributesConfig.configs.get(this.klass);
-    this.label = this.attributeConfig.name;
+
+    if (!this.label) {
+      this.label = this.attributeConfig.name;
+    }
 
     this.fetch();
   }
 
   public ngOnDestroy() {
-    this.$destroy.next();
-    this.$destroy.complete();
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 
   public selectionChange(e) {
@@ -49,7 +61,7 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy {
 
     this.attributesConfig.getAttributes(e)
       .pipe(
-        takeUntil(this.$destroy)
+        takeUntil(this._destroy$)
       )
       .subscribe((response) => {
         this.attributes =  response.data;
