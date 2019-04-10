@@ -1,7 +1,7 @@
-import { Component, Input, Output, EventEmitter, Inject, OnInit, OnChanges, HostBinding } from '@angular/core';
+import { Component, Input, Output, EventEmitter, OnInit, HostBinding } from '@angular/core';
 import { filter } from 'lodash-es';
-import { FS_ATTRIBUTE_CONFIG } from '../../providers';
-import { getAttributeValue } from '../../helpers/helpers';
+import { AttributeItem } from '../../models/attribute';
+import { AttributesConfig } from '../../services/attributes-config';
 
 
 @Component({
@@ -9,64 +9,41 @@ import { getAttributeValue } from '../../helpers/helpers';
   templateUrl: './attribute.component.html',
   styleUrls: [ './attribute.component.scss' ],
 })
-export class FsAttributeComponent implements OnInit, OnChanges {
+export class FsAttributeComponent implements OnInit {
 
   @HostBinding('class') hostClass = '';
-
 
   @Input() config: any = { background: true, color: true, image: true};
   @Input() removable: any;
   @Input() selectable: any;
   @Input() selected: any;
-  @Input() attribute: any = {};
-  @Input() class = '';
+  @Input() set attribute(value) {
+    if (value instanceof AttributeItem) {
+      this._attribute = value;
+    } else {
+      this._attribute = new AttributeItem(value, this._attributesConfig);
+    }
+  }
+
+  @Input('class') klass = '';
   @Output() selectedToggled = new EventEmitter();
 
-  public backgroundColor;
-  public color;
-  public image;
+  private _attribute: AttributeItem;
 
-  constructor(@Inject(FS_ATTRIBUTE_CONFIG) private fsAttributeConfig) {}
+  constructor(private _attributesConfig: AttributesConfig) {}
 
-  private init() {
-
-    if (!this.config || !this.attribute) {
-      return;
-    }
-
-    if (!this.selectable && this.config.backgroundColor) {
-      this.backgroundColor = this.getAttributeValue('backgroundColor');
-    } else {
-      this.backgroundColor = '';
-    }
-
-    if ((this.selected || !this.selectable) && this.config.color) {
-      this.color = this.getAttributeValue('color');
-    }
-
-    this.image = this.config.image ? this.getAttributeValue('image') : '';
+  get attribute() {
+    return this._attribute;
   }
 
-  private getAttributeValue(name) {
-    const mapping = this.fsAttributeConfig.mapping[name];
-    return getAttributeValue(this.attribute, mapping);
-  }
+  public ngOnInit() {
+    const config = this._attributesConfig.configs.get(this.klass);
 
-  ngOnChanges() {
-    this.init();
-  }
-
-  ngOnInit() {
-
-    const config = filter(this.fsAttributeConfig.configs, { class: this.class })[0];
-
-    this.hostClass = 'fs-attribute fs-attribute-' + this.class;
+    this.hostClass = 'fs-attribute fs-attribute-' + this.klass;
 
     if (config) {
       this.config = config
     }
-
-    this.init();
   }
 }
 

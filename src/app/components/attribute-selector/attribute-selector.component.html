@@ -10,7 +10,7 @@
       [image]="attribute.image"
       [backgroundColor]="attribute.backgroundColor"
       [value]="attribute"
-      (selectedToggled)="selectedToggled.emit($event)">
+      (selectedToggled)="selectedToggle($event)">
       {{ attribute.name }}
     </fs-chip>
   </fs-chips>

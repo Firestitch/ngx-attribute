@@ -1,25 +1,29 @@
 <form (fsForm)="save()">
-  <div mat-dialog-title>{{ id ? 'Edit' : 'Create'}} {{attributeConfig.name}}</div>
+  <div mat-dialog-title>{{ attribute.id ? 'Edit' : 'Create'}} {{attributeConfig?.name}}</div>
   <mat-dialog-content>
     <div class="fields">
 
+      url? - {{attribute.image}}
       <fs-file-image-picker
         (select)="selectImage($event)"
-        [url]="image"
+        [url]="attribute.image"
         imageQuality=".8"
         imageWidth="500"
         imageHeight="500"
         previewDiameter="75"
         label="Image"
-        *ngIf="attributeConfig.image">
+        *ngIf="attributeConfig?.image">
       </fs-file-image-picker>
 
       <mat-form-field>
-        <input matInput placeholder="Name" [(ngModel)]="name" name="name">
+        <input matInput placeholder="Name" [(ngModel)]="attribute.name" name="name">
       </mat-form-field>
 
+      <fs-attribute-select *ngIf="parentSelector" [class]="parentSelector" (changed)="parentSelected($event)">
+      </fs-attribute-select>
+
       <mat-form-field *ngIf="attributeConfig.backgroundColor">
-        <input matInput placeholder="Color" fsColorPicker [(ngModel)]="backgroundColor" name="color">
+        <input matInput placeholder="Color" fsColorPicker [(ngModel)]="attribute.backgroundColor" name="color">
       </mat-form-field>
 
       <ng-container *ngFor="let field of attributeConfig.fields">
@@ -28,7 +32,7 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button mat-button color="primary">{{ id ? 'Save' : 'Create'}}</button>
+    <button mat-button color="primary">{{ attribute.id ? 'Save' : 'Create'}}</button>
     <button mat-button (click)="close()" type="button">Cancel</button>
   </mat-dialog-actions>
 </form>

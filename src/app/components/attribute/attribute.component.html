@@ -1,12 +1,11 @@
-
-  <fs-chip
-    [removable]="removable"
-    [selectable]="selectable"
-    [selected]="selected"
-    [backgroundColor]="backgroundColor"
-    [color]="color"
-    [image]="image"
-    (selectedToggled)="selectedToggled.emit($event)"
-    [value]="attribute">
-    <ng-content></ng-content>
-  </fs-chip>
+<fs-chip
+  [removable]="removable"
+  [selectable]="selectable"
+  [selected]="selected"
+  [backgroundColor]="attribute?.backgroundColor"
+  [color]="attribute?.color"
+  [image]="attribute?.image"
+  (selectedToggled)="selectedToggled.emit($event)"
+  [value]="attribute">
+  <ng-content></ng-content>
+</fs-chip>

@@ -1,13 +1,14 @@
-import { Component, Inject, OnInit, OnDestroy } from '@angular/core';
+import { Component, Inject, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { filter, cloneDeep } from 'lodash-es';
 
-import { FS_ATTRIBUTE_CONFIG } from '../../providers';
-import { FsAttributeConfig } from '../../interfaces/attribute-config.interface';
+import { AttributesConfig } from '../../services/attributes-config';
+import { AttributeConfigItem } from '../../models/attribute-config';
 import { getAttributeValue } from '../../helpers/helpers';
+import { AttributeItem } from '../../models/attribute';
 
 
 @Component({
@@ -16,84 +17,86 @@ import { getAttributeValue } from '../../helpers/helpers';
 })
 export class FsAttributeEditComponent implements OnInit, OnDestroy {
 
-  public attribute: any;
-  public attributeConfig: any;
-  public image;
-  public backgroundColor;
-  public name;
-  public id;
+  public attribute: AttributeItem;
+  public attributeConfig: AttributeConfigItem;
 
-  private destroy$ = new Subject();
+  public parentSelector: string;
+  public selectedParent: AttributeItem;
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
-              @Inject(FS_ATTRIBUTE_CONFIG) private fsAttributeConfig: FsAttributeConfig,
-              private dialogRef: MatDialogRef<FsAttributeEditComponent>) {
+  private _destroy$ = new Subject<void>();
+
+  constructor(
+    public attributesConfig: AttributesConfig,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialogRef: MatDialogRef<FsAttributeEditComponent>,
+    private _cd: ChangeDetectorRef,
+  ) {
     const attribute = this.data.attribute;
     this.attribute = attribute && cloneDeep(attribute) || {};
+
+    this.parentSelector = this.data.selectParent;
   }
 
-  ngOnInit() {
-    this.attributeConfig = filter(this.fsAttributeConfig.configs, { class: this.data.class })[0] || {};
-
-    const mapping = this.fsAttributeConfig.mapping;
-
-    this.id = getAttributeValue(this.attribute, mapping.id);
-    this.name = getAttributeValue(this.attribute, mapping.name);
-    this.backgroundColor = getAttributeValue(this.attribute, mapping.backgroundColor);
-    this.image = getAttributeValue(this.attribute, mapping.image);
+  public ngOnInit() {
+    this.attributeConfig = this.attributesConfig.configs.get(this.data.klass);
   }
 
-  selectImage(file) {
+  public selectImage(file) {
 
     const e = {
       attribute: this.attribute,
-      class: this.data.class,
+      class: this.data.klass,
       data: this.data.data,
       file: file
     };
 
-    this.fsAttributeConfig.saveAttributeImage(e)
+    this.attributesConfig.saveAttributeImage(e)
       .pipe(
-        takeUntil(this.destroy$),
+        takeUntil(this._destroy$),
       )
-      .subscribe((attribute) => {
-        this.attribute = attribute;
+      .subscribe((response: any) => {
+        this.attribute.image = getAttributeValue(response.attribute, this.attributeConfig.mapping.image);
+        this._cd.detectChanges();
       });
   }
 
-  save() {
-    const mapping = this.fsAttributeConfig.mapping;
-
-    this.attribute[mapping.name] = this.name;
-    this.attribute[mapping.backgroundColor] = this.backgroundColor;
+  public save() {
+    // const mapping = this.fsAttributeConfig.mapping;
+    //
+    // this.attribute[mapping.name] = this.name;
+    // this.attribute[mapping.backgroundColor] = this.backgroundColor;
 
     this.saveAttribute();
   }
 
   public saveAttribute() {
-
     const eventData = {
-      attribute: this.attribute,
-      class: this.data.class,
+      attribute: this.attribute.toJSON(),
+      class: this.data.klass,
       data: this.data.data,
-      parent: this.data.parent,
+      parent: this.selectedParent,
     };
 
-    this.fsAttributeConfig.saveAttribute(eventData)
+    this.attributesConfig.saveAttribute(eventData)
       .pipe(
-        takeUntil(this.destroy$)
+        takeUntil(this._destroy$)
       )
-      .subscribe((response) => {
+      .subscribe((response: any) => {
+        response.parent = this.selectedParent;
         this.close(response);
       });
   }
 
-  close(data = null) {
+  public close(data = null) {
     this.dialogRef.close(data);
   }
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
+  public parentSelected(event) {
+    this.selectedParent = event;
+  }
+
+  public ngOnDestroy() {
+    this._destroy$.next();
+    this._destroy$.complete();
   }
 }

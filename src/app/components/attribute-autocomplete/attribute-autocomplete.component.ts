@@ -1,12 +1,13 @@
-import { Component, EventEmitter, Inject, Input, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, OnDestroy, OnInit, Output } from '@angular/core';
 
-import { Observable, Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
-import { filter, map } from 'lodash-es';
+import { Subject } from 'rxjs';
+import { takeUntil, map, shareReplay } from 'rxjs/operators';
+import { filter } from 'lodash-es';
 
-import { FS_ATTRIBUTE_CONFIG } from '../../providers';
-import { FsAttributeConfig } from '../../interfaces/attribute-config.interface';
-import { wrapAttributes } from '../../helpers/helpers';
+import { AttributeItem } from '../../models/attribute';
+import { AttributesConfig } from '../../services/attributes-config';
+import { AttributeConfigItem } from '../../models/attribute-config';
+
 
 @Component({
   selector: 'fs-attribute-autocomplete',
@@ -15,53 +16,52 @@ import { wrapAttributes } from '../../helpers/helpers';
 })
 export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy {
 
-  public attributes: any = [];
-  public attributeConfig: any = {};
+  public attributes: AttributeItem[] = [];
+  public attributeConfig: AttributeConfigItem;
   public label = '';
   public model;
 
-  private destroy$ = new Subject();
-
-  public fetch = (keyword) => {
-    return new Observable(observer => {
-      this.fsAttributeConfig.getAttributes({ keyword: keyword })
-        .pipe(
-          takeUntil(this.destroy$)
-        )
-        .subscribe((response) => {
-          observer.next(wrapAttributes(this.fsAttributeConfig, response.data));
-          observer.complete();
-        });
-    });
-  };
-
-  private  = new Subject();
+  private _destroy$ = new Subject();
 
   @Input() data;
-  @Input('class') class;
+  @Input('class') klass;
   @Output() changed = new EventEmitter();
 
-  constructor(@Inject(FS_ATTRIBUTE_CONFIG) private fsAttributeConfig: FsAttributeConfig) {
-  }
+  constructor(public attributesConfig: AttributesConfig) {}
 
-  ngOnInit() {
+  public ngOnInit() {
 
-    this.attributeConfig = filter(this.fsAttributeConfig.configs, { class: this.class })[0] || {};
+    this.attributeConfig = this.attributesConfig.configs.get(this.klass);
     this.label = this.attributeConfig.name;
+  }
 
-    const e = {
+  public change(model) {
+    this.changed.emit(model);
+  }
+
+  public ngOnDestroy() {
+    this._destroy$.next();
+    this._destroy$.complete();
+  }
+
+  public fetch = (keyword) => {
+    const attrs$ = this.attributesConfig.getAttributes({
+      class: this.klass,
       data: this.data,
-      class: this.class
-    };
-  }
+      keyword: keyword,
+    })
+      .pipe(
+        map((response) => {
+          return response.data;
+        }),
+        shareReplay(1),
+        takeUntil(this._destroy$)
+      );
 
-  change(model) {
-    const attributes = map(model, 'attribute');
-    this.changed.emit(attributes);
-  }
+    attrs$.subscribe((response: any) => {
+      this.attributes = response.data;
+    });
 
-  ngOnDestroy() {
-    this.destroy$.next();
-    this.destroy$.complete();
-  }
+    return attrs$;
+  };
 }

@@ -1,7 +1,6 @@
 import {
   Component,
   EventEmitter,
-  Inject,
   Input,
   OnDestroy,
   OnInit,
@@ -17,9 +16,10 @@ import { filter } from 'lodash-es';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { FsAttributeConfig } from '../../interfaces/attribute-config.interface'
-import { FS_ATTRIBUTE_CONFIG } from '../../providers';
 import { FsAttributeEditComponent } from '../attribute-edit';
+import { AttributesConfig } from '../../services/attributes-config';
+import { AttributeConfigItem } from '../../models/attribute-config';
+import { AttributeItem } from '../../models/attribute';
 
 
 @Component({
@@ -28,9 +28,9 @@ import { FsAttributeEditComponent } from '../attribute-edit';
   styleUrls: ['./attribute-tree.component.scss'],
 })
 export class FsAttributeTreeComponent implements OnInit, OnDestroy {
-  public attributes: any = [];
-  public attributeConfig: any = {};
-  public childAttributeConfig: any = {};
+  public attributes: AttributeItem[] = [];
+  public attributeConfig: AttributeConfigItem;
+  public childAttributeConfig: AttributeConfigItem;
 
   @Input() data;
   @Input('class') klass;
@@ -47,14 +47,15 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
 
   private _destroy$ = new Subject();
 
-  constructor(private dialog: MatDialog,
-              @Inject(FS_ATTRIBUTE_CONFIG) private fsAttributeConfig: FsAttributeConfig) {
-  }
+  constructor(
+    public attributesConfig: AttributesConfig,
+    private dialog: MatDialog,
+  ) {}
 
 
   public ngOnInit() {
-    this.attributeConfig = filter(this.fsAttributeConfig.configs, { class: this.klass })[0] || {};
-    this.childAttributeConfig = filter(this.fsAttributeConfig.configs, { class: this.attributeConfig.childClass })[0] || {};
+    this.attributeConfig = this.attributesConfig.configs.get(this.klass);
+    this.childAttributeConfig = this.attributeConfig.child;
 
     this._loadData();
   }
@@ -73,31 +74,38 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
   }
 
   public createRootNode() {
+
+    const attribute = new AttributeItem(
+      { class: this.attributeConfig.klass },
+      this.attributesConfig
+    );
+
     const dialogRef = this.dialog.open(FsAttributeEditComponent, {
       data: {
-        attibute: {},
-        class: this.klass,
-        type: 'tree',
+        attribute: attribute,
+        klass: this.klass,
       }
     });
 
-    dialogRef.afterClosed().subscribe((response) => {
-      if (response && response.attribute) {
-        this.tree.appendElement(response.attribute)
+    dialogRef.afterClosed().subscribe((result) => {
+      if (result && result.attribute) {
+        const data = new AttributeItem(result.attribute, this.attributesConfig);
+
+        this.tree.appendElement(data.getData())
       }
     });
   }
 
   private _loadData() {
-    this.fsAttributeConfig.getAttributeTree({
+    this.attributesConfig.getAttributeTree({
       class: this.klass
     })
       .pipe(
         takeUntil(this._destroy$),
       )
       .subscribe((response) => {
-        if (response && response.attributes) {
-          this.attributes = response.attributes;
+        if (response && response.data) {
+          this.attributes = response.data;
           this._setTreeConfig();
         }
       });
@@ -108,12 +116,12 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
       data: this.attributes,
       levels: 2,
       selection: false,
-      childrenName: this.fsAttributeConfig.mapping.childAttributes,
+      childrenName: this.attributeConfig.mapping.childAttributes,
       changed: (data) => {
         this.changed.next(data);
       },
-      sortBy: this.fsAttributeConfig.sortByAttributeTree,
-      canDrop: this.fsAttributeConfig.reorderAttributeTree,
+      sortBy: this.attributesConfig.sortByAttributeTree.bind(this.attributesConfig),
+      canDrop: this.attributesConfig.reorderAttributeTree.bind(this.attributesConfig),
       actions: [
         {
           type: TreeActionType.Menu,
@@ -124,8 +132,8 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
               click: (node) => {
                 const dialogRef = this.dialog.open(FsAttributeEditComponent, {
                   data: {
-                    attribute: node.data,
-                    class: node.data.class,
+                    attribute: node.data.original,
+                    klass: node.data.class,
                     data: this.data,
                     parent: node.parent && node.parent.data,
                   }
@@ -137,7 +145,10 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
                   )
                   .subscribe((result) => {
                     if (result) {
-                      this.tree.updateElementData(result.attribute, node);
+                      const orig = node.data.original;
+                      const data = new AttributeItem(result.attribute, orig.attributesConfig, orig.parent);
+
+                      this.tree.updateElementData(data.getData(), node);
                     }
                   });
               }
@@ -148,10 +159,15 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
                 return node.level === 0;
               },
               click: (node) => {
+                const attribute = new AttributeItem(
+                  { class: this.attributeConfig.childClass },
+                  this.attributesConfig
+                );
+
                 const dialogRef = this.dialog.open(FsAttributeEditComponent, {
                   data: {
-                    attribute: {},
-                    class: this.attributeConfig.childClass,
+                    attribute: attribute,
+                    klass: this.attributeConfig.childClass,
                     data: this.data,
                     parent: node.data,
                   }
@@ -161,9 +177,17 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
                   .pipe(
                     takeUntil(this._destroy$),
                   )
-                  .subscribe((response) => {
-                    if (response && response.attribute) {
-                      this.tree.appendElement(response.attribute, node);
+                  .subscribe((result) => {
+                    if (result && result.attribute) {
+                      const orig = node.data.original;
+
+                      const data = new AttributeItem(
+                        result.attribute,
+                        orig.attributesConfig,
+                        node.data.original
+                      );
+
+                      this.tree.appendElement(data.getData(), node);
                     }
                   });
               }
@@ -171,7 +195,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
             {
               label: 'Delete',
               click: (node) => {
-                this.fsAttributeConfig.deleteAttribute(node.data)
+                this.attributesConfig.deleteAttribute(node.data)
                   .subscribe(() => {
                     this.tree.removeNode(node);
                   });
