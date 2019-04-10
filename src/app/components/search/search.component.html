@@ -1,0 +1,9 @@
+<form autocomplete="off" role="presentation">
+  <mat-form-field class="attributes-filter-input" floatLabel="never">
+    <span matPrefix><mat-icon matPrefix>search</mat-icon></span>
+
+    <input matInput [(ngModel)]="searchText" name="attributes-filter-input" (ngModelChange)="modelChange(searchText)">
+
+    <mat-placeholder>Search</mat-placeholder>
+  </mat-form-field>
+</form>

@@ -36,6 +36,7 @@ import { FsAttributeComponentWrapperComponent } from './components/attribute-lis
 import { FsAttributeTreeComponent } from './components/attribute-tree/attribute-tree.component';
 import { FsAttributeFieldGroupsComponent } from './components/attribute-field-groups/attribute-field-groups.component';
 import { FsAttributeTreeSelectorComponent } from './components/attribute-field-groups/selector/selector.component';
+import { AttributeSearchComponent } from './components/search/search.component';
 
 import { FS_ATTRIBUTE_DEFAULT_CONFIG } from './providers';
 import { FsAttributeConfig } from './interfaces/attribute-config.interface';
@@ -93,6 +94,7 @@ import { AttributesConfig } from './services/attributes-config';
     FsAttributeTreeComponent,
     FsAttributeFieldGroupsComponent,
     FsAttributeTreeSelectorComponent,
+    AttributeSearchComponent,
   ]
 })
 export class FsAttributeModule {
