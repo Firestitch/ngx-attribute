@@ -132,7 +132,7 @@ export class AttributeItem {
    *
    * Unlike toJSON() this method will return an object based on mapping
    */
-  public getData() {
+  public getData(): any {
     const mapping = this._config.mapping;
     const attribute = {
       class: this.klass,

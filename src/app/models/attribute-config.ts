@@ -1,4 +1,4 @@
-import { AttributeColor, AttributeOrder } from '@firestitch/attribute';
+import { AttributeColor, AttributeOrder } from '../enums/enums';
 
 export class AttributeConfigItem {
   public parent: AttributeConfigItem;
