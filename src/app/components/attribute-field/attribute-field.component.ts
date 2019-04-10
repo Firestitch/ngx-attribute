@@ -79,8 +79,9 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
       data: {
         selectedAttributes: this.attributes.slice(),
         class: this.klass,
-        data: this.data
-      }
+        data: this.data,
+      },
+      panelClass: `fs-attribute-${this.klass}`,
     });
 
     dialogRef.afterClosed()

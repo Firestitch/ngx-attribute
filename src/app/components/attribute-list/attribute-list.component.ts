@@ -53,7 +53,8 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         attribute: attribute,
         class: this.klass,
         data: this.data,
-      }
+      },
+      panelClass: `fs-attribute-${this.klass}`,
     });
 
     dialogRef.afterClosed()
@@ -89,6 +90,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
                 attribute: new AttributeItem({ class: this.klass }, this.attributesConfig),
                 klass: this.klass,
                 data: this.data,
+                panelClass: `fs-attribute-${this.klass}`,
               }
             });
 
@@ -105,7 +107,8 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
               data: {
                 attribute: row,
                 klass: this.klass,
-              }
+              },
+              panelClass: `fs-attribute-${this.klass}`,
             });
 
             dialogRef.afterClosed().subscribe(response => {
