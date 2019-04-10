@@ -1,4 +1,4 @@
-import { get as _get } from 'lodash-es';
+import { get as _get, set as _set } from 'lodash-es';
 
 export function getAttributeValue(attribute, mapping): any {
   if (!mapping) {
@@ -6,6 +6,14 @@ export function getAttributeValue(attribute, mapping): any {
   }
 
   return _get(attribute, mapping);
+}
+
+export function setAttributeValue(attribute, mapping, value): any {
+  if (!mapping) {
+    return null;
+  }
+
+  return _set(attribute, mapping, value);
 }
 
 export function wrapAttributes(fsAttributeConfig, items) {

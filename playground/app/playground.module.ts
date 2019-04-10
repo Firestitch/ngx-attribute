@@ -35,6 +35,7 @@ import { FsChipModule } from '@firestitch/chip';
 import { FsListModule } from '@firestitch/list';
 import { FsScrollModule } from '@firestitch/scroll';
 import { FsFileModule } from '@firestitch/file';
+import { FieldWithGroupsExampleComponent } from './components/field-with-groups-example';
 
 const routes: Routes = [
   { path: '', component: ExamplesComponent },
@@ -67,6 +68,7 @@ const routes: Routes = [
     ExamplesComponent,
     ConfigExampleComponent,
     FieldExampleComponent,
+    FieldWithGroupsExampleComponent,
     ListExampleComponent,
     AttribtuesExampleComponent,
     SelectFieldExampleComponent,

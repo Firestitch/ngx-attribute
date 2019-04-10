@@ -34,9 +34,12 @@ import { FsAttributeSelectComponent } from './components/attribute-select/attrib
 import { FsAttributeAutocompleteComponent } from './components/attribute-autocomplete/attribute-autocomplete.component';
 import { FsAttributeComponentWrapperComponent } from './components/attribute-list/component-wrapper/component-wrapper.component';
 import { FsAttributeTreeComponent } from './components/attribute-tree/attribute-tree.component';
+import { FsAttributeFieldGroupsComponent } from './components/attribute-field-groups/attribute-field-groups.component';
+import { FsAttributeTreeSelectorComponent } from './components/attribute-field-groups/selector/selector.component';
 
 import { FS_ATTRIBUTE_DEFAULT_CONFIG } from './providers';
 import { FsAttributeConfig } from './interfaces/attribute-config.interface';
+import { AttributesConfig } from './services/attributes-config';
 
 
 @NgModule({
@@ -68,10 +71,11 @@ import { FsAttributeConfig } from './interfaces/attribute-config.interface';
     FsAttributeSelectComponent,
     FsAttributeAutocompleteComponent,
     FsAttributeTreeComponent,
-
+    FsAttributeFieldGroupsComponent,
   ],
   entryComponents: [
     FsAttributeSelectorComponent,
+    FsAttributeTreeSelectorComponent,
     FsAttributeEditComponent,
     FsAttributeManageComponent,
   ],
@@ -87,6 +91,8 @@ import { FsAttributeConfig } from './interfaces/attribute-config.interface';
     FsAttributeAutocompleteComponent,
     FsAttributeComponentWrapperComponent,
     FsAttributeTreeComponent,
+    FsAttributeFieldGroupsComponent,
+    FsAttributeTreeSelectorComponent,
   ]
 })
 export class FsAttributeModule {
@@ -94,7 +100,8 @@ export class FsAttributeModule {
     return {
       ngModule: FsAttributeModule,
       providers: [
-        { provide: FS_ATTRIBUTE_DEFAULT_CONFIG, useValue: config || {} }
+        { provide: FS_ATTRIBUTE_DEFAULT_CONFIG, useValue: config || {} },
+        AttributesConfig,
       ]
     };
   }

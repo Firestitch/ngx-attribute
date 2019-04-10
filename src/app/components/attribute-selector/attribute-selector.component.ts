@@ -1,15 +1,15 @@
-import { Component, Inject, OnInit, Output, EventEmitter, OnDestroy } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialog } from '@angular/material';
+import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { filter, clone, map } from 'lodash-es';
+import { clone, filter, map } from 'lodash-es';
 
 import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.component';
 import { FsAttributeManageComponent } from '../attribute-manage/attribute-manage.component';
-import { FsAttributeConfig, AttributeConfig } from '../../interfaces/attribute-config.interface';
-import { FS_ATTRIBUTE_CONFIG } from '../../providers';
-import { wrapAttributes } from '../../helpers/helpers';
+import { AttributeConfigItem } from '../../models/attribute-config';
+import { AttributesConfig } from '../../services/attributes-config';
+import { AttributeItem } from '../../models/attribute';
 
 
 @Component({
@@ -18,71 +18,38 @@ import { wrapAttributes } from '../../helpers/helpers';
 })
 export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
 
-  public selectedAttributes = [];
-  public attributes = [];
-  public attributeConfig: AttributeConfig = null;
-  private $destroy = new Subject();
   @Output() selectedToggled = new EventEmitter();
 
-  constructor(@Inject(MAT_DIALOG_DATA) public data: any,
-              @Inject(FS_ATTRIBUTE_CONFIG) private fsAttributeConfig: FsAttributeConfig,
-              private dialogRef: MatDialogRef<FsAttributeSelectorComponent>,
-              private dialog: MatDialog) {
-    this.attributeConfig = filter(this.fsAttributeConfig.configs, { class: this.data.class })[0] || {};
-    this.selectedAttributes =  wrapAttributes(fsAttributeConfig, clone(this.data.selectedAttributes));
+  public selectedAttributes = [];
+  public attributes: AttributeItem[] = [];
+  public attributeConfig: AttributeConfigItem = null;
+
+  private _destroy$ = new Subject();
+
+  constructor(
+    public attributesConfig: AttributesConfig,
+    @Inject(MAT_DIALOG_DATA) public data: any,
+    private dialogRef: MatDialogRef<FsAttributeSelectorComponent>,
+    private dialog: MatDialog
+  ) {
+    this.attributeConfig = this.attributesConfig.configs.get(this.data.class);
+    this.selectedAttributes = this.data.selectedAttributes;
+  }
+
+  public ngOnInit() {
+    this.fetch();
+    this.initDialog();
   }
 
   public compare = (o1, o2) => {
-    return this.fsAttributeConfig.compareAttributes(o1, o2);
+    return this.attributesConfig.compareAttributes(o1, o2);
   };
 
-  ngOnInit() {
-
-
-    this.dialogRef.disableClose = true;
-    this.dialogRef.backdropClick().subscribe(result => {
-      this.done();
-    });
-
-    this.fetch();
-
-    this.selectedToggled
-    .pipe(
-      takeUntil(this.$destroy)
-    )
-    .subscribe((e: any) => {
-      e.data = this.data.data;
-      e.klass = this.data.class;
-      e.attribute = e.value;
-
-      this.fsAttributeConfig.attributeSelectionChanged(e)
-      .pipe(
-        takeUntil(this.$destroy)
-      )
-      .subscribe((e: any) => {});
-    });
+  public done() {
+    this.dialogRef.close({ attributes: this.selectedAttributes });
   }
 
-  private fetch() {
-    const e = { query: {},
-                class: this.data.class,
-                data: this.data.data };
-
-    this.fsAttributeConfig.getAttributes(e)
-    .pipe(
-      takeUntil(this.$destroy)
-    )
-    .subscribe(response => {
-      this.attributes = wrapAttributes(this.fsAttributeConfig, response.data);
-    });
-  }
-
-  done() {
-    const attributes = map(this.selectedAttributes, 'attribute');
-    this.dialogRef.close({ attributes: attributes });
-  }
-
-  create() {
+  public create() {
     const dialogRef = this.dialog.open(FsAttributeEditComponent, {
       data: {
         attibute: {},
@@ -93,32 +60,54 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed()
-    .pipe(
-      takeUntil(this.$destroy)
-    )
-    .subscribe(response => {
-      this.fetch();
-    });
+      .pipe(
+        takeUntil(this._destroy$)
+      )
+      .subscribe(response => {
+        this.fetch();
+      });
   }
 
-  manage() {
-    const dialogRef = this.dialog.open(FsAttributeManageComponent, {
-      data: {
-        class: this.data.class
-      }
-    });
 
-    dialogRef.afterClosed()
-    .pipe(
-      takeUntil(this.$destroy)
-    )
-    .subscribe(response => {
-      this.fetch();
-    });
+  public selectedToggle(event) {
+    this.selectedToggled.emit(event);
+
+    event.data = this.data.data;
+    event.klass = this.data.class;
+    event.attribute = event.value;
+
+    this.attributesConfig.attributeSelectionChanged(event)
+      .pipe(
+        takeUntil(this._destroy$)
+      )
+      .subscribe((e: any) => {});
   }
 
-  ngOnDestroy() {
-    this.$destroy.next();
-    this.$destroy.complete();
+  public ngOnDestroy() {
+    this._destroy$.next();
+    this._destroy$.complete();
+  }
+
+  private fetch() {
+    const e = {
+      query: {},
+      class: this.data.class,
+      data: this.data.data
+    };
+
+    this.attributesConfig.getAttributes(e)
+      .pipe(
+        takeUntil(this._destroy$)
+      )
+      .subscribe((response) => {
+        this.attributes = response.data;
+      });
+  }
+
+  private initDialog() {
+    this.dialogRef.disableClose = true;
+    this.dialogRef.backdropClick().subscribe(result => {
+      this.done();
+    });
   }
 }

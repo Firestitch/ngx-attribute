@@ -18,13 +18,11 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
 
   constructor() {}
 
-  ngOnDestroy() {
-    this.$destroy.next();
-    this.$destroy.complete();
+  public ngOnInit() {
   }
 
-  ngOnInit() {
-
-
+  public ngOnDestroy() {
+    this.$destroy.next();
+    this.$destroy.complete();
   }
 }

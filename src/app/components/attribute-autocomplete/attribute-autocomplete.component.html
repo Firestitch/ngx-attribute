@@ -9,7 +9,7 @@
     (drop)="change(model)">
   <ng-template let-data="item" fs-autocomplete-chip>
     <div class="option">
-      <img *ngIf="data.image" [src]="data.image">
+      <img *ngIf="data.image" [src]="data.image" alt="">
       <div>{{data.name}}</div>
     </div>
   </ng-template>

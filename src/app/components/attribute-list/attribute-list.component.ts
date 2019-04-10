@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, Input, ViewChild, OnDestroy } from '@angular/core';
+import { Component, OnInit, Input, ViewChild, OnDestroy } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import { ReorderPosition, ReorderStrategy, FsListConfig } from '@firestitch/list';
@@ -8,10 +8,11 @@ import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { filter } from 'lodash-es';
 
-import { FS_ATTRIBUTE_CONFIG } from '../../providers';
 import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.component';
-import { FsAttributeConfig, AttributeConfig } from '../../interfaces/attribute-config.interface';
 import { AttributeOrder } from '../../enums/enums';
+import { AttributesConfig } from '../../services/attributes-config';
+import { AttributeConfigItem } from '../../models/attribute-config';
+import { AttributeItem } from '../../models/attribute';
 
 @Component({
   selector: 'fs-attribute-list',
@@ -21,21 +22,21 @@ import { AttributeOrder } from '../../enums/enums';
 export class FsAttributeListComponent implements OnInit, OnDestroy {
 
   @ViewChild('list') list;
-  @Input() class: string;
+  @Input('class') klass: string;
   @Input() data: string;
   public listConfig: FsListConfig;
   // public listItems
-  public attributeConfig: AttributeConfig = null;
+  public attributeConfig: AttributeConfigItem = null;
 
   private destroy$ = new Subject();
 
   constructor(
-    @Inject(FS_ATTRIBUTE_CONFIG) private fsAttributeConfig: FsAttributeConfig,
+    public attributesConfig: AttributesConfig,
     private dialog: MatDialog
   ) {}
 
   public ngOnInit() {
-    this.attributeConfig = filter(this.fsAttributeConfig.configs, { class: this.class })[0] || {};
+    this.attributeConfig = this.attributesConfig.configs.get(this.klass);
 
     this._setListConfig();
   }
@@ -44,9 +45,8 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(FsAttributeEditComponent, {
       data: {
         attribute: attribute,
-        class: this.class,
+        class: this.klass,
         data: this.data,
-        type: 'list',
       }
     });
 
@@ -80,10 +80,9 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
           click: () => {
             const dialogRef = this.dialog.open(FsAttributeEditComponent, {
               data: {
-                attibute: {},
-                class: this.class,
+                attribute: new AttributeItem({ class: this.klass }, this.attributesConfig),
+                klass: this.klass,
                 data: this.data,
-                type: 'list',
               }
             });
 
@@ -99,7 +98,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
             const dialogRef = this.dialog.open(FsAttributeEditComponent, {
               data: {
                 attribute: row,
-                class: this.class,
+                klass: this.klass,
               }
             });
 
@@ -112,7 +111,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         },
         {
           click: (row, event) => {
-            return this.fsAttributeConfig.deleteAttribute(row);
+            return this.attributesConfig.deleteAttribute(row);
           },
           remove: true,
           icon: 'delete',
@@ -123,10 +122,10 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         const e = {
           query: query,
           data: this.data,
-          class: this.class
+          class: this.klass
         };
 
-        return this.fsAttributeConfig.getAttributes(e)
+        return this.attributesConfig.getAttributes(e)
           .pipe(
             map((response: any) => ({ data: response.data, paging: response.paging }))
           );
@@ -142,10 +141,10 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
           const e = {
             attributes: data,
             data: this.data,
-            class: this.class
+            class: this.klass
           };
 
-          this.fsAttributeConfig.reorderAttributes(e)
+          this.attributesConfig.reorderAttributes(e)
             .pipe(
               takeUntil(this.destroy$)
             )

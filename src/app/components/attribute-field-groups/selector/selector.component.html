@@ -1,0 +1,30 @@
+<div mat-dialog-title>Select {{attributeConfig?.child?.pluralName}}</div>
+<mat-dialog-content>
+
+  <div class="group-container"
+       *ngFor="let attribute of attributes"
+  >
+    <div class="group-heading">
+      <img [src]="attribute.image" alt="" class="group-image">
+      {{ attribute.name }}
+    </div>
+
+    <fs-chips
+      [(ngModel)]="selectedAttributes"
+      [compare]="compare">
+      <fs-chip
+        *ngFor="let childAttribute of attribute.children"
+        [selectable]="true"
+        [outlined]="true"
+        [value]="childAttribute"
+        (selectedToggled)="selectedToggle($event)">
+        {{ childAttribute.name }}
+      </fs-chip>
+    </fs-chips>
+  </div>
+
+</mat-dialog-content>
+<mat-dialog-actions>
+  <button mat-button (click)="done()" color="primary">Done</button>
+  <button mat-button (click)="create()">Create {{attributeConfig?.child?.name}}</button>
+</mat-dialog-actions>

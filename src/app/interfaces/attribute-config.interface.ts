@@ -22,13 +22,13 @@ export interface FsAttributeConfig {
   sortByAttributeTree: (data: any[], parent?: any) => any[];
   reorderAttributeTree: CanDrop
 
-  getAttributes(e: any): Observable<{ data: [], paging: {} }>
+  getAttributes(e: any): Observable<{ data: any[], paging: any }>
 
   getAttributeTree(e: any): Observable<{ attributes }>
 
   attributeSelectionChanged(e: any): Observable<any>
 
-  getSelectedAttributes(e: any): Observable<{ data: [], paging: {} }>
+  getSelectedAttributes(e: any): Observable<{ data: any[], paging: any }>
 
   saveAttributeImage(e: any): Observable<{ attribute }>
 

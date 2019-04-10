@@ -9,95 +9,8 @@ import { of } from 'rxjs';
 import { ListVisibleComponent } from '../components/list-visible';
 import { EditVisibleComponent } from '../components/edit-visible';
 import { FlatItemNode } from '@firestitch/tree';
+import { attributesStore } from './data';
 
-const attributeTree = [
-  {
-    id: 1,
-    class: 'aroma_type',
-    background_color: '#19A8E2',
-    image: {
-      small: '/assets/headshot2.jpg'
-    },
-    name: 'Aroma Type 1',
-    attributes: [
-      {
-        id: 3,
-        class: 'aroma',
-        name: 'Aroma 1',
-      },
-      {
-        id: 4,
-        class: 'aroma',
-        name: 'Aroma 2'
-      },
-    ]
-  },
-  {
-    id: 2,
-    class: 'aroma_type',
-    background_color: '#008A75',
-    image: {
-      small: '/assets/headshot3.jpg',
-    },
-    name: 'Aroma Type 2',
-    attributes: [
-      {
-        id: 5,
-        class: 'aroma',
-        name: 'Aroma 3',
-      },
-      {
-        id: 6,
-        class: 'aroma',
-        name: 'Aroma 4'
-      },
-    ]
-  },
-
-];
-
-
-let attributesStore = [
-  {
-    id: 1,
-    class: 'everything',
-    background_color: '#19A8E2',
-    image: {
-      small: '/assets/headshot2.jpg'
-    },
-    name: 'Attribute 1',
-    configs: { visible_on_list: true }
-  },
-  {
-    id: 2,
-    class: 'everything',
-    background_color: '#008A75',
-    image: {
-      small: '/assets/headshot3.jpg',
-    },
-    name: 'Attribute 2',
-    configs: { visible_on_list: false }
-  },
-  {
-    id: 3,
-    class: 'everything',
-    background_color: '#61b4c0',
-    image: {
-      small: '/assets/headshot4.jpg',
-    },
-    name: 'Attribute 3'
-  },
-  {
-    id: 4,
-    class: 'everything',
-    background_color: '#ffd204',
-    image: {
-      small: '/assets/headshot5.jpg',
-    },
-    name: 'Attribute 4',
-    configs: { visible_on_list: true }
-  }
-];
 
 export function attributeConfigFactory(): FsAttributeConfig {
   const config = {
@@ -144,6 +57,27 @@ export function attributeConfigFactory(): FsAttributeConfig {
         name: 'Aroma',
         pluralName: 'Aromas',
       },
+
+      //
+
+      {
+        class: 'parent_type',
+        image: AttributeImage.Enabled,
+        name: 'Flavour Type',
+        pluralName: 'Flavour Types',
+        childClass: 'child',
+        fields: [],
+      },
+      {
+        class: 'child',
+        image: AttributeImage.Parent,
+        // backgroundColor: AttributeColor.Parent,
+        // color: AttributeColor.Disabled,
+        order: AttributeOrder.Alphabetical,
+        name: 'Flavour',
+        pluralName: 'Flavours',
+      },
+
       {
         class: 'background-color',
         backgroundColor: AttributeColor.Enabled,
@@ -156,12 +90,13 @@ export function attributeConfigFactory(): FsAttributeConfig {
       name: 'name',
       image: 'image.small',
       backgroundColor: 'background_color',
+      configs: 'configs',
       childAttributes: 'attributes',
     },
     getAttributeTree: (e) => {
+      const data = attributesStore.filter((item) => item.class === e.class);
 
-      console.log('getAttributeTree', e);
-      return of({ attributes: attributeTree });
+      return of({ attributes: data });
     },
     reorderAttributeTree: (
       node?: FlatItemNode,
@@ -181,6 +116,18 @@ export function attributeConfigFactory(): FsAttributeConfig {
 
       if (!e.attribute.id) {
         e.attribute.id = attributesStore.length + 2;
+
+        if (e.parent && e.parent.id) {
+          const parent = attributesStore.find((attr) => attr.id === e.parent.id);
+          if (parent) {
+            const attrs = parent[config.mapping.childAttributes];
+            if (!attrs || !Array.isArray(attrs)) {
+              parent[config.mapping.childAttributes] = []
+            }
+
+            parent[config.mapping.childAttributes].push(e.attribute);
+          }
+        }
         attributesStore.push(e.attribute);
       } else {
         const index = attributesStore.findIndex((attr) => attr.id === e.attribute.id);
@@ -193,30 +140,46 @@ export function attributeConfigFactory(): FsAttributeConfig {
       return of({ attribute: e.attribute });
     },
     saveAttributeImage: (e) => {
-      e.attribute.image = { small: 'https://picsum.photos/200/300/?random' };
       console.log('saveAttributeImage', e);
-      return of({ attribute: e.attribute });
+      return of({ attribute: { image: { small: 'https://picsum.photos/200/300/?random' } } });
     },
     getAttributes: (e) => {
       console.log('getAttributes', e);
 
-      let filteredAttributes = clone(attributesStore);
+      let data = attributesStore.filter((item) => item.class === e.class);
 
-      if (e.query && e.query.keyword) {
-        filteredAttributes = filter(filteredAttributes, (attribute) => {
-          return attribute.name.indexOf(e.query.keyword) >= 0;
+      if (e.keyword) {
+        data = filter(data, (attribute) => {
+          return attribute.name.indexOf(e.keyword) >= 0;
         });
       }
 
-      return of({ data: filteredAttributes, paging: { records: attributesStore.length, limit: 10 } });
+      return of({ data: data, paging: { records: data.length, limit: 10 } });
     },
     getSelectedAttributes: (e) => {
       console.log('getSelectedAttributes', e);
-      return of({ data: clone(attributesStore).splice(1, 3), paging: {} });
+      const targetAttrs = attributesStore.filter((attribute) => attribute.class === e.class);
+
+      let result = [];
+
+      if (e.class === 'parent_type') {
+        // const attrs = targetAttrs.reduce((acc, attr) => {
+        //
+        //   acc.push(...attr[config.mapping.childAttributes]);
+        //
+        //   return acc;
+        // }, []);
+
+        result = targetAttrs.slice();
+      } else {
+        result = targetAttrs.slice(1, 3);
+      }
+
+      return of({ data: result, paging: {} });
     },
     reorderAttributes: (e) => {
       console.log('reorderAttributes', e);
-      attributesStore = e.attributes;
+      // attributesStore = e.attributes;
       return of({ attributes: e.attributes });
     },
     attributeSelectionChanged: (e) => {

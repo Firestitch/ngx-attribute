@@ -16,7 +16,7 @@ export class AttribtuesExampleComponent implements OnInit {
   constructor(@Inject(FS_ATTRIBUTE_CONFIG) private attributeConfig: FsAttributeConfig) {}
 
   ngOnInit() {
-    this.attributeConfig.getAttributes({})
+    this.attributeConfig.getAttributes({ class: 'everything' })
       .subscribe((response) => {
         console.log(response.data);
         this.attributes = response.data;

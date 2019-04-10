@@ -1,12 +1,10 @@
-import { Component, Input, OnInit, Inject, OnDestroy, Output, EventEmitter } from '@angular/core';
+import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { filter } from 'lodash-es';
 
-import { wrapAttributes } from '../../helpers/helpers';
-import { FS_ATTRIBUTE_CONFIG } from '../../providers';
-import { FsAttributeConfig } from '../../interfaces/attribute-config.interface';
+import { AttributesConfig } from '../../services/attributes-config';
 
 
 @Component({
@@ -22,36 +20,39 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy {
   private $destroy = new Subject();
 
   @Input() data;
-  @Input('class') class;
+  @Input('class') klass;
   @Output() changed = new EventEmitter();
 
-  constructor(@Inject(FS_ATTRIBUTE_CONFIG) private fsAttributeConfig: FsAttributeConfig) {}
+  constructor(public attributesConfig: AttributesConfig) {}
 
-  ngOnInit() {
-
-    this.attributeConfig = filter(this.fsAttributeConfig.configs, { class: this.class })[0] || {};
+  public ngOnInit() {
+    this.attributeConfig = this.attributesConfig.configs.get(this.klass);
     this.label = this.attributeConfig.name;
 
-    const e = {
-      data: this.data,
-      class: this.class
-    };
-
-    this.fsAttributeConfig.getAttributes(e)
-    .pipe(
-      takeUntil(this.$destroy)
-    )
-    .subscribe((response) => {
-      this.attributes =  wrapAttributes(this.fsAttributeConfig, response.data);
-    });
+    this.fetch();
   }
 
-  selectionChange(e) {
-    this.changed.emit(e.value.attribute);
-  }
-
-  ngOnDestroy() {
+  public ngOnDestroy() {
     this.$destroy.next();
     this.$destroy.complete();
+  }
+
+  public selectionChange(e) {
+    this.changed.emit(e.value);
+  }
+
+  public fetch() {
+    const e = {
+      data: this.data,
+      class: this.klass
+    };
+
+    this.attributesConfig.getAttributes(e)
+      .pipe(
+        takeUntil(this.$destroy)
+      )
+      .subscribe((response) => {
+        this.attributes =  response.data;
+      });
   }
 }
