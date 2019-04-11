@@ -91,10 +91,6 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
     this.dialogRef.close(data);
   }
 
-  public parentSelected(event) {
-    this.selectedParent = event;
-  }
-
   public ngOnDestroy() {
     this._destroy$.next();
     this._destroy$.complete();

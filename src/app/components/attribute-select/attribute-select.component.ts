@@ -45,9 +45,6 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy, ControlVal
   @Input()
   public noneOption = false;
 
-  @Output()
-  public changed = new EventEmitter();
-
   public attributes: AttributeItem[] = [];
   public attributeConfig: AttributeConfigItem;
 

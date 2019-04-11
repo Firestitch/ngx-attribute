@@ -15,10 +15,15 @@
       </fs-file-image-picker>
 
       <mat-form-field>
-        <input matInput placeholder="Name" [(ngModel)]="attribute.name" name="name">
+        <input matInput placeholder="Name" [(ngModel)]="attribute.name" [required]="true" name="name">
       </mat-form-field>
 
-      <fs-attribute-select *ngIf="parentSelector" [class]="parentSelector" (changed)="parentSelected($event)">
+      <fs-attribute-select *ngIf="parentSelector"
+                           name="parent"
+                           [class]="parentSelector"
+                           [required]="true"
+                           [(ngModel)]="selectedParent"
+      >
       </fs-attribute-select>
 
       <mat-form-field *ngIf="attributeConfig.backgroundColor">

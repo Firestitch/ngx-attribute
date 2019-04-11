@@ -117,7 +117,7 @@ export function attributeConfigFactory(): FsAttributeConfig {
       console.log('saveAttribute', e);
 
       if (!e.attribute.id) {
-        e.attribute.id = attributesStore.length + 2;
+        e.attribute.id = attributesStore.length + 500;
 
         if (e.parent && e.parent.id) {
           const parent = attributesStore.find((attr) => attr.id === e.parent.id);
