@@ -57,8 +57,6 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
       this._value = value;
       this.onChange(this._value);
       this.onTouch(this._value);
-
-      this.save();
     }
   }
 
@@ -93,11 +91,14 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
       );
   };
 
-  public save() {
+  public save(item = null, selected = false, reorder = null) {
     this.attributesConfig.attributeSelectionChanged({
       class: this.klass,
       data: this.data,
       attributes: this.value,
+      selected: selected,
+      reorder: reorder,
+      value: item,
     })
       .pipe(
         takeUntil(this._destroy$),
@@ -107,6 +108,18 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
 
   public writeValue(value) {
     this.value = value;
+  }
+
+  public selected(item) {
+    this.save(item.data, true);
+  }
+
+  public removed(item) {
+    this.save(item.data, false);
+  }
+
+  public reordered(data) {
+    this.save(data.item, false, data);
   }
 
   public compare = (o1: any, o2: any) => {
