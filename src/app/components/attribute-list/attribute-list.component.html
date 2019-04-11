@@ -1,14 +1,16 @@
-
 <fs-list [config]="listConfig" #list>
   <fs-list-column>
     <ng-template fs-list-header>{{attributeConfig.name}}</ng-template>
     <ng-template fs-list-cell let-row="row">
-      <fs-attribute
-        [attribute]="row"
-        [class]="klass"
-        (click)="edit(row)">
-        {{row.name}}
-      </fs-attribute>
+      <div class="list-attribute">
+        <fs-attribute
+          [attribute]="row"
+          [class]="klass"
+          (click)="edit(row)"
+        >
+          {{row.name}}
+        </fs-attribute>
+      </div>
     </ng-template>
   </fs-list-column>
 

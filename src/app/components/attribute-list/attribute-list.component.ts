@@ -51,19 +51,15 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(FsAttributeEditComponent, {
       data: {
         attribute: attribute,
-        class: this.klass,
+        klass: this.klass,
         data: this.data,
       },
       panelClass: `fs-attribute-${this.klass}`,
     });
 
-    dialogRef.afterClosed()
-      .pipe(
-        takeUntil(this._destroy$),
-      )
-      .subscribe(response => {
-        this.list.reload();
-      });
+    dialogRef.afterClosed().subscribe(response => {
+      this.list.reload();
+    });
   }
 
   public ngOnDestroy() {
@@ -101,23 +97,6 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         }
       ],
       rowActions: [
-        {
-          click: (row, event) => {
-            const dialogRef = this.dialog.open(FsAttributeEditComponent, {
-              data: {
-                attribute: row,
-                klass: this.klass,
-              },
-              panelClass: `fs-attribute-${this.klass}`,
-            });
-
-            dialogRef.afterClosed().subscribe(response => {
-              this.list.reload();
-            });
-          },
-          icon: 'edit',
-          label: 'Edit'
-        },
         {
           click: (row, event) => {
             return this.attributesConfig.deleteAttribute(row);
