@@ -1,35 +1,41 @@
 export const attributesStore = [
   {
     id: 1,
-    class: 'everything',
+    class: 'person',
     background_color: '#19A8E2',
-    image: null,
-    name: 'Attribute 1',
+    image: {
+      small: '/assets/headshot2.jpg'
+    },
+    name: 'Jane Doe',
     configs: { visible_on_list: true }
   },
   {
     id: 2,
-    class: 'everything',
+    class: 'person',
     background_color: '#008A75',
-    image: null,
-    name: 'Attribute 2',
+    image: {
+      small: '/assets/headshot3.jpg',
+    },
+    name: 'Bob Smith',
     configs: { visible_on_list: false }
   },
   {
     id: 3,
-    class: 'everything',
+    class: 'person',
     background_color: '#61b4c0',
-    image: null,
-    name: 'Attribute 3'
+    image: {
+      small: '/assets/headshot4.jpg',
+    },
+    name: 'John Doe'
   },
   {
     id: 4,
-    class: 'everything',
+    class: 'person',
     background_color: '#ffd204',
     image: {
       small: '/assets/headshot5.jpg',
     },
-    name: 'Attribute 4',
+    name: 'Tom Bob',
     configs: { visible_on_list: true }
   },
 
@@ -75,6 +81,62 @@ export const attributesStore = [
         name: 'Aroma 4'
       },
     ]
+  },
+  {
+    id: 6,
+    class: 'aroma',
+    name: 'Aroma 1',
+    parent_attribute: {
+      id: 5,
+      class: 'aroma_type',
+      background_color: '#19A8E2',
+      image: {
+        small: '/assets/headshot2.jpg'
+      },
+      name: 'Aroma Type 1',
+    }
+  },
+  {
+    id: 7,
+    class: 'aroma',
+    name: 'Aroma 2',
+    parent_attribute:   {
+      id: 5,
+      class: 'aroma_type',
+      background_color: '#19A8E2',
+      image: {
+        small: '/assets/headshot2.jpg'
+      },
+      name: 'Aroma Type 1',
+    }
+  },
+  {
+    id: 9,
+    class: 'aroma',
+    name: 'Aroma 3',
+    parent_attribute: {
+      id: 8,
+      class: 'aroma_type',
+      background_color: '#008A75',
+      image: {
+        small: '/assets/headshot3.jpg',
+      },
+      name: 'Aroma Type 2',
+    }
+  },
+  {
+    id: 10,
+    class: 'aroma',
+    name: 'Aroma 4',
+    parent_attribute: {
+      id: 8,
+      class: 'aroma_type',
+      background_color: '#008A75',
+      image: {
+        small: '/assets/headshot3.jpg',
+      },
+      name: 'Aroma Type 2',
+    }
   },
 
   // Tree with parents

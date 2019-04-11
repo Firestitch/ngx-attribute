@@ -1,25 +1,26 @@
 <form (fsForm)="save()">
-  <fs-attribute-select
-    [class]="class"
-    [(ngModel)]="attribute"
-    [required]="true"
-    [noneOption]="true"
+  <fs-attribute-autocomplete-chips
     name="attribute"
+    [class]="class"
+    [(ngModel)]="attributes"
+    [required]="true"
+    label="Autocomplete Attribute Chips"
     [data]="{ id: 999, name: 'Object A' }"
     (ngModelChange)="changed($event)">
-  </fs-attribute-select>
+  </fs-attribute-autocomplete-chips>
 
   <div fxLayout="row" fxLayoutGap="5px">
     <button mat-raised-button color="primary">Submit</button>
-    <mat-select [(ngModel)]="class" fsSelectButton color="primary" placeholder="Unselected" name="class">
+    <mat-select [(ngModel)]="class" fsSelectButton color="primary" placeholder="Unselected" name="class" (ngModelChange)="attributes=[]">
       <mat-option *ngFor="let item of attributeConfig.configs" [value]="item.class">
         {{ item.name }}
       </mat-option>
     </mat-select>
   </div>
 
+
 </form>
-<fieldset *ngIf="attribute">
-  <legend>Selected Attribute</legend>
-  <pre>{{attribute|json}}</pre>
+<fieldset *ngIf="attributes">
+  <legend>Selected Attributes</legend>
+  <pre>{{attributes|json}}</pre>
 </fieldset>

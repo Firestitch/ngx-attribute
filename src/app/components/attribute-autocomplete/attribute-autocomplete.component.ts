@@ -4,16 +4,19 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  Renderer2,
+  ViewChild,
+  ElementRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { Subject } from 'rxjs';
-import { takeUntil, map } from 'rxjs/operators';
-import { filter } from 'lodash-es';
+import { takeUntil, map, debounceTime } from 'rxjs/operators';
+import { isEmpty } from 'lodash-es';
 
 import { AttributesConfig } from '../../services/attributes-config';
 import { AttributeConfigItem } from '../../models/attribute-config';
-import { AttributeItem } from '../../models/attribute';
+import { MatAutocompleteSelectedEvent } from '@angular/material';
 
 
 @Component({
@@ -28,11 +31,14 @@ import { AttributeItem } from '../../models/attribute';
 })
 export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, ControlValueAccessor {
 
+  @ViewChild('input') input: ElementRef;
   @Input()
   public data;
 
-  @Input('class')
-  public klass;
+  @Input('class') set setClass(value) {
+    this.options = [];
+    this.klass = value;
+  }
 
   @Input()
   public label = 'Select...';
@@ -40,27 +46,53 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
   @Input()
   public required = false;
 
-  @Input()
-  public draggable = true;
-
+  public klass;
   public attributeConfig: AttributeConfigItem;
-
+  public options = [];
   public onChange: any = () => {};
   public onTouch: any = () => {};
 
   private _value;
+  public inputModel = '';
+  public keyword$ = new Subject<Event>();
   private _destroy$ = new Subject();
 
-  constructor(public attributesConfig: AttributesConfig) {}
+  constructor(public attributesConfig: AttributesConfig,
+              private renderer: Renderer2) {}
 
   set value(value) {
-    if (value !== void 0 && value !== this._value) {
-      this._value = value;
+    this._value = value;
+    this.updateView();
+  }
 
-      const data = this._getRawValue();
-      this.onChange(data);
-      this.onTouch(data);
+  public blur() {
+    this.updateView();
+  }
+
+  public updateView() {
+    let display = '';
+
+    if (this.value) {
+
+      if (this.value.parent) {
+        display = this.value.parent.name + ': ';
+      }
+
+      display += this.value.name;
     }
+
+    this.renderer.setProperty(this.input.nativeElement, 'value', display);
+  }
+
+  public select(e: MatAutocompleteSelectedEvent) {
+    this.change(e.option.value);
+  }
+
+  public change(value) {
+    this.value = value;
+    const data = this.value ? this.value.toJSON() : null;
+    this.onChange(data);
+    this.onTouch(data);
   }
 
   get value() {
@@ -68,20 +100,34 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
   }
 
   public ngOnInit() {
+
     this.attributeConfig = this.attributesConfig.getConfig(this.klass);
 
     if (!this.label) {
       this.label = this.attributeConfig.name;
     }
-  }
 
-  public ngOnDestroy() {
-    this._destroy$.next();
-    this._destroy$.complete();
+    this.keyword$
+      .pipe(
+        takeUntil(this._destroy$),
+        debounceTime(300)
+      )
+      .subscribe((e: KeyboardEvent) => {
+
+        const keyword = this.input.nativeElement.value;
+
+        if (isEmpty(keyword)) {
+          this.options = [];
+          this.change(null);
+        }
+
+        this.fetch(keyword);
+      });
   }
 
   public fetch = (keyword) => {
-    return this.attributesConfig.getAttributes({
+
+    this.attributesConfig.getAttributes({
       class: this.klass,
       data: this.data,
       keyword: keyword,
@@ -91,42 +137,14 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
           return response.data;
         }),
         takeUntil(this._destroy$)
-      );
+      )
+      .subscribe(e => {
+        this.options = e;
+      });
   };
 
-  public save(item = null, selected = false, reorder = null) {
-    this.attributesConfig.attributeSelectionChanged({
-      class: this.klass,
-      data: this.data,
-      attributes: this.value,
-      selected: selected,
-      reorder: reorder,
-      value: item,
-    })
-      .pipe(
-        takeUntil(this._destroy$),
-      )
-      .subscribe()
-  }
-
   public writeValue(value) {
-    if (value && Array.isArray(value)) {
-      this.value = value.map((item) => new AttributeItem(item, this.attributesConfig));
-    } else {
-      this.value = null;
-    }
-  }
-
-  public selected(item) {
-    this.save(item.data, true);
-  }
-
-  public removed(item) {
-    this.save(item.data, false);
-  }
-
-  public reordered(data) {
-    this.save(data.item, false, data);
+    this.value = value;
   }
 
   public compare = (o1: any, o2: any) => {
@@ -136,15 +154,9 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
   public registerOnChange(fn) { this.onChange = fn;  }
   public registerOnTouched(fn) { this.onTouch = fn; }
 
-  private _getRawValue() {
-    let data = null;
-
-    if (Array.isArray(this.value)) {
-      data = this.value.map((item) => {
-        return item.toJSON();
-      });
-    }
-
-    return data;
+  public ngOnDestroy() {
+    this._destroy$.next();
+    this._destroy$.complete();
   }
+
 }

@@ -9,7 +9,8 @@ import {
   MatFormFieldModule,
   MatIconModule,
   MatInputModule,
-  MatSelectModule
+  MatSelectModule,
+  MatAutocompleteModule
 } from '@angular/material';
 
 import { FsColorPickerModule } from '@firestitch/colorpicker';
@@ -31,6 +32,7 @@ import { FsAttributeEditComponent } from './components/attribute-edit/attribute-
 import { FsAttributeManageComponent } from './components/attribute-manage/attribute-manage.component';
 import { FsAttributeListComponent } from './components/attribute-list/attribute-list.component';
 import { FsAttributeSelectComponent } from './components/attribute-select/attribute-select.component';
+import { FsAttributeAutocompleteChipsComponent } from './components/attribute-autocomplete-chips/attribute-autocomplete-chips.component';
 import { FsAttributeAutocompleteComponent } from './components/attribute-autocomplete/attribute-autocomplete.component';
 import { FsAttributeComponentWrapperComponent } from './components/attribute-list/component-wrapper/component-wrapper.component';
 import { FsAttributeTreeComponent } from './components/attribute-tree/attribute-tree.component';
@@ -53,6 +55,7 @@ import { AttributesConfig } from './services/attributes-config';
     MatButtonModule,
     MatInputModule,
     MatFormFieldModule,
+    MatAutocompleteModule,
     MatSelectModule,
     FsColorPickerModule,
     FsFormModule,
@@ -70,9 +73,10 @@ import { AttributesConfig } from './services/attributes-config';
     FsAttributeFieldComponent,
     FsAttributeListComponent,
     FsAttributeSelectComponent,
-    FsAttributeAutocompleteComponent,
+    FsAttributeAutocompleteChipsComponent,
     FsAttributeTreeComponent,
     FsAttributeFieldGroupsComponent,
+    FsAttributeAutocompleteComponent
   ],
   entryComponents: [
     FsAttributeSelectorComponent,
@@ -89,12 +93,13 @@ import { AttributesConfig } from './services/attributes-config';
     FsAttributeManageComponent,
     FsAttributeListComponent,
     FsAttributeSelectComponent,
-    FsAttributeAutocompleteComponent,
+    FsAttributeAutocompleteChipsComponent,
     FsAttributeComponentWrapperComponent,
     FsAttributeTreeComponent,
     FsAttributeFieldGroupsComponent,
     FsAttributeTreeSelectorComponent,
     AttributeSearchComponent,
+    FsAttributeAutocompleteComponent
   ]
 })
 export class FsAttributeModule {

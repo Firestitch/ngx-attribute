@@ -1,16 +1,18 @@
-<fs-autocomplete-chips
-  removable="true"
-  imageProperty="image"
-  [orderable]="draggable"
-  [(ngModel)]="value"
-  (selected)="selected($event)"
-  (removed)="removed($event)"
-  (reordered)="reordered($event)"
-  [fetch]="fetch"
-  [placeholder]="label"
-  [compareWith]="compare"
->
-  <ng-template fsAutocompleteObject let-object="object">
-    {{ object.name }}
-  </ng-template>
-</fs-autocomplete-chips>
+<mat-form-field>
+  <input
+    #input
+    matInput
+    [placeholder]="label"
+    name="attribute_autocomplete"
+    (keyup)="keyword$.next($event)"
+    (blur)="blur($event)"
+    [matAutocomplete]="attributeAutocomplete">
+  <mat-autocomplete
+    #attributeAutocomplete="matAutocomplete"
+    autoActiveFirstOption="true"
+    (optionSelected)="select($event)">
+    <mat-option *ngFor="let option of options" [value]="option">
+      <span *ngIf="option.parent" class="parent">{{ option.parent.name }}:</span>{{ option.name }}
+    </mat-option>
+  </mat-autocomplete>
+</mat-form-field>

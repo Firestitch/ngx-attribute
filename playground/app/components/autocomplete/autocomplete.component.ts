@@ -4,19 +4,20 @@ import { FsAttributeConfig } from 'src/app/interfaces/attribute-config.interface
 
 
 @Component({
-  selector: 'select-field-example',
-  templateUrl: 'select-field-example.component.html',
-  styleUrls: ['select-field-example.component.scss']
+  selector: 'autocomplete',
+  templateUrl: 'autocomplete.component.html',
+  styleUrls: ['autocomplete.component.scss']
 })
-export class SelectFieldExampleComponent implements OnInit {
+export class AutocompleteCComponent implements OnInit {
 
   public attribute;
   public class = 'person';
 
-  constructor(@Inject(FS_ATTRIBUTE_CONFIG) private attributeConfig: FsAttributeConfig) {}
+  constructor(@Inject(FS_ATTRIBUTE_CONFIG) public attributeConfig: FsAttributeConfig) {}
 
+  public ngOnInit() {
 
-  public ngOnInit() {}
+  }
 
   public changed(e) {
     console.log(e);

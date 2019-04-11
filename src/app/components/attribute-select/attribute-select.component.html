@@ -1,6 +1,6 @@
 <mat-form-field>
   <mat-select
-    [placeholder]="label"
+    [placeholder]="label || attributeName"
     [(ngModel)]="value"
     [required]="required"
     [compareWith]="compare"

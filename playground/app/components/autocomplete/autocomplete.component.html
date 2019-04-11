@@ -1,17 +1,17 @@
 <form (fsForm)="save()">
-  <fs-attribute-select
+  <fs-attribute-autocomplete
+    name="attribute"
     [class]="class"
     [(ngModel)]="attribute"
     [required]="true"
-    [noneOption]="true"
-    name="attribute"
+    label="Autocomplete Attribute"
     [data]="{ id: 999, name: 'Object A' }"
     (ngModelChange)="changed($event)">
-  </fs-attribute-select>
+  </fs-attribute-autocomplete>
 
   <div fxLayout="row" fxLayoutGap="5px">
     <button mat-raised-button color="primary">Submit</button>
-    <mat-select [(ngModel)]="class" fsSelectButton color="primary" placeholder="Unselected" name="class">
+    <mat-select [(ngModel)]="class" fsSelectButton color="primary" placeholder="Unselected" name="class" (ngModelChange)="attribute=null">
       <mat-option *ngFor="let item of attributeConfig.configs" [value]="item.class">
         {{ item.name }}
       </mat-option>

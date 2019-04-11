@@ -1,4 +1,4 @@
-import { clone } from 'lodash-es';
+import { clone, filter } from 'lodash-es';
 
 import { AttributeConfigItem } from './attribute-config';
 import { getAttributeValue, setAttributeValue } from '../helpers/helpers';
@@ -74,6 +74,7 @@ export class AttributeItem {
     this._config = this._attributesConfig.getConfig(data.class);
     this._initAttribute(data);
     this._initChildren(data);
+    this._initParent(data);
   }
 
   public setImage(value) {
@@ -172,6 +173,19 @@ export class AttributeItem {
     this.setImage(getAttributeValue(data, mapping.image));
     this.setBackgroundColor(getAttributeValue(data, mapping.backgroundColor));
     this.setColor(getAttributeValue(data, mapping.color));
+  }
+
+  private _initParent(data) {
+
+    if (!this._parent) {
+      if (this._config.mapping.parentAttribute) {
+        const parent = getAttributeValue(data, this._config.mapping.parentAttribute);
+
+        if (parent) {
+          this._parent = new AttributeItem(parent, this._attributesConfig);
+        }
+      }
+    }
   }
 
   private _initChildren(data) {

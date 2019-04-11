@@ -133,7 +133,6 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
       selection: false,
       childrenName: this.attributeConfig.mapping.childAttributes,
       changed: (data) => {
-        debugger;
         this.changed.next(data);
       },
       sortBy: this.attributesConfig.sortByAttributeTree.bind(this.attributesConfig),

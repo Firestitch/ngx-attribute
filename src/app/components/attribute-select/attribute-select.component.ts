@@ -33,8 +33,17 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy, ControlVal
   @Input()
   public data;
 
-  @Input('class')
-  public klass;
+  @Input('class') set setClass(value) {
+
+    this.klass = value;
+    this.attributeConfig = this.attributesConfig.getConfig(value);
+
+    if (this.attributeConfig) {
+      this.attributeName = this.attributeConfig.name;
+
+      this.fetch();
+    }
+  }
 
   @Input()
   public label;
@@ -45,6 +54,8 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy, ControlVal
   @Input()
   public noneOption = false;
 
+  public klass;
+  public attributeName;
   public attributes: AttributeItem[] = [];
   public attributeConfig: AttributeConfigItem;
 
@@ -71,13 +82,7 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy, ControlVal
   }
 
   public ngOnInit() {
-    this.attributeConfig = this.attributesConfig.getConfig(this.klass);
 
-    if (!this.label) {
-      this.label = this.attributeConfig.name;
-    }
-
-    this.fetch();
   }
 
   public ngOnDestroy() {

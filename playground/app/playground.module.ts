@@ -18,6 +18,7 @@ import { FsListModule } from '@firestitch/list';
 import { FsScrollModule } from '@firestitch/scroll';
 import { FsFileModule } from '@firestitch/file';
 import { FsFormModule } from '@firestitch/form';
+import { FsSelectButtonModule } from '@firestitch/selectbutton';
 
 import { ToastrModule } from 'ngx-toastr';
 
@@ -29,7 +30,8 @@ import {
   ConfigExampleComponent,
   ListExampleComponent,
   AttribtuesExampleComponent,
-  AutocompleteFieldExampleComponent,
+  AutocompleteChipsComponent,
+  AutocompleteCComponent,
   ListVisibleComponent,
   EditVisibleComponent,
   SelectFieldExampleComponent,
@@ -51,6 +53,7 @@ const routes: Routes = [
     BrowserAnimationsModule,
     AppMaterialModule,
     FormsModule,
+    FsSelectButtonModule,
     FsAutocompleteChipsModule.forRoot(),
     FsChipModule.forRoot(),
     FsListModule.forRoot(),
@@ -75,10 +78,11 @@ const routes: Routes = [
     ListExampleComponent,
     AttribtuesExampleComponent,
     SelectFieldExampleComponent,
-    AutocompleteFieldExampleComponent,
+    AutocompleteChipsComponent,
     ListVisibleComponent,
     EditVisibleComponent,
     TreeExampleComponent,
+    AutocompleteCComponent
   ],
   entryComponents: [
     ListVisibleComponent,

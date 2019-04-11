@@ -7,7 +7,7 @@ import {
 import { FlatItemNode } from '@firestitch/tree';
 
 import { of } from 'rxjs';
-import { filter, isEqual, clone } from 'lodash-es';
+import { filter, isEqual } from 'lodash-es';
 
 import { ListVisibleComponent } from '../components/list-visible';
 import { EditVisibleComponent } from '../components/edit-visible';
@@ -18,7 +18,7 @@ export function attributeConfigFactory(): FsAttributeConfig {
   const config = {
     configs: [
       {
-        class: 'everything', // type
+        class: 'person', // type
         image: AttributeImage.Enabled,
         backgroundColor: AttributeColor.Enabled,
         color: AttributeColor.Enabled,
@@ -39,7 +39,7 @@ export function attributeConfigFactory(): FsAttributeConfig {
         backgroundColor: AttributeColor.Enabled,
         // color: AttributeColor.Disabled,
         order: AttributeOrder.Custom,
-        name: 'Aroma Type',
+        name: 'Aroma Type (Parent)',
         pluralName: 'Aroma Types',
         childClass: 'aroma',
         fields: [
@@ -56,28 +56,8 @@ export function attributeConfigFactory(): FsAttributeConfig {
         // backgroundColor: AttributeColor.Parent,
         // color: AttributeColor.Disabled,
         order: AttributeOrder.Alphabetical,
-        name: 'Aroma',
+        name: 'Aroma (Child)',
         pluralName: 'Aromas',
-      },
-
-      //
-
-      {
-        class: 'parent_type',
-        image: AttributeImage.Enabled,
-        name: 'Flavour Type',
-        pluralName: 'Flavour Types',
-        childClass: 'child',
-        fields: [],
-      },
-      {
-        class: 'child',
-        image: AttributeImage.Parent,
-        // backgroundColor: AttributeColor.Parent,
-        // color: AttributeColor.Disabled,
-        order: AttributeOrder.Alphabetical,
-        name: 'Flavour',
-        pluralName: 'Flavours',
       },
 
       {
@@ -94,6 +74,7 @@ export function attributeConfigFactory(): FsAttributeConfig {
       backgroundColor: 'background_color',
       configs: 'configs',
       childAttributes: 'attributes',
+      parentAttribute: 'parent_attribute'
     },
     getAttributeTree: (e) => {
       const data = attributesStore.filter((item) => item.class === e.class);
@@ -152,7 +133,7 @@ export function attributeConfigFactory(): FsAttributeConfig {
 
       if (e.keyword) {
         data = filter(data, (attribute) => {
-          return attribute.name.indexOf(e.keyword) >= 0;
+          return attribute.name.toLowerCase().indexOf(e.keyword) >= 0;
         });
       }
 

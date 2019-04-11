@@ -5,6 +5,7 @@
 @import '~@firestitch/file/styles';
 @import '~@firestitch/chip/styles';
 @import '~@firestitch/tree/styles';
+@import '~@firestitch/selectbutton/styles';
 
 @include mat-core();
 @include fs-file($mat-blue);
