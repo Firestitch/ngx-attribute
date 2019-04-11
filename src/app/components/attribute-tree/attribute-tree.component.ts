@@ -133,6 +133,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
       selection: false,
       childrenName: this.attributeConfig.mapping.childAttributes,
       changed: (data) => {
+        debugger;
         this.changed.next(data);
       },
       sortBy: this.attributesConfig.sortByAttributeTree.bind(this.attributesConfig),
@@ -212,7 +213,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
             {
               label: 'Delete',
               click: (node) => {
-                this.attributesConfig.deleteAttribute(node.data)
+                this.attributesConfig.deleteAttribute(node.data.original)
                   .subscribe(() => {
                     this.tree.removeNode(node);
                   });

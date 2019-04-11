@@ -59,8 +59,10 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy, ControlVal
   set value(value) {
     if (value !== void 0 && value !== this._value) {
       this._value = value;
-      this.onChange(this._value);
-      this.onTouch(this._value);
+
+      const data = this._getRawValue();
+      this.onChange(data);
+      this.onTouch(data);
     }
   }
 
@@ -84,7 +86,11 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy, ControlVal
   }
 
   public writeValue(value) {
-    this.value = value;
+    if (value) {
+      this.value = new AttributeItem(value, this.attributesConfig);
+    } else {
+      this.value = null;
+    }
   }
 
   public fetch() {
@@ -108,4 +114,10 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy, ControlVal
   public compare = (o1: any, o2: any) => {
     return this.attributesConfig.compareAttributes(o1, o2);
   };
+
+  private _getRawValue() {
+    return (this.value instanceof AttributeItem)
+      ? this.value.toJSON()
+      : this.value
+  }
 }

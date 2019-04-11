@@ -15,6 +15,9 @@ export class AutocompleteFieldExampleComponent implements OnInit {
   constructor(@Inject(FS_ATTRIBUTE_CONFIG) private attributeConfig: FsAttributeConfig) {}
 
   public ngOnInit() {
+    /*setTimeout(() => {
+      this.attribute = [{ id: 2, class: 'everything', name: 'test' }]
+    }, 5000)*/
   }
 
   public changed(e) {

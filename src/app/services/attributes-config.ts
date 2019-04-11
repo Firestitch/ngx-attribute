@@ -30,11 +30,15 @@ export class AttributesConfig {
       )
   }
 
-  public deleteAttribute(event: any) {
-    return this._fsAttributeConfig.deleteAttribute(event);
+  public deleteAttribute(event: AttributeItem) {
+    return this._fsAttributeConfig.deleteAttribute(event.toJSON());
   }
 
   public saveAttribute(event: any) {
+    event.attribute = event && event.attribute
+      ? event.attribute.toJSON()
+      : null;
+
     return this._fsAttributeConfig.saveAttribute(event);
   }
 
@@ -64,19 +68,47 @@ export class AttributesConfig {
       )
   }
 
-  public compareAttributes(o1: any, o2: any) {
-    return this._fsAttributeConfig.compareAttributes(o1, o2);
+  public compareAttributes(o1: AttributeItem, o2: AttributeItem) {
+    return this._fsAttributeConfig.compareAttributes(o1 && o1.toJSON(), o2 && o2.toJSON());
   }
 
   public attributeSelectionChanged(event: any) {
+    if (event && event.attribute) {
+      event.attribute = event.attribute.toJSON();
+    }
+
+    if (event && event.value) {
+      event.value = event.value.toJSON();
+    }
+
+    if (event.attributes && Array.isArray(event.attributes)) {
+      event.attributes = event.attributes.map((attr) => attr.toJSON());
+    }
+
+    if (event.reorder) {
+      event.reorder.item = event.reorder.item.toJSON();
+
+      if (event.reorder.items && Array.isArray(event.reorder.items)) {
+        event.reorder.items = event.reorder.items.map((item) => item.data.toJSON());
+      }
+    }
+
     return this._fsAttributeConfig.attributeSelectionChanged(event);
   }
 
   public reorderAttributes(event: any) {
+    if (event && Array.isArray(event.attributes)){
+      event.attributes = event.attributes.map((attr) => attr.toJSON());
+    }
+
     return this._fsAttributeConfig.reorderAttributes(event);
   }
 
   public saveAttributeImage(event: any) {
+    event.attribute = event && event.attribute
+      ? event.attribute.toJSON()
+      : null;
+
     return this._fsAttributeConfig.saveAttributeImage(event);
   }
 

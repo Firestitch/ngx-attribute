@@ -3,9 +3,7 @@ export const attributesStore = [
     id: 1,
     class: 'everything',
     background_color: '#19A8E2',
-    image: {
-      small: '/assets/headshot2.jpg'
-    },
+    image: null,
     name: 'Attribute 1',
     configs: { visible_on_list: true }
   },
@@ -13,9 +11,7 @@ export const attributesStore = [
     id: 2,
     class: 'everything',
     background_color: '#008A75',
-    image: {
-      small: '/assets/headshot3.jpg',
-    },
+    image: null,
     name: 'Attribute 2',
     configs: { visible_on_list: false }
   },
@@ -23,9 +19,7 @@ export const attributesStore = [
     id: 3,
     class: 'everything',
     background_color: '#61b4c0',
-    image: {
-      small: '/assets/headshot4.jpg',
-    },
+    image: null,
     name: 'Attribute 3'
   },
   {

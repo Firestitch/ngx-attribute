@@ -103,15 +103,16 @@ export class AttributeItem {
   /**
    * Prepare attirubte for save on the server
    */
-  public toJSON() {
+  public toJSON(): any {
     const mapping = this._config.mapping;
+    const attribute = clone(this._attribute);
 
-    setAttributeValue(this._attribute, mapping.id, this.id);
-    setAttributeValue(this._attribute, mapping.name, this.name);
-    setAttributeValue(this._attribute, mapping.image, this.image);
-    setAttributeValue(this._attribute, mapping.backgroundColor, this.backgroundColor);
-    setAttributeValue(this._attribute, mapping.color, this.color);
-    setAttributeValue(this._attribute, mapping.configs, this.configs);
+    setAttributeValue(attribute, mapping.id, this.id);
+    setAttributeValue(attribute, mapping.name, this.name);
+    setAttributeValue(attribute, mapping.image, this.image);
+    setAttributeValue(attribute, mapping.backgroundColor, this.backgroundColor);
+    setAttributeValue(attribute, mapping.color, this.color);
+    setAttributeValue(attribute, mapping.configs, this.configs);
 
     if (mapping.childAttributes && this._children && Array.isArray(this._children)) {
       const children = this._children.reduce((acc, child) => {
@@ -121,10 +122,10 @@ export class AttributeItem {
         return acc;
       }, []);
 
-      setAttributeValue(this._attribute, mapping.childAttributes, children);
+      setAttributeValue(attribute, mapping.childAttributes, children);
     }
 
-    return this._attribute;
+    return attribute;
   }
 
   /**

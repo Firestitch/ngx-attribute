@@ -71,7 +71,7 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
 
   public saveAttribute() {
     const eventData = {
-      attribute: this.attribute.toJSON(),
+      attribute: this.attribute,
       class: this.data.klass,
       data: this.data.data,
       parent: this.selectedParent,

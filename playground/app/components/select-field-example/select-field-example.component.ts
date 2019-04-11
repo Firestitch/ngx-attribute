@@ -16,7 +16,7 @@ export class SelectFieldExampleComponent implements OnInit {
 
   public ngOnInit() {
     /*setTimeout(() => {
-      this.attribute = { id: 2 }
+      this.attribute = { id: 2, class: 'everything', name: 'test' }
     }, 1000)*/
   }
 

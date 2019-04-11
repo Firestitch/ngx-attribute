@@ -13,6 +13,7 @@ import { filter } from 'lodash-es';
 
 import { AttributesConfig } from '../../services/attributes-config';
 import { AttributeConfigItem } from '../../models/attribute-config';
+import { AttributeItem } from '../../models/attribute';
 
 
 @Component({
@@ -55,8 +56,10 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
   set value(value) {
     if (value !== void 0 && value !== this._value) {
       this._value = value;
-      this.onChange(this._value);
-      this.onTouch(this._value);
+
+      const data = this._getRawValue();
+      this.onChange(data);
+      this.onTouch(data);
     }
   }
 
@@ -107,7 +110,11 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
   }
 
   public writeValue(value) {
-    this.value = value;
+    if (value && Array.isArray(value)) {
+      this.value = value.map((item) => new AttributeItem(item, this.attributesConfig));
+    } else {
+      this.value = null;
+    }
   }
 
   public selected(item) {
@@ -128,4 +135,16 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
 
   public registerOnChange(fn) { this.onChange = fn;  }
   public registerOnTouched(fn) { this.onTouch = fn; }
+
+  private _getRawValue() {
+    let data = null;
+
+    if (Array.isArray(this.value)) {
+      data = this.value.map((item) => {
+        return item.toJSON();
+      });
+    }
+
+    return data;
+  }
 }
