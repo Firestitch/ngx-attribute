@@ -13,7 +13,7 @@ export class SelectFieldExampleComponent implements OnInit {
   public attribute;
   public class = 'person';
 
-  constructor(@Inject(FS_ATTRIBUTE_CONFIG) private attributeConfig: FsAttributeConfig) {}
+  constructor(@Inject(FS_ATTRIBUTE_CONFIG) public attributeConfig: FsAttributeConfig) {}
 
 
   public ngOnInit() {}

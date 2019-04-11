@@ -5,7 +5,7 @@
     [placeholder]="label"
     name="attribute_autocomplete"
     (keyup)="keyword$.next($event)"
-    (blur)="blur($event)"
+    (blur)="blur()"
     [matAutocomplete]="attributeAutocomplete">
   <mat-autocomplete
     #attributeAutocomplete="matAutocomplete"
