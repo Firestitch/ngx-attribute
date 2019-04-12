@@ -81,7 +81,12 @@ export function attributeConfigFactory(): FsAttributeConfig {
 
       return of({ attributes: data });
     },
-    reorderAttributeTree: (
+    reorderAttributeTree: (event) => {
+      console.log('reorderAttributeTree', event);
+      return of();
+    },
+
+    canDropTreeAttribute: (
       node?: FlatItemNode,
       fromParent?: FlatItemNode,
       toParent?: FlatItemNode,

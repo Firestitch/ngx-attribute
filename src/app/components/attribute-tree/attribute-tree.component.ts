@@ -1,15 +1,13 @@
 import {
   Component,
-  EventEmitter,
   Input,
   OnDestroy,
   OnInit,
-  Output,
   ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
-import { FsTreeComponent, ITreeConfig, TreeActionType } from '@firestitch/tree';
+import { FsTreeChange, FsTreeComponent, ITreeConfig, TreeActionType } from '@firestitch/tree';
 
 import { filter } from 'lodash-es';
 
@@ -47,8 +45,8 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
   @Input()
   public showCreate = true;
 
-  @Output()
-  public changed = new EventEmitter();
+  // @Output()
+  // public changed = new EventEmitter();
 
   @ViewChild(FsTreeComponent)
   public tree: FsTreeComponent<any>;
@@ -133,10 +131,41 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
       selection: false,
       childrenName: this.attributeConfig.mapping.childAttributes,
       changed: (data) => {
-        this.changed.next(data);
+        const payload = data.payload;
+
+        switch (data.type) {
+          case FsTreeChange.Reorder: {
+            const node = payload.node;
+            const item = node && payload.node.data && payload.node.data.original;
+
+            const event: any = {
+              class: item.klass,
+              data: this.data,
+              attribute: item,
+              fromParent: payload.fromParent && payload.fromParent.data.id,
+              toParent: payload.toParent && payload.toParent.data.id,
+            };
+
+            if (node && Array.isArray(node.children)) {
+              event.children = node.children.map((child) => child.data.id);
+            }
+
+            if (!node.parent) {
+              event.parentIds = this.tree.getData().map((rootNode) => {
+                return rootNode.id
+              });
+            } else {
+              event.childIds = node.parent.children.map((child) => child.data.id);
+            }
+
+            this.attributesConfig.reorderAttributeTree(event)
+              .subscribe(() => {
+              });
+          } break;
+        }
       },
       sortBy: this.attributesConfig.sortByAttributeTree.bind(this.attributesConfig),
-      canDrop: this.attributesConfig.reorderAttributeTree.bind(this.attributesConfig),
+      canDrop: this.attributesConfig.canDropAttribute.bind(this.attributesConfig),
       actions: [
         {
           type: TreeActionType.Menu,

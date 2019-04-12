@@ -112,7 +112,7 @@ export class AttributesConfig {
     return this._fsAttributeConfig.saveAttributeImage(event);
   }
 
-  public reorderAttributeTree(
+  public canDropAttribute(
     node?: FlatItemNode,
     fromParent?: FlatItemNode,
     toParent?: FlatItemNode,
@@ -120,7 +120,7 @@ export class AttributesConfig {
     prevElement?: FlatItemNode,
     nextElement?: FlatItemNode
   ) {
-    return this._fsAttributeConfig.reorderAttributeTree(
+    return this._fsAttributeConfig.canDropTreeAttribute(
       node,
       fromParent,
       toParent,
@@ -128,6 +128,14 @@ export class AttributesConfig {
       prevElement,
       nextElement
     );
+  }
+
+  public reorderAttributeTree(event: any) {
+    if (event.attribute) {
+      event.attribute = event.attribute.toJSON();
+    }
+
+    return this._fsAttributeConfig.reorderAttributeTree(event);
   }
 
   public sortByAttributeTree(data) {

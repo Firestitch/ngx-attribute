@@ -20,7 +20,9 @@ export interface FsAttributeConfig {
   reorderAttributes(e: any): Observable<{ attributes }>
 
   sortByAttributeTree: (data: any[], parent?: any) => any[];
-  reorderAttributeTree: CanDrop
+  canDropTreeAttribute: CanDrop,
+
+  reorderAttributeTree(e: any): Observable<any>;
 
   getAttributes(e: any): Observable<{ data: any[], paging: any }>
 
