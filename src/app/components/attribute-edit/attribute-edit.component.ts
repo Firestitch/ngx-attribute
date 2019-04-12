@@ -3,11 +3,10 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { filter, cloneDeep } from 'lodash-es';
+import { cloneDeep, merge } from 'lodash-es';
 
 import { AttributesConfig } from '../../services/attributes-config';
 import { AttributeConfigItem } from '../../models/attribute-config';
-import { getAttributeValue } from '../../helpers/helpers';
 import { AttributeItem } from '../../models/attribute';
 
 
@@ -19,7 +18,7 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
 
   public attribute: AttributeItem;
   public attributeConfig: AttributeConfigItem;
-
+  public saving = false;
   public parentSelector: string;
   public selectedParent: AttributeItem;
 
@@ -50,13 +49,19 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
       file: file
     };
 
+    this.saving = true;
     this.attributesConfig.saveAttributeImage(e)
       .pipe(
         takeUntil(this._destroy$),
       )
       .subscribe((response: any) => {
-        this.attribute.image = getAttributeValue(response.attribute, this.attributeConfig.mapping.image);
+        const attribute = merge(this.attribute.toJSON(), response);
+        this.attribute = new AttributeItem(attribute, this.attributesConfig);
         this._cd.detectChanges();
+      },
+      () => {},
+      () => {
+        this.saving = false;
       });
   }
 

@@ -13,6 +13,7 @@ import { filter, isEqual } from 'lodash-es';
 import { ListVisibleComponent } from '../components/list-visible';
 import { EditVisibleComponent } from '../components/edit-visible';
 import { attributesStore } from './data';
+import { delay } from 'rxjs/operators';
 
 
 export function attributeConfigFactory(prompt: FsPrompt): FsAttributeConfig {
@@ -131,7 +132,8 @@ export function attributeConfigFactory(prompt: FsPrompt): FsAttributeConfig {
     },
     saveAttributeImage: (e) => {
       console.log('saveAttributeImage', e);
-      return of({ attribute: { image: { small: 'https://picsum.photos/200/300/?random' } } });
+      return of({ attribute: { image: { small: 'https://picsum.photos/200/300/?random' } } })
+            .pipe(delay(4000));
     },
     getAttributes: (e) => {
       console.log('getAttributes', e);

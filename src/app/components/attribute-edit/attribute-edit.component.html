@@ -36,7 +36,7 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button mat-button color="primary">{{ attribute.id ? 'Save' : 'Create'}}</button>
+    <button mat-button color="primary" [disabled]="saving">{{ attribute.id ? 'Save' : 'Create'}}</button>
     <button mat-button (click)="close()" type="button">Cancel</button>
   </mat-dialog-actions>
 </form>
