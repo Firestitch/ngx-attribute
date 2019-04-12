@@ -19,7 +19,7 @@ export class SelectFieldExampleComponent implements OnInit {
   public ngOnInit() {}
 
   public changed(e) {
-    console.log(e);
+    console.log('CHANGED', e);
   }
 
   public save() {

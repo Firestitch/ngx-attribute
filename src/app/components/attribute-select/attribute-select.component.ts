@@ -68,7 +68,7 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy, ControlVal
   constructor(public attributesConfig: AttributesConfig) {}
 
   set value(value) {
-    if (value !== void 0 && value !== this._value) {
+    if (value !== this._value) {
       this._value = value;
 
       const data = this._getRawValue();
@@ -91,10 +91,10 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy, ControlVal
   }
 
   public writeValue(value) {
-    if (value) {
-      this.value = new AttributeItem(value, this.attributesConfig);
-    } else {
-      this.value = null;
+    if (value !== this.value) {
+      this._value = value
+        ? new AttributeItem(value, this.attributesConfig)
+        : value;
     }
   }
 

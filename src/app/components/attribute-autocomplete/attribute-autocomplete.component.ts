@@ -16,6 +16,7 @@ import { isEmpty } from 'lodash-es';
 
 import { AttributesConfig } from '../../services/attributes-config';
 import { AttributeConfigItem } from '../../models/attribute-config';
+import { AttributeItem } from '../../models/attribute';
 
 
 @Component({
@@ -55,16 +56,20 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
   public onChange: any = () => {};
   public onTouch: any = () => {};
 
-  public keyword$ = new Subject<Event>();
-
   private _value;
   private _destroy$ = new Subject();
 
   constructor(public attributesConfig: AttributesConfig) {}
 
   set value(value) {
-    this._value = value;
-    this.updateView();
+    if (this._value !== value) {
+      this._value = value;
+
+      const data = this.value ? this.value.toJSON() : null;
+      this.onChange(data);
+      this.onTouch(data);
+      this.updateView();
+    }
   }
 
   get value() {
@@ -99,14 +104,7 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
   }
 
   public select(e: MatAutocompleteSelectedEvent) {
-    this.change(e.option.value);
-  }
-
-  public change(value) {
-    this.value = value;
-    const data = this.value ? this.value.toJSON() : null;
-    this.onChange(data);
-    this.onTouch(data);
+    this.value = e.option.value;
   }
 
   public fetch = (keyword) => {
@@ -128,12 +126,14 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
   };
 
   public writeValue(value) {
-    this.value = value;
-  }
+    if (value !== this.value) {
+      this._value = value
+        ? new AttributeItem(value, this.attributesConfig)
+        : value;
 
-  public compare = (o1: any, o2: any) => {
-    return this.attributesConfig.compareAttributes(o1, o2);
-  };
+      this.updateView();
+    }
+  }
 
   public registerOnChange(fn) { this.onChange = fn;  }
   public registerOnTouched(fn) { this.onTouch = fn; }
@@ -149,13 +149,13 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
         takeUntil(this._destroy$),
         debounceTime(300)
       )
-      .subscribe((e: KeyboardEvent) => {
+      .subscribe(() => {
 
         const keyword = this.input.nativeElement.value;
 
         if (isEmpty(keyword)) {
           this.options = [];
-          this.change(null);
+          this.value = null;
         }
 
         this.fetch(keyword);

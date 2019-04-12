@@ -53,7 +53,7 @@ export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy,
   constructor(public attributesConfig: AttributesConfig) {}
 
   set value(value) {
-    if (value !== void 0 && value !== this._value) {
+    if (value !== this._value) {
       this._value = value;
 
       const data = this._getRawValue();
@@ -111,9 +111,9 @@ export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy,
 
   public writeValue(value) {
     if (value && Array.isArray(value)) {
-      this.value = value.map((item) => new AttributeItem(item, this.attributesConfig));
+      this._value = value.map((item) => new AttributeItem(item, this.attributesConfig));
     } else {
-      this.value = null;
+      this._value = null;
     }
   }
 
