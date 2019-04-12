@@ -33,6 +33,10 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
     const attribute = this.data.attribute;
     this.attribute = attribute && cloneDeep(attribute) || {};
 
+    if (this.data.parent) {
+      this.selectedParent = new AttributeItem(this.data.parent, attributesConfig);
+    }
+
     this.parentSelector = this.data.selectParent;
   }
 
@@ -75,11 +79,14 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
   }
 
   public saveAttribute() {
+
+    const parent = this.selectedParent ? this.selectedParent.toJSON() : null;
+
     const eventData = {
       attribute: this.attribute,
       class: this.data.klass,
       data: this.data.data,
-      parent: this.selectedParent,
+      parent: parent,
     };
 
     this.attributesConfig.saveAttribute(eventData)
