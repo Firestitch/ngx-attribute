@@ -4,19 +4,18 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  Renderer2,
   ViewChild,
   ElementRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { MatAutocompleteSelectedEvent } from '@angular/material';
 
-import { Subject } from 'rxjs';
+import { fromEvent, Subject } from 'rxjs';
 import { takeUntil, map, debounceTime } from 'rxjs/operators';
 import { isEmpty } from 'lodash-es';
 
 import { AttributesConfig } from '../../services/attributes-config';
 import { AttributeConfigItem } from '../../models/attribute-config';
-import { MatAutocompleteSelectedEvent } from '@angular/material';
 
 
 @Component({
@@ -31,11 +30,14 @@ import { MatAutocompleteSelectedEvent } from '@angular/material';
 })
 export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, ControlValueAccessor {
 
-  @ViewChild('input') input: ElementRef;
+  @ViewChild('searchInput')
+  public input: ElementRef;
+
   @Input()
   public data;
 
-  @Input('class') set setClass(value) {
+  @Input()
+  set class(value) {
     this.options = [];
     this.klass = value;
   }
@@ -49,20 +51,34 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
   public klass;
   public attributeConfig: AttributeConfigItem;
   public options = [];
+  public inputValue = '';
   public onChange: any = () => {};
   public onTouch: any = () => {};
 
-  private _value;
-  public inputModel = '';
   public keyword$ = new Subject<Event>();
+
+  private _value;
   private _destroy$ = new Subject();
 
-  constructor(public attributesConfig: AttributesConfig,
-              private renderer: Renderer2) {}
+  constructor(public attributesConfig: AttributesConfig) {}
 
   set value(value) {
     this._value = value;
     this.updateView();
+  }
+
+  get value() {
+    return this._value;
+  }
+
+  public ngOnInit() {
+    this.attributeConfig = this.attributesConfig.getConfig(this.klass);
+
+    if (!this.label) {
+      this.label = this.attributeConfig.name;
+    }
+
+    this._listenInputChanges();
   }
 
   public blur() {
@@ -70,18 +86,16 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
   }
 
   public updateView() {
-    let display = '';
+    this.inputValue = '';
 
     if (this.value) {
 
       if (this.value.parent) {
-        display = this.value.parent.name + ': ';
+        this.inputValue = this.value.parent.name + ': ';
       }
 
-      display += this.value.name;
+      this.inputValue += this.value.name;
     }
-
-    this.renderer.setProperty(this.input.nativeElement, 'value', display);
   }
 
   public select(e: MatAutocompleteSelectedEvent) {
@@ -93,36 +107,6 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
     const data = this.value ? this.value.toJSON() : null;
     this.onChange(data);
     this.onTouch(data);
-  }
-
-  get value() {
-    return this._value;
-  }
-
-  public ngOnInit() {
-
-    this.attributeConfig = this.attributesConfig.getConfig(this.klass);
-
-    if (!this.label) {
-      this.label = this.attributeConfig.name;
-    }
-
-    this.keyword$
-      .pipe(
-        takeUntil(this._destroy$),
-        debounceTime(300)
-      )
-      .subscribe((e: KeyboardEvent) => {
-
-        const keyword = this.input.nativeElement.value;
-
-        if (isEmpty(keyword)) {
-          this.options = [];
-          this.change(null);
-        }
-
-        this.fetch(keyword);
-      });
   }
 
   public fetch = (keyword) => {
@@ -157,6 +141,25 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
   public ngOnDestroy() {
     this._destroy$.next();
     this._destroy$.complete();
+  }
+
+  private _listenInputChanges() {
+    fromEvent(this.input.nativeElement, 'keyup')
+      .pipe(
+        takeUntil(this._destroy$),
+        debounceTime(300)
+      )
+      .subscribe((e: KeyboardEvent) => {
+
+        const keyword = this.input.nativeElement.value;
+
+        if (isEmpty(keyword)) {
+          this.options = [];
+          this.change(null);
+        }
+
+        this.fetch(keyword);
+      });
   }
 
 }

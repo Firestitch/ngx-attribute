@@ -33,8 +33,8 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy, ControlVal
   @Input()
   public data;
 
-  @Input('class') set setClass(value) {
-
+  @Input()
+  set class(value) {
     this.klass = value;
     this.attributeConfig = this.attributesConfig.getConfig(value);
 

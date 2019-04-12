@@ -1,12 +1,13 @@
 <mat-form-field>
   <input
-    #input
+    #searchInput
     matInput
     [placeholder]="label"
+    [value]="inputValue"
     name="attribute_autocomplete"
-    (keyup)="keyword$.next($event)"
     (blur)="blur()"
-    [matAutocomplete]="attributeAutocomplete">
+    [matAutocomplete]="attributeAutocomplete"
+  >
   <mat-autocomplete
     #attributeAutocomplete="matAutocomplete"
     autoActiveFirstOption="true"
