@@ -12,7 +12,7 @@ import { MatDialog } from '@angular/material';
 import { ReorderPosition, ReorderStrategy, FsListConfig } from '@firestitch/list';
 import { ItemType } from '@firestitch/filter';
 
-import { Subject } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 import { filter } from 'lodash-es';
 
@@ -112,7 +112,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
       rowActions: [
         {
           click: (row, event) => {
-            return this.attributesConfig.deleteAttribute(row);
+            return this._deleteRow(row);
           },
           remove: true,
           icon: 'delete',
@@ -157,5 +157,23 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
     }
 
     this.listConfig = config;
+  }
+
+  /**
+   * Biggest cratch in the world. Let's remove it in new future
+   */
+  private _deleteRow(row) {
+    return new Observable((obs) => {
+      this.attributesConfig.deleteConfirmation(row)
+        .pipe(takeUntil(this._destroy$))
+        .subscribe({
+          next: () => {
+            this.attributesConfig.deleteAttribute(row).subscribe(() => {
+              obs.next();
+            })
+          },
+          error: () => {},
+        })
+    });
   }
 }

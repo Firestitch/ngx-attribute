@@ -45,7 +45,7 @@ export class FsAttributeTreeSelectorComponent implements OnInit, OnDestroy {
     this.selectedToggled.emit(event);
 
     event.data = this.data.data;
-    event.klass = this.data.class;
+    event.klass = this.data.childClass;
     event.attribute = event.value;
 
     this.attributesConfig.attributeSelectionChanged(event)

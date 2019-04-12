@@ -56,7 +56,8 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
 
     const e = {
       data: this.data,
-      class: this.klass
+      parentClass: this.klass,
+      class: this.attributeConfig.childClass,
     };
 
     this.attributesConfig.getSelectedAttributes(e)
@@ -67,7 +68,7 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
       this.attributes = response.data;
 
       this.selectedAttributes = this.attributes.reduce((acc, attribute) => {
-        acc.push(...attribute.children);
+        acc.push(attribute);
 
         return acc;
       }, []);
@@ -93,6 +94,7 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
       data: {
         selectedAttributes: this.selectedAttributes.slice(),
         class: this.klass,
+        childClass: this.attributeConfig.childClass,
         data: this.data,
       },
       panelClass: `fs-attribute-${this.klass}`,

@@ -241,15 +241,28 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
             {
               label: 'Delete',
               click: (node) => {
-                this.attributesConfig.deleteAttribute(node.data.original)
-                  .subscribe(() => {
-                    this.tree.removeNode(node);
-                  });
+                this._deteleNode(node);
               }
             },
           ]
         }
       ]
     };
+  }
+
+  private _deteleNode(node) {
+    this.attributesConfig.deleteConfirmation(node.data.original)
+      .pipe(takeUntil(this._destroy$))
+      .subscribe({
+        next: () => {
+          this.attributesConfig.deleteAttribute(node.data.original)
+            .subscribe(() => {
+              this.tree.removeNode(node);
+            });
+        },
+        error: () => {
+
+        },
+      });
   }
 }

@@ -72,9 +72,9 @@ export class AttributeItem {
     this._parent = parent;
 
     this._config = this._attributesConfig.getConfig(data.class);
+    this._initParent(data);
     this._initAttribute(data);
     this._initChildren(data);
-    this._initParent(data);
   }
 
   public setImage(value) {

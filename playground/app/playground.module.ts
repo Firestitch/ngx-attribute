@@ -11,7 +11,7 @@ import { FsColorPickerModule } from '@firestitch/colorpicker';
 import { FsLabelModule } from '@firestitch/label';
 import { FsAttributeModule, FS_ATTRIBUTE_CONFIG } from '@firestitch/attribute';
 import { FsSelectionModule } from '@firestitch/selection';
-import { FsPromptModule } from '@firestitch/prompt';
+import { FsPrompt, FsPromptModule } from '@firestitch/prompt';
 import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
 import { FsChipModule } from '@firestitch/chip';
 import { FsListModule } from '@firestitch/list';
@@ -90,7 +90,7 @@ const routes: Routes = [
   ],
   providers: [
     { provide: MAT_LABEL_GLOBAL_OPTIONS, useValue: { float: 'auto' } },
-    { provide: FS_ATTRIBUTE_CONFIG, useFactory: attributeConfigFactory, deps: [] }
+    { provide: FS_ATTRIBUTE_CONFIG, useFactory: attributeConfigFactory, deps: [ FsPrompt ] }
   ]
 })
 export class PlaygroundModule {}

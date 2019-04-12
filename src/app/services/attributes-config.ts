@@ -34,6 +34,10 @@ export class AttributesConfig {
     return this._fsAttributeConfig.deleteAttribute(event.toJSON());
   }
 
+  public deleteConfirmation(event: AttributeItem) {
+    return this._fsAttributeConfig.deleteConfirmation(event.toJSON());
+  }
+
   public saveAttribute(event: any) {
     event.attribute = event && event.attribute
       ? event.attribute.toJSON()

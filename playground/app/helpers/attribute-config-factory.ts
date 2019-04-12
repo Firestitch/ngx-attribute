@@ -5,6 +5,7 @@ import {
   FsAttributeConfig
 } from '@firestitch/attribute';
 import { FlatItemNode } from '@firestitch/tree';
+import { FsPrompt } from '@firestitch/prompt';
 
 import { of } from 'rxjs';
 import { filter, isEqual } from 'lodash-es';
@@ -14,7 +15,7 @@ import { EditVisibleComponent } from '../components/edit-visible';
 import { attributesStore } from './data';
 
 
-export function attributeConfigFactory(): FsAttributeConfig {
+export function attributeConfigFactory(prompt: FsPrompt): FsAttributeConfig {
   const config = {
     configs: [
       {
@@ -52,6 +53,7 @@ export function attributeConfigFactory(): FsAttributeConfig {
       },
       {
         class: 'aroma',
+        image: AttributeImage.Parent,
         // image: AttributeColor.Disabled,
         // backgroundColor: AttributeColor.Parent,
         // color: AttributeColor.Disabled,
@@ -146,7 +148,14 @@ export function attributeConfigFactory(): FsAttributeConfig {
     },
     getSelectedAttributes: (e) => {
       console.log('getSelectedAttributes', e);
-      const targetAttrs = attributesStore.filter((attribute) => attribute.class === e.class);
+      const targetAttrs = attributesStore
+        .filter((attribute) => attribute.class === e.parentClass)
+        .reduce((acc, attribute) => {
+          acc.push(...attribute[config.mapping.childAttributes]);
+
+          return acc;
+        }, []);
+      console.log('tar', targetAttrs);
 
       let result = [];
 
@@ -182,6 +191,12 @@ export function attributeConfigFactory(): FsAttributeConfig {
         }
       });
       return of({ attribute: e.attribute });
+    },
+    deleteConfirmation: (event) => {
+      return prompt.confirm({
+        title: 'Confirm',
+        template: `Sure?`
+      })
     },
     compareAttributes(o1, o2) {
       return o1 && o2 && o1.id === o2.id;

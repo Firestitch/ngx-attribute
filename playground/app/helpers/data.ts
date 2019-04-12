@@ -57,7 +57,16 @@ export const attributesStore = [
       {
         id: 7,
         class: 'aroma',
-        name: 'Aroma 2'
+        name: 'Aroma 2',
+        parent_attribute: {
+          id: 5,
+          class: 'aroma_type',
+          background_color: '#19A8E2',
+          image: {
+            small: '/assets/headshot2.jpg'
+          },
+          name: 'Aroma Type 1',
+        }
       },
     ]
   },
@@ -74,6 +83,15 @@ export const attributesStore = [
         id: 9,
         class: 'aroma',
         name: 'Aroma 3',
+        parent_attribute: {
+          id: 8,
+          class: 'aroma_type',
+          background_color: '#008A75',
+          image: {
+            small: '/assets/headshot3.jpg',
+          },
+          name: 'Aroma Type 2',
+        }
       },
       {
         id: 10,
