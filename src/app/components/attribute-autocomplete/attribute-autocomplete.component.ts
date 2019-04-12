@@ -6,6 +6,7 @@ import {
   OnInit,
   ViewChild,
   ElementRef,
+  Renderer2,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
@@ -59,7 +60,10 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
   private _value;
   private _destroy$ = new Subject();
 
-  constructor(public attributesConfig: AttributesConfig) {}
+  constructor(
+    public attributesConfig: AttributesConfig,
+    private _renderer: Renderer2,
+  ) {}
 
   set value(value) {
     if (this._value !== value) {
@@ -68,8 +72,8 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
       const data = this.value ? this.value.toJSON() : null;
       this.onChange(data);
       this.onTouch(data);
-      this.updateView();
     }
+    this.updateView();
   }
 
   get value() {
@@ -91,16 +95,18 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
   }
 
   public updateView() {
-    this.inputValue = '';
+    let display = '';
 
     if (this.value) {
 
       if (this.value.parent) {
-        this.inputValue = this.value.parent.name + ': ';
+        display = this.value.parent.name + ': ';
       }
 
-      this.inputValue += this.value.name;
+      display += this.value.name;
     }
+
+    this._renderer.setProperty(this.input.nativeElement, 'value', display);
   }
 
   public select(e: MatAutocompleteSelectedEvent) {
