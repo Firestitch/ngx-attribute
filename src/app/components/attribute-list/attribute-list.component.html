@@ -8,16 +8,25 @@
           [class]="klass"
           (click)="edit(row)"
         >
-          {{row.name}}
+          <ng-container *ngIf="!columnTemplate; else columnTemplateRef">
+            {{row.name}}
+          </ng-container>
+
+          <ng-template [ngTemplateOutlet]="columnTemplate"
+                       [ngTemplateOutletContext]="{ attribute: row }"
+                       #columnTemplateRef
+          ></ng-template>
         </fs-attribute>
       </div>
     </ng-template>
   </fs-list-column>
 
-  <fs-list-column *ngFor="let field of attributeConfig.fields">
-    <ng-template fs-list-header>{{field.label}}</ng-template>
-    <ng-template fs-list-cell let-row="row">
-      <fs-attribute-component-wrapper [data]="row" [component]="field.listComponent"></fs-attribute-component-wrapper>
-    </ng-template>
-  </fs-list-column>
+  <ng-container *ngFor="let field of attributeConfig.fields">
+    <fs-list-column *ngIf="field.listComponent">
+      <ng-template fs-list-header>{{field.label}}</ng-template>
+      <ng-template fs-list-cell let-row="row">
+        <fs-attribute-component-wrapper [data]="row" [component]="field.listComponent"></fs-attribute-component-wrapper>
+      </ng-template>
+    </fs-list-column>
+  </ng-container>
 </fs-list>

@@ -170,6 +170,10 @@ export class AttributeItem {
     this.name = getAttributeValue(data, mapping.name);
     this.configs = getAttributeValue(data, mapping.configs);
 
+    if (Array.isArray(this.configs)) {
+      this.configs = {};
+    }
+
     this.setImage(getAttributeValue(data, mapping.image));
     this.setBackgroundColor(getAttributeValue(data, mapping.backgroundColor));
     this.setColor(getAttributeValue(data, mapping.color));

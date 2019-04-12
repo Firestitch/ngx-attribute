@@ -55,6 +55,6 @@ export interface AttributeConfig {
 
 export interface AttributeConfigField {
   label: string,
-  listComponent: any,
-  editComponent: any
+  listComponent?: any,
+  editComponent?: any
 }

@@ -1,4 +1,12 @@
-import { Component, OnInit, Input, ViewChild, OnDestroy } from '@angular/core';
+import {
+  Component,
+  OnInit,
+  Input,
+  ViewChild,
+  OnDestroy,
+  TemplateRef,
+  ContentChild,
+} from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import { ReorderPosition, ReorderStrategy, FsListConfig } from '@firestitch/list';
@@ -14,6 +22,8 @@ import { AttributesConfig } from '../../services/attributes-config';
 import { AttributeConfigItem } from '../../models/attribute-config';
 import { AttributeItem } from '../../models/attribute';
 
+import { FsAttributeListColumnDirective } from '../../directives/list-column.directive';
+
 @Component({
   selector: 'fs-attribute-list',
   templateUrl: './attribute-list.component.html',
@@ -23,6 +33,9 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
 
   @ViewChild('list')
   public list;
+
+  @ContentChild(FsAttributeListColumnDirective, { read: TemplateRef })
+  columnTemplate: TemplateRef<any>;
 
   @Input('class')
   public klass: string;
