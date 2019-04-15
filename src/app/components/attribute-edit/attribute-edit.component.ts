@@ -8,6 +8,7 @@ import { cloneDeep, merge } from 'lodash-es';
 import { AttributesConfig } from '../../services/attributes-config';
 import { AttributeConfigItem } from '../../models/attribute-config';
 import { AttributeItem } from '../../models/attribute';
+import { getRawAttributeValue } from '../../helpers/raw-attribute-value';
 
 
 @Component({
@@ -80,7 +81,7 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
 
   public saveAttribute() {
 
-    const parent = this.selectedParent ? this.selectedParent.toJSON() : null;
+    const parent = getRawAttributeValue(this.selectedParent);
 
     const eventData = {
       attribute: this.attribute,

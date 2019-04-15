@@ -1,4 +1,5 @@
 import { get as _get, set as _set } from 'lodash-es';
+import { AttributeItem } from '../models/attribute';
 
 export function getAttributeValue(attribute, mapping): any {
   if (!mapping) {
@@ -14,20 +15,4 @@ export function setAttributeValue(attribute, mapping, value): any {
   }
 
   return _set(attribute, mapping, value);
-}
-
-export function wrapAttributes(fsAttributeConfig, items) {
-  const attributes = [];
-  const mapping = fsAttributeConfig.mapping;
-  items.forEach(item => {
-    attributes.push(
-      {
-        id: getAttributeValue(item, mapping.id),
-        name: getAttributeValue(item, mapping.name),
-        backgroundColor: getAttributeValue(item, mapping.backgroundColor),
-        image: getAttributeValue(item, mapping.image),
-        attribute: item
-      });
-  });
-  return attributes;
 }
