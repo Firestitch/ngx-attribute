@@ -1,8 +1,10 @@
-import { AttributeColor, AttributeOrder } from '../enums/enums';
+import { AttributeColor, AttributeImage, AttributeOrder } from '../enums/enums';
 
 export class AttributeConfigItem {
   public parent: AttributeConfigItem;
   public child: AttributeConfigItem;
+
+  public hasEditableImage: boolean;
 
   private _klass;
   private _childClass: string;
@@ -55,6 +57,14 @@ export class AttributeConfigItem {
     return this._mapping;
   }
 
+  get hasImage(): boolean {
+    return this._image === AttributeImage.Enabled;
+  }
+
+  get hasNestedImage(): boolean {
+    return this._image === AttributeImage.Parent;
+  }
+
   constructor(data: any = {}, mapping: any = {}) {
     this._initConfig(data, mapping);
   }
@@ -70,5 +80,7 @@ export class AttributeConfigItem {
     this._order = data.order;
     this._fields = Array.isArray(data.fields) ? data.fields.slice() : data.fields;
     this._mapping = mapping;
+
+    this.hasEditableImage = this._image === AttributeImage.Enabled;
   }
 }

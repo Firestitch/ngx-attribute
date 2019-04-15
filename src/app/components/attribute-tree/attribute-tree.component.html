@@ -14,7 +14,7 @@
 </div>
 <fs-tree *ngIf="treeConfig" [config]="treeConfig">
   <ng-template fsTreeNode let-name="name" let-level="level" let-image="image" let-color="backgroundColor">
-    <img *ngIf="image" [src]="image" alt="">
+    <img *ngIf="image && level === 0" [src]="image" alt="">
     <div class="color"
          *ngIf="level === 0 && color"
          [style.background]="color"
