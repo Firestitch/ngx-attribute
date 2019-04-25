@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Inject, OnDestroy, OnInit, Output, Input } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 
 import { Subject } from 'rxjs';
@@ -20,6 +20,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
   @Output()
   public selectedToggled = new EventEmitter();
 
+  public showCreate = true;
   public selectedAttributes = [];
   public attributes: AttributeItem[] = [];
   public attributeConfig: AttributeConfigItem = null;
@@ -34,6 +35,8 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
   ) {
     this.attributeConfig = this.attributesConfig.getConfig(this.data.class);
     this.selectedAttributes = this.data.selectedAttributes;
+    this.showCreate = this.data.showCreate;
+
   }
 
   public ngOnInit() {
