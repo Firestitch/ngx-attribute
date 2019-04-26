@@ -67,7 +67,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         klass: this.klass,
         data: this.data,
       },
-      panelClass: [`fs-attribute-dialog`, `fs-attribute-${this.klass}`],
+      panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.klass}`],
     });
 
     dialogRef.afterClosed().subscribe(response => {
@@ -100,7 +100,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
                 klass: this.klass,
                 data: this.data,
               },
-              panelClass: [`fs-attribute-dialog`, `fs-attribute-${this.klass}`],
+              panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.klass}`],
             });
 
             dialogRef.afterClosed().subscribe(response => {
