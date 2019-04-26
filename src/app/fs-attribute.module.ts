@@ -23,6 +23,7 @@ import { FsLabelModule } from '@firestitch/label';
 import { FsChipModule } from '@firestitch/chip';
 import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
 import { FsTreeModule } from '@firestitch/tree';
+import { FsAutocompleteModule } from '@firestitch/autocomplete';
 
 import { FsAttributeComponent } from './components/attribute/attribute.component';
 import { FsAttributeFieldComponent } from './components/attribute-field/attribute-field.component';
@@ -67,6 +68,7 @@ import { FsAttributeListColumnDirective } from './directives/list-column.directi
     FsScrollModule,
     FsFileModule,
     FsTreeModule,
+    FsAutocompleteModule,
   ],
   exports: [
     FsAttributeComponent,

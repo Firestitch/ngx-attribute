@@ -1,19 +1,11 @@
-<mat-form-field>
-  <input
-    #searchInput
-    matInput
-    [placeholder]="label"
-    [value]="inputValue"
-    name="attribute_autocomplete"
-    (blur)="blur()"
-    [matAutocomplete]="attributeAutocomplete"
-  >
-  <mat-autocomplete
-    #attributeAutocomplete="matAutocomplete"
-    autoActiveFirstOption="true"
-    (optionSelected)="select($event)">
-    <mat-option *ngFor="let option of options" [value]="option">
-      <span *ngIf="option.parent" class="parent">{{ option.parent.name }}:</span>{{ option.name }}
-    </mat-option>
-  </mat-autocomplete>
-</mat-form-field>
+<fs-autocomplete
+  [fetch]="fetch"
+  [displayWith]="displayWith"
+  [(ngModel)]="value"
+  [placeholder]="label"
+  [required]="required"
+  name="autocomplete">
+  <ng-template fsAutocompleteTemplate let-data="data">
+    <span *ngIf="data.parent" class="parent">{{ data.parent.name }}:</span>{{ data.name }}
+  </ng-template>
+</fs-autocomplete>

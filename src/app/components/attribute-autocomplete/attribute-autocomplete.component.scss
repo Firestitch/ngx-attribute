@@ -17,7 +17,11 @@ img {
   margin-right: 5px;
 }
 
-.mat-form-field {
-  display: block;
-  width: 100%;
+fs-autocomplete {
+  ::ng-deep {
+    .mat-form-field {
+      display: block;
+      width: 100%;
+    }
+  }
 }
