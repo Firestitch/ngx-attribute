@@ -20,6 +20,7 @@ export class FsAttributeTreeSelectorComponent implements OnInit, OnDestroy {
   @Output()
   public selectedToggled = new EventEmitter();
 
+  public showCreate = true;
   public selectedAttributes = [];
   public attributes: AttributeItem[] = [];
   public attributeConfig: AttributeConfigItem = null;
@@ -34,6 +35,7 @@ export class FsAttributeTreeSelectorComponent implements OnInit, OnDestroy {
   ) {
     this.attributeConfig = this.attributesConfig.getConfig(this.data.class);
     this.selectedAttributes = this.data.selectedAttributes;
+    this.showCreate = this.data.showCreate;
   }
 
   public ngOnInit() {
