@@ -21,6 +21,9 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
   @Input()
   public data;
 
+  @Input()
+  public showCreate = true;
+
   @Input('class')
   public klass: string;
 
@@ -96,6 +99,7 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
         class: this.klass,
         childClass: this.attributeConfig.childClass,
         data: this.data,
+        showCreate: this.showCreate
       },
       panelClass: [`fs-attribute-dialog`, `fs-attribute-${this.klass}`],
     });
