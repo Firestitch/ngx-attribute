@@ -60,7 +60,13 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
         takeUntil(this._destroy$),
       )
       .subscribe((response: any) => {
-        const attribute = merge(this.attribute.toJSON(), response);
+
+        // TAD-T527 prevent loss config object link (was passed into attribute component wrapper
+        if (Array.isArray(response.configs)) {
+          delete response.configs;
+        }
+
+        const attribute = merge(response, this.attribute.toJSON());
         this.attribute = new AttributeItem(attribute, this.attributesConfig);
         this._cd.detectChanges();
       },
