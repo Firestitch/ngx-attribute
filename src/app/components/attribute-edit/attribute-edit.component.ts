@@ -22,6 +22,7 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
   public saving = false;
   public parentSelector: string;
   public selectedParent: AttributeItem;
+  public inEditMode = false;
 
   private _destroy$ = new Subject<void>();
 
@@ -37,6 +38,8 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
     if (this.data.parent) {
       this.selectedParent = new AttributeItem(this.data.parent, attributesConfig);
     }
+
+    this.inEditMode = this.data.mode === 'edit';
 
     this.parentSelector = this.data.selectParent;
   }

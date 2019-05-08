@@ -96,6 +96,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
       data: {
         attribute: attribute,
         klass: this.klass,
+        mode: 'create',
       },
       panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.klass}`],
     });
@@ -180,6 +181,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
                     klass: node.data.class,
                     data: this.data,
                     parent: node.parent && node.parent.data,
+                    mode: 'edit',
                   },
                   panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.klass}`],
                 });
@@ -215,6 +217,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
                     klass: this.attributeConfig.childClass,
                     data: this.data,
                     parent: node.data,
+                    mode: 'create',
                   },
                   panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.klass}`],
                 });

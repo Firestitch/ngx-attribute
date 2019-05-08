@@ -63,7 +63,8 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
         attribute: attribute,
         klass: this.attributeConfig.klass,
         config: this.data.config,
-        data: this.data.data
+        data: this.data.data,
+        mode: 'create',
       },
       panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.attributeConfig.klass}`],
     });
