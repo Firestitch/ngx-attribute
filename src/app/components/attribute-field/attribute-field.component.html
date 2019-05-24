@@ -11,6 +11,6 @@
     >
         {{attribute.name}}
     </fs-attribute>
-    <a (click)="select()" class="select-button"><small>Select</small></a>
+    <a *ngIf="showSelect" (click)="select()" class="select-button"><small>Select</small></a>
   </div>
 </fs-label-field>

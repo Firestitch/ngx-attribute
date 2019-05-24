@@ -26,6 +26,9 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
   public showCreate = true;
 
   @Input()
+  public showSelect = true;
+
+  @Input()
   set heading(value) {
     this.title = value;
   }
