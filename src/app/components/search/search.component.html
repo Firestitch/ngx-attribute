@@ -2,8 +2,11 @@
   <mat-form-field class="attributes-filter-input" floatLabel="never">
     <span matPrefix><mat-icon matPrefix>search</mat-icon></span>
 
-    <input matInput [(ngModel)]="searchText" name="attributes-filter-input" (ngModelChange)="modelChange(searchText)">
-
-    <mat-placeholder>Search</mat-placeholder>
+    <input matInput
+           [(ngModel)]="searchText"
+           (ngModelChange)="modelChange(searchText)"
+           [placeholder]="placeholder"
+           name="attributes-filter-input"
+    >
   </mat-form-field>
 </form>

@@ -1,12 +1,12 @@
 import {
   Component,
-  EventEmitter,
+  EventEmitter, HostBinding,
   Inject,
+  Input,
   OnDestroy,
   OnInit,
-  Output,
-  Input,
-  Optional, HostBinding
+  Optional,
+  Output
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 
@@ -14,18 +14,18 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { clone, filter, map } from 'lodash-es';
 
-import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.component';
+import { FsAttributeEditComponent } from '../attribute-edit';
 import { AttributeConfigItem } from '../../models/attribute-config';
 import { AttributesConfig } from '../../services/attributes-config';
 import { AttributeItem } from '../../models/attribute';
 
 
 @Component({
-  selector: 'fs-attribute-selector',
-  templateUrl: './attribute-selector.component.html',
-  styleUrls: [ './attribute-selector.component.scss' ]
+  selector: 'fs-attribute-selector-with-groups',
+  templateUrl: './selector-with-groups.component.html',
+  styleUrls: [ './selector-with-groups.component.scss' ]
 })
-export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
+export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy {
 
   @Input()
   public data = {};
@@ -37,26 +37,20 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
   public klass: string;
 
   @Input()
-  public placeholder: string;
-
-  @Input()
-  public filter = false;
-
-  @Input()
   public selectedAttributes = [];
+
+  @Input()
+  public placeholder = 'Search';
 
   @Output()
   public selectedToggled = new EventEmitter();
 
   @HostBinding('class') hostClass = '';
 
+  public childClass: string;
   public attributes: AttributeItem[] = [];
-  public filteredAttributes: AttributeItem[] = [];
   public attributeConfig: AttributeConfigItem = null;
   public dialogMode = false;
-
-  public filterKeyword = '';
-
   public compareFn: (o1: any, o2: any) => boolean;
 
   private _destroy$ = new Subject();
@@ -65,13 +59,14 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
     public attributesConfig: AttributesConfig,
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) @Optional() public dialogData: any,
-    @Optional()private dialogRef: MatDialogRef<FsAttributeSelectorComponent>,
+    @Optional() private dialogRef: MatDialogRef<FsAttributeSelectorWithGroupsComponent>,
   ) {}
 
   public ngOnInit() {
     if (this.dialogData && this.dialogData.class) {
       this.dialogMode = !!this.dialogData;
       this.klass = this.dialogData.class;
+      this.childClass = this.dialogData.childClass;
       this.data = this.dialogData.data;
 
       this.selectedAttributes = this.dialogData.selectedAttributes;
@@ -80,12 +75,14 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
       this.initDialog();
     } else {
       this.hostClass = 'fs-attribute fs-attribute-' + this.klass;
+      Object.assign(this.data, { childAttributes: true });
     }
 
     this.attributeConfig = this.attributesConfig.getConfig(this.klass);
 
-    this.fetch();
     this.compareFn = this.getCompareFn();
+
+    this.fetch();
   }
 
   public getCompareFn() {
@@ -96,52 +93,56 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
     }
   };
 
-  public done() {
-    this.dialogRef.close({ attributes: this.selectedAttributes });
-  }
-
-  public create() {
-    const attribute = new AttributeItem(
-      { class: this.attributeConfig.klass },
-      this.attributesConfig
-    );
-
-    const dialogRef = this.dialog.open(FsAttributeEditComponent, {
-      data: {
-        attribute: attribute,
-        klass: this.attributeConfig.klass,
-        config: this.dialogData && this.dialogData.config,
-        data: this.data,
-        mode: 'create',
-      },
-      panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.attributeConfig.klass}`],
-    });
-
-    dialogRef.afterClosed()
-      .pipe(
-        takeUntil(this._destroy$)
-      )
-      .subscribe(response => {
-        this.fetch();
-      });
-  }
-
-
   public selectedToggle(event) {
+
     this.selectedToggled.emit({
       selected: event.selected,
       value: event.value.toJSON(),
     });
 
     event.data = this.data;
-    event.klass = this.klass;
+    event.klass = this.childClass;
     event.attribute = event.value;
 
     this.attributesConfig.attributeSelectionChanged(event)
       .pipe(
         takeUntil(this._destroy$)
       )
-      .subscribe((e: any) => {});
+      .subscribe((response: any) => {
+      });
+  }
+
+  public done() {
+    this.dialogRef.close({ attributes: this.selectedAttributes });
+  }
+
+  public create() {
+    const attribute = new AttributeItem(
+      { class: this.attributeConfig.childClass },
+      this.attributesConfig,
+    );
+
+    const dialogRef = this.dialog.open(FsAttributeEditComponent, {
+      data: {
+        attribute: attribute,
+        klass: this.attributeConfig.childClass,
+        selectParent: this.attributeConfig.klass,
+        mode: 'create',
+      },
+      panelClass: [
+        `fs-attribute-dialog`,
+        `fs-attribute-dialog-no-scroll`,
+        `fs-attribute-${this.attributeConfig.childClass}`
+      ],
+    });
+
+    dialogRef.afterClosed()
+    .pipe(
+      takeUntil(this._destroy$)
+    )
+    .subscribe(response => {
+      this.fetch();
+    });
   }
 
   public ngOnDestroy() {
@@ -149,23 +150,21 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
     this._destroy$.complete();
   }
 
-  public filterByKeyword() {
-    if (this.filterKeyword === '') {
-      this.filteredAttributes = this.attributes.slice();
-    } else {
-      this.filteredAttributes = this.attributes.filter((attribute) => {
-        const name = attribute.name.toString().toLowerCase();
-
-        return name.indexOf(this.filterKeyword.toLowerCase()) > -1;
-      })
-    }
+  private initDialog() {
+    this.dialogRef.disableClose = true;
+    this.dialogRef.backdropClick()
+      .pipe(takeUntil(this._destroy$))
+      .subscribe(result => {
+        this.done();
+      });
   }
 
-  private fetch() {
+  private fetch(keyword = null) {
     const e = {
       query: {},
+      keyword: keyword,
       class: this.klass,
-      data: this.data
+      data: this.data,
     };
 
     this.attributesConfig.getAttributes(e)
@@ -174,14 +173,10 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
       )
       .subscribe((response) => {
         this.attributes = response.data;
-        this.filteredAttributes = this.attributes.slice();
       });
   }
 
-  private initDialog() {
-    this.dialogRef.disableClose = true;
-    this.dialogRef.backdropClick().subscribe(result => {
-      this.done();
-    });
+  public search(text) {
+    this.fetch(text);
   }
 }

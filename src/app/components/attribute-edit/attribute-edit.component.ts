@@ -69,8 +69,16 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
           delete response.configs;
         }
 
+        // FIXME
+        // Save link
+        const configs = this.attribute.configs;
+
         const attribute = merge(response, this.attribute.toJSON());
         this.attribute = new AttributeItem(attribute, this.attributesConfig);
+
+        // restore link
+        this.attribute.configs = configs;
+
         this._cd.detectChanges();
       },
       () => {},

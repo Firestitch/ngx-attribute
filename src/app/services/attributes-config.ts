@@ -72,6 +72,10 @@ export class AttributesConfig {
       )
   }
 
+  public compare(o1: any, o2: any) {
+    return this._fsAttributeConfig.compareAttributes(o1, o2);
+  }
+
   public compareAttributes(o1: AttributeItem, o2: AttributeItem) {
     return this._fsAttributeConfig.compareAttributes(o1 && o1.toJSON(), o2 && o2.toJSON());
   }

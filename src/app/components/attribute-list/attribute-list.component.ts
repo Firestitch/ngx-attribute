@@ -82,8 +82,11 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   }
 
   private _setListConfig() {
-    const config: any = {
-      status: false,
+    const config: FsListConfig = {
+      status: true,
+      paging: {
+        limits: [ 50, 100, 200, 500, 1000 ] // TAD-T796
+      },
       filters: [
         {
           name: 'keyword',

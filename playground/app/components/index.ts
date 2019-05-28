@@ -9,4 +9,6 @@ export * from './edit-visible';
 export * from './select-field-example';
 export * from './tree-example';
 export * from './autocomplete';
-
+export * from './field-with-groups-example';
+export * from './selector-example';
+export * from './group-selector-example';

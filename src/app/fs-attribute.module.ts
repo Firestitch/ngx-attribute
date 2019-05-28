@@ -38,8 +38,8 @@ import { FsAttributeAutocompleteComponent } from './components/attribute-autocom
 import { FsAttributeComponentWrapperComponent } from './components/attribute-list/component-wrapper/component-wrapper.component';
 import { FsAttributeTreeComponent } from './components/attribute-tree/attribute-tree.component';
 import { FsAttributeFieldGroupsComponent } from './components/attribute-field-groups/attribute-field-groups.component';
-import { FsAttributeTreeSelectorComponent } from './components/attribute-field-groups/selector/selector.component';
 import { AttributeSearchComponent } from './components/search/search.component';
+import { FsAttributeSelectorWithGroupsComponent } from './components/selector-with-groups/selector-with-groups.component';
 
 import { FS_ATTRIBUTE_DEFAULT_CONFIG } from './providers';
 import { FsAttributeConfig } from './interfaces/attribute-config.interface';
@@ -81,10 +81,12 @@ import { FsAttributeListColumnDirective } from './directives/list-column.directi
     FsAttributeFieldGroupsComponent,
     FsAttributeAutocompleteComponent,
     FsAttributeListColumnDirective,
+    FsAttributeSelectorComponent,
+    FsAttributeSelectorWithGroupsComponent,
   ],
   entryComponents: [
     FsAttributeSelectorComponent,
-    FsAttributeTreeSelectorComponent,
+    FsAttributeSelectorWithGroupsComponent,
     FsAttributeEditComponent,
     FsAttributeManageComponent,
   ],
@@ -101,7 +103,7 @@ import { FsAttributeListColumnDirective } from './directives/list-column.directi
     FsAttributeComponentWrapperComponent,
     FsAttributeTreeComponent,
     FsAttributeFieldGroupsComponent,
-    FsAttributeTreeSelectorComponent,
+    FsAttributeSelectorWithGroupsComponent,
     AttributeSearchComponent,
     FsAttributeAutocompleteComponent,
     FsAttributeListColumnDirective,

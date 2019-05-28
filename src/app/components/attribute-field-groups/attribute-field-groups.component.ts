@@ -5,7 +5,7 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { filter } from 'lodash-es';
 
-import { FsAttributeTreeSelectorComponent } from './selector/selector.component';
+import { FsAttributeSelectorWithGroupsComponent } from '../selector-with-groups/selector-with-groups.component';
 import { AttributesConfig } from '../../services/attributes-config';
 import { AttributeItem } from '../../models/attribute';
 import { AttributeConfigItem } from '../../models/attribute-config';
@@ -93,7 +93,7 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
 
   public select() {
 
-    const dialogRef = this.dialog.open(FsAttributeTreeSelectorComponent, {
+    const dialogRef = this.dialog.open(FsAttributeSelectorWithGroupsComponent, {
       data: {
         selectedAttributes: this.selectedAttributes.slice(),
         class: this.klass,

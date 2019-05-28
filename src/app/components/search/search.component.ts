@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 @Component({
   selector: 'fs-attribute-search',
@@ -8,6 +8,9 @@ import { Component, EventEmitter, Output } from '@angular/core';
   ]
 })
 export class AttributeSearchComponent {
+
+  @Input()
+  public placeholder = 'Search';
 
   @Output()
   public keyword = new EventEmitter();

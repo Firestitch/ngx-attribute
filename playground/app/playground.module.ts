@@ -35,11 +35,12 @@ import {
   ListVisibleComponent,
   EditVisibleComponent,
   SelectFieldExampleComponent,
-  TreeExampleComponent
+  TreeExampleComponent,
+  FieldWithGroupsExampleComponent,
+  GroupSelectorExampleComponent,
+  SelectorExampleComponent
 } from './components';
 import { AppComponent } from './app.component';
-
-import { FieldWithGroupsExampleComponent } from './components/field-with-groups-example';
 
 const routes: Routes = [
   { path: '', component: ExamplesComponent },
@@ -82,7 +83,9 @@ const routes: Routes = [
     ListVisibleComponent,
     EditVisibleComponent,
     TreeExampleComponent,
-    AutocompleteCComponent
+    AutocompleteCComponent,
+    GroupSelectorExampleComponent,
+    SelectorExampleComponent,
   ],
   entryComponents: [
     ListVisibleComponent,
