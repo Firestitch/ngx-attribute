@@ -14,6 +14,7 @@ export class AttributeConfigItem {
   private _name: string;
   private _pluralName: string;
   private _order: AttributeOrder;
+  private _selectedOrder: boolean;
   private _fields: any[];
   private _mapping: any;
 
@@ -49,6 +50,10 @@ export class AttributeConfigItem {
     return this._order;
   }
 
+  get selectedOrder(): boolean {
+    return this._selectedOrder;
+  }
+
   get fields(): any[] {
     return this._fields;
   }
@@ -78,6 +83,7 @@ export class AttributeConfigItem {
     this._name = data.name;
     this._pluralName = data.pluralName;
     this._order = data.order;
+    this._selectedOrder = data.selectedOrder;
     this._fields = Array.isArray(data.fields) ? data.fields.slice() : data.fields;
     this._mapping = mapping;
 

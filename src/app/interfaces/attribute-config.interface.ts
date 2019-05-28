@@ -50,6 +50,7 @@ export interface AttributeConfig {
   pluralName: string;
   childClass?: string;
   order?: AttributeOrder;
+  selectedOrder?: boolean;
   fields?: AttributeConfigField[];
   parentAttributes?: boolean;
 }

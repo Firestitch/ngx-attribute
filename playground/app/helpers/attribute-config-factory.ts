@@ -59,6 +59,7 @@ export function attributeConfigFactory(prompt: FsPrompt): FsAttributeConfig {
         // backgroundColor: AttributeColor.Parent,
         // color: AttributeColor.Disabled,
         order: AttributeOrder.Alphabetical,
+        selectedOrder: true,
         name: 'Aroma (Child)',
         pluralName: 'Aromas',
       },

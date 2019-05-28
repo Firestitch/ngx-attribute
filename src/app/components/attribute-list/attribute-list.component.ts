@@ -125,6 +125,14 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         }
       ],
       fetch: (query) => {
+
+
+        if (this.attributeConfig.order == AttributeOrder.Alphabetical) {
+          query.order = 'name,asc';
+        } else if (this.attributeConfig.order == AttributeOrder.Custom) {
+          query.order = 'order,asc';
+        }
+
         const e = {
           query: query,
           data: this.data,
