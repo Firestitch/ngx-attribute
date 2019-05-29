@@ -110,7 +110,12 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
       )
       .subscribe(response => {
         if (response && response.attributes) {
-          this.changed.emit(response.attributes);
+
+          const parentAttributeConfig = this.attributesConfig.getAttributeConfig(this.klass);
+
+          const attributes = this.attributesConfig.sortAttributes(parentAttributeConfig.childClass, response.attributes)
+
+          this.changed.emit(attributes);
         }
       });
   }

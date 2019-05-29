@@ -5,6 +5,8 @@ import { AttributeConfig, FsAttributeConfig } from '../interfaces/attribute-conf
 import { map } from 'rxjs/operators';
 import { AttributeItem } from '../models/attribute';
 import { FlatItemNode } from '@firestitch/tree';
+import { sortBy } from 'lodash-es'
+import { AttributeOrder } from '../enums/enums';
 
 
 @Injectable()
@@ -28,6 +30,22 @@ export class AttributesConfig {
           return { data: data, paging: response.paging}
         })
       )
+  }
+
+  public getAttributeConfig(klass) {
+    const attributeConfig = this._fsAttributeConfig.configs.find(eachConfig => {
+      return eachConfig.class === klass;
+    });
+    return attributeConfig;
+  }
+
+  public sortAttributes(klass, attributes) {
+    const attrConfig = this.getAttributeConfig(klass);
+    if (attrConfig && attrConfig.order === AttributeOrder.Alphabetical) {
+      return sortBy(attributes, (o) => { return o.name; });
+    } else {
+      return attributes;
+    }
   }
 
   public deleteAttribute(event: AttributeItem) {

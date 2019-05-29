@@ -18,6 +18,7 @@ import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.compo
 import { AttributeConfigItem } from '../../models/attribute-config';
 import { AttributesConfig } from '../../services/attributes-config';
 import { AttributeItem } from '../../models/attribute';
+import { AttributeOrder } from 'src/app/enums/enums';
 
 
 @Component({
