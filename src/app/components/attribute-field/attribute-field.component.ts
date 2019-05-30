@@ -97,7 +97,8 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
       )
       .subscribe(response => {
         if (response && response.attributes) {
-          this.attributes = response.attributes;
+
+          this.attributes = this.attributesConfig.sortAttributes(this.klass, response.attributes)
           this.changed.emit(this.attributes);
         }
       });
