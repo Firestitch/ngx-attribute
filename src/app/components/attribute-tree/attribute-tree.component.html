@@ -2,7 +2,7 @@
   <h2 *ngIf="heading">
     {{ heading }}
   </h2>
-  <div class="actions" *ngIf="showExpand || showCollapse || showCreate">
+  <ng-container *ngIf="showExpand || showCollapse || showCreate">
     <button *ngIf="showExpand" mat-button (click)="expandAll()">Expand All</button>
     &nbsp;
     <button *ngIf="showCollapse" mat-button (click)="collapseAll()">Collapse All</button>
@@ -10,7 +10,7 @@
     <button *ngIf="showCreate" mat-raised-button color="primary" (click)="createRootNode()">
       Create {{ attributeConfig.name }}
     </button>
-  </div>
+  </ng-container>
 </div>
 <fs-tree *ngIf="treeConfig" [config]="treeConfig">
   <ng-template fsTreeNode let-name="name" let-level="level" let-image="image" let-color="backgroundColor">

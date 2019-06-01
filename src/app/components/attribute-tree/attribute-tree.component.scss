@@ -18,12 +18,9 @@ img {
   display: flex;
   flex-direction: row;
   align-items: center;
+  flex-wrap: wrap;
 
   h2 {
     flex: 1 0 auto;
-  }
-
-  .actions {
-    flex: 0 0 auto;
   }
 }
