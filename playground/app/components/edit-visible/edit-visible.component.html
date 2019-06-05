@@ -1,5 +1,16 @@
-<mat-checkbox
-  [(ngModel)]="data.attribute.configs.visible_on_list"
->
-  {{ data.field?.label }}
-</mat-checkbox>
+<div fxLayout="column">
+  <mat-checkbox
+    [(ngModel)]="data.attribute.configs.visible_on_list"
+  >
+    {{ data.field?.label }}
+  </mat-checkbox>
+
+  <mat-form-field>
+    <input placeholder="Months"
+          [(ngModel)]="data.attribute.configs.months"
+          name="months-input"
+          matInput
+          fsFormInteger
+          fsFormMin="0"/>
+  </mat-form-field>
+</div>
