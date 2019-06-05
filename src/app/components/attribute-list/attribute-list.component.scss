@@ -2,6 +2,10 @@
   .list-attribute {
     .fs-chip {
       cursor: pointer;
+      .fs-chip-content {
+        overflow: visible;
+        max-width: none;
+      }
     }
   }
 }
