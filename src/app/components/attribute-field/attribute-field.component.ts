@@ -1,15 +1,24 @@
-import { Component, Input, OnInit, Inject, OnDestroy, Output, EventEmitter } from '@angular/core';
-import { FsAttributeSelectorComponent } from '../attribute-selector/attribute-selector.component';
+import {
+  Component,
+  Input,
+  OnInit,
+  Inject,
+  OnDestroy,
+  Output,
+  EventEmitter,
+  ContentChild, TemplateRef
+} from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { filter } from 'lodash-es';
 
 import { FS_ATTRIBUTE_CONFIG } from '../../providers';
+import { FsAttributeSelectorComponent } from '../attribute-selector/attribute-selector.component';
 import { FsAttributeConfig } from '../../interfaces/attribute-config.interface';
 import { AttributesConfig } from '../../services/attributes-config';
 import { AttributeItem } from '../../models/attribute';
+import { FsAttributeTemplateDirective } from '../../directives/attribute-template.component';
 
 
 @Component({
@@ -38,6 +47,9 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
 
   @Output()
   public changed = new EventEmitter<AttributeItem[]>();
+
+  @ContentChild(FsAttributeTemplateDirective, { read: TemplateRef })
+  public templ: TemplateRef<FsAttributeTemplateDirective>;
 
   public title: string | boolean;
   public attributes: AttributeItem[] = [];

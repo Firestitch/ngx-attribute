@@ -1,4 +1,12 @@
 <fs-attribute-tree class="aroma_type"
                    heading="Aroma Types & Aromas"
-
-></fs-attribute-tree>
+>
+  <ng-template fsAttributeTemplate let-name="name" let-level="level" let-configs="configs">
+    <ng-container *ngIf="level === 0; else secondLevel">
+      {{ name }}
+    </ng-container>
+    <ng-template #secondLevel>
+      {{ name }} (Taste Test)
+    </ng-template>
+  </ng-template>
+</fs-attribute-tree>

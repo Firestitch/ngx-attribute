@@ -45,6 +45,7 @@ import { FS_ATTRIBUTE_DEFAULT_CONFIG } from './providers';
 import { FsAttributeConfig } from './interfaces/attribute-config.interface';
 import { AttributesConfig } from './services/attributes-config';
 import { FsAttributeListColumnDirective } from './directives/list-column.directive';
+import { FsAttributeTemplateDirective } from './directives/attribute-template.component';
 
 
 @NgModule({
@@ -80,9 +81,10 @@ import { FsAttributeListColumnDirective } from './directives/list-column.directi
     FsAttributeTreeComponent,
     FsAttributeFieldGroupsComponent,
     FsAttributeAutocompleteComponent,
-    FsAttributeListColumnDirective,
     FsAttributeSelectorComponent,
     FsAttributeSelectorWithGroupsComponent,
+    FsAttributeListColumnDirective,
+    FsAttributeTemplateDirective,
   ],
   entryComponents: [
     FsAttributeSelectorComponent,
@@ -107,6 +109,7 @@ import { FsAttributeListColumnDirective } from './directives/list-column.directi
     AttributeSearchComponent,
     FsAttributeAutocompleteComponent,
     FsAttributeListColumnDirective,
+    FsAttributeTemplateDirective,
   ]
 })
 export class FsAttributeModule {

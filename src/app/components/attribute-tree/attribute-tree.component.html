@@ -13,12 +13,25 @@
   </ng-container>
 </div>
 <fs-tree *ngIf="treeConfig" [config]="treeConfig">
-  <ng-template fsTreeNode let-name="name" let-level="level" let-image="image" let-color="backgroundColor">
+  <ng-template fsTreeNode
+               let-name="name"
+               let-level="level"
+               let-image="image"
+               let-color="backgroundColor"
+               let-configs="configs"
+  >
     <img *ngIf="image && level === 0" [src]="image" alt="">
     <div class="color"
          *ngIf="level === 0 && color"
          [style.background]="color"
     ></div>
-    {{ name }}
+    <ng-template
+      [ngTemplateOutlet]="templ || defaultNodeTemplate"
+      [ngTemplateOutletContext]="{ name: name, level: level, configs: configs }"
+    ></ng-template>
   </ng-template>
 </fs-tree>
+
+<ng-template #defaultNodeTemplate let-name="name">
+  {{ name }}
+</ng-template>

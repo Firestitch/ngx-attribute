@@ -9,8 +9,15 @@
       [class]="klass"
       [attribute]="attribute"
     >
-        {{attribute.name}}
+      <ng-template
+        [ngTemplateOutlet]="templ || defaultNodeTemplate"
+        [ngTemplateOutletContext]="{ attribute: attribute }"
+      ></ng-template>
     </fs-attribute>
     <a *ngIf="showSelect" (click)="select()" class="select-button"><small>Select</small></a>
   </div>
 </fs-label-field>
+
+<ng-template #defaultNodeTemplate let-attribute="attribute">
+  {{ attribute.name }}
+</ng-template>
