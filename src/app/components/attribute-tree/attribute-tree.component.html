@@ -3,13 +3,33 @@
     {{ heading }}
   </h2>
   <ng-container *ngIf="showExpand || showCollapse || showCreate">
-    <button *ngIf="showExpand" mat-button (click)="expandAll()">Expand All</button>
-    &nbsp;
-    <button *ngIf="showCollapse" mat-button (click)="collapseAll()">Collapse All</button>
-    &nbsp;
-    <button *ngIf="showCreate" mat-raised-button color="primary" (click)="createRootNode()">
-      Create {{ attributeConfig.name }}
-    </button>
+    <div class="attribute-tree-actions">
+        <button *ngIf="showExpand" mat-button (click)="expandAll()">Expand All</button>
+        &nbsp;
+        <button *ngIf="showCollapse" mat-button (click)="collapseAll()">Collapse All</button>
+        &nbsp;
+        <button *ngIf="showCreate" mat-raised-button color="primary" (click)="createRootNode()">
+          Create {{ attributeConfig.name }}
+        </button>
+    </div>
+
+    <fs-menu class="attribute-tree-actions-menu">
+      <ng-template fs-menu-item
+                   [ngIf]="showExpand"
+                   (click)="expandAll()">
+        Expand All
+      </ng-template>
+      <ng-template fs-menu-item
+                   [ngIf]="showCollapse"
+                   (click)="collapseAll()">
+        Collapse All
+      </ng-template>
+      <ng-template fs-menu-item
+                   [ngIf]="showCreate"
+                   (click)="createRootNode()">
+        Create {{ attributeConfig.name }}
+      </ng-template>
+    </fs-menu>
   </ng-container>
 </div>
 <fs-tree *ngIf="treeConfig" [config]="treeConfig">

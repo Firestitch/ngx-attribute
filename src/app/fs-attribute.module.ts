@@ -24,6 +24,7 @@ import { FsChipModule } from '@firestitch/chip';
 import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
 import { FsTreeModule } from '@firestitch/tree';
 import { FsAutocompleteModule } from '@firestitch/autocomplete';
+import { FsMenuModule } from '@firestitch/menu';
 
 import { FsAttributeComponent } from './components/attribute/attribute.component';
 import { FsAttributeFieldComponent } from './components/attribute-field/attribute-field.component';
@@ -70,6 +71,7 @@ import { FsAttributeTemplateDirective } from './directives/attribute-template.co
     FsFileModule,
     FsTreeModule,
     FsAutocompleteModule,
+    FsMenuModule,
   ],
   exports: [
     FsAttributeComponent,
