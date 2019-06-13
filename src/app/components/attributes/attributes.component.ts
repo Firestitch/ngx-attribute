@@ -7,12 +7,15 @@ import {
   ElementRef,
   EventEmitter,
   Output,
+  ContentChild,
+  TemplateRef,
 } from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { cloneDeep } from 'lodash-es';
 
 import { AttributesConfig } from '../../services/attributes-config';
+import { FsAttributeTemplateDirective } from '../../directives/attribute-template.component';
 
 
 @Component({
@@ -41,6 +44,9 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
 
   @Output()
   public dataReceived = new EventEmitter();
+
+  @ContentChild(FsAttributeTemplateDirective, { read: TemplateRef })
+  public templ: TemplateRef<FsAttributeTemplateDirective>;
 
   // @HostBinding('class')
   // public hostClass = '';

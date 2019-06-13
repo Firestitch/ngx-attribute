@@ -2,5 +2,13 @@
   *ngFor="let attribute of attributes"
   [attribute]="attribute"
   [class]="klass">
-  {{attribute.name}}
+  <ng-template
+    [ngTemplateOutlet]="templ || defaultTemplate"
+    [ngTemplateOutletContext]="{ attribute: attribute }"
+  ></ng-template>
 </fs-attribute>
+
+
+<ng-template #defaultTemplate let-attribute="attribute">
+  {{ attribute.name }}
+</ng-template>
