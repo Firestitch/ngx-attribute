@@ -1,6 +1,17 @@
-import { Component, Input, OnInit, OnDestroy, HostBinding, ElementRef } from '@angular/core';
+import {
+  Component,
+  Input,
+  OnInit,
+  OnDestroy,
+  HostBinding,
+  ElementRef,
+  EventEmitter,
+  Output,
+} from '@angular/core';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+import { cloneDeep } from 'lodash-es';
+
 import { AttributesConfig } from '../../services/attributes-config';
 
 
@@ -27,6 +38,9 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
   @Input()
   @HostBinding('class.active')
   public active: boolean;
+
+  @Output()
+  public dataReceived = new EventEmitter();
 
   // @HostBinding('class')
   // public hostClass = '';
@@ -65,6 +79,7 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
       )
       .subscribe((response) => {
         this.attributes = response.data;
+        this.dataReceived.emit(cloneDeep(response.data));
       });
   }
 }
