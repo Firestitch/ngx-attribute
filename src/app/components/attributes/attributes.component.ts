@@ -29,14 +29,23 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
   @Input()
   public config: any;
 
-  @Input()
-  public attributes: any = [];
+  @Input('attributes') set attributes(value) {
+    this._attributes = value;
+    this.hasAttributes = value.length;
+  }
+
+  public _attributes: any = [];
 
   @Input('class')
   public klass: string;
 
   @Input()
   public data;
+
+  @Input()
+  @HostBinding('class.has-attributes')
+  public hasAttributes: boolean;
+
 
   @Input()
   @HostBinding('class.active')
