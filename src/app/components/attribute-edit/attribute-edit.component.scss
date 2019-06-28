@@ -2,3 +2,15 @@
   display: flex;
   flex-direction: column;
 }
+
+:host {
+  ::ng-deep {
+    fs-attribute-component-wrapper {
+      &:last-child {
+        fs-label-field {
+          min-height: inherit;
+        }
+      }
+    }
+  }
+}
