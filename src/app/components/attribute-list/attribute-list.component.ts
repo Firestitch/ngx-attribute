@@ -9,11 +9,11 @@ import {
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
-import { ReorderPosition, ReorderStrategy, FsListConfig } from '@firestitch/list';
+import { ReorderPosition, ReorderStrategy, FsListConfig, FsListComponent } from '@firestitch/list';
 import { ItemType } from '@firestitch/filter';
 
 import { Observable, Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { map, takeUntil, tap } from 'rxjs/operators';
 import { filter } from 'lodash-es';
 
 import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.component';
@@ -32,7 +32,7 @@ import { FsAttributeListColumnDirective } from '../../directives/list-column.dir
 export class FsAttributeListComponent implements OnInit, OnDestroy {
 
   @ViewChild('list')
-  public list;
+  public list: FsListComponent;
 
   @ContentChild(FsAttributeListColumnDirective, { read: TemplateRef })
   columnTemplate: TemplateRef<any>;
@@ -72,7 +72,8 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
     });
 
     dialogRef.afterClosed().subscribe(response => {
-      this.list.reload();
+      const attr = new AttributeItem(response.attribute, attribute.attributesConfig);
+      this.list.replaceRow(attr, (listRow) => listRow.id === attribute.id);
     });
   }
 
