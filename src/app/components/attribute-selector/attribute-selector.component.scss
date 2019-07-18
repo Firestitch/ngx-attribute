@@ -2,6 +2,13 @@
   .fs-chip:not(.selected) {
     opacity: .45;
   }
+
+  .mat-dialog-actions {
+    .mat-button {
+      white-space: pre-line;
+      text-align: left;
+    }
+  }
 }
 
 .search-attribute {
