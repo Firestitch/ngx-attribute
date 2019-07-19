@@ -6,19 +6,18 @@ import {
   OnInit,
   Output,
   Input,
-  Optional, HostBinding
+  Optional, HostBinding, ElementRef
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { clone, filter, map } from 'lodash-es';
 
 import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.component';
 import { AttributeConfigItem } from '../../models/attribute-config';
 import { AttributesConfig } from '../../services/attributes-config';
 import { AttributeItem } from '../../models/attribute';
-import { AttributeOrder } from 'src/app/enums/enums';
+import { scrollIntoView } from '../../helpers/scroll-into-view';
 
 
 @Component({
@@ -64,6 +63,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
 
   constructor(
     public attributesConfig: AttributesConfig,
+    private el: ElementRef,
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) @Optional() public dialogData: any,
     @Optional()private dialogRef: MatDialogRef<FsAttributeSelectorComponent>,
@@ -87,6 +87,8 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
 
     this.fetch();
     this.compareFn = this.getCompareFn();
+
+    scrollIntoView(this.el);
   }
 
   public getCompareFn() {
