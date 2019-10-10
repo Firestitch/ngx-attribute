@@ -8,7 +8,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
 import { FsListComponent, FsListConfig, ReorderPosition, ReorderStrategy } from '@firestitch/list';
 import { ItemType } from '@firestitch/filter';
@@ -32,10 +32,10 @@ import { FsAttributeListColumnDirective } from '../../directives/list-column.dir
 })
 export class FsAttributeListComponent implements OnInit, OnDestroy {
 
-  @ViewChild('list')
+  @ViewChild('list', { static: true })
   public list: FsListComponent;
 
-  @ContentChild(FsAttributeListColumnDirective, { read: TemplateRef })
+  @ContentChild(FsAttributeListColumnDirective, { read: TemplateRef, static: false })
   columnTemplate: TemplateRef<any>;
 
   @Input('class')

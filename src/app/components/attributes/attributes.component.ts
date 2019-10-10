@@ -57,7 +57,7 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
   @Output()
   public dataReceived = new EventEmitter();
 
-  @ContentChild(FsAttributeTemplateDirective, { read: TemplateRef })
+  @ContentChild(FsAttributeTemplateDirective, { read: TemplateRef, static: false })
   public templ: TemplateRef<FsAttributeTemplateDirective>;
 
   // @HostBinding('class')

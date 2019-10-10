@@ -1,7 +1,7 @@
 import { Component, OnInit, Inject, ViewChild, ContentChild } from '@angular/core';
 
 import { FsTreeComponent } from '@firestitch/tree';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
 import { FS_ATTRIBUTE_CONFIG } from 'src/app/providers';
 import { FsAttributeConfig } from 'src/app/interfaces/attribute-config.interface';

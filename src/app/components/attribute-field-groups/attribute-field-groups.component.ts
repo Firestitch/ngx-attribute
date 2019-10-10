@@ -7,7 +7,7 @@ import {
   OnInit,
   Output
 } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';

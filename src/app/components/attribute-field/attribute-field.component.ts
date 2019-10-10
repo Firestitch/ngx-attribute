@@ -10,7 +10,7 @@ import {
   Output,
   TemplateRef
 } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -51,7 +51,7 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
   @Output()
   public changed = new EventEmitter<AttributeItem[]>();
 
-  @ContentChild(FsAttributeTemplateDirective, { read: TemplateRef })
+  @ContentChild(FsAttributeTemplateDirective, { read: TemplateRef, static: false })
   public templ: TemplateRef<FsAttributeTemplateDirective>;
 
   public title: string | boolean;

@@ -32,7 +32,7 @@ import { AttributeItem } from '../../models/attribute';
 })
 export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, ControlValueAccessor {
 
-  @ViewChild(FsAutocompleteComponent)
+  @ViewChild(FsAutocompleteComponent, { static: true })
   public autocomplete: FsAutocompleteComponent;
 
   @Input()

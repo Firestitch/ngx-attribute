@@ -8,7 +8,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { MatDialog } from '@angular/material';
+import { MatDialog } from '@angular/material/dialog';
 
 import { FsTreeChange, FsTreeComponent, ITreeConfig, TreeActionType } from '@firestitch/tree';
 
@@ -51,10 +51,10 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
   // @Output()
   // public changed = new EventEmitter();
 
-  @ContentChild(FsAttributeTemplateDirective, { read: TemplateRef })
+  @ContentChild(FsAttributeTemplateDirective, { read: TemplateRef, static: false })
   public templ: TemplateRef<FsAttributeTemplateDirective>;
 
-  @ViewChild(FsTreeComponent)
+  @ViewChild(FsTreeComponent, { static: false })
   public tree: FsTreeComponent<any>;
 
   public attributes: AttributeItem[] = [];
