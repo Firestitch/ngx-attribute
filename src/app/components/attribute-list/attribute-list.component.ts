@@ -1,20 +1,20 @@
 import {
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
-  OnInit,
-  Input,
-  ViewChild,
-  OnDestroy,
-  TemplateRef,
   ContentChild,
+  Input,
+  OnDestroy,
+  OnInit,
+  TemplateRef,
+  ViewChild,
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
-import { ReorderPosition, ReorderStrategy, FsListConfig, FsListComponent } from '@firestitch/list';
+import { FsListComponent, FsListConfig, ReorderPosition, ReorderStrategy } from '@firestitch/list';
 import { ItemType } from '@firestitch/filter';
 
 import { Observable, Subject } from 'rxjs';
-import { map, takeUntil, tap } from 'rxjs/operators';
-import { filter } from 'lodash-es';
+import { map, takeUntil } from 'rxjs/operators';
 
 import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.component';
 import { AttributeOrder } from '../../enums/enums';
@@ -27,7 +27,8 @@ import { FsAttributeListColumnDirective } from '../../directives/list-column.dir
 @Component({
   selector: 'fs-attribute-list',
   templateUrl: './attribute-list.component.html',
-  styleUrls: [ './attribute-list.component.scss' ]
+  styleUrls: [ './attribute-list.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAttributeListComponent implements OnInit, OnDestroy {
 
@@ -51,7 +52,8 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
 
   constructor(
     public attributesConfig: AttributesConfig,
-    private dialog: MatDialog
+    private dialog: MatDialog,
+    private cdRef: ChangeDetectorRef,
   ) {}
 
   public ngOnInit() {
@@ -74,6 +76,8 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
     dialogRef.afterClosed().subscribe(response => {
       const attr = new AttributeItem(response.attribute, attribute.attributesConfig);
       this.list.replaceRow(attr, (listRow) => listRow.id === attribute.id);
+
+      this.cdRef.markForCheck();
     });
   }
 

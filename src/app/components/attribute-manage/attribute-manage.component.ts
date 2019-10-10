@@ -1,15 +1,15 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 import { FS_ATTRIBUTE_CONFIG } from '../../providers';
 import { FsAttributeConfig } from '../../interfaces/attribute-config.interface';
 
 @Component({
   templateUrl: './attribute-manage.component.html',
-  styleUrls: [ './attribute-manage.component.scss' ]
+  styleUrls: [ './attribute-manage.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAttributeManageComponent implements OnInit {
 
-  public listConfig = {};
   public attributeConfig = {};
 
   constructor(@Inject(MAT_DIALOG_DATA) public data: any,

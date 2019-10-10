@@ -1,4 +1,5 @@
 import {
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   ContentChild,
   Input,
@@ -25,6 +26,7 @@ import { FsAttributeTemplateDirective } from '../../directives/attribute-templat
   selector: 'fs-attribute-tree',
   templateUrl: './attribute-tree.component.html',
   styleUrls: ['./attribute-tree.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAttributeTreeComponent implements OnInit, OnDestroy {
 
@@ -66,6 +68,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
   constructor(
     public attributesConfig: AttributesConfig,
     private dialog: MatDialog,
+    private cdRef: ChangeDetectorRef,
   ) {}
 
 
@@ -113,7 +116,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
         if (result && result.attribute) {
           const data = new AttributeItem(result.attribute, this.attributesConfig);
 
-          this.tree.appendElement(data.getData())
+          this.tree.appendElement(data.getData());
         }
       });
   }
@@ -129,6 +132,8 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
         if (response && response.data) {
           this.attributes = response.data;
           this._setTreeConfig();
+
+          this.cdRef.markForCheck();
         }
       });
   }

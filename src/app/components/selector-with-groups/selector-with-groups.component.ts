@@ -1,6 +1,9 @@
 import {
-  Component, ElementRef,
-  EventEmitter, HostBinding,
+  ChangeDetectionStrategy, ChangeDetectorRef,
+  Component,
+  ElementRef,
+  EventEmitter,
+  HostBinding,
   Inject,
   Input,
   OnDestroy,
@@ -12,7 +15,6 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { clone, filter, map } from 'lodash-es';
 
 import { FsAttributeEditComponent } from '../attribute-edit';
 import { AttributeConfigItem } from '../../models/attribute-config';
@@ -24,7 +26,8 @@ import { scrollIntoView } from '../../helpers/scroll-into-view';
 @Component({
   selector: 'fs-attribute-selector-with-groups',
   templateUrl: './selector-with-groups.component.html',
-  styleUrls: [ './selector-with-groups.component.scss' ]
+  styleUrls: [ './selector-with-groups.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy {
 
@@ -62,6 +65,7 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) @Optional() public dialogData: any,
     @Optional() private dialogRef: MatDialogRef<FsAttributeSelectorWithGroupsComponent>,
+    private cdRef: ChangeDetectorRef,
   ) {}
 
   public ngOnInit() {
@@ -177,6 +181,8 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
       )
       .subscribe((response) => {
         this.attributes = response.data;
+
+        this.cdRef.markForCheck();
       });
   }
 

@@ -1,17 +1,15 @@
 import {
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
+  forwardRef,
   Input,
-  OnInit,
   OnDestroy,
-  Output,
-  EventEmitter,
-  forwardRef
+  OnInit
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { filter } from 'lodash-es';
 
 import { AttributesConfig } from '../../services/attributes-config';
 import { AttributeConfigItem } from '../../models/attribute-config';
@@ -26,7 +24,8 @@ import { AttributeItem } from '../../models/attribute';
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => FsAttributeSelectComponent),
     multi: true
-  }]
+  }],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAttributeSelectComponent implements OnInit, OnDestroy, ControlValueAccessor {
 
@@ -65,7 +64,10 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy, ControlVal
   private _value;
   private _destroy$ = new Subject();
 
-  constructor(public attributesConfig: AttributesConfig) {}
+  constructor(
+    public attributesConfig: AttributesConfig,
+    private _cdRef: ChangeDetectorRef,
+  ) {}
 
   set value(value) {
     if (value !== this._value) {
@@ -110,6 +112,8 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy, ControlVal
       )
       .subscribe((response) => {
         this.attributes =  response.data;
+
+        this._cdRef.markForCheck();
       });
   }
 

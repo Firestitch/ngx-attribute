@@ -1,12 +1,14 @@
 import {
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
-  Input,
-  OnInit,
-  Inject,
-  OnDestroy,
-  Output,
+  ContentChild,
   EventEmitter,
-  ContentChild, TemplateRef
+  Inject,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output,
+  TemplateRef
 } from '@angular/core';
 import { MatDialog } from '@angular/material';
 
@@ -25,6 +27,7 @@ import { FsAttributeTemplateDirective } from '../../directives/attribute-templat
   selector: 'fs-attribute-field',
   templateUrl: './attribute-field.component.html',
   styleUrls: [ './attribute-field.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAttributeFieldComponent implements OnInit, OnDestroy {
 
@@ -59,7 +62,8 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
   constructor(
     public attributesConfig: AttributesConfig,
     private dialog: MatDialog,
-    @Inject(FS_ATTRIBUTE_CONFIG) private fsAttributeConfig: FsAttributeConfig
+    @Inject(FS_ATTRIBUTE_CONFIG) private fsAttributeConfig: FsAttributeConfig,
+    private _cdRef: ChangeDetectorRef,
   ) {}
 
   public ngOnInit() {
@@ -89,6 +93,8 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
       )
       .subscribe((response) => {
         this.attributes = response.data;
+
+        this._cdRef.markForCheck();
       });
   }
 
@@ -110,8 +116,10 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
       .subscribe(response => {
         if (response && response.attributes) {
 
-          this.attributes = this.attributesConfig.sortAttributes(this.klass, response.attributes)
+          this.attributes = this.attributesConfig.sortAttributes(this.klass, response.attributes);
           this.changed.emit(this.attributes);
+
+          this._cdRef.markForCheck();
         }
       });
   }

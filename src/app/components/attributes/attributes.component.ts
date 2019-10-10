@@ -1,13 +1,15 @@
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
-  Input,
-  OnInit,
-  OnDestroy,
-  HostBinding,
+  ContentChild,
   ElementRef,
   EventEmitter,
+  HostBinding,
+  Input,
+  OnDestroy,
+  OnInit,
   Output,
-  ContentChild,
   TemplateRef,
 } from '@angular/core';
 import { Subject } from 'rxjs';
@@ -22,7 +24,8 @@ import { FsAttributeTemplateDirective } from '../../directives/attribute-templat
   selector: 'fs-attributes',
   templateUrl: 'attributes.component.html',
   styleUrls: [ 'attributes.component.scss' ],
-  host: { class: 'fs-attributes' }
+  host: { class: 'fs-attributes' },
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAttributesComponent implements OnInit, OnDestroy {
 
@@ -65,6 +68,7 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
   constructor(
     public el: ElementRef,
     public attributesConfig: AttributesConfig,
+    private cdRef: ChangeDetectorRef,
   ) {}
 
   public ngOnInit() {
@@ -95,6 +99,8 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
       .subscribe((response) => {
         this.attributes = response.data;
         this.dataReceived.emit(cloneDeep(response.data));
+
+        this.cdRef.markForCheck();
       });
   }
 }

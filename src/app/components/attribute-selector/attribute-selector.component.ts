@@ -1,12 +1,15 @@
 import {
+  ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
+  ElementRef,
   EventEmitter,
+  HostBinding,
   Inject,
+  Input,
   OnDestroy,
   OnInit,
-  Output,
-  Input,
-  Optional, HostBinding, ElementRef
+  Optional,
+  Output
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material';
 
@@ -23,7 +26,8 @@ import { scrollIntoView } from '../../helpers/scroll-into-view';
 @Component({
   selector: 'fs-attribute-selector',
   templateUrl: './attribute-selector.component.html',
-  styleUrls: [ './attribute-selector.component.scss' ]
+  styleUrls: [ './attribute-selector.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
 
@@ -67,6 +71,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
     private dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) @Optional() public dialogData: any,
     @Optional()private dialogRef: MatDialogRef<FsAttributeSelectorComponent>,
+    private cdRef: ChangeDetectorRef,
   ) {}
 
   public ngOnInit() {
@@ -178,6 +183,8 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
       .subscribe((response) => {
         this.attributes = response.data;
         this.filteredAttributes = this.attributes.slice();
+
+        this.cdRef.markForCheck();
       });
   }
 

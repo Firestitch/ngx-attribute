@@ -1,9 +1,16 @@
-import { Component, Input, OnInit, OnDestroy, Output, EventEmitter } from '@angular/core';
+import {
+  ChangeDetectionStrategy, ChangeDetectorRef,
+  Component,
+  EventEmitter,
+  Input,
+  OnDestroy,
+  OnInit,
+  Output
+} from '@angular/core';
 import { MatDialog } from '@angular/material';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
-import { filter } from 'lodash-es';
 
 import { FsAttributeSelectorWithGroupsComponent } from '../selector-with-groups/selector-with-groups.component';
 import { AttributesConfig } from '../../services/attributes-config';
@@ -15,6 +22,7 @@ import { AttributeConfigItem } from '../../models/attribute-config';
   selector: 'fs-attribute-field-groups',
   templateUrl: './attribute-field-groups.component.html',
   styleUrls: [ '../attribute-field/attribute-field.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
 
@@ -48,6 +56,7 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
   constructor(
     public attributesConfig: AttributesConfig,
     private dialog: MatDialog,
+    private cdRef: ChangeDetectorRef,
   ) {}
 
   public ngOnInit() {
@@ -75,6 +84,8 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
 
         return acc;
       }, []);
+
+      this.cdRef.markForCheck();
     });
 
     this.changed
@@ -83,6 +94,8 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
       )
       .subscribe((attributes) => {
         this.selectedAttributes = attributes;
+
+        this.cdRef.markForCheck();
       });
   }
 
@@ -116,6 +129,8 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
           const attributes = this.attributesConfig.sortAttributes(parentAttributeConfig.childClass, response.attributes)
 
           this.changed.emit(attributes);
+
+          this.cdRef.markForCheck();
         }
       });
   }

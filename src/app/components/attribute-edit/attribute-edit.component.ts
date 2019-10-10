@@ -1,4 +1,11 @@
-import { Component, Inject, OnInit, OnDestroy, ChangeDetectorRef } from '@angular/core';
+import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
+  Component,
+  Inject,
+  OnDestroy,
+  OnInit
+} from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material';
 
 import { Subject } from 'rxjs';
@@ -13,7 +20,8 @@ import { getRawAttributeValue } from '../../helpers/raw-attribute-value';
 
 @Component({
   templateUrl: './attribute-edit.component.html',
-  styleUrls: [ './attribute-edit.component.scss' ]
+  styleUrls: [ './attribute-edit.component.scss' ],
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAttributeEditComponent implements OnInit, OnDestroy {
 
@@ -78,12 +86,12 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
 
         // restore link
         this.attribute.configs = configs;
-
-        this._cd.detectChanges();
       },
       () => {},
       () => {
         this.saving = false;
+
+        this._cd.markForCheck();
       });
   }
 
