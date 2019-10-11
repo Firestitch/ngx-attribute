@@ -51,6 +51,9 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy, ControlVal
   public required = false;
 
   @Input()
+  public disabled = false;
+
+  @Input()
   public noneOption = false;
 
   public klass;

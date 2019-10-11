@@ -3,6 +3,7 @@
     [placeholder]="label || attributeName"
     [(ngModel)]="value"
     [required]="required"
+    [disabled]="disabled"
     [compareWith]="compare"
   >
     <mat-option [value]="null" *ngIf="noneOption">None</mat-option>
