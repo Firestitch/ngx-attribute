@@ -5,13 +5,12 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 import { takeUntil, map} from 'rxjs/operators';
-
-import { isEmpty } from 'lodash-es';
 
 import { FsAutocompleteComponent } from '@firestitch/autocomplete';
 
@@ -60,6 +59,7 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
 
   constructor(
     public attributesConfig: AttributesConfig,
+    private _cdRef: ChangeDetectorRef,
   ) {}
 
   set value(value) {
@@ -109,6 +109,8 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
       this._value = value
         ? new AttributeItem(value, this.attributesConfig)
         : value;
+
+      this._cdRef.markForCheck();
     }
   }
 

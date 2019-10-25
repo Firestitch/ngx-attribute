@@ -100,6 +100,8 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy, ControlVal
       this._value = value
         ? new AttributeItem(value, this.attributesConfig)
         : value;
+
+      this._cdRef.markForCheck();
     }
   }
 

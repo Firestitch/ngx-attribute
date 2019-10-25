@@ -4,6 +4,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
+  ChangeDetectorRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -50,7 +51,10 @@ export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy,
   private _value;
   private _destroy$ = new Subject();
 
-  constructor(public attributesConfig: AttributesConfig) {}
+  constructor(
+    public attributesConfig: AttributesConfig,
+    private _cdRef: ChangeDetectorRef,
+  ) {}
 
   set value(value) {
     if (value !== this._value) {
@@ -115,6 +119,8 @@ export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy,
     } else {
       this._value = null;
     }
+
+    this._cdRef.markForCheck();
   }
 
   public selected(item) {
