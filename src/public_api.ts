@@ -8,3 +8,4 @@ export * from './app/providers';
 export * from './app/enums/enums';
 export * from './app/models/attribute';
 export * from './app/helpers/helpers';
+export { FsAttributeListAction } from './app/interfaces/list-action.interface';

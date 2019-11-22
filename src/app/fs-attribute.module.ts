@@ -40,11 +40,12 @@ import { FsAttributeFieldGroupsComponent } from './components/attribute-field-gr
 import { AttributeSearchComponent } from './components/search/search.component';
 import { FsAttributeSelectorWithGroupsComponent } from './components/selector-with-groups/selector-with-groups.component';
 
+import { FsAttributeListColumnDirective } from './directives/list-column.directive';
+import { FsAttributeTemplateDirective } from './directives/attribute-template.component';
+
 import { FS_ATTRIBUTE_DEFAULT_CONFIG } from './providers';
 import { FsAttributeConfig } from './interfaces/attribute-config.interface';
 import { AttributesConfig } from './services/attributes-config';
-import { FsAttributeListColumnDirective } from './directives/list-column.directive';
-import { FsAttributeTemplateDirective } from './directives/attribute-template.component';
 
 
 @NgModule({

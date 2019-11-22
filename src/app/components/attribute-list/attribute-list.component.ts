@@ -23,6 +23,8 @@ import { AttributeConfigItem } from '../../models/attribute-config';
 import { AttributeItem } from '../../models/attribute';
 
 import { FsAttributeListColumnDirective } from '../../directives/list-column.directive';
+import { FsAttributeListAction } from '../../interfaces/list-action.interface';
+
 
 @Component({
   selector: 'fs-attribute-list',
@@ -36,10 +38,13 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   public list: FsListComponent;
 
   @ContentChild(FsAttributeListColumnDirective, { read: TemplateRef, static: false })
-  columnTemplate: TemplateRef<any>;
+  public columnTemplate: TemplateRef<any>;
 
   @Input('class')
   public klass: string;
+
+  @Input()
+  public actions: FsAttributeListAction[] = [];
 
   @Input()
   public data: string;
@@ -100,23 +105,10 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         }
       ],
       actions: [
+        ...this.actions,
         {
           label: 'Create ' + this.attributeConfig.name,
-          click: () => {
-            const dialogRef = this.dialog.open(FsAttributeEditComponent, {
-              data: {
-                attribute: new AttributeItem({ class: this.klass }, this.attributesConfig),
-                klass: this.klass,
-                data: this.data,
-                mode: 'create',
-              },
-              panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.klass}`],
-            });
-
-            dialogRef.afterClosed().subscribe(response => {
-              this.list.reload();
-            });
-          }
+          click: () => this._createActionClick()
         }
       ],
       rowActions: [
@@ -193,5 +185,25 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
           error: () => {},
         })
     });
+  }
+
+  private _createActionClick() {
+    const dialogRef = this.dialog.open(FsAttributeEditComponent, {
+      data: {
+        attribute: new AttributeItem({ class: this.klass }, this.attributesConfig),
+        klass: this.klass,
+        data: this.data,
+        mode: 'create',
+      },
+      panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.klass}`],
+    });
+
+    dialogRef.afterClosed()
+      .pipe(
+        takeUntil(this._destroy$),
+      )
+      .subscribe(response => {
+        this.list.reload();
+      });
   }
 }
