@@ -5,6 +5,7 @@
   [(ngModel)]="value"
   [placeholder]="label"
   [required]="required"
+  [disabled]="disabled"
   name="autocomplete">
   <ng-template fsAutocompleteTemplate let-data="data">
     <span *ngIf="data.parent" class="parent">{{ data.parent.name }}:</span>{{ data.name }}
