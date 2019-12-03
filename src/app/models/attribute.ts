@@ -174,7 +174,10 @@ export class AttributeItem {
       this.configs = {};
     }
 
-    this.setImage(getAttributeValue(data, mapping.image));
+    if (this._config.image !== AttributeImage.Disabled) {
+      this.setImage(getAttributeValue(data, mapping.image));
+    }
+
     this.setBackgroundColor(getAttributeValue(data, mapping.backgroundColor));
     this.setColor(getAttributeValue(data, mapping.color));
   }
