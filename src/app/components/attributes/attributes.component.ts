@@ -24,7 +24,6 @@ import { FsAttributeTemplateDirective } from '../../directives/attribute-templat
   selector: 'fs-attributes',
   templateUrl: 'attributes.component.html',
   styleUrls: [ 'attributes.component.scss' ],
-  host: { class: 'fs-attributes' },
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAttributesComponent implements OnInit, OnDestroy {
@@ -76,6 +75,7 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
       this.fetch();
     }
 
+    this.el.nativeElement.classList.add('fs-attributes');
     this.el.nativeElement.classList.add('fs-attribute');
     this.el.nativeElement.classList.add('fs-attribute-' + this.klass);
     // this.hostClass = 'fs-attribute fs-attribute-' + this.klass;
