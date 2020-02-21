@@ -1,4 +1,4 @@
-import { CanDrop } from '@firestitch/tree/app/interfaces/config.interface';
+import { CanDrop } from '@firestitch/tree';
 import { Observable } from 'rxjs';
 
 import { AttributeColor, AttributeImage, AttributeOrder } from '../enums/enums';
