@@ -42,7 +42,7 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
   @Input()
   set class(value) {
     this.klass = value;
-    this.autocomplete.searchData = [];
+    this.autocomplete.data = [];
   }
 
   @Input()
