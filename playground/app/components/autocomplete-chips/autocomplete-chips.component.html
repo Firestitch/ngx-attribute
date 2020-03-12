@@ -4,6 +4,7 @@
     [class]="class"
     [(ngModel)]="attributes"
     [required]="true"
+    color="#ffffff"
     label="Autocomplete Attribute Chips"
     [data]="{ id: 999, name: 'Object A' }"
     (ngModelChange)="changed($event)">
@@ -20,8 +21,6 @@
       </mat-option>
     </mat-select>
   </div>
-
-
 </form>
 <fieldset *ngIf="attributes">
   <legend>Selected Attributes</legend>

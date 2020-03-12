@@ -2,7 +2,7 @@
   "name": "@firestitch/attribute",
   "title": "Attribute",
   "description": "@firestitch/attribute",
-  "version": "9.0.1",
+  "version": "9.0.2",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/ngx-attribute"
@@ -97,6 +97,7 @@
     "node": ">=6.0.0"
   },
   "peerDependencies": {
-    "lodash-es": ">=4.17.11"
+    "lodash-es": ">=4.17.11",
+    "@firestitch/autocomplete-chips": ">=8.3.2"
   }
 }

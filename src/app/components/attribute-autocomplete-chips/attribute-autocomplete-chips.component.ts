@@ -35,6 +35,9 @@ export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy,
   @ContentChildren(FsAutocompleteChipsStaticDirective)
   public staticDirectives: QueryList<FsAutocompleteChipsStaticDirective>;
 
+  @Input() public color = '';
+  @Input() public background = '';
+
   @Input()
   public data;
 

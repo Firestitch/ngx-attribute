@@ -1,6 +1,10 @@
 <fs-autocomplete-chips
   removable="true"
   imageProperty="image"
+  backgroundProperty="backgroundColor"
+  colorProperty="color"
+  [background]="background"
+  [color]="color"
   [orderable]="draggable"
   [(ngModel)]="value"
   (selected)="selected($event)"
