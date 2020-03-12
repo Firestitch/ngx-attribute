@@ -13,4 +13,10 @@
   <ng-template fsAutocompleteObject let-object="object">
     <span *ngIf="object.parent" class="parent">{{ object.parent.name }}:</span>{{ object.name }}
   </ng-template>
+
+  <ng-container *ngFor="let tmpl of staticTemplates; let i = index">
+    <ng-template fsAutocompleteChipsStatic (click)="staticClick($event, i)">
+      <ng-template [ngTemplateOutlet]="tmpl"></ng-template>
+    </ng-template>
+  </ng-container>
 </fs-autocomplete-chips>

@@ -26,4 +26,8 @@ export class AutocompleteCComponent implements OnInit {
   public save() {
 
   }
+
+  public staticClick(e) {
+    console.log('static clicked');
+  }
 }

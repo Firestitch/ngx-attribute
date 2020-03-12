@@ -4,7 +4,7 @@ import {
   Input,
   OnDestroy,
   OnInit,
-  ChangeDetectorRef,
+  ChangeDetectorRef, ContentChildren, TemplateRef, QueryList,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -14,6 +14,7 @@ import { takeUntil, map } from 'rxjs/operators';
 import { AttributesConfig } from '../../services/attributes-config';
 import { AttributeConfigItem } from '../../models/attribute-config';
 import { AttributeItem } from '../../models/attribute';
+import { FsAutocompleteChipsStaticDirective } from '@firestitch/autocomplete-chips';
 
 
 @Component({
@@ -27,6 +28,12 @@ import { AttributeItem } from '../../models/attribute';
   }]
 })
 export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy, ControlValueAccessor {
+
+  @ContentChildren(FsAutocompleteChipsStaticDirective, { read: TemplateRef })
+  public staticTemplates: TemplateRef<any>[] = null;
+
+  @ContentChildren(FsAutocompleteChipsStaticDirective)
+  public staticDirectives: QueryList<FsAutocompleteChipsStaticDirective>;
 
   @Input()
   public data;
@@ -141,6 +148,11 @@ export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy,
 
   public registerOnChange(fn) { this.onChange = fn;  }
   public registerOnTouched(fn) { this.onTouch = fn; }
+
+  public staticClick(event, index) {
+    const staticDirective: FsAutocompleteChipsStaticDirective = this.staticDirectives.toArray()[index];
+    staticDirective.click.emit(event);
+  }
 
   private _getRawValue() {
     let data = null;

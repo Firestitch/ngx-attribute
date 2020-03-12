@@ -23,6 +23,10 @@ export class AutocompleteChipsComponent implements OnInit {
     console.log(e);
   }
 
+  public staticClick(e) {
+    console.log('static clicked');
+  }
+
   public save() {
 
   }

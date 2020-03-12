@@ -5,14 +5,14 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
-  ChangeDetectorRef,
+  ChangeDetectorRef, ContentChildren, TemplateRef, QueryList,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 import { takeUntil, map} from 'rxjs/operators';
 
-import { FsAutocompleteComponent } from '@firestitch/autocomplete';
+import { FsAutocompleteComponent, FsAutocompleteStaticDirective } from '@firestitch/autocomplete';
 
 import { AttributesConfig } from '../../services/attributes-config';
 import { AttributeConfigItem } from '../../models/attribute-config';
@@ -33,6 +33,12 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
 
   @ViewChild(FsAutocompleteComponent, { static: true })
   public autocomplete: FsAutocompleteComponent;
+
+  @ContentChildren(FsAutocompleteStaticDirective, { read: TemplateRef })
+  public staticTemplates: TemplateRef<any>[] = null;
+
+  @ContentChildren(FsAutocompleteStaticDirective)
+  public staticDirectives: QueryList<FsAutocompleteStaticDirective>;
 
   @Input()
   public data;
@@ -124,4 +130,8 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
     this._destroy$.complete();
   }
 
+  public staticClick(event, index) {
+    const staticDirective: FsAutocompleteStaticDirective = this.staticDirectives.toArray()[index];
+    staticDirective.click.emit(event);
+  }
 }

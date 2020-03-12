@@ -10,4 +10,10 @@
   <ng-template fsAutocompleteTemplate let-data="data">
     <span *ngIf="data.parent" class="parent">{{ data.parent.name }}:</span>{{ data.name }}
   </ng-template>
+
+  <ng-container *ngFor="let tmpl of staticTemplates; let i = index">
+    <ng-template fsAutocompleteStatic (click)="staticClick($event, i)">
+      <ng-template [ngTemplateOutlet]="tmpl"></ng-template>
+    </ng-template>
+  </ng-container>
 </fs-autocomplete>

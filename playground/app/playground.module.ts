@@ -19,6 +19,7 @@ import { FsScrollModule } from '@firestitch/scroll';
 import { FsFileModule } from '@firestitch/file';
 import { FsFormModule } from '@firestitch/form';
 import { FsSelectButtonModule } from '@firestitch/selectbutton';
+import { FsAutocompleteModule } from '@firestitch/autocomplete';
 
 import { ToastrModule } from 'ngx-toastr';
 
@@ -55,6 +56,7 @@ const routes: Routes = [
     AppMaterialModule,
     FormsModule,
     FsSelectButtonModule,
+    FsAutocompleteModule,
     FsAutocompleteChipsModule.forRoot(),
     FsChipModule.forRoot(),
     FsListModule.forRoot(),
