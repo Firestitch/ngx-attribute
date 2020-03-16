@@ -5,7 +5,11 @@ import {
   OnDestroy,
   OnInit,
   ViewChild,
-  ChangeDetectorRef, ContentChildren, TemplateRef, QueryList,
+  ChangeDetectorRef,
+  ContentChildren,
+  TemplateRef,
+  QueryList,
+  OnChanges, SimpleChanges,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
@@ -29,7 +33,7 @@ import { AttributeItem } from '../../models/attribute';
     multi: true
   }]
 })
-export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, ControlValueAccessor {
+export class FsAttributeAutocompleteComponent implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
 
   @ViewChild(FsAutocompleteComponent, { static: true })
   public autocomplete: FsAutocompleteComponent;
@@ -45,11 +49,8 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
 
   @Input() public disabled = false;
 
-  @Input()
-  set class(value) {
-    this.klass = value;
-    this.autocomplete.data = [];
-  }
+  @Input('class')
+  public klass: string;
 
   @Input()
   public label = 'Select...';
@@ -57,7 +58,6 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
   @Input()
   public required = false;
 
-  public klass;
   public attributeConfig: AttributeConfigItem;
   public onChange: any = () => {};
   public onTouch: any = () => {};
@@ -89,6 +89,12 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnDestroy, Cont
 
     if (!this.label) {
       this.label = this.attributeConfig.name;
+    }
+  }
+
+  public ngOnChanges(changes: SimpleChanges): void {
+    if (changes.class) {
+      this.autocomplete.data = [];
     }
   }
 
