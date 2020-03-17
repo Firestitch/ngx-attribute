@@ -16,13 +16,15 @@ export { FsAttributeFieldGroupsComponent } from './app/components/attribute-fiel
 export { FsAttributeAutocompleteComponent } from './app/components/attribute-autocomplete';
 export { FsAttributeSelectorComponent } from './app/components/attribute-selector';
 export { FsAttributeSelectorWithGroupsComponent } from './app/components/selector-with-groups/selector-with-groups.component';
-export { FsAttributeListColumnDirective } from './app/directives/list-column.directive';
-export { FsAttributeTemplateDirective } from './app/directives/attribute-template.component';
 
+export { FsAttributeTemplateDirective } from './app/directives/attribute-template.component';
+export { FsAttributeListColumnDirective } from './app/directives/list-column.directive';
+export { FsAttributeAutocompleteChipsStaticDirective } from './app/directives/attribute-autocomplete-chips-static.component';
 
 export * from './app/interfaces/attribute-config.interface';
 export * from './app/providers';
 export * from './app/enums/enums';
 export * from './app/models/attribute';
 export * from './app/helpers/helpers';
+
 export { FsAttributeListAction } from './app/interfaces/list-action.interface';

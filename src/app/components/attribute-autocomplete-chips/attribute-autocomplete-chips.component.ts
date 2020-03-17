@@ -11,11 +11,11 @@ import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 import { Subject } from 'rxjs';
 import { takeUntil, map } from 'rxjs/operators';
 
+import { FsAttributeAutocompleteChipsStaticDirective } from './../../directives/attribute-autocomplete-chips-static.component';
+
 import { AttributesConfig } from '../../services/attributes-config';
 import { AttributeConfigItem } from '../../models/attribute-config';
 import { AttributeItem } from '../../models/attribute';
-import { FsAutocompleteChipsStaticDirective } from '@firestitch/autocomplete-chips';
-
 
 @Component({
   selector: 'fs-attribute-autocomplete-chips',
@@ -29,11 +29,11 @@ import { FsAutocompleteChipsStaticDirective } from '@firestitch/autocomplete-chi
 })
 export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy, ControlValueAccessor {
 
-  @ContentChildren(FsAutocompleteChipsStaticDirective, { read: TemplateRef })
+  @ContentChildren(FsAttributeAutocompleteChipsStaticDirective, { read: TemplateRef })
   public staticTemplates: TemplateRef<any>[] = null;
 
-  @ContentChildren(FsAutocompleteChipsStaticDirective)
-  public staticDirectives: QueryList<FsAutocompleteChipsStaticDirective>;
+  @ContentChildren(FsAttributeAutocompleteChipsStaticDirective)
+  public staticDirectives: QueryList<FsAttributeAutocompleteChipsStaticDirective>;
 
   @Input() public color = '';
   @Input() public background = '';
@@ -153,7 +153,7 @@ export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy,
   public registerOnTouched(fn) { this.onTouch = fn; }
 
   public staticClick(event, index) {
-    const staticDirective: FsAutocompleteChipsStaticDirective = this.staticDirectives.toArray()[index];
+    const staticDirective: FsAttributeAutocompleteChipsStaticDirective = this.staticDirectives.toArray()[index];
     staticDirective.click.emit(event);
   }
 

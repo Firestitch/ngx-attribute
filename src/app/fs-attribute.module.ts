@@ -41,6 +41,7 @@ import { AttributeSearchComponent } from './components/search/search.component';
 import { FsAttributeSelectorWithGroupsComponent } from './components/selector-with-groups/selector-with-groups.component';
 
 import { FsAttributeListColumnDirective } from './directives/list-column.directive';
+import { FsAttributeAutocompleteChipsStaticDirective } from './directives/attribute-autocomplete-chips-static.component';
 import { FsAttributeTemplateDirective } from './directives/attribute-template.component';
 
 import { FS_ATTRIBUTE_DEFAULT_CONFIG } from './providers';
@@ -86,6 +87,7 @@ import { AttributesConfig } from './services/attributes-config';
     FsAttributeSelectorWithGroupsComponent,
     FsAttributeListColumnDirective,
     FsAttributeTemplateDirective,
+    FsAttributeAutocompleteChipsStaticDirective
   ],
   entryComponents: [
     FsAttributeSelectorComponent,
@@ -111,6 +113,7 @@ import { AttributesConfig } from './services/attributes-config';
     FsAttributeAutocompleteComponent,
     FsAttributeListColumnDirective,
     FsAttributeTemplateDirective,
+    FsAttributeAutocompleteChipsStaticDirective
   ]
 })
 export class FsAttributeModule {
