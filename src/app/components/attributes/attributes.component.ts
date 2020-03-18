@@ -45,6 +45,9 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
   public data;
 
   @Input()
+  public size;
+
+  @Input()
   @HostBinding('class.has-attributes')
   public hasAttributes: boolean;
 

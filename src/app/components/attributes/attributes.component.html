@@ -1,6 +1,7 @@
 <fs-attribute
   *ngFor="let attribute of _attributes"
   [attribute]="attribute"
+  [size]="size"
   [class]="klass">
   <ng-template
     [ngTemplateOutlet]="templ || defaultTemplate"

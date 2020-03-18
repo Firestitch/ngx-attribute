@@ -23,6 +23,9 @@ export class FsAttributeComponent implements OnInit {
   public selectable: any;
 
   @Input()
+  public size: any;
+
+  @Input()
   public selected: any;
 
   @Input()
