@@ -51,10 +51,10 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
   // @Output()
   // public changed = new EventEmitter();
 
-  @ContentChild(FsAttributeTemplateDirective, { read: TemplateRef, static: false })
+  @ContentChild(FsAttributeTemplateDirective, { read: TemplateRef })
   public templ: TemplateRef<FsAttributeTemplateDirective>;
 
-  @ViewChild(FsTreeComponent, { static: false })
+  @ViewChild(FsTreeComponent)
   public tree: FsTreeComponent<any>;
 
   public attributes: AttributeItem[] = [];

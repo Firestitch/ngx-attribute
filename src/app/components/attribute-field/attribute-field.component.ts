@@ -51,7 +51,7 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
   @Output()
   public changed = new EventEmitter<AttributeItem[]>();
 
-  @ContentChild(FsAttributeTemplateDirective, { read: TemplateRef, static: false })
+  @ContentChild(FsAttributeTemplateDirective, { read: TemplateRef })
   public templ: TemplateRef<FsAttributeTemplateDirective>;
 
   public title: string | boolean;

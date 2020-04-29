@@ -117,7 +117,7 @@ import { AttributesConfig } from './services/attributes-config';
   ]
 })
 export class FsAttributeModule {
-  static forRoot(config?: FsAttributeConfig): ModuleWithProviders {
+  static forRoot(config?: FsAttributeConfig): ModuleWithProviders<FsAttributeModule> {
     return {
       ngModule: FsAttributeModule,
       providers: [

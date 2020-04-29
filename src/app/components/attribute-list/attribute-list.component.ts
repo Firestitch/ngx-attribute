@@ -37,7 +37,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   @ViewChild('list', { static: true })
   public list: FsListComponent;
 
-  @ContentChild(FsAttributeListColumnDirective, { read: TemplateRef, static: false })
+  @ContentChild(FsAttributeListColumnDirective, { read: TemplateRef })
   public columnTemplate: TemplateRef<any>;
 
   @Input('class')
