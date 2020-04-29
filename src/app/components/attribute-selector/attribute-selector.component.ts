@@ -130,7 +130,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
         takeUntil(this._destroy$)
       )
       .subscribe(response => {
-        this.fetch();
+        this.fetch(response?.attribute.id);
       });
   }
 
@@ -169,7 +169,10 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
     }
   }
 
-  private fetch() {
+  /**
+   * @param autoSelectId - param which can be passed for automatically select some attr after fetch
+   */
+  private fetch(autoSelectId: number = null) {
     const e = {
       query: {},
       class: this.klass,
@@ -183,6 +186,21 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
       .subscribe((response) => {
         this.attributes = response.data;
         this.filteredAttributes = this.attributes.slice();
+
+        if (autoSelectId) {
+          const attribute = this.attributes
+            .find((attr) => attr.id === autoSelectId);
+
+          // Add to selected attributes
+          this.selectedAttributes.push(attribute);
+
+          // selectedToggle method required special event object
+          const event = {
+            selected: true,
+            value: attribute
+          }
+          this.selectedToggle(event);
+        }
 
         this.cdRef.markForCheck();
       });

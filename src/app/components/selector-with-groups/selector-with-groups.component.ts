@@ -149,7 +149,12 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
       takeUntil(this._destroy$)
     )
     .subscribe(response => {
-      this.fetch();
+      this.fetch(
+        null,
+        {
+        parentId: response?.parent.id,
+        attrId: response?.attribute.id,
+      });
     });
   }
 
@@ -167,7 +172,12 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
       });
   }
 
-  private fetch(keyword = null) {
+  /**
+   *
+   * @param keyword
+   * @param autoSelectAttr - param which can be passed for automatically select some attr after fetch
+   */
+  private fetch(keyword = null, autoSelectAttr = null) {
     const e = {
       query: {},
       keyword: keyword,
@@ -181,6 +191,26 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
       )
       .subscribe((response) => {
         this.attributes = response.data;
+
+        // We should auto select attribute after it was created
+        if (autoSelectAttr) {
+          const group = this.attributes
+            .find((attr) => attr.id === autoSelectAttr.parentId);
+
+          if (group) {
+            const attribute = group.children.find((attr) => attr.id === autoSelectAttr.attrId);
+
+            // Add to selected attributes
+            this.selectedAttributes.push(attribute);
+
+            // selectedToggle method required special event object
+            const event = {
+              selected: true,
+              value: attribute
+            }
+            this.selectedToggle(event);
+          }
+        }
 
         this.cdRef.markForCheck();
       });
