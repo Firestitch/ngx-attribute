@@ -62,7 +62,8 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
       attribute: this.attribute,
       class: this.data.klass,
       data: this.data.data,
-      file: file
+      file: file,
+      query_configs: this.data?.query_configs,
     };
 
     this.saving = true;
@@ -113,6 +114,7 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
       class: this.data.klass,
       data: this.data.data,
       parent: parent,
+      query_configs: this.data?.query_configs,
     };
 
     this.attributesConfig.saveAttribute(eventData)

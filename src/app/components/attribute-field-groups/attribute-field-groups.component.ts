@@ -116,7 +116,8 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
         class: this.klass,
         childClass: this.attributeConfig.childClass,
         data: this.data,
-        showCreate: this.showCreate
+        showCreate: this.showCreate,
+        query_configs: this.queryConfigs,
       },
       panelClass: [`fs-attribute-dialog`, `fs-attribute-${this.klass}`],
     });

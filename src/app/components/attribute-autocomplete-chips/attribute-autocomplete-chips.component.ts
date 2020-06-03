@@ -120,6 +120,7 @@ export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy,
       selected: selected,
       reorder: reorder,
       value: item,
+      query_configs: this.queryConfigs,
     })
       .pipe(
         takeUntil(this._destroy$),

@@ -77,6 +77,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         klass: this.klass,
         data: this.data,
         mode: 'edit',
+        query_configs: this.queryConfigs,
       },
       panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.klass}`],
     });
@@ -156,7 +157,8 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
           const e = {
             attributes: data,
             data: this.data,
-            class: this.klass
+            class: this.klass,
+            query_configs: this.queryConfigs,
           };
 
           this.attributesConfig.reorderAttributes(e)
@@ -198,6 +200,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         klass: this.klass,
         data: this.data,
         mode: 'create',
+        query_configs: this.queryConfigs,
       },
       panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.klass}`],
     });

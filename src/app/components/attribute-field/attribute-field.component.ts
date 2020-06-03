@@ -108,7 +108,8 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
         selectedAttributes: this.attributes.slice(),
         class: this.klass,
         data: this.data,
-        showCreate: this.showCreate
+        showCreate: this.showCreate,
+        query_configs: this.queryConfigs,
       },
       panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.klass}`],
     });

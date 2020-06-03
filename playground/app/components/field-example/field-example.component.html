@@ -1,6 +1,7 @@
 <fs-attribute-field
   class="person"
   [data]="{ id: 999, name: 'Object A' }"
+  [queryConfigs]="{param: 1}"
   (changed)="changed($event)">
   <ng-template fsAttributeTemplate let-attribute="attribute">
     {{ attribute.name }} (chip)

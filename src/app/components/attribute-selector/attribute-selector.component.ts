@@ -124,6 +124,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
         config: this.dialogData && this.dialogData.config,
         data: this.data,
         mode: 'create',
+        query_configs: this.dialogData?.query_configs || this.queryConfigs,
       },
       panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.attributeConfig.klass}`],
     });
@@ -180,7 +181,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
       query: {},
       class: this.klass,
       data: this.data,
-      query_configs: this.queryConfigs
+      query_configs: this.dialogData?.query_configs || this.queryConfigs
     };
 
     this.attributesConfig.getAttributes(e)
