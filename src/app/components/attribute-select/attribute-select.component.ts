@@ -56,6 +56,9 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy, ControlVal
   @Input()
   public noneOption = false;
 
+  @Input()
+  public queryConfigs: any;
+
   public klass;
   public attributeName;
   public attributes: AttributeItem[] = [];
@@ -108,7 +111,8 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy, ControlVal
   public fetch() {
     const e = {
       data: this.data,
-      class: this.klass
+      class: this.klass,
+      query_configs: this.queryConfigs,
     };
 
     this.attributesConfig.getAttributes(e)

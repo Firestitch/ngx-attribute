@@ -48,6 +48,9 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
   @Input()
   public showCreate = true;
 
+  @Input()
+  public queryConfigs: any;
+
   // @Output()
   // public changed = new EventEmitter();
 
@@ -123,7 +126,8 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
 
   private _loadData() {
     this.attributesConfig.getAttributeTree({
-      class: this.klass
+      class: this.klass,
+      query_configs: this.queryConfigs,
     })
       .pipe(
         takeUntil(this._destroy$),

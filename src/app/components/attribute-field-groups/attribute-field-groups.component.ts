@@ -36,6 +36,9 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
   public klass: string;
 
   @Input()
+  public queryConfigs: any;
+
+  @Input()
   public mode;
 
   @Input()
@@ -70,6 +73,7 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
       data: this.data,
       parentClass: this.klass,
       class: this.attributeConfig.childClass,
+      query_configs: this.queryConfigs,
     };
 
     this.attributesConfig.getSelectedAttributes(e)

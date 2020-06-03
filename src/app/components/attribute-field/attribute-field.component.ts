@@ -48,6 +48,9 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
   @Input('class')
   public klass: string;
 
+  @Input()
+  public queryConfigs: any;
+
   @Output()
   public changed = new EventEmitter<AttributeItem[]>();
 
@@ -84,7 +87,8 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
   public fetch() {
     const e = {
       data: this.data,
-      class: this.klass
+      class: this.klass,
+      query_configs: this.queryConfigs,
     };
 
     this.attributesConfig.getSelectedAttributes(e)

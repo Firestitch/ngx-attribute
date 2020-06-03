@@ -49,6 +49,9 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
   @Input()
   public selectedAttributes = [];
 
+  @Input()
+  public queryConfigs: any;
+
   @Output()
   public selectedToggled = new EventEmitter();
 
@@ -176,7 +179,8 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
     const e = {
       query: {},
       class: this.klass,
-      data: this.data
+      data: this.data,
+      query_configs: this.queryConfigs
     };
 
     this.attributesConfig.getAttributes(e)

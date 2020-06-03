@@ -46,6 +46,9 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
   @Input()
   public placeholder = 'Search';
 
+  @Input()
+  public queryConfigs: any;
+
   @Output()
   public selectedToggled = new EventEmitter();
 
@@ -183,6 +186,7 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
       keyword: keyword,
       class: this.klass,
       data: this.data,
+      query_configs: this.queryConfigs,
     };
 
     this.attributesConfig.getAttributes(e)

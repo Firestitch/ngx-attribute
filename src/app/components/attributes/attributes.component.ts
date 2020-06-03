@@ -48,6 +48,9 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
   public size;
 
   @Input()
+  public queryConfigs: any;
+
+  @Input()
   @HostBinding('class.has-attributes')
   public hasAttributes: boolean;
 
@@ -92,7 +95,8 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
   public fetch() {
     const e = {
       data: this.data,
-      class: this.klass
+      class: this.klass,
+      query_configs: this.queryConfigs,
     };
 
     this.attributesConfig.getSelectedAttributes(e)

@@ -49,6 +49,9 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   @Input()
   public data: string;
 
+  @Input()
+  public queryConfigs: any;
+
   public listConfig: FsListConfig;
   // public listItems
   public attributeConfig: AttributeConfigItem = null;
@@ -133,7 +136,8 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         const e = {
           query: query,
           data: this.data,
-          class: this.klass
+          class: this.klass,
+          query_configs: this.queryConfigs,
         };
 
         return this.attributesConfig.getAttributes(e)

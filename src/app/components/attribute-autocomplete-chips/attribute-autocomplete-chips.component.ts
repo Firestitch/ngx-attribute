@@ -53,6 +53,9 @@ export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy,
   @Input()
   public draggable = true;
 
+  @Input()
+  public queryConfigs: any;
+
   public attributeConfig: AttributeConfigItem;
 
   public onChange: any = () => {};
@@ -99,6 +102,7 @@ export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy,
       class: this.klass,
       data: this.data,
       keyword: keyword,
+      query_configs: this.queryConfigs,
     })
       .pipe(
         map((response) => {

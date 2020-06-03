@@ -58,6 +58,9 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnChanges, OnDe
   @Input()
   public required = false;
 
+  @Input()
+  public queryConfigs: any;
+
   public attributeConfig: AttributeConfigItem;
   public onChange: any = () => {};
   public onTouch: any = () => {};
@@ -104,6 +107,7 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnChanges, OnDe
       class: this.klass,
       data: this.data,
       keyword: keyword,
+      query_configs: this.queryConfigs,
     })
       .pipe(
         map((response) => {
