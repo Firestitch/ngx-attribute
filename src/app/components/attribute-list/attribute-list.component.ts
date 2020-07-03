@@ -52,6 +52,8 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   @Input()
   public queryConfigs: any;
 
+  @Input() public queryParam: boolean = null;
+
   public listConfig: FsListConfig;
   // public listItems
   public attributeConfig: AttributeConfigItem = null;
@@ -62,7 +64,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
     public attributesConfig: AttributesConfig,
     private dialog: MatDialog,
     private cdRef: ChangeDetectorRef,
-  ) {}
+  ) { }
 
   public ngOnInit() {
     this.attributeConfig = this.attributesConfig.getConfig(this.klass);
@@ -170,6 +172,10 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
             });
         }
       };
+    }
+
+    if (this.queryParam !== null) {
+      config.queryParam = this.queryParam;
     }
 
     this.listConfig = config;
