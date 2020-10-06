@@ -106,7 +106,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
       filters: [
         {
           name: 'keyword',
-          type: ItemType.Text,
+          type: ItemType.Keyword,
           label: 'Search'
         }
       ],
