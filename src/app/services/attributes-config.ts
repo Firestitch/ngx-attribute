@@ -123,8 +123,8 @@ export class AttributesConfig {
   }
 
   public reorderAttributes(event: any) {
-    if (event && Array.isArray(event.attributes)){
-      event.attributes = event.attributes.map((attr) => attr.toJSON());
+    if (event && Array.isArray(event.attributes)) {
+      event.attributes = event.attributes.map((attr) => attr.data.toJSON());
     }
 
     return this._fsAttributeConfig.reorderAttributes(event);
