@@ -82,7 +82,7 @@
     "exif-js": "^2.3.0",
     "fileapi": "^2.1.1",
     "hammerjs": "^2.0.8",
-    "highlight.js": "^9.18.1",
+    "highlight.js": "^10.1.2",
     "imask": "^6.0.5",
     "lodash-es": "^4.17.15",
     "ng-packagr": "^9.0.0",
