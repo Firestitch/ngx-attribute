@@ -2,11 +2,14 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
+  ViewChild,
   Inject,
   OnDestroy,
   OnInit
 } from '@angular/core';
+
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatButton } from '@angular/material/button';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -31,6 +34,8 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
   public parentSelector: string;
   public selectedParent: AttributeItem;
   public inEditMode = false;
+
+  @ViewChild('submitButton') public submitButton: MatButton = null;
 
   private _destroy$ = new Subject<void>();
 
@@ -72,6 +77,7 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
         takeUntil(this._destroy$),
       )
       .subscribe((response: any) => {
+        this.submitButton.disabled = false;
 
         // TAD-T527 prevent loss config object link (was passed into attribute component wrapper
         if (Array.isArray(response.configs)) {
@@ -135,4 +141,5 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
     this._destroy$.next();
     this._destroy$.complete();
   }
+
 }

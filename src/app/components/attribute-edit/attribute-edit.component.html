@@ -36,7 +36,7 @@
     </div>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button mat-button color="primary" [disabled]="saving">{{ inEditMode ? 'Save' : 'Create'}}</button>
+    <button mat-button color="primary" [disabled]="saving" #submitButton>{{ inEditMode ? 'Save' : 'Create'}}</button>
     <button mat-button (click)="close()" type="button">Cancel</button>
   </mat-dialog-actions>
 </form>
