@@ -27,7 +27,7 @@
       </fs-attribute-select>
 
       <mat-form-field *ngIf="attributeConfig.backgroundColor">
-        <input matInput placeholder="Color" fsColorPicker [(ngModel)]="attribute.backgroundColor" name="color">
+        <input matInput placeholder="Color" fsColorPicker [(ngModel)]="attribute.backgroundColor" [prepopulate]="true" name="color">
       </mat-form-field>
 
       <ng-container *ngFor="let field of attributeConfig.fields">

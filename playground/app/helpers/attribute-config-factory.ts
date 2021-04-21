@@ -75,10 +75,10 @@ export function attributeConfigFactory(prompt: FsPrompt): FsAttributeConfig {
       id: 'id',
       name: 'name',
       image: 'image.small',
-      backgroundColor: 'background_color',
+      backgroundColor: 'backgroundColor',
       configs: 'configs',
       childAttributes: 'attributes',
-      parentAttribute: 'parent_attribute'
+      parentAttribute: 'parentAttribute'
     },
     getAttributeTree: (e) => {
       const data = attributesStore.filter((item) => item.class === e.class);

@@ -2,7 +2,7 @@ export const attributesStore = [
   {
     id: 1,
     class: 'person',
-    background_color: '#19A8E2',
+    backgroundColor: '#19A8E2',
     image: {
       small: '/assets/headshot2.jpg'
     },
@@ -12,7 +12,7 @@ export const attributesStore = [
   {
     id: 2,
     class: 'person',
-    background_color: '#008A75',
+    backgroundColor: '#008A75',
     image: {
       small: '/assets/headshot3.jpg',
     },
@@ -22,7 +22,7 @@ export const attributesStore = [
   {
     id: 3,
     class: 'person',
-    background_color: '#61b4c0',
+    backgroundColor: '#61b4c0',
     image: {
       small: '/assets/headshot4.jpg',
     },
@@ -31,7 +31,7 @@ export const attributesStore = [
   {
     id: 4,
     class: 'person',
-    background_color: '#ffd204',
+    backgroundColor: '#ffd204',
     image: {
       small: '/assets/headshot5.jpg',
     },
@@ -43,7 +43,7 @@ export const attributesStore = [
   {
     id: 5,
     class: 'aroma_type',
-    background_color: '#19A8E2',
+    backgroundColor: '#19A8E2',
     image: {
       small: '/assets/headshot2.jpg'
     },
@@ -58,10 +58,10 @@ export const attributesStore = [
         id: 7,
         class: 'aroma',
         name: 'Aroma 2',
-        parent_attribute: {
+        parentAttribute: {
           id: 5,
           class: 'aroma_type',
-          background_color: '#19A8E2',
+          backgroundColor: '#19A8E2',
           image: {
             small: '/assets/headshot2.jpg'
           },
@@ -73,7 +73,7 @@ export const attributesStore = [
   {
     id: 8,
     class: 'aroma_type',
-    background_color: '#008A75',
+    backgroundColor: '#008A75',
     image: {
       small: '/assets/headshot3.jpg',
     },
@@ -83,10 +83,10 @@ export const attributesStore = [
         id: 9,
         class: 'aroma',
         name: 'Aroma 3',
-        parent_attribute: {
+        parentAttribute: {
           id: 8,
           class: 'aroma_type',
-          background_color: '#008A75',
+          backgroundColor: '#008A75',
           image: {
             small: '/assets/headshot3.jpg',
           },
@@ -104,10 +104,10 @@ export const attributesStore = [
     id: 6,
     class: 'aroma',
     name: 'Aroma 1',
-    parent_attribute: {
+    parentAttribute: {
       id: 5,
       class: 'aroma_type',
-      background_color: '#19A8E2',
+      backgroundColor: '#19A8E2',
       image: {
         small: '/assets/headshot2.jpg'
       },
@@ -118,10 +118,10 @@ export const attributesStore = [
     id: 7,
     class: 'aroma',
     name: 'Aroma 2',
-    parent_attribute:   {
+    parentAttribute:   {
       id: 5,
       class: 'aroma_type',
-      background_color: '#19A8E2',
+      backgroundColor: '#19A8E2',
       image: {
         small: '/assets/headshot2.jpg'
       },
@@ -132,10 +132,10 @@ export const attributesStore = [
     id: 9,
     class: 'aroma',
     name: 'Aroma 3',
-    parent_attribute: {
+    parentAttribute: {
       id: 8,
       class: 'aroma_type',
-      background_color: '#008A75',
+      backgroundColor: '#008A75',
       image: {
         small: '/assets/headshot3.jpg',
       },
@@ -146,10 +146,10 @@ export const attributesStore = [
     id: 10,
     class: 'aroma',
     name: 'Aroma 4',
-    parent_attribute: {
+    parentAttribute: {
       id: 8,
       class: 'aroma_type',
-      background_color: '#008A75',
+      backgroundColor: '#008A75',
       image: {
         small: '/assets/headshot3.jpg',
       },

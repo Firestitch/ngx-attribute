@@ -27,4 +27,6 @@ export * from './app/enums/enums';
 export * from './app/models/attribute';
 export * from './app/helpers/helpers';
 
+export { FsAttributeService } from './app/services/attribute-service';
+
 export { FsAttributeListAction } from './app/interfaces/list-action.interface';

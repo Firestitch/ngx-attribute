@@ -18,7 +18,6 @@ export class AutocompleteChipsComponent implements OnInit {
   public ngOnInit() {
   }
 
-
   public changed(e) {
     console.log(e);
   }

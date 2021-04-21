@@ -3,9 +3,7 @@ import { FS_ATTRIBUTE_FIELD_DATA } from '../../../providers';
 
 @Component({
   selector: 'fs-attribute-component-wrapper',
-  template: `
-    <ng-container *ngComponentOutlet="component; injector: customInjector"></ng-container>
-  `,
+  template: `<ng-container *ngComponentOutlet="component; injector: customInjector"></ng-container>`,
 })
 export class FsAttributeComponentWrapperComponent implements OnInit {
   @Input() public field: any;

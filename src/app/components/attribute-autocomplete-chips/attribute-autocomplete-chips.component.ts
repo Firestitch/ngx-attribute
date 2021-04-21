@@ -39,6 +39,15 @@ export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy,
   @Input() public background = '';
 
   @Input()
+  public initOnClick = false;
+
+  @Input()
+  public size = 'large';
+
+  @Input()
+  public saveOnChange = true;
+
+  @Input()
   public data;
 
   @Input('class')
@@ -90,6 +99,14 @@ export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy,
     if (!this.label) {
       this.label = this.attributeConfig.name;
     }
+
+    if (!this.background && this.attributeConfig.backgroundColor) {
+      this.background = this.attributeConfig.mapping.backgroundColor;
+    }
+
+    if (!this.color && this.attributeConfig.color) {
+      this.color = this.attributeConfig.mapping.color;
+    }
   }
 
   public ngOnDestroy() {
@@ -112,6 +129,46 @@ export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy,
       );
   };
 
+  public writeValue(value) {
+    if (value && Array.isArray(value)) {
+      this._value = value.map((item) => new AttributeItem(item, this.attributesConfig));
+    } else {
+      this._value = null;
+    }
+
+    this._cdRef.markForCheck();
+  }
+
+  public selected(item) {
+    if (this.saveOnChange) {
+      this.save(item.data, true);
+    }
+  }
+
+  public removed(item) {
+    if (this.saveOnChange) {
+      this.save(item.data, false);
+    }
+  }
+
+  public reordered(data) {
+    if (this.saveOnChange) {
+      this.save(data.item, false, data);
+    }
+  }
+
+  public compare = (o1: any, o2: any) => {
+    return this.attributesConfig.compareAttributes(o1, o2);
+  };
+
+  public registerOnChange(fn) { this.onChange = fn;  }
+  public registerOnTouched(fn) { this.onTouch = fn; }
+
+  public staticClick(event, index) {
+    const staticDirective: FsAttributeAutocompleteChipsStaticDirective = this.staticDirectives.toArray()[index];
+    staticDirective.click.emit(event);
+  }
+
   public save(item = null, selected = false, reorder = null) {
     this.attributesConfig.attributeSelectionChanged({
       class: this.klass,
@@ -126,40 +183,6 @@ export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy,
         takeUntil(this._destroy$),
       )
       .subscribe()
-  }
-
-  public writeValue(value) {
-    if (value && Array.isArray(value)) {
-      this._value = value.map((item) => new AttributeItem(item, this.attributesConfig));
-    } else {
-      this._value = null;
-    }
-
-    this._cdRef.markForCheck();
-  }
-
-  public selected(item) {
-    this.save(item.data, true);
-  }
-
-  public removed(item) {
-    this.save(item.data, false);
-  }
-
-  public reordered(data) {
-    this.save(data.item, false, data);
-  }
-
-  public compare = (o1: any, o2: any) => {
-    return this.attributesConfig.compareAttributes(o1, o2);
-  };
-
-  public registerOnChange(fn) { this.onChange = fn;  }
-  public registerOnTouched(fn) { this.onTouch = fn; }
-
-  public staticClick(event, index) {
-    const staticDirective: FsAttributeAutocompleteChipsStaticDirective = this.staticDirectives.toArray()[index];
-    staticDirective.click.emit(event);
   }
 
   private _getRawValue() {

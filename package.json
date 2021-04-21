@@ -2,7 +2,7 @@
   "name": "@firestitch/attribute",
   "title": "Attribute",
   "description": "@firestitch/attribute",
-  "version": "9.1.4",
+  "version": "9.2.5",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/ngx-attribute"
@@ -46,11 +46,11 @@
     "@angular/router": "^9.0.2",
     "@compodoc/compodoc": "^1.1.11",
     "@firestitch/autocomplete": "^8.4.3",
-    "@firestitch/autocomplete-chips": "^8.3.3",
+    "@firestitch/autocomplete-chips": "^10.0.8",
     "@firestitch/badge": "^8.0.0",
-    "@firestitch/chip": "^8.1.0",
+    "@firestitch/chip": "^8.1.1",
     "@firestitch/clear": "^8.0.0",
-    "@firestitch/colorpicker": "^8.0.1",
+    "@firestitch/colorpicker": "^8.2.2",
     "@firestitch/common": "^8.0.5",
     "@firestitch/date": "^8.0.1",
     "@firestitch/datepicker": "^8.2.9",

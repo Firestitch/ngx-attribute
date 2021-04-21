@@ -24,6 +24,7 @@ import { AttributeItem } from '../../models/attribute';
 
 import { FsAttributeListColumnDirective } from '../../directives/list-column.directive';
 import { FsAttributeListAction } from '../../interfaces/list-action.interface';
+import { FsAttributeService } from '../../services/attribute-service';
 
 
 @Component({
@@ -61,6 +62,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   private _destroy$ = new Subject();
 
   constructor(
+    public attributeService: FsAttributeService,
     public attributesConfig: AttributesConfig,
     private dialog: MatDialog,
     private cdRef: ChangeDetectorRef,
@@ -123,7 +125,6 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
             return this._deleteRow(row);
           },
           remove: true,
-          icon: 'delete',
           label: 'Remove'
         }
       ],
@@ -200,22 +201,16 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   }
 
   private _createActionClick() {
-    const dialogRef = this.dialog.open(FsAttributeEditComponent, {
-      data: {
-        attribute: new AttributeItem({ class: this.klass }, this.attributesConfig),
-        klass: this.klass,
-        data: this.data,
-        mode: 'create',
-        query_configs: this.queryConfigs,
-      },
-      panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.klass}`],
+    const dialogRef = this.attributeService.createAttribute(this.klass, {
+      data: this.data,
+      queryConfigs: this.queryConfigs,
     });
 
     dialogRef.afterClosed()
       .pipe(
         takeUntil(this._destroy$),
       )
-      .subscribe(response => {
+      .subscribe(() => {
         this.list.reload();
       });
   }

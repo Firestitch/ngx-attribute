@@ -3,7 +3,9 @@
   [actions]="actions"
   [data]="{ id: 999, name: 'Object A' }">
   <ng-template fsAttributeListColumn let-attribute="attribute">
-    <div>{{attribute.name}}</div>
-    <small>CEO</small>
+    <div class="row">
+      <div>{{attribute.name}}</div>
+      CEO
+    </div>
   </ng-template>
 </fs-attribute-list>
