@@ -48,7 +48,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   public actions: FsAttributeListAction[] = [];
 
   @Input()
-  public data: string;
+  public data: any;
 
   @Input()
   public queryConfigs: any;
