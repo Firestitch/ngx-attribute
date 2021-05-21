@@ -20,8 +20,6 @@ import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.compo
 import { AttributeConfigItem } from '../../models/attribute-config';
 import { AttributesConfig } from '../../services/attributes-config';
 import { AttributeItem } from '../../models/attribute';
-import { scrollIntoView } from '../../helpers/scroll-into-view';
-
 
 @Component({
   selector: 'fs-attribute-selector',
@@ -51,6 +49,9 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
 
   @Input()
   public queryConfigs: any;
+
+  @Input()
+  public size: 'small' | 'tiny';
 
   @Output()
   public selectedToggled = new EventEmitter();
@@ -82,6 +83,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
       this.dialogMode = !!this.dialogData;
       this.klass = this.dialogData.class;
       this.data = this.dialogData.data;
+      this.size = this.dialogData.size;
 
       this.selectedAttributes = this.dialogData.selectedAttributes;
       this.showCreate = this.dialogData.showCreate;
@@ -95,8 +97,6 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
 
     this.fetch();
     this.compareFn = this.getCompareFn();
-
-    scrollIntoView(this.el);
   }
 
   public getCompareFn() {
@@ -126,7 +126,11 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
         mode: 'create',
         query_configs: this.dialogData?.query_configs || this.queryConfigs,
       },
-      panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.attributeConfig.klass}`],
+      panelClass: [
+        `fs-attribute-dialog`,
+        `fs-attribute-dialog-no-scroll`,
+        `fs-attribute-${this.attributeConfig.klass}`,
+      ],
     });
 
     dialogRef.afterClosed()
@@ -137,7 +141,6 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
         this.fetch(response?.attribute.id);
       });
   }
-
 
   public selectedToggle(event) {
     this.selectedToggled.emit({

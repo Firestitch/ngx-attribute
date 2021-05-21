@@ -23,6 +23,7 @@ import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
 import { FsTreeModule } from '@firestitch/tree';
 import { FsAutocompleteModule } from '@firestitch/autocomplete';
 import { FsMenuModule } from '@firestitch/menu';
+import { FsDialogModule } from '@firestitch/dialog';
 
 import { FsAttributeComponent } from './components/attribute/attribute.component';
 import { FsAttributeFieldComponent } from './components/attribute-field/attribute-field.component';
@@ -39,11 +40,9 @@ import { FsAttributeTreeComponent } from './components/attribute-tree/attribute-
 import { FsAttributeFieldGroupsComponent } from './components/attribute-field-groups/attribute-field-groups.component';
 import { AttributeSearchComponent } from './components/search/search.component';
 import { FsAttributeSelectorWithGroupsComponent } from './components/selector-with-groups/selector-with-groups.component';
-
 import { FsAttributeListColumnDirective } from './directives/list-column.directive';
 import { FsAttributeAutocompleteChipsStaticDirective } from './directives/attribute-autocomplete-chips-static.component';
 import { FsAttributeTemplateDirective } from './directives/attribute-template.component';
-
 import { FS_ATTRIBUTE_DEFAULT_CONFIG } from './providers';
 import { FsAttributeConfig } from './interfaces/attribute-config.interface';
 import { AttributesConfig } from './services/attributes-config';
@@ -53,6 +52,7 @@ import { AttributesConfig } from './services/attributes-config';
   imports: [
     FormsModule,
     CommonModule,
+
     MatChipsModule,
     MatIconModule,
     MatDialogModule,
@@ -61,6 +61,7 @@ import { AttributesConfig } from './services/attributes-config';
     MatFormFieldModule,
     MatAutocompleteModule,
     MatSelectModule,
+
     FsColorPickerModule,
     FsFormModule,
     FsLabelModule,
@@ -72,6 +73,7 @@ import { AttributesConfig } from './services/attributes-config';
     FsTreeModule,
     FsAutocompleteModule,
     FsMenuModule,
+    FsDialogModule,
   ],
   exports: [
     FsAttributeComponent,

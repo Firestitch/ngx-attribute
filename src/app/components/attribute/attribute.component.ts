@@ -23,7 +23,7 @@ export class FsAttributeComponent implements OnInit {
   public selectable: any;
 
   @Input()
-  public size: any;
+  public size: 'small' | 'tiny';
 
   @Input()
   public selected: any;

@@ -1,16 +1,17 @@
-  <ng-container *ngIf="dialogMode; else chipsList">
-  <div mat-dialog-title>{{attributeConfig.pluralName}}</div>
-  <mat-dialog-content>
-    <ng-template [ngTemplateOutlet]="chipsList"></ng-template>
-  </mat-dialog-content>
-  <mat-dialog-actions>
-    <button mat-button (click)="done()" color="primary">Done</button>
-    <button mat-button (click)="create()" *ngIf="showCreate!==false">Create {{attributeConfig.name}}</button>
-  </mat-dialog-actions>
+<ng-container *ngIf="dialogMode; else chipsList">
+  <fs-dialog>
+    <div mat-dialog-title>{{attributeConfig.pluralName}}</div>
+    <div mat-dialog-content>
+      <ng-template [ngTemplateOutlet]="chipsList"></ng-template>
+    </div>
+    <div mat-dialog-actions>
+      <button mat-button (click)="done()" color="primary">Done</button>
+      <button mat-button (click)="create()" *ngIf="showCreate!==false">Create {{attributeConfig.name}}</button>
+    </div>
+  </fs-dialog>
 </ng-container>
 
 <ng-template #chipsList>
-
   <mat-form-field class="search-attribute" *ngIf="filter">
     <mat-icon matPrefix>search</mat-icon>
     <div mat>
@@ -26,6 +27,7 @@
     [(ngModel)]="selectedAttributes"
     [compare]="compareFn">
     <fs-chip
+      [size]="size"
       *ngFor="let attribute of filteredAttributes"
       [selectable]="true"
       [image]="attribute.image"

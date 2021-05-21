@@ -20,7 +20,6 @@ import { FsAttributeEditComponent } from '../attribute-edit';
 import { AttributeConfigItem } from '../../models/attribute-config';
 import { AttributesConfig } from '../../services/attributes-config';
 import { AttributeItem } from '../../models/attribute';
-import { scrollIntoView } from '../../helpers/scroll-into-view';
 
 
 @Component({
@@ -92,8 +91,6 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
     this.compareFn = this.getCompareFn();
 
     this.fetch();
-
-    scrollIntoView(this.el);
   }
 
   public getCompareFn() {

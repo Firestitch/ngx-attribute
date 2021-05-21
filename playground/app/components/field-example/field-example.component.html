@@ -2,8 +2,6 @@
   class="person"
   [data]="{ id: 999, name: 'Object A' }"
   [queryConfigs]="{param: 1}"
+  size="small"
   (changed)="changed($event)">
-  <ng-template fsAttributeTemplate let-attribute="attribute">
-    {{ attribute.name }} (chip)
-  </ng-template>
 </fs-attribute-field>

@@ -21,6 +21,7 @@ import { FsAttributeConfig } from '../../interfaces/attribute-config.interface';
 import { AttributesConfig } from '../../services/attributes-config';
 import { AttributeItem } from '../../models/attribute';
 import { FsAttributeTemplateDirective } from '../../directives/attribute-template.component';
+import { AttributeConfig } from '../../interfaces/attribute-config.interface';
 
 
 @Component({
@@ -42,11 +43,17 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
 
   @Input()
   set heading(value) {
-    this.title = value;
+    this.label = value;
   }
 
   @Input('class')
   public klass: string;
+
+  @Input()
+  public label: string | boolean;
+
+  @Input()
+  public size: 'small' | 'tiny';
 
   @Input()
   public queryConfigs: any;
@@ -57,9 +64,8 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
   @ContentChild(FsAttributeTemplateDirective, { read: TemplateRef })
   public templ: TemplateRef<FsAttributeTemplateDirective>;
 
-  public title: string | boolean;
   public attributes: AttributeItem[] = [];
-  public attributeConfig: any = {};
+  public attributeConfig: AttributeConfig;
   private destroy$ = new Subject();
 
   constructor(
@@ -71,9 +77,8 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.attributeConfig = this.attributesConfig.getConfig(this.klass);
-
-    if (this.title === void 0 && this.attributeConfig.child) {
-      this.title = this.attributeConfig.child.pluralName
+    if (this.label === void 0) {
+      this.label = this.attributeConfig.pluralName;
     }
 
     this.fetch();
@@ -108,6 +113,7 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
         selectedAttributes: this.attributes.slice(),
         class: this.klass,
         data: this.data,
+        size: this.size,
         showCreate: this.showCreate,
         query_configs: this.queryConfigs,
       },

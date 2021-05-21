@@ -168,7 +168,7 @@ export class AttributesConfig {
     return this._fsAttributeConfig.sortByAttributeTree(data);
   }
 
-  public getConfig(name: string) {
+  public getConfig(name: string): any {
     if (this._configs.has(name)) {
       return this._configs.get(name);
     } else {
