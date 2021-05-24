@@ -2,13 +2,15 @@ import {
   ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   ContentChild,
+  Inject,
   Input,
   OnDestroy,
   OnInit,
+  Optional,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { MatDialog } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
 import { FsListComponent, FsListConfig, ReorderPosition, ReorderStrategy } from '@firestitch/list';
 import { ItemType } from '@firestitch/filter';
@@ -66,9 +68,15 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
     public attributesConfig: AttributesConfig,
     private dialog: MatDialog,
     private cdRef: ChangeDetectorRef,
+    @Optional()
+    @Inject(MAT_DIALOG_DATA)
+    public dialogData: any,
   ) { }
 
   public ngOnInit() {
+    this.klass = this.dialogData?.klass || this.klass;
+    this.data = this.dialogData?.data || this.data;
+    this.queryConfigs = this.dialogData?.queryConfigs || this.queryConfigs;
     this.attributeConfig = this.attributesConfig.getConfig(this.klass);
 
     this._setListConfig();

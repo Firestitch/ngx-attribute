@@ -20,6 +20,7 @@ import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.compo
 import { AttributeConfigItem } from '../../models/attribute-config';
 import { AttributesConfig } from '../../services/attributes-config';
 import { AttributeItem } from '../../models/attribute';
+import { FsAttributeListComponent } from '../attribute-list/attribute-list.component';
 
 @Component({
   selector: 'fs-attribute-selector',
@@ -34,6 +35,9 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
 
   @Input()
   public showCreate = true;
+
+  @Input()
+  public showManage = true;
 
   @Input('class')
   public klass: string;
@@ -131,6 +135,24 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
         `fs-attribute-dialog-no-scroll`,
         `fs-attribute-${this.attributeConfig.klass}`,
       ],
+    });
+
+    dialogRef.afterClosed()
+      .pipe(
+        takeUntil(this._destroy$)
+      )
+      .subscribe(response => {
+        this.fetch(response?.attribute.id);
+      });
+  }
+
+  public manage() {
+    const dialogRef = this.dialog.open(FsAttributeListComponent, {
+      data: {
+        klass: this.attributeConfig.klass,
+        data: this.data,
+        queryConfigs: this.dialogData?.query_configs || this.queryConfigs,
+      },
     });
 
     dialogRef.afterClosed()

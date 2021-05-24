@@ -6,7 +6,8 @@
     </div>
     <div mat-dialog-actions>
       <button mat-button (click)="done()" color="primary">Done</button>
-      <button mat-button (click)="create()" *ngIf="showCreate!==false">Create {{attributeConfig.name}}</button>
+      <button mat-button (click)="create()" *ngIf="showCreate !== false">Create</button>
+      <button mat-button (click)="manage()" *ngIf="showManage !== false">Manage</button>
     </div>
   </fs-dialog>
 </ng-container>
@@ -14,7 +15,7 @@
 <ng-template #chipsList>
   <mat-form-field class="search-attribute" *ngIf="filter">
     <mat-icon matPrefix>search</mat-icon>
-    <div mat>
+    <div>
       <input type="text" matInput
              [(ngModel)]="filterKeyword"
              (ngModelChange)="filterByKeyword()"
