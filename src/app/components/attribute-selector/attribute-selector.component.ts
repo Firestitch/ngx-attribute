@@ -20,7 +20,8 @@ import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.compo
 import { AttributeConfigItem } from '../../models/attribute-config';
 import { AttributesConfig } from '../../services/attributes-config';
 import { AttributeItem } from '../../models/attribute';
-import { FsAttributeListComponent } from '../attribute-list/attribute-list.component';
+import { FsAttributeManageComponent } from '../attribute-manage';
+
 
 @Component({
   selector: 'fs-attribute-selector',
@@ -147,7 +148,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
   }
 
   public manage() {
-    const dialogRef = this.dialog.open(FsAttributeListComponent, {
+    const dialogRef = this.dialog.open(FsAttributeManageComponent, {
       data: {
         klass: this.attributeConfig.klass,
         data: this.data,
