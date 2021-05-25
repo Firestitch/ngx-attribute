@@ -151,7 +151,9 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
     const dialogRef = this.dialog.open(FsAttributeManageComponent, {
       data: {
         klass: this.attributeConfig.klass,
+        pluralName: this.attributeConfig.pluralName,
         data: this.data,
+        size: this.size,
         queryConfigs: this.dialogData?.query_configs || this.queryConfigs,
       },
     });

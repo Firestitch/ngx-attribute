@@ -1,6 +1,9 @@
-<div mat-dialog-title>Manage Attributes</div>
+<div mat-dialog-title>Manage {{data.pluralName}}</div>
 <mat-dialog-content>
-  <fs-attribute-list [class]="data.class"></fs-attribute-list>
+  <fs-attribute-list
+    [class]="data.class"
+    [size]="data.size">
+  </fs-attribute-list>
 </mat-dialog-content>
 <mat-dialog-actions>
   <button mat-button (click)="close()" type="button">Done</button>

@@ -6,6 +6,7 @@
         <fs-attribute
           [attribute]="row"
           [class]="klass"
+          [size]="size"
           (click)="edit(row)"
         >
           <ng-container *ngIf="!columnTemplate; else columnTemplateRef">

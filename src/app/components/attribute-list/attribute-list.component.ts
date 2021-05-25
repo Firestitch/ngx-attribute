@@ -53,6 +53,9 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   public data: any;
 
   @Input()
+  public size: 'small' | 'tiny';
+
+  @Input()
   public queryConfigs: any;
 
   @Input() public queryParam: boolean = null;
@@ -109,9 +112,8 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
 
   private _setListConfig() {
     const config: FsListConfig = {
-      status: true,
       paging: {
-        limits: [ 50, 100, 200, 500, 1000 ] // TAD-T796
+        limits: [ 50, 100, 200, 500, 1000 ]
       },
       filters: [
         {
