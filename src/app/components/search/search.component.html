@@ -1,11 +1,13 @@
 <form autocomplete="off" role="presentation">
   <mat-form-field class="attributes-filter-input" floatLabel="never">
+    <mat-label>
+      {{placeholder}}
+    </mat-label>
     <span matPrefix><mat-icon matPrefix>search</mat-icon></span>
 
     <input matInput
            [(ngModel)]="searchText"
            (ngModelChange)="modelChange(searchText)"
-           [placeholder]="placeholder"
            name="attributes-filter-input"
     >
   </mat-form-field>

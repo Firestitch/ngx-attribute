@@ -14,12 +14,14 @@
 
 <ng-template #chipsList>
   <mat-form-field class="search-attribute" *ngIf="filter">
+    <mat-label>
+      {{placeholder}}
+    </mat-label>
     <mat-icon matPrefix>search</mat-icon>
     <div>
       <input type="text" matInput
              [(ngModel)]="filterKeyword"
              (ngModelChange)="filterByKeyword()"
-             [placeholder]="placeholder"
       >
     </div>
   </mat-form-field>

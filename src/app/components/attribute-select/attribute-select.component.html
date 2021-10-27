@@ -1,6 +1,8 @@
 <mat-form-field>
+  <mat-label>
+    {{ label || attributeName }}
+  </mat-label>
   <mat-select
-    [placeholder]="label || attributeName"
     [(ngModel)]="value"
     [required]="required"
     [disabled]="disabled"
