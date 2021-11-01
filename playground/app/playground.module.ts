@@ -64,7 +64,7 @@ const routes: Routes = [
     FsFileModule.forRoot(),
     FsExampleModule.forRoot(),
     FsMessageModule.forRoot(),
-    FsSelectionModule.forRoot(),
+    FsSelectionModule,
     FsFormModule.forRoot(),
     FsPromptModule.forRoot(),
     ToastrModule.forRoot({ preventDuplicates: true }),

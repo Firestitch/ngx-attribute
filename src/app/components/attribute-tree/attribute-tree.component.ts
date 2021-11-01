@@ -120,7 +120,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
         if (result && result.attribute) {
           const data = new AttributeItem(result.attribute, this.attributesConfig);
 
-          this.tree.appendElement(data.getData());
+          this.tree.append(data.getData());
         }
       });
   }
@@ -217,7 +217,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
                       const orig = node.data.original;
                       const data = new AttributeItem(result.attribute, orig.attributesConfig, orig.parent);
 
-                      this.tree.updateElementData(data.getData(), node);
+                      this.tree.updateNodeData(data.getData(), node);
                     }
                   });
               }
@@ -259,7 +259,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
                         node.data.original
                       );
 
-                      this.tree.appendElement(data.getData(), node);
+                      this.tree.append(data.getData(), node);
                     }
                   });
               }
@@ -286,7 +286,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
               takeUntil(this._destroy$),
             )
             .subscribe(() => {
-              this.tree.removeNode(node);
+              this.tree.remove(node);
             });
         },
         error: () => {

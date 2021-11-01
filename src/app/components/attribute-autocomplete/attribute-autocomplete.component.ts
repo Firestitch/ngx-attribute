@@ -141,7 +141,7 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnChanges, OnDe
   }
 
   public staticClick(event, index) {
-    const staticDirective: FsAutocompleteStaticDirective = this.staticDirectives.toArray()[index];
-    staticDirective.click.emit(event);
+    // const staticDirective: FsAutocompleteStaticDirective = this.staticDirectives.toArray()[index];
+    // staticDirective.click.emit(event);
   }
 }

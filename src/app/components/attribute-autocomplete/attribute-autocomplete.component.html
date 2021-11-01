@@ -12,7 +12,7 @@
   </ng-template>
 
   <ng-container *ngFor="let tmpl of staticTemplates; let i = index">
-    <ng-template fsAutocompleteStatic (click)="staticClick($event, i)">
+    <ng-template fsAutocompleteStatic (selected)="staticClick($event, i)">
       <ng-template [ngTemplateOutlet]="tmpl"></ng-template>
     </ng-template>
   </ng-container>
