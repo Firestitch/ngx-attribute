@@ -4,7 +4,7 @@
     <ng-template [ngTemplateOutlet]="groupsList"></ng-template>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button mat-button (click)="done()" color="primary">Done</button>
+    <button mat-button (click)="done()" color="primary">Close</button>
     <button mat-button (click)="create()" *ngIf="showCreate!==false">Create {{attributeConfig?.child?.name}}</button>
   </mat-dialog-actions>
 </ng-container>

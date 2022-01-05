@@ -11,6 +11,8 @@ import {
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
 
+import { randomColor } from '@firestitch/colorpicker';
+
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 import { cloneDeep, merge } from 'lodash-es';
@@ -59,10 +61,13 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
 
   public ngOnInit() {
     this.attributeConfig = this.attributesConfig.getConfig(this.data.klass);
+
+    if(!this.inEditMode && this.attributeConfig.backgroundColor && !this.attribute.backgroundColor) {
+      this.attribute.backgroundColor = randomColor();
+    }
   }
 
   public selectImage(file) {
-
     const e = {
       attribute: this.attribute,
       class: this.data.klass,

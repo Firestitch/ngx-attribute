@@ -125,7 +125,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
       actions: [
         ...this.actions,
         {
-          label: 'Create ' + this.attributeConfig.name,
+          label: 'Create',
           click: () => this._createActionClick()
         }
       ],
