@@ -70,7 +70,7 @@
     "@firestitch/prompt": "^8.4.5",
     "@firestitch/scroll": "^8.0.0",
     "@firestitch/scroll-picker": "^8.0.0",
-    "@firestitch/selectbutton": "^8.1.0",
+    "@firestitch/selectbutton": "^8.1.1",
     "@firestitch/selection": "^9.1.0",
     "@firestitch/skeleton": "^8.1.5",
     "@firestitch/store": "^8.1.2",
@@ -102,9 +102,9 @@
     "node": ">=6.0.0"
   },
   "peerDependencies": {
-    "lodash-es": ">=4.17.11",
     "@firestitch/autocomplete-chips": ">=8.3.2",
-    "@firestitch/chip": ">=8.1.0"
+    "@firestitch/chip": ">=8.1.0",
+    "lodash-es": ">=4.17.11"
   },
   "dependencies": {
     "tslib": "^2.0.0"
