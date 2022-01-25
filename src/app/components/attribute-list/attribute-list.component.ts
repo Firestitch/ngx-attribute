@@ -16,7 +16,7 @@ import { FsListComponent, FsListConfig, ReorderPosition, ReorderStrategy } from 
 import { ItemType } from '@firestitch/filter';
 
 import { Observable, Subject } from 'rxjs';
-import { map, takeUntil } from 'rxjs/operators';
+import { map, filter, takeUntil } from 'rxjs/operators';
 
 import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.component';
 import { AttributeOrder } from '../../enums/enums';
@@ -97,12 +97,16 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
       panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.klass}`],
     });
 
-    dialogRef.afterClosed().subscribe(response => {
-      const attr = new AttributeItem(response.attribute, attribute.attributesConfig);
-      this.list.replaceRow(attr, (listRow) => listRow.id === attribute.id);
+    dialogRef.afterClosed()
+      .pipe(
+        filter((response) => !!response),
+      )
+      .subscribe((response) => {
+        const attr = new AttributeItem(response.attribute, attribute.attributesConfig);
+        this.list.replaceRow(attr, (listRow) => listRow.id === attribute.id);
 
-      this.cdRef.markForCheck();
-    });
+        this.cdRef.markForCheck();
+      });
   }
 
   public ngOnDestroy() {
