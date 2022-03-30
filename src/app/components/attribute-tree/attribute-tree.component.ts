@@ -147,9 +147,8 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
     this.treeConfig = {
       data: this.attributes,
       levels: 2,
-      selection: false,
       childrenName: this.attributeConfig.mapping.childAttributes,
-      changed: (data) => {
+      change: (data) => {
         const payload = data.payload;
 
         switch (data.type) {
