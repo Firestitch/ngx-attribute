@@ -73,7 +73,7 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
       data: this.data,
       parentClass: this.klass,
       class: this.attributeConfig.childClass,
-      query_configs: this.queryConfigs,
+      queryConfigs: this.queryConfigs,
     };
 
     this.attributesConfig.getSelectedAttributes(e)
@@ -117,7 +117,7 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
         childClass: this.attributeConfig.childClass,
         data: this.data,
         showCreate: this.showCreate,
-        query_configs: this.queryConfigs,
+        queryConfigs: this.queryConfigs,
       },
       panelClass: [`fs-attribute-dialog`, `fs-attribute-${this.klass}`],
     });

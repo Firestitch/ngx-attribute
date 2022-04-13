@@ -107,7 +107,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
         attribute: attribute,
         klass: this.klass,
         mode: 'create',
-        query_configs: this.queryConfigs,
+        queryConfigs: this.queryConfigs,
       },
       panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.klass}`],
     });
@@ -128,7 +128,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
   private _loadData() {
     this.attributesConfig.getAttributeTree({
       class: this.klass,
-      query_configs: this.queryConfigs,
+      queryConfigs: this.queryConfigs,
     })
       .pipe(
         takeUntil(this._destroy$),
@@ -202,7 +202,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
                     data: this.data,
                     parent: node.parent && node.parent.data,
                     mode: 'edit',
-                    query_configs: this.queryConfigs,
+                    queryConfigs: this.queryConfigs,
                   },
                   panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.klass}`],
                 });
@@ -239,7 +239,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
                     data: this.data,
                     parent: node.data,
                     mode: 'create',
-                    query_configs: this.queryConfigs,
+                    queryConfigs: this.queryConfigs,
                   },
                   panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.klass}`],
                 });

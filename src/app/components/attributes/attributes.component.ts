@@ -96,7 +96,7 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
     const e = {
       data: this.data,
       class: this.klass,
-      query_configs: this.queryConfigs,
+      queryConfigs: this.queryConfigs,
     };
 
     this.attributesConfig.getSelectedAttributes(e)

@@ -110,7 +110,7 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
 
     event.data = this.data;
     event.klass = this.childClass;
-    event.query_configs = this.queryConfigs;
+    event.queryConfigs = this.queryConfigs;
     event.attribute = event.value;
 
     this.attributesConfig.attributeSelectionChanged(event)
@@ -137,7 +137,7 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
         klass: this.attributeConfig.childClass,
         selectParent: this.attributeConfig.klass,
         mode: 'create',
-        query_configs: this.queryConfigs,
+        queryConfigs: this.queryConfigs,
       },
       panelClass: [
         `fs-attribute-dialog`,
@@ -185,7 +185,7 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
       keyword: keyword,
       class: this.klass,
       data: this.data,
-      query_configs: this.queryConfigs,
+      queryConfigs: this.queryConfigs,
     };
 
     this.attributesConfig.getAttributes(e)

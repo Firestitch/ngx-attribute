@@ -29,7 +29,7 @@ export class FsAttributeService {
         klass: klass,
         data: config.data,
         mode: 'create',
-        query_configs: config.queryConfigs,
+        queryConfigs: config.queryConfigs,
       },
       panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${klass}`],
     });

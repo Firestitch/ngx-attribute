@@ -92,7 +92,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         klass: this.klass,
         data: this.data,
         mode: 'edit',
-        query_configs: this.queryConfigs,
+        queryConfigs: this.queryConfigs,
       },
       panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.klass}`],
     });
@@ -143,8 +143,6 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         }
       ],
       fetch: (query) => {
-
-
         if (this.attributeConfig.order == AttributeOrder.Alphabetical) {
           query.order = 'name,asc';
         } else if (this.attributeConfig.order == AttributeOrder.Custom) {
@@ -155,7 +153,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
           query: query,
           data: this.data,
           class: this.klass,
-          query_configs: this.queryConfigs,
+          queryConfigs: this.queryConfigs,
         };
 
         return this.attributesConfig.getAttributes(e)
@@ -175,7 +173,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
             attributes: data,
             data: this.data,
             class: this.klass,
-            query_configs: this.queryConfigs,
+            queryConfigs: this.queryConfigs,
           };
 
           this.attributesConfig.reorderAttributes(e)

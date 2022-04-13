@@ -8,7 +8,7 @@ import { FsAttributeConfig } from 'src/app/interfaces/attribute-config.interface
   templateUrl: 'autocomplete.component.html',
   styleUrls: ['autocomplete.component.scss']
 })
-export class AutocompleteCComponent implements OnInit {
+export class AutocompleteComponent implements OnInit {
 
   public attribute;
   public class = 'person';

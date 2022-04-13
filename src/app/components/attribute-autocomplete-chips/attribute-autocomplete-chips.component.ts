@@ -119,7 +119,7 @@ export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy,
       class: this.klass,
       data: this.data,
       keyword: keyword,
-      query_configs: this.queryConfigs,
+      queryConfigs: this.queryConfigs,
     })
       .pipe(
         map((response) => {
@@ -177,7 +177,7 @@ export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy,
       selected: selected,
       reorder: reorder,
       value: item,
-      query_configs: this.queryConfigs,
+      queryConfigs: this.queryConfigs,
     })
       .pipe(
         takeUntil(this._destroy$),

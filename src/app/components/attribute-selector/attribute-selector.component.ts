@@ -129,7 +129,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
         config: this.dialogData && this.dialogData.config,
         data: this.data,
         mode: 'create',
-        query_configs: this.dialogData?.query_configs || this.queryConfigs,
+        queryConfigs: this.dialogData?.queryConfigs || this.queryConfigs,
       },
       panelClass: [
         `fs-attribute-dialog`,
@@ -154,7 +154,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
         pluralName: this.attributeConfig.pluralName,
         data: this.data,
         size: this.size,
-        queryConfigs: this.dialogData?.query_configs || this.queryConfigs,
+        queryConfigs: this.dialogData?.queryConfigs || this.queryConfigs,
       },
     });
 
@@ -209,7 +209,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
       query: {},
       class: this.klass,
       data: this.data,
-      query_configs: this.dialogData?.query_configs || this.queryConfigs
+      queryConfigs: this.dialogData?.queryConfigs || this.queryConfigs
     };
 
     this.attributesConfig.getAttributes(e)

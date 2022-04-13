@@ -93,7 +93,7 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
     const e = {
       data: this.data,
       class: this.klass,
-      query_configs: this.queryConfigs,
+      queryConfigs: this.queryConfigs,
     };
 
     this.attributesConfig.getSelectedAttributes(e)
@@ -115,7 +115,7 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
         data: this.data,
         size: this.size,
         showCreate: this.showCreate,
-        query_configs: this.queryConfigs,
+        queryConfigs: this.queryConfigs,
       },
       panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.klass}`],
     });
