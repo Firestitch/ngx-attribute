@@ -1,19 +1,19 @@
 <fs-autocomplete-chips
-  removable="true"
-  [chipBackground]="background"
-  [chipColor]="color"
-  [disabled]="disabled"
-  [orderable]="draggable"
-  [(ngModel)]="value"
-  (selected)="selected($event)"
-  (removed)="removed($event)"
-  (reordered)="reordered($event)"
-  [fetch]="fetch"
-  [size]="size"
-  [initOnClick]="initOnClick"
-  [placeholder]="label"
-  [compareWith]="compare"
->
+    removable="true"
+    [chipBackground]="background"
+    [chipColor]="color"
+    [disabled]="disabled"
+    [orderable]="draggable"
+    [(ngModel)]="value"
+    (selected)="selected($event)"
+    (removed)="removed($event)"
+    (reordered)="reordered($event)"
+    [fetch]="fetch"
+    [size]="size"
+    (ngModelChange)="change($event)"
+    [initOnClick]="initOnClick"
+    [placeholder]="label"
+    [compareWith]="compare">
   <ng-template fsAutocompleteObject let-object="object">
     <span *ngIf="object.parent" class="parent">{{ object.parent.name }}:</span>{{ object.name }}
   </ng-template>

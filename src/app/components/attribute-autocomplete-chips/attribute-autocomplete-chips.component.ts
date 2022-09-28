@@ -81,22 +81,23 @@ export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy,
     private _cdRef: ChangeDetectorRef,
   ) {}
 
-  set value(value) {
+  public set value(value) {
     if (value !== this._value) {
       this._value = value;
-
-      const data = this._getRawValue();
-      this.onChange(data);
-      this.onTouch(data);
     }
   }
 
-  get value() {
+  public get value() {
     return this._value;
   }
 
-  public ngOnInit() {
+  public change(value) {
+    const data = this._getRawValue();
+    this.onChange(data);
+    this.onTouch(data);
+  }
 
+  public ngOnInit() {
     this.attributeConfig = this.attributesConfig.getConfig(this.klass);
 
     if (!this.label) {

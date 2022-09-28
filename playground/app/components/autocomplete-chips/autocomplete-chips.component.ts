@@ -16,6 +16,7 @@ export class AutocompleteChipsComponent implements OnInit {
   constructor(@Inject(FS_ATTRIBUTE_CONFIG) public attributeConfig: FsAttributeConfig) {}
 
   public ngOnInit() {
+
   }
 
   public changed(e) {
