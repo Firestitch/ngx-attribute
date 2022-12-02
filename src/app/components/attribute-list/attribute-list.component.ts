@@ -12,7 +12,7 @@ import {
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
-import { FsListComponent, FsListConfig, ReorderPosition, ReorderStrategy } from '@firestitch/list';
+import { FsListComponent, FsListConfig } from '@firestitch/list';
 import { ItemType } from '@firestitch/filter';
 
 import { Observable, Subject } from 'rxjs';
@@ -165,10 +165,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
 
     if (this.attributeConfig.order === AttributeOrder.Custom) {
       config.reorder = {
-        position: ReorderPosition.Left,
-        strategy: ReorderStrategy.Always,
         done: (data) => {
-
           const e = {
             attributes: data,
             data: this.data,
