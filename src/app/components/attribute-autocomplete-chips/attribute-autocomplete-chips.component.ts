@@ -45,7 +45,7 @@ export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy,
   public disabled = false;
 
   @Input()
-  public size = 'large';
+  public size: 'small' | 'large' = 'large';
 
   @Input()
   public saveOnChange = true;
