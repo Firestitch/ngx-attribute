@@ -6,10 +6,10 @@
       <fs-file-image-picker
         (select)="selectImage($event)"
         [url]="attribute.image"
-        imageQuality=".8"
+        [imageQuality]=".8"
         imageWidth="500"
         imageHeight="500"
-        previewDiameter="75"
+        [previewDiameter]="75"
         label="Image"
         *ngIf="attributeConfig?.hasEditableImage">
       </fs-file-image-picker>
