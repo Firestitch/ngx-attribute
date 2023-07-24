@@ -21,22 +21,21 @@
     <div>
       <input type="text" matInput
              [(ngModel)]="filterKeyword"
-             (ngModelChange)="filterByKeyword()"
-      >
+             (ngModelChange)="filterByKeyword()">
     </div>
   </mat-form-field>
 
   <fs-chips
-    [(ngModel)]="selectedAttributes"
-    [compare]="compareFn">
+      [(ngModel)]="selectedAttributes"
+      [compare]="compareFn">
     <fs-chip
-      [size]="size"
-      *ngFor="let attribute of filteredAttributes"
-      [selectable]="true"
-      [image]="attribute.image"
-      [backgroundColor]="attribute.backgroundColor"
-      [value]="attribute"
-      (selectedToggled)="selectedToggle($event)">
+        [size]="size"
+        *ngFor="let attribute of filteredAttributes"
+        [selectable]="true"
+        [image]="attribute.image"
+        [backgroundColor]="attribute.backgroundColor"
+        [value]="attribute"
+        (selectedToggled)="selectedToggle($event)">
       {{ attribute.name }}
     </fs-chip>
   </fs-chips>

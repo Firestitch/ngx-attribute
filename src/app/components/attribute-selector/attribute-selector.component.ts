@@ -149,6 +149,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
 
   public manage() {
     const dialogRef = this.dialog.open(FsAttributeManageComponent, {
+      disableClose: true,
       data: {
         klass: this.attributeConfig.klass,
         pluralName: this.attributeConfig.pluralName,
@@ -162,7 +163,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this._destroy$)
       )
-      .subscribe(response => {
+      .subscribe((response) => {
         this.fetch(response?.attribute.id);
       });
   }
@@ -201,10 +202,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
     }
   }
 
-  /**
-   * @param autoSelectId - param which can be passed for automatically select some attr after fetch
-   */
-  private fetch(autoSelectId: number = null) {
+  private fetch(attributeId: number = null) {
     const e = {
       query: {},
       class: this.klass,
@@ -220,19 +218,27 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
         this.attributes = response.data;
         this.filteredAttributes = this.attributes.slice();
 
-        if (autoSelectId) {
+        this.selectedAttributes = this.selectedAttributes
+          .map((selectedAttribute) => {
+            const newAttribute = this.attributes
+              .find((attr) => attr.id === selectedAttribute.id);
+
+            return newAttribute ?? selectedAttribute;
+          });
+
+        if (attributeId) {
           const attribute = this.attributes
-            .find((attr) => attr.id === autoSelectId);
+            .find((attr) => attr.id === attributeId);
 
-          // Add to selected attributes
-          this.selectedAttributes.push(attribute);
+           // Add to selected attributes
+           this.selectedAttributes.push(attribute);
 
-          // selectedToggle method required special event object
-          const event = {
-            selected: true,
-            value: attribute
-          }
-          this.selectedToggle(event);
+           // selectedToggle method required special event object
+           const event = {
+             selected: true,
+             value: attribute
+           }
+           this.selectedToggle(event);
         }
 
         this.cdRef.markForCheck();
@@ -241,8 +247,9 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
 
   private initDialog() {
     this.dialogRef.disableClose = true;
-    this.dialogRef.backdropClick().subscribe(result => {
+    this.dialogRef.backdropClick().subscribe((result) => {
       this.done();
     });
   }
+
 }
