@@ -48,55 +48,51 @@ const routes: Routes = [
 ];
 
 @NgModule({
-  bootstrap: [ AppComponent ],
-  imports: [
-    BrowserModule,
-    FsAttributeModule.forRoot(),
-    BrowserAnimationsModule,
-    AppMaterialModule,
-    FormsModule,
-    FsSelectButtonModule,
-    FsAutocompleteModule,
-    FsAutocompleteChipsModule.forRoot(),
-    FsChipModule.forRoot(),
-    FsListModule.forRoot(),
-    FsScrollModule.forRoot(),
-    FsFileModule.forRoot(),
-    FsExampleModule.forRoot(),
-    FsMessageModule.forRoot(),
-    FsSelectionModule,
-    FsFormModule.forRoot(),
-    FsPromptModule.forRoot(),
-    ToastrModule.forRoot({ preventDuplicates: true }),
-    RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
-    FsColorPickerModule,
-    FsLabelModule
-  ],
-  declarations: [
-    AppComponent,
-    ExamplesComponent,
-    ConfigExampleComponent,
-    FieldExampleComponent,
-    FieldWithGroupsExampleComponent,
-    ListExampleComponent,
-    AttribtuesExampleComponent,
-    SelectFieldExampleComponent,
-    AutocompleteChipsComponent,
-    ListVisibleComponent,
-    EditVisibleComponent,
-    TreeExampleComponent,
-    AutocompleteComponent,
-    GroupSelectorExampleComponent,
-    SelectorExampleComponent,
-  ],
-  entryComponents: [
-    ListVisibleComponent,
-    EditVisibleComponent,
-  ],
-  providers: [
-    { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { floatLabel: 'auto' } },
-    { provide: FS_ATTRIBUTE_CONFIG, useFactory: attributeConfigFactory, deps: [ FsPrompt ] }
-  ]
+    bootstrap: [AppComponent],
+    imports: [
+        BrowserModule,
+        FsAttributeModule.forRoot(),
+        BrowserAnimationsModule,
+        AppMaterialModule,
+        FormsModule,
+        FsSelectButtonModule,
+        FsAutocompleteModule,
+        FsAutocompleteChipsModule.forRoot(),
+        FsChipModule.forRoot(),
+        FsListModule.forRoot(),
+        FsScrollModule.forRoot(),
+        FsFileModule.forRoot(),
+        FsExampleModule.forRoot(),
+        FsMessageModule.forRoot(),
+        FsSelectionModule,
+        FsFormModule.forRoot(),
+        FsPromptModule.forRoot(),
+        ToastrModule.forRoot({ preventDuplicates: true }),
+        RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
+        FsColorPickerModule,
+        FsLabelModule
+    ],
+    declarations: [
+        AppComponent,
+        ExamplesComponent,
+        ConfigExampleComponent,
+        FieldExampleComponent,
+        FieldWithGroupsExampleComponent,
+        ListExampleComponent,
+        AttribtuesExampleComponent,
+        SelectFieldExampleComponent,
+        AutocompleteChipsComponent,
+        ListVisibleComponent,
+        EditVisibleComponent,
+        TreeExampleComponent,
+        AutocompleteComponent,
+        GroupSelectorExampleComponent,
+        SelectorExampleComponent,
+    ],
+    providers: [
+        { provide: MAT_FORM_FIELD_DEFAULT_OPTIONS, useValue: { floatLabel: 'auto' } },
+        { provide: FS_ATTRIBUTE_CONFIG, useFactory: attributeConfigFactory, deps: [FsPrompt] }
+    ]
 })
 export class PlaygroundModule {}
 
