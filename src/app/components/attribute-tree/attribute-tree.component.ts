@@ -15,11 +15,11 @@ import { FsTreeChange, FsTreeComponent, ITreeConfig, TreeActionType } from '@fir
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { FsAttributeEditComponent } from '../attribute-edit';
-import { AttributesConfig } from '../../services/attributes-config';
-import { AttributeConfigItem } from '../../models/attribute-config';
-import { AttributeItem } from '../../models/attribute';
 import { FsAttributeTemplateDirective } from '../../directives/attribute-template.component';
+import { AttributeItem } from '../../models/attribute';
+import { AttributeConfigItem } from '../../models/attribute-config';
+import { AttributesConfig } from '../../services/attributes-config';
+import { FsAttributeEditComponent } from '../attribute-edit';
 
 
 @Component({
@@ -146,7 +146,6 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
   private _setTreeConfig() {
     this.treeConfig = {
       data: this.attributes,
-      levels: 2,
       childrenName: this.attributeConfig.mapping.childAttributes,
       change: (data) => {
         const payload = data.payload;
