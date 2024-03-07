@@ -150,11 +150,10 @@ export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy,
   public writeValue(value) {
     if (value) {
       if(this.multiple) {
-        if(Array.isArray(value)) {
-          this._value = value.map((item) => new AttributeItem(item, this.attributesConfig));
-        } else {
-          this._value = new AttributeItem(value, this.attributesConfig);
-        }
+        this._value = Array.isArray(value) ? 
+          value.map((item) => new AttributeItem(item, this.attributesConfig)) : [];
+      } else {
+        this._value = new AttributeItem(value, this.attributesConfig);
       }
     } else {
       this._value = null;

@@ -16,10 +16,10 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { FsAttributeEditComponent } from '../attribute-edit';
+import { AttributeItem } from '../../models/attribute';
 import { AttributeConfigItem } from '../../models/attribute-config';
 import { AttributesConfig } from '../../services/attributes-config';
-import { AttributeItem } from '../../models/attribute';
+import { FsAttributeEditComponent } from '../attribute-edit';
 
 
 @Component({

@@ -3,11 +3,10 @@
     {{ label || attributeName }}
   </mat-label>
   <mat-select
-    [(ngModel)]="value"
-    [required]="required"
-    [disabled]="disabled"
-    [compareWith]="compare"
-  >
+      [(ngModel)]="value"
+      [required]="required"
+      [disabled]="disabled"
+      [compareWith]="compare">
     <mat-option [value]="null" *ngIf="noneOption">None</mat-option>
     <mat-option *ngFor="let attribute of attributes" [value]="attribute">
       <div class="option">

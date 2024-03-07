@@ -35,9 +35,6 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
   public data = {};
 
   @Input()
-  public showCreate = true;
-
-  @Input()
   public showManage = true;
 
   @Input('class')
@@ -91,7 +88,6 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
       this.size = this.dialogData.size;
 
       this.selectedAttributes = this.dialogData.selectedAttributes;
-      this.showCreate = this.dialogData.showCreate;
 
       this.initDialog();
     } else {
