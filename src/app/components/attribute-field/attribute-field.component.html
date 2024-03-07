@@ -6,11 +6,10 @@
 <ng-template #attribs>
   <div class="attributes">
     <fs-attribute
-      *ngFor="let attribute of attributes"
-      [class]="klass"
-      [size]="size"
-      [attribute]="attribute"
-    >
+        *ngFor="let attribute of attributes"
+        [class]="klass"
+        [size]="size"
+        [attribute]="attribute">
       <ng-template
         [ngTemplateOutlet]="templ || defaultNodeTemplate"
         [ngTemplateOutletContext]="{ attribute: attribute }"

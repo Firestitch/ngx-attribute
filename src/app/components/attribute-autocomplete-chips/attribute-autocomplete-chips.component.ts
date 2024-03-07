@@ -1,26 +1,33 @@
 import {
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
-  forwardRef,
+  ContentChildren,
   Input,
   OnDestroy,
   OnInit,
-  ChangeDetectorRef, ContentChildren, TemplateRef, QueryList,
+  QueryList,
+  TemplateRef,
+  forwardRef,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { Subject } from 'rxjs';
-import { takeUntil, map } from 'rxjs/operators';
+import { map, takeUntil } from 'rxjs/operators';
 
-import { FsAttributeAutocompleteChipsStaticDirective } from './../../directives/attribute-autocomplete-chips-static.component';
+import { FsAttributeAutocompleteChipsStaticDirective } from './../../directives';
 
-import { AttributesConfig } from '../../services/attributes-config';
-import { AttributeConfigItem } from '../../models/attribute-config';
+import { MatDialog } from '@angular/material/dialog';
 import { AttributeItem } from '../../models/attribute';
+import { AttributeConfigItem } from '../../models/attribute-config';
+import { AttributesConfig } from '../../services/attributes-config';
+import { FsAttributeManageComponent } from '../attribute-manage';
 
 @Component({
   selector: 'fs-attribute-autocomplete-chips',
   templateUrl: './attribute-autocomplete-chips.component.html',
   styleUrls: ['./attribute-autocomplete-chips.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => FsAttributeAutocompleteChipsComponent),
@@ -42,6 +49,9 @@ export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy,
   public initOnClick = false;
   
   @Input()
+  public showManage = false;
+  
+  @Input()
   public disabled = false;
 
   @Input()
@@ -49,6 +59,9 @@ export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy,
 
   @Input()
   public saveOnChange = true;
+
+  @Input()
+  public multiple = true;
 
   @Input()
   public data;
@@ -79,6 +92,7 @@ export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy,
   constructor(
     public attributesConfig: AttributesConfig,
     private _cdRef: ChangeDetectorRef,
+    private _dialog: MatDialog,
   ) {}
 
   public set value(value) {
@@ -92,7 +106,7 @@ export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy,
   }
 
   public change(value) {
-    const data = this._getRawValue();
+    const data = this._getRawValue(value);
     this.onChange(data);
     this.onTouch(data);
   }
@@ -134,8 +148,14 @@ export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy,
   };
 
   public writeValue(value) {
-    if (value && Array.isArray(value)) {
-      this._value = value.map((item) => new AttributeItem(item, this.attributesConfig));
+    if (value) {
+      if(this.multiple) {
+        if(Array.isArray(value)) {
+          this._value = value.map((item) => new AttributeItem(item, this.attributesConfig));
+        } else {
+          this._value = new AttributeItem(value, this.attributesConfig);
+        }
+      }
     } else {
       this._value = null;
     }
@@ -168,6 +188,26 @@ export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy,
   public registerOnChange(fn) { this.onChange = fn;  }
   public registerOnTouched(fn) { this.onTouch = fn; }
 
+  public manage() {
+    this._dialog.open(FsAttributeManageComponent, {
+      disableClose: true,
+      data: {
+        klass: this.attributeConfig.klass,
+        pluralName: this.attributeConfig.pluralName,
+        data: this.data,
+        size: this.size,
+       // queryConfigs: this.dialogData?.queryConfigs || this.queryConfigs,
+      },
+    })
+    .afterClosed()
+      .pipe(
+        takeUntil(this._destroy$)
+      )
+      .subscribe((response) => {
+        this.fetch(response?.attribute.id);
+      });
+  }
+
   public staticClick(event, index) {
     const staticDirective: FsAttributeAutocompleteChipsStaticDirective = this.staticDirectives.toArray()[index];
     staticDirective.click.emit(event);
@@ -189,13 +229,16 @@ export class FsAttributeAutocompleteChipsComponent implements OnInit, OnDestroy,
       .subscribe()
   }
 
-  private _getRawValue() {
+  private _getRawValue(value) {
     let data = null;
-
-    if (Array.isArray(this.value)) {
-      data = this.value.map((item) => {
-        return item.toJSON();
-      });
+    if(this.multiple) {
+      if (Array.isArray(this.value)) {
+        data = value.map((item) => {
+          return item.toJSON();
+        });
+      }
+    } else {
+      data = value ? value.toJSON() : null;
     }
 
     return data;

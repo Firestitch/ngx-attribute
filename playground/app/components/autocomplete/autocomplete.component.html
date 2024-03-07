@@ -12,7 +12,7 @@
     </ng-template>
   </fs-attribute-autocomplete>
 
-  <div fxLayout="row" fxLayoutGap="5px">
+  <div class="fs-row.gap-xs">
     <button mat-raised-button color="primary">Submit</button>
     <mat-select [(ngModel)]="class" fsSelectButton color="primary" placeholder="Unselected" name="class" (ngModelChange)="attribute=null">
       <mat-option *ngFor="let item of attributeConfig.configs" [value]="item.class">

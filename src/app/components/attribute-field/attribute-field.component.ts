@@ -15,13 +15,12 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { FS_ATTRIBUTE_CONFIG } from '../../providers';
-import { FsAttributeSelectorComponent } from '../attribute-selector/attribute-selector.component';
-import { FsAttributeConfig } from '../../interfaces/attribute-config.interface';
-import { AttributesConfig } from '../../services/attributes-config';
-import { AttributeItem } from '../../models/attribute';
 import { FsAttributeTemplateDirective } from '../../directives/attribute-template.component';
-import { AttributeConfig } from '../../interfaces/attribute-config.interface';
+import { AttributeConfig, FsAttributeConfig } from '../../interfaces/attribute-config.interface';
+import { AttributeItem } from '../../models/attribute';
+import { FS_ATTRIBUTE_CONFIG } from '../../providers';
+import { AttributesConfig } from '../../services/attributes-config';
+import { FsAttributeSelectorComponent } from '../attribute-selector/attribute-selector.component';
 
 
 @Component({
@@ -108,7 +107,7 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
   }
 
   public select() {
-    const dialogRef = this.dialog.open(FsAttributeSelectorComponent, {
+   this.dialog.open(FsAttributeSelectorComponent, {
       data: {
         selectedAttributes: this.attributes.slice(),
         class: this.klass,
@@ -118,9 +117,8 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
         queryConfigs: this.queryConfigs,
       },
       panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.klass}`],
-    });
-
-    dialogRef.afterClosed()
+    })
+    .afterClosed()
       .pipe(
         takeUntil(this.destroy$)
       )

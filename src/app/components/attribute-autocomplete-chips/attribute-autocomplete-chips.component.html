@@ -4,13 +4,14 @@
     [chipColor]="color"
     [disabled]="disabled"
     [orderable]="draggable"
+    [multiple]="multiple"
     [(ngModel)]="value"
     (selected)="selected($event)"
     (removed)="removed($event)"
     (reordered)="reordered($event)"
+    (ngModelChange)="change($event)"
     [fetch]="fetch"
     [size]="size"
-    (ngModelChange)="change($event)"
     [initOnClick]="initOnClick"
     [placeholder]="label"
     [compareWith]="compare">
@@ -21,6 +22,11 @@
   <ng-container *ngFor="let tmpl of staticTemplates; let i = index">
     <ng-template fsAutocompleteChipsStatic (click)="staticClick($event, i)">
       <ng-template [ngTemplateOutlet]="tmpl"></ng-template>
+    </ng-template>
+  </ng-container>  
+  <ng-container *ngIf="showManage">
+    <ng-template fsAutocompleteChipsStatic (click)="manage()">
+      Manage
     </ng-template>
   </ng-container>
 </fs-autocomplete-chips>
