@@ -13,7 +13,7 @@
     [fetch]="fetch"
     [size]="size"
     [initOnClick]="initOnClick"
-    [placeholder]="label"
+    [label]="label"
     [compareWith]="compare">
   <ng-template fsAutocompleteObject let-object="object">
     <span *ngIf="object.parent" class="parent">{{ object.parent.name }}:</span>{{ object.name }}
