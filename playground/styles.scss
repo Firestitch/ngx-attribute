@@ -1,13 +1,13 @@
 @use '@angular/material' as mat;
 @import '@firestitch/component-tools/assets/playground';
-@import '~@firestitch/message/styles';
+@import '@firestitch/message/styles';
 @import '../src/app/styles';
-@import '~@firestitch/file/styles';
-@import '~@firestitch/chip/styles';
-@import '~@firestitch/tree/styles';
-@import '~@firestitch/selectbutton/styles';
-@import '~@firestitch/dialog/styles';
-@import '~@firestitch/filter/styles';
+@import '@firestitch/file/styles';
+@import '@firestitch/chip/styles';
+@import '@firestitch/tree/styles';
+@import '@firestitch/selectbutton/styles';
+@import '@firestitch/dialog/styles';
+@import '@firestitch/filter/styles';
 
 @include mat.core();
 @include fs-file(mat.$blue-palette);
