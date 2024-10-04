@@ -68,7 +68,7 @@ const routes: Routes = [
         FsFormModule.forRoot(),
         FsPromptModule.forRoot(),
         ToastrModule.forRoot({ preventDuplicates: true }),
-        RouterModule.forRoot(routes, { relativeLinkResolution: 'legacy' }),
+        RouterModule.forRoot(routes, {}),
         FsColorPickerModule,
         FsLabelModule
     ],
