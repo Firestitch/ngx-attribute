@@ -110,7 +110,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    this._destroy$.next();
+    this._destroy$.next(null);
     this._destroy$.complete();
   }
 
@@ -201,7 +201,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         .subscribe({
           next: () => {
             this.attributesConfig.deleteAttribute(row).subscribe(() => {
-              obs.next();
+              obs.next(null);
             })
           },
           error: () => {},
