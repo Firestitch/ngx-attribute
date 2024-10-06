@@ -10,5 +10,5 @@
 @import '@firestitch/filter/styles';
 
 @include mat.core();
-@include fs-file(mat.$blue-palette);
-@include fs-tree(mat.$blue-palette);
+@include fs-file(mat.$m2-blue-palette);
+@include fs-tree(mat.$m2-blue-palette);
