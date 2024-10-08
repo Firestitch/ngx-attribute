@@ -51,7 +51,7 @@
     "@firestitch/clear": "^18.0.1",
     "@firestitch/colorpicker": "^18.0.0",
     "@firestitch/common": "^18.0.0",
-    "@firestitch/component-tools": "^18.0.9",
+    "@firestitch/component-tools": "^18.0.11",
     "@firestitch/core": "^18.0.1",
     "@firestitch/date": "^18.0.1",
     "@firestitch/datepicker": "^18.0.1",
