@@ -82,7 +82,7 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
   public selectImage(file) {
     const e = {
       attribute: this.attribute,
-      class: this.attributeConfig.klass,
+      class: this.attributeConfig.class,
       data: this.data.data,
       file: file,
       queryConfigs: this.data?.queryConfigs,
@@ -111,7 +111,9 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
         // restore link
         this.attribute.configs = configs;
       },
-      () => {},
+      () => {
+        //
+      },
       () => {
         this.saving = false;
 
@@ -134,7 +136,7 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
 
     const eventData = {
       attribute: this.attribute,
-      class: this.attributeConfig.klass,
+      class: this.attributeConfig.class,
       data: this.data.data,
       parent: parent,
       queryConfigs: this.data?.queryConfigs,

@@ -39,7 +39,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
   public showManage = true;
 
   @Input('class')
-  public klass: string;
+  public class: string;
 
   @Input()
   public placeholder: string;
@@ -84,7 +84,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     if (this.dialogData && this.dialogData.class) {
       this.dialogMode = !!this.dialogData;
-      this.klass = this.dialogData.class;
+      this.class = this.dialogData.class;
       this.data = this.dialogData.data;
       this.size = this.dialogData.size;
 
@@ -92,10 +92,10 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
 
       this.initDialog();
     } else {
-      this.hostClass = `fs-attribute fs-attribute-${  this.klass}`;
+      this.hostClass = `fs-attribute fs-attribute-${  this.class}`;
     }
 
-    this.attributeConfig = this.attributesConfig.getConfig(this.klass);
+    this.attributeConfig = this.attributesConfig.getConfig(this.class);
 
     this.fetch();
     this.compareFn = this.getCompareFn();
@@ -116,7 +116,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
 
   public create() {
     const attribute = new AttributeItem(
-      { class: this.attributeConfig.klass },
+      { class: this.attributeConfig.class },
       this.attributesConfig,
     );
 
@@ -132,7 +132,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
       panelClass: [
         'fs-attribute-dialog',
         'fs-attribute-dialog-no-scroll',
-        `fs-attribute-${this.attributeConfig.klass}`,
+        `fs-attribute-${this.attributeConfig.class}`,
       ],
     });
 
@@ -149,7 +149,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
     this.dialog.open(FsAttributeManageComponent, {
       disableClose: true,
       data: {
-        klass: this.attributeConfig.klass,
+        class: this.attributeConfig.class,
         pluralName: this.attributeConfig.pluralName,
         data: this.data,
         size: this.size,
@@ -172,7 +172,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
     });
 
     event.data = this.data;
-    event.klass = this.klass;
+    event.class = this.class;
     event.attribute = event.value;
 
     this.attributesConfig.attributeSelectionChanged(event)
@@ -198,7 +198,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
   private fetch(attributeId: number = null) {
     const e = {
       query: {},
-      class: this.klass,
+      class: this.class,
       data: this.data,
       queryConfigs: this.dialogData?.queryConfigs || this.queryConfigs,
     };

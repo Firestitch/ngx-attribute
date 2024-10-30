@@ -9,7 +9,7 @@ import { AttributeConfigItem } from './attribute-config';
 
 export class AttributeItem {
   public id = null;
-  public klass = null;
+  public class = null;
   public name = null;
   public configs = null;
 
@@ -126,7 +126,7 @@ export class AttributeItem {
   public getData(): any {
     const mapping = this._config.mapping;
     const attribute = {
-      class: this.klass,
+      class: this.class,
       id: this.id,
       name: this.name,
       image: this.image,
@@ -154,7 +154,7 @@ export class AttributeItem {
     const mapping = this._config.mapping;
     this._attribute = clone(data);
 
-    this.klass = data.class;
+    this.class = data.class;
     this.id = getAttributeValue(data, mapping.id);
     this.name = getAttributeValue(data, mapping.name);
     this.configs = getAttributeValue(data, mapping.configs);

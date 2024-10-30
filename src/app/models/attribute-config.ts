@@ -7,7 +7,7 @@ export class AttributeConfigItem {
 
   public hasEditableImage: boolean;
 
-  private _klass;
+  private _class;
   private _childClass: string;
   private _image;
   private _backgroundColor: AttributeColor;
@@ -19,8 +19,8 @@ export class AttributeConfigItem {
   private _fields: any[];
   private _mapping: any;
 
-  public get klass() {
-    return this._klass;
+  public get class() {
+    return this._class;
   }
 
   public get childClass(): string {
@@ -76,7 +76,7 @@ export class AttributeConfigItem {
   }
 
   private _initConfig(data, mapping) {
-    this._klass = data.class;
+    this._class = data.class;
     this._childClass = data.childClass;
     this._image = data.image;
     this._backgroundColor = data.backgroundColor;

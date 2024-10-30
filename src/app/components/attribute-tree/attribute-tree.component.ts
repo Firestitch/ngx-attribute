@@ -35,7 +35,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
   public data;
 
   @Input('class')
-  public klass;
+  public class;
 
   @Input()
   public heading;
@@ -77,7 +77,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
 
 
   public ngOnInit() {
-    this.attributeConfig = this.attributesConfig.getConfig(this.klass);
+    this.attributeConfig = this.attributesConfig.getConfig(this.class);
     this.childAttributeConfig = this.attributeConfig.child;
 
     this._loadData();
@@ -99,7 +99,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
   public createRootNode() {
 
     const attribute = new AttributeItem(
-      { class: this.attributeConfig.klass },
+      { class: this.attributeConfig.class },
       this.attributesConfig,
     );
 
@@ -110,7 +110,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
         mode: 'create',
         queryConfigs: this.queryConfigs,
       },
-      panelClass: ['fs-attribute-dialog', 'fs-attribute-dialog-no-scroll', `fs-attribute-${this.klass}`],
+      panelClass: ['fs-attribute-dialog', 'fs-attribute-dialog-no-scroll', `fs-attribute-${this.class}`],
     });
 
     dialogRef.afterClosed()
@@ -128,7 +128,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
 
   private _loadData() {
     this.attributesConfig.getAttributeTree({
-      class: this.klass,
+      class: this.class,
       queryConfigs: this.queryConfigs,
     })
       .pipe(
@@ -157,7 +157,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
             const item = node && payload.node.data && payload.node.data.original;
 
             const event: any = {
-              class: item.klass,
+              class: item.class,
               data: this.data,
               attribute: item,
               fromParent: payload.fromParent && payload.fromParent.data.id,
@@ -198,13 +198,13 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
                 const dialogRef = this.dialog.open(FsAttributeEditComponent, {
                   data: {
                     attribute: node.data.original,
-                    klass: node.data.class,
+                    class: node.data.class,
                     data: this.data,
                     parent: node.parent && node.parent.data,
                     mode: 'edit',
                     queryConfigs: this.queryConfigs,
                   },
-                  panelClass: ['fs-attribute-dialog', 'fs-attribute-dialog-no-scroll', `fs-attribute-${this.klass}`],
+                  panelClass: ['fs-attribute-dialog', 'fs-attribute-dialog-no-scroll', `fs-attribute-${this.class}`],
                 });
 
                 dialogRef.afterClosed()
@@ -235,13 +235,13 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
                 const dialogRef = this.dialog.open(FsAttributeEditComponent, {
                   data: {
                     attribute: attribute,
-                    klass: this.attributeConfig.childClass,
+                    class: this.attributeConfig.childClass,
                     data: this.data,
                     parent: node.data,
                     mode: 'create',
                     queryConfigs: this.queryConfigs,
                   },
-                  panelClass: ['fs-attribute-dialog', 'fs-attribute-dialog-no-scroll', `fs-attribute-${this.klass}`],
+                  panelClass: ['fs-attribute-dialog', 'fs-attribute-dialog-no-scroll', `fs-attribute-${this.class}`],
                 });
 
                 dialogRef.afterClosed()

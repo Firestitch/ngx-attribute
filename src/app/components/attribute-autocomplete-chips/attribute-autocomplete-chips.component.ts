@@ -77,7 +77,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   public data;
 
   @Input('class')
-  public klass;
+  public class;
 
   @Input()
   public label = 'Select...';
@@ -127,7 +127,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   public ngOnInit() {
     this.attributeConfig = this.config ? 
       new AttributeConfigItem(this.config, this.config.mapping) : 
-      this.attributesConfig.getConfig(this.klass);
+      this.attributesConfig.getConfig(this.class);
 
     if (!this.label) {
       this.label = this.attributeConfig.name;
@@ -150,7 +150,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   public fetch = (keyword) => {
     return this.attributesConfig
       .getAttributes({
-        class: this.attributeConfig.klass,
+        class: this.attributeConfig.class,
         data: this.data,
         keyword: keyword,
         queryConfigs: this.queryConfigs,
@@ -211,7 +211,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     this._dialog.open(FsAttributeManageComponent, {
       disableClose: true,
       data: {
-        klass: this.attributeConfig.klass,
+        class: this.attributeConfig.class,
         attributeConfig: this.config,
         pluralName: this.attributeConfig.pluralName,
         data: this.data,
@@ -235,7 +235,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
 
   public save(item = null, selected = false, reorder = null) {
     this.attributesConfig.attributeSelectionChanged({
-      class: this.attributeConfig.klass,
+      class: this.attributeConfig.class,
       data: this.data,
       attributes: this.value,
       selected: selected,

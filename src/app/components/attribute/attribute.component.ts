@@ -1,5 +1,6 @@
-import { Component, Input, Output, EventEmitter, OnInit, HostBinding } from '@angular/core';
-import { filter } from 'lodash-es';
+import { Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
+
+
 import { AttributeItem } from '../../models/attribute';
 import { AttributesConfig } from '../../services/attributes-config';
 
@@ -7,14 +8,14 @@ import { AttributesConfig } from '../../services/attributes-config';
 @Component({
   selector: 'fs-attribute',
   templateUrl: './attribute.component.html',
-  styleUrls: [ './attribute.component.scss' ],
+  styleUrls: ['./attribute.component.scss'],
 })
 export class FsAttributeComponent implements OnInit {
 
   @HostBinding('class') hostClass = '';
 
   @Input()
-  public config: any = { background: true, color: true, image: true};
+  public config: any = { background: true, color: true, image: true };
 
   @Input()
   public removable: any;
@@ -30,15 +31,11 @@ export class FsAttributeComponent implements OnInit {
 
   @Input()
   set attribute(value) {
-    if (value instanceof AttributeItem) {
-      this._attribute = value;
-    } else {
-      this._attribute = new AttributeItem(value, this._attributesConfig);
-    }
+    this._attribute = value instanceof AttributeItem ? value : new AttributeItem(value, this._attributesConfig);
   }
 
   @Input('class')
-  public klass = '';
+  public class = '';
 
   @Output()
   public selectedToggled = new EventEmitter();
@@ -52,12 +49,12 @@ export class FsAttributeComponent implements OnInit {
   }
 
   public ngOnInit() {
-    const config = this._attributesConfig.getConfig(this.klass);
+    const config = this._attributesConfig.getConfig(this.class);
 
-    this.hostClass = 'fs-attribute fs-attribute-' + this.klass;
+    this.hostClass = `fs-attribute fs-attribute-${  this.class}`;
 
     if (config) {
-      this.config = config
+      this.config = config;
     }
   }
 }

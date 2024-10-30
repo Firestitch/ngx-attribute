@@ -44,7 +44,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   public columnTemplate: TemplateRef<any>;
 
   @Input('class')
-  public klass: string;
+  public class: string;
 
   @Input()
   public actions: FsAttributeListAction[] = [];
@@ -78,13 +78,13 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   ) { }
 
   public ngOnInit() {
-    this.klass = this.dialogData?.klass || this.klass;
+    this.class = this.dialogData?.class || this.class;
     this.data = this.dialogData?.data || this.data;
     this.queryConfigs = this.dialogData?.queryConfigs || this.queryConfigs;
     this.attributeConfigItem = this.dialogData?.attributeConfig || (
       this.config ? 
         new AttributeConfigItem(this.config, this.config.mapping) : 
-        this.attributesConfig.getConfig(this.klass)
+        this.attributesConfig.getConfig(this.class)
     );
 
     this._setListConfig();
@@ -102,7 +102,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
       panelClass: [
         'fs-attribute-dialog', 
         'fs-attribute-dialog-no-scroll', 
-        `fs-attribute-${this.attributeConfigItem.klass}`,
+        `fs-attribute-${this.attributeConfigItem.class}`,
       ],
     })
       .afterClosed()
@@ -160,7 +160,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         const e = {
           query: query,
           data: this.data,
-          class: this.attributeConfigItem.klass,
+          class: this.attributeConfigItem.class,
           queryConfigs: this.queryConfigs,
         };
 
@@ -177,7 +177,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
           const e = {
             attributes: data,
             data: this.data,
-            class: this.klass,
+            class: this.class,
             queryConfigs: this.queryConfigs,
           };
 
@@ -238,7 +238,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
       panelClass: [
         'fs-attribute-dialog',
         'fs-attribute-dialog-no-scroll',
-        `fs-attribute-${this.attributeConfigItem.klass}`,
+        `fs-attribute-${this.attributeConfigItem.class}`,
       ],
     });
   }

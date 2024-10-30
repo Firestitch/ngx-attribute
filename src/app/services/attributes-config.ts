@@ -188,7 +188,7 @@ export class AttributesConfig {
     configs.forEach((config) => {
       const configItem = new AttributeConfigItem(config, mappings);
 
-      this._configs.set(configItem.klass, configItem);
+      this._configs.set(configItem.class, configItem);
     });
 
     this._configs.forEach((configItem) => {

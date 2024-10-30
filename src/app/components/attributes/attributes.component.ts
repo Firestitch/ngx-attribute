@@ -12,18 +12,20 @@ import {
   Output,
   TemplateRef,
 } from '@angular/core';
+
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
 import { cloneDeep } from 'lodash-es';
 
-import { AttributesConfig } from '../../services/attributes-config';
 import { FsAttributeTemplateDirective } from '../../directives/attribute-template.component';
+import { AttributesConfig } from '../../services/attributes-config';
 
 
 @Component({
   selector: 'fs-attributes',
   templateUrl: 'attributes.component.html',
-  styleUrls: [ 'attributes.component.scss' ],
+  styleUrls: ['attributes.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAttributesComponent implements OnInit, OnDestroy {
@@ -39,7 +41,7 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
   public _attributes: any = [];
 
   @Input('class')
-  public klass: string;
+  public class: string;
 
   @Input()
   public data;
@@ -83,8 +85,8 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
 
     this.el.nativeElement.classList.add('fs-attributes');
     this.el.nativeElement.classList.add('fs-attribute');
-    this.el.nativeElement.classList.add('fs-attribute-' + this.klass);
-    // this.hostClass = 'fs-attribute fs-attribute-' + this.klass;
+    this.el.nativeElement.classList.add(`fs-attribute-${  this.class}`);
+    // this.hostClass = 'fs-attribute fs-attribute-' + this.class;
   }
 
   public ngOnDestroy() {
@@ -95,13 +97,13 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
   public fetch() {
     const e = {
       data: this.data,
-      class: this.klass,
+      class: this.class,
       queryConfigs: this.queryConfigs,
     };
 
     this.attributesConfig.getSelectedAttributes(e)
       .pipe(
-        takeUntil(this._destroy$)
+        takeUntil(this._destroy$),
       )
       .subscribe((response) => {
         this.attributes = response.data;

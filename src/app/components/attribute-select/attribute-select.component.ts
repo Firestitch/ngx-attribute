@@ -4,37 +4,36 @@ import {
   forwardRef,
   Input,
   OnDestroy,
-  OnInit
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { AttributesConfig } from '../../services/attributes-config';
-import { AttributeConfigItem } from '../../models/attribute-config';
 import { AttributeItem } from '../../models/attribute';
+import { AttributeConfigItem } from '../../models/attribute-config';
+import { AttributesConfig } from '../../services/attributes-config';
 
 
 @Component({
   selector: 'fs-attribute-select',
   templateUrl: './attribute-select.component.html',
-  styleUrls: [ './attribute-select.component.scss' ],
+  styleUrls: ['./attribute-select.component.scss'],
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => FsAttributeSelectComponent),
-    multi: true
+    multi: true,
   }],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
-export class FsAttributeSelectComponent implements OnInit, OnDestroy, ControlValueAccessor {
+export class FsAttributeSelectComponent implements OnDestroy, ControlValueAccessor {
 
   @Input()
   public data;
 
   @Input()
-  set class(value) {
-    this.klass = value;
+  public set class(value) {
+    this._class = value;
     this.attributeConfig = this.attributesConfig.getConfig(value);
 
     if (this.attributeConfig) {
@@ -59,7 +58,7 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy, ControlVal
   @Input()
   public queryConfigs: any;
 
-  public klass;
+  public _class;
   public attributeName;
   public attributes: AttributeItem[] = [];
   public attributeConfig: AttributeConfigItem;
@@ -75,7 +74,7 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy, ControlVal
     private _cdRef: ChangeDetectorRef,
   ) {}
 
-  set value(value) {
+  public set value(value) {
     if (value !== this._value) {
       this._value = value;
 
@@ -85,12 +84,8 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy, ControlVal
     }
   }
 
-  get value() {
+  public get value() {
     return this._value;
-  }
-
-  public ngOnInit() {
-
   }
 
   public ngOnDestroy() {
@@ -111,13 +106,13 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy, ControlVal
   public fetch() {
     const e = {
       data: this.data,
-      class: this.klass,
+      class: this._class,
       queryConfigs: this.queryConfigs,
     };
 
     this.attributesConfig.getAttributes(e)
       .pipe(
-        takeUntil(this._destroy$)
+        takeUntil(this._destroy$),
       )
       .subscribe((response) => {
         this.attributes =  response.data;
@@ -126,8 +121,12 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy, ControlVal
       });
   }
 
-  public registerOnChange(fn) { this.onChange = fn;  }
-  public registerOnTouched(fn) { this.onTouch = fn; }
+  public registerOnChange(fn) {
+    this.onChange = fn;  
+  }
+  public registerOnTouched(fn) {
+    this.onTouch = fn; 
+  }
 
   public compare = (o1: any, o2: any) => {
     return this.attributesConfig.compareAttributes(o1, o2);
@@ -136,6 +135,6 @@ export class FsAttributeSelectComponent implements OnInit, OnDestroy, ControlVal
   private _getRawValue() {
     return (this.value instanceof AttributeItem)
       ? this.value.toJSON()
-      : this.value
+      : this.value;
   }
 }

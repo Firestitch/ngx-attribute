@@ -7,11 +7,22 @@
       [required]="required"
       [disabled]="disabled"
       [compareWith]="compare">
-    <mat-option [value]="null" *ngIf="noneOption">None</mat-option>
-    <mat-option *ngFor="let attribute of attributes" [value]="attribute">
+    <mat-option
+        [value]="null"
+        *ngIf="noneOption">
+      None
+    </mat-option>
+    <mat-option
+        *ngFor="let attribute of attributes"
+        [value]="attribute">
       <div class="option">
-        <img *ngIf="attribute.image" [src]="attribute.image" alt="">
-        <div>{{attribute.name}}</div>
+        <img
+          *ngIf="attribute.image"
+          [src]="attribute.image"
+          alt="">
+        <div>
+          {{ attribute.name }}
+        </div>
       </div>
     </mat-option>
   </mat-select>

@@ -37,7 +37,7 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
   public showCreate = true;
 
   @Input('class')
-  public klass: string;
+  public class: string;
 
   @Input()
   public selectedAttributes = [];
@@ -72,7 +72,7 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
   public ngOnInit() {
     if (this.dialogData && this.dialogData.class) {
       this.dialogMode = !!this.dialogData;
-      this.klass = this.dialogData.class;
+      this.class = this.dialogData.class;
       this.childClass = this.dialogData.childClass;
       this.data = this.dialogData.data;
       this.selectedAttributes = this.dialogData.selectedAttributes;
@@ -80,11 +80,11 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
 
       this._initDialog();
     } else {
-      this.hostClass = `fs-attribute fs-attribute-${this.klass}`;
+      this.hostClass = `fs-attribute fs-attribute-${this.class}`;
       Object.assign(this.data, { childAttributes: true });
     }
 
-    this.attributeConfig = this.attributesConfig.getConfig(this.klass);
+    this.attributeConfig = this.attributesConfig.getConfig(this.class);
 
     this.compareFn = this.getCompareFn();
 
@@ -108,7 +108,7 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
     });
 
     event.data = this.data;
-    event.klass = this.childClass;
+    event.class = this.childClass;
     event.queryConfigs = this.queryConfigs;
     event.attribute = event.value;
 
@@ -133,7 +133,7 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
       data: {
         attribute: attribute,
         attributeConfig: this.attributeConfig,
-        selectParent: this.attributeConfig.klass,
+        selectParent: this.attributeConfig.class,
         mode: 'create',
         queryConfigs: this.queryConfigs,
       },
@@ -185,7 +185,7 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
     const e = {
       query: {},
       keyword: keyword,
-      class: this.klass,
+      class: this.class,
       data: this.data,
       queryConfigs: this.queryConfigs,
     };

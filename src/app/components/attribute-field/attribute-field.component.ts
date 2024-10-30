@@ -45,7 +45,7 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
   }
 
   @Input('class')
-  public klass: string;
+  public class: string;
 
   @Input()
   public label: string | boolean;
@@ -73,7 +73,7 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
   ) {}
 
   public ngOnInit() {
-    this.attributeConfig = this.attributesConfig.getConfig(this.klass);
+    this.attributeConfig = this.attributesConfig.getConfig(this.class);
     if (this.label === undefined) {
       this.label = this.attributeConfig.pluralName;
     }
@@ -89,7 +89,7 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
   public fetch() {
     const e = {
       data: this.data,
-      class: this.klass,
+      class: this.class,
       queryConfigs: this.queryConfigs,
     };
 
@@ -109,13 +109,13 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
       .open(FsAttributeSelectorComponent, {
         data: {
           selectedAttributes: this.attributes.slice(),
-          class: this.klass,
+          class: this.class,
           data: this.data,
           size: this.size,
           showCreate: this.showCreate,
           queryConfigs: this.queryConfigs,
         },
-        panelClass: ['fs-attribute-dialog', 'fs-attribute-dialog-no-scroll', `fs-attribute-${this.klass}`],
+        panelClass: ['fs-attribute-dialog', 'fs-attribute-dialog-no-scroll', `fs-attribute-${this.class}`],
       })
       .afterClosed()
       .pipe(
@@ -124,7 +124,7 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
       .subscribe((response) => {
         if (response && response.attributes) {
 
-          this.attributes = this.attributesConfig.sortAttributes(this.klass, response.attributes);
+          this.attributes = this.attributesConfig.sortAttributes(this.class, response.attributes);
           this.changed.emit(this.attributes);
 
           this._cdRef.markForCheck();

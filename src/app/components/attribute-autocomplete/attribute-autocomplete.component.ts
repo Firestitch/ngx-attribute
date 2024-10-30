@@ -1,26 +1,28 @@
 import {
+  ChangeDetectorRef,
   Component,
+  ContentChildren,
   forwardRef,
   Input,
+  OnChanges,
   OnDestroy,
   OnInit,
-  ViewChild,
-  ChangeDetectorRef,
-  ContentChildren,
-  TemplateRef,
   QueryList,
-  OnChanges, SimpleChanges,
+  SimpleChanges,
+  TemplateRef,
+  ViewChild,
 } from '@angular/core';
 import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
 
-import { Subject } from 'rxjs';
-import { takeUntil, map} from 'rxjs/operators';
-
 import { FsAutocompleteComponent, FsAutocompleteStaticDirective } from '@firestitch/autocomplete';
 
-import { AttributesConfig } from '../../services/attributes-config';
-import { AttributeConfigItem } from '../../models/attribute-config';
+import { Subject } from 'rxjs';
+import { map, takeUntil } from 'rxjs/operators';
+
+
 import { AttributeItem } from '../../models/attribute';
+import { AttributeConfigItem } from '../../models/attribute-config';
+import { AttributesConfig } from '../../services/attributes-config';
 
 
 @Component({
@@ -30,8 +32,8 @@ import { AttributeItem } from '../../models/attribute';
   providers: [{
     provide: NG_VALUE_ACCESSOR,
     useExisting: forwardRef(() => FsAttributeAutocompleteComponent),
-    multi: true
-  }]
+    multi: true,
+  }],
 })
 export class FsAttributeAutocompleteComponent implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
 
@@ -50,7 +52,7 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnChanges, OnDe
   @Input() public disabled = false;
 
   @Input('class')
-  public klass: string;
+  public class: string;
 
   @Input()
   public label = 'Select...';
@@ -88,7 +90,7 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnChanges, OnDe
   }
 
   public ngOnInit() {
-    this.attributeConfig = this.attributesConfig.getConfig(this.klass);
+    this.attributeConfig = this.attributesConfig.getConfig(this.class);
 
     if (!this.label) {
       this.label = this.attributeConfig.name;
@@ -104,7 +106,7 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnChanges, OnDe
   public fetch = (keyword) => {
 
     return this.attributesConfig.getAttributes({
-      class: this.klass,
+      class: this.class,
       data: this.data,
       keyword: keyword,
       queryConfigs: this.queryConfigs,
@@ -113,12 +115,13 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnChanges, OnDe
         map((response) => {
           return response.data;
         }),
-        takeUntil(this._destroy$)
-      )
+        takeUntil(this._destroy$),
+      );
   };
 
   public displayWith = (data) => {
-    const parent = data.parent ? data.parent.name + ': ' : '';
+    const parent = data.parent ? `${data.parent.name  }: ` : '';
+
     return parent + data.name;
   };
 
@@ -132,8 +135,12 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnChanges, OnDe
     }
   }
 
-  public registerOnChange(fn) { this.onChange = fn;  }
-  public registerOnTouched(fn) { this.onTouch = fn; }
+  public registerOnChange(fn) {
+    this.onChange = fn;  
+  }
+  public registerOnTouched(fn) {
+    this.onTouch = fn; 
+  }
 
   public ngOnDestroy() {
     this._destroy$.next(null);
