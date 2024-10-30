@@ -1,32 +1,41 @@
-<fs-list [config]="listConfig" #list>
+<fs-list [config]="listConfig">
   <fs-list-column>
-    <ng-template fs-list-header>{{attributeConfig.name}}</ng-template>
-    <ng-template fs-list-cell let-row="row">
+    <ng-template fs-list-header>
+      {{ attributeConfigItem.name }}
+    </ng-template>
+    <ng-template
+        fs-list-cell
+        let-row="row">
       <div class="list-attribute">
         <fs-attribute
-          [attribute]="row"
-          [class]="klass"
-          [size]="size"
-          (click)="edit(row)"
-        >
+            [attribute]="row"
+            [class]="klass"
+            [size]="size"
+            (click)="edit(row)">
           <ng-container *ngIf="!columnTemplate; else columnTemplateRef">
-            {{row.name}}
+            {{ row.name }}
           </ng-container>
-
-          <ng-template [ngTemplateOutlet]="columnTemplate"
-                       [ngTemplateOutletContext]="{ attribute: row }"
-                       #columnTemplateRef
-          ></ng-template>
+          <ng-template
+            [ngTemplateOutlet]="columnTemplate"
+            [ngTemplateOutletContext]="{ attribute: row }"
+            #columnTemplateRef>
+          </ng-template>
         </fs-attribute>
       </div>
     </ng-template>
   </fs-list-column>
-
-  <ng-container *ngFor="let field of attributeConfig.fields">
+  <ng-container *ngFor="let field of attributeConfigItem.fields">
     <fs-list-column *ngIf="field.listComponent">
-      <ng-template fs-list-header>{{field.label}}</ng-template>
-      <ng-template fs-list-cell let-row="row">
-        <fs-attribute-component-wrapper [data]="row" [component]="field.listComponent"></fs-attribute-component-wrapper>
+      <ng-template fs-list-header>
+        {{ field.label }}
+      </ng-template>
+      <ng-template
+          fs-list-cell
+          let-row="row">
+        <fs-attribute-component-wrapper
+          [data]="row"
+          [component]="field.listComponent">
+        </fs-attribute-component-wrapper>
       </ng-template>
     </fs-list-column>
   </ng-container>

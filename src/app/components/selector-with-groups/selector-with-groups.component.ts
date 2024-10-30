@@ -1,7 +1,6 @@
 import {
   ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
-  ElementRef,
   EventEmitter,
   HostBinding,
   Inject,
@@ -9,8 +8,9 @@ import {
   OnDestroy,
   OnInit,
   Optional,
-  Output
+  Output,
 } from '@angular/core';
+
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { Subject } from 'rxjs';
@@ -25,7 +25,7 @@ import { FsAttributeEditComponent } from '../attribute-edit';
 @Component({
   selector: 'fs-attribute-selector-with-groups',
   templateUrl: './selector-with-groups.component.html',
-  styleUrls: [ './selector-with-groups.component.scss' ],
+  styleUrls: ['./selector-with-groups.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy {
@@ -51,7 +51,7 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
   @Output()
   public selectedToggled = new EventEmitter();
 
-  @HostBinding('class') hostClass = '';
+  @HostBinding('class') public hostClass = '';
 
   public childClass: string;
   public attributes: AttributeItem[] = [];
@@ -63,11 +63,10 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
 
   constructor(
     public attributesConfig: AttributesConfig,
-    private el: ElementRef,
-    private dialog: MatDialog,
+    private _dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) @Optional() public dialogData: any,
-    @Optional() private dialogRef: MatDialogRef<FsAttributeSelectorWithGroupsComponent>,
-    private cdRef: ChangeDetectorRef,
+    @Optional() private _dialogRef: MatDialogRef<FsAttributeSelectorWithGroupsComponent>,
+    private _cdRef: ChangeDetectorRef,
   ) {}
 
   public ngOnInit() {
@@ -76,13 +75,12 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
       this.klass = this.dialogData.class;
       this.childClass = this.dialogData.childClass;
       this.data = this.dialogData.data;
-
       this.selectedAttributes = this.dialogData.selectedAttributes;
       this.showCreate = this.dialogData.showCreate;
 
-      this.initDialog();
+      this._initDialog();
     } else {
-      this.hostClass = 'fs-attribute fs-attribute-' + this.klass;
+      this.hostClass = `fs-attribute fs-attribute-${this.klass}`;
       Object.assign(this.data, { childAttributes: true });
     }
 
@@ -90,16 +88,17 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
 
     this.compareFn = this.getCompareFn();
 
-    this.fetch();
+    this._fetch();
   }
 
   public getCompareFn() {
     if (this.dialogData && this.dialogData.class) {
       return this.attributesConfig.compareAttributes.bind(this.attributesConfig);
-    } else {
-      return this.attributesConfig.compare.bind(this.attributesConfig);
     }
-  };
+ 
+    return this.attributesConfig.compare.bind(this.attributesConfig);
+    
+  }
 
   public selectedToggle(event) {
 
@@ -115,14 +114,13 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
 
     this.attributesConfig.attributeSelectionChanged(event)
       .pipe(
-        takeUntil(this._destroy$)
+        takeUntil(this._destroy$),
       )
-      .subscribe((response: any) => {
-      });
+      .subscribe();
   }
 
   public done() {
-    this.dialogRef.close({ attributes: this.selectedAttributes });
+    this._dialogRef.close({ attributes: this.selectedAttributes });
   }
 
   public create() {
@@ -131,33 +129,37 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
       this.attributesConfig,
     );
 
-    const dialogRef = this.dialog.open(FsAttributeEditComponent, {
+    const dialogRef = this._dialog.open(FsAttributeEditComponent, {
       data: {
         attribute: attribute,
-        klass: this.attributeConfig.childClass,
+        attributeConfig: this.attributeConfig,
         selectParent: this.attributeConfig.klass,
         mode: 'create',
         queryConfigs: this.queryConfigs,
       },
       panelClass: [
-        `fs-attribute-dialog`,
-        `fs-attribute-dialog-no-scroll`,
-        `fs-attribute-${this.attributeConfig.childClass}`
+        'fs-attribute-dialog',
+        'fs-attribute-dialog-no-scroll',
+        `fs-attribute-${this.attributeConfig.childClass}`,
       ],
     });
 
     dialogRef.afterClosed()
-    .pipe(
-      takeUntil(this._destroy$)
-    )
-    .subscribe(response => {
-      this.fetch(
-        null,
-        {
-        parentId: response?.parent.id,
-        attrId: response?.attribute.id,
+      .pipe(
+        takeUntil(this._destroy$),
+      )
+      .subscribe((response) => {
+        this._fetch(
+          null,
+          {
+            parentId: response?.parent.id,
+            attrId: response?.attribute.id,
+          });
       });
-    });
+  }
+
+  public search(text) {
+    this._fetch(text);
   }
 
   public ngOnDestroy() {
@@ -165,11 +167,11 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
     this._destroy$.complete();
   }
 
-  private initDialog() {
-    this.dialogRef.disableClose = true;
-    this.dialogRef.backdropClick()
+  private _initDialog() {
+    this._dialogRef.disableClose = true;
+    this._dialogRef.backdropClick()
       .pipe(takeUntil(this._destroy$))
-      .subscribe(result => {
+      .subscribe(() => {
         this.done();
       });
   }
@@ -179,7 +181,7 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
    * @param keyword
    * @param autoSelectAttr - param which can be passed for automatically select some attr after fetch
    */
-  private fetch(keyword = null, autoSelectAttr = null) {
+  private _fetch(keyword = null, autoSelectAttr = null) {
     const e = {
       query: {},
       keyword: keyword,
@@ -190,7 +192,7 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
 
     this.attributesConfig.getAttributes(e)
       .pipe(
-        takeUntil(this._destroy$)
+        takeUntil(this._destroy$),
       )
       .subscribe((response) => {
         this.attributes = response.data;
@@ -209,17 +211,13 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
             // selectedToggle method required special event object
             const event = {
               selected: true,
-              value: attribute
-            }
+              value: attribute,
+            };
             this.selectedToggle(event);
           }
         }
 
-        this.cdRef.markForCheck();
+        this._cdRef.markForCheck();
       });
-  }
-
-  public search(text) {
-    this.fetch(text);
   }
 }

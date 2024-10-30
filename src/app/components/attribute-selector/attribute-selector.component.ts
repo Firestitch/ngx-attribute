@@ -9,8 +9,9 @@ import {
   OnDestroy,
   OnInit,
   Optional,
-  Output
+  Output,
 } from '@angular/core';
+
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { Subject } from 'rxjs';
@@ -26,7 +27,7 @@ import { FsAttributeManageComponent } from '../attribute-manage';
 @Component({
   selector: 'fs-attribute-selector',
   templateUrl: './attribute-selector.component.html',
-  styleUrls: [ './attribute-selector.component.scss' ],
+  styleUrls: ['./attribute-selector.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
@@ -91,7 +92,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
 
       this.initDialog();
     } else {
-      this.hostClass = 'fs-attribute fs-attribute-' + this.klass;
+      this.hostClass = `fs-attribute fs-attribute-${  this.klass}`;
     }
 
     this.attributeConfig = this.attributesConfig.getConfig(this.klass);
@@ -103,10 +104,11 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
   public getCompareFn() {
     if (this.dialogData && this.dialogData.class) {
       return this.attributesConfig.compareAttributes.bind(this.attributesConfig);
-    } else {
-      return this.attributesConfig.compare.bind(this.attributesConfig);
     }
-  };
+ 
+    return this.attributesConfig.compare.bind(this.attributesConfig);
+    
+  }
 
   public done() {
     this.dialogRef.close({ attributes: this.selectedAttributes });
@@ -115,30 +117,30 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
   public create() {
     const attribute = new AttributeItem(
       { class: this.attributeConfig.klass },
-      this.attributesConfig
+      this.attributesConfig,
     );
 
     const dialogRef = this.dialog.open(FsAttributeEditComponent, {
       data: {
         attribute: attribute,
-        klass: this.attributeConfig.klass,
+        attributeConfig: this.attributeConfig,
         config: this.dialogData && this.dialogData.config,
         data: this.data,
         mode: 'create',
         queryConfigs: this.dialogData?.queryConfigs || this.queryConfigs,
       },
       panelClass: [
-        `fs-attribute-dialog`,
-        `fs-attribute-dialog-no-scroll`,
+        'fs-attribute-dialog',
+        'fs-attribute-dialog-no-scroll',
         `fs-attribute-${this.attributeConfig.klass}`,
       ],
     });
 
     dialogRef.afterClosed()
       .pipe(
-        takeUntil(this._destroy$)
+        takeUntil(this._destroy$),
       )
-      .subscribe(response => {
+      .subscribe((response) => {
         this.fetch(response?.attribute.id);
       });
   }
@@ -154,9 +156,9 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
         queryConfigs: this.dialogData?.queryConfigs || this.queryConfigs,
       },
     })
-    .afterClosed()
+      .afterClosed()
       .pipe(
-        takeUntil(this._destroy$)
+        takeUntil(this._destroy$),
       )
       .subscribe((response) => {
         this.fetch(response?.attribute.id);
@@ -175,7 +177,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
 
     this.attributesConfig.attributeSelectionChanged(event)
       .pipe(
-        takeUntil(this._destroy$)
+        takeUntil(this._destroy$),
       )
       .subscribe((e: any) => {});
   }
@@ -186,15 +188,11 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
   }
 
   public filterByKeyword() {
-    if (this.filterKeyword === '') {
-      this.filteredAttributes = this.attributes.slice();
-    } else {
-      this.filteredAttributes = this.attributes.filter((attribute) => {
-        const name = attribute.name.toString().toLowerCase();
+    this.filteredAttributes = this.filterKeyword === '' ? this.attributes.slice() : this.attributes.filter((attribute) => {
+      const name = attribute.name.toString().toLowerCase();
 
-        return name.indexOf(this.filterKeyword.toLowerCase()) > -1;
-      })
-    }
+      return name.indexOf(this.filterKeyword.toLowerCase()) > -1;
+    });
   }
 
   private fetch(attributeId: number = null) {
@@ -202,12 +200,12 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
       query: {},
       class: this.klass,
       data: this.data,
-      queryConfigs: this.dialogData?.queryConfigs || this.queryConfigs
+      queryConfigs: this.dialogData?.queryConfigs || this.queryConfigs,
     };
 
     this.attributesConfig.getAttributes(e)
       .pipe(
-        takeUntil(this._destroy$)
+        takeUntil(this._destroy$),
       )
       .subscribe((response) => {
         this.attributes = response.data;
@@ -225,15 +223,15 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
           const attribute = this.attributes
             .find((attr) => attr.id === attributeId);
 
-           // Add to selected attributes
-           this.selectedAttributes.push(attribute);
+          // Add to selected attributes
+          this.selectedAttributes.push(attribute);
 
-           // selectedToggle method required special event object
-           const event = {
-             selected: true,
-             value: attribute
-           }
-           this.selectedToggle(event);
+          // selectedToggle method required special event object
+          const event = {
+            selected: true,
+            value: attribute,
+          };
+          this.selectedToggle(event);
         }
 
         this.cdRef.markForCheck();

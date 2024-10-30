@@ -1,10 +1,19 @@
-<div mat-dialog-title>Manage {{data.pluralName}}</div>
+<div mat-dialog-title>
+  Manage {{ data.pluralName }}
+</div>
 <mat-dialog-content>
   <fs-attribute-list
+    [config]="data.attributeConfig"
     [class]="data.class"
     [size]="data.size">
   </fs-attribute-list>
 </mat-dialog-content>
 <mat-dialog-actions>
-  <button mat-button (click)="close()" color="primary" type="button">Close</button>
+  <button
+      mat-button
+      (click)="close()"
+      color="primary"
+      type="button">
+    Close
+  </button>
 </mat-dialog-actions>

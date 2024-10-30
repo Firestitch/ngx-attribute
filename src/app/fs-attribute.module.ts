@@ -11,16 +11,15 @@ import { MatIconModule } from '@angular/material/icon';
 import { MatInputModule } from '@angular/material/input';
 import { MatSelectModule } from '@angular/material/select';
 
-import { FsColorPickerModule } from '@firestitch/colorpicker';
-import { FsFormModule } from '@firestitch/form';
-import { FsListModule } from '@firestitch/list';
-
 import { FsAutocompleteModule } from '@firestitch/autocomplete';
 import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
 import { FsChipModule } from '@firestitch/chip';
+import { FsColorPickerModule } from '@firestitch/colorpicker';
 import { FsDialogModule } from '@firestitch/dialog';
 import { FsFileModule } from '@firestitch/file';
+import { FsFormModule } from '@firestitch/form';
 import { FsLabelModule } from '@firestitch/label';
+import { FsListModule } from '@firestitch/list';
 import { FsMenuModule } from '@firestitch/menu';
 import { FsScrollModule } from '@firestitch/scroll';
 import { FsTreeModule } from '@firestitch/tree';
@@ -87,7 +86,7 @@ import { AttributesConfig } from './services/attributes-config';
     FsAttributeSelectorWithGroupsComponent,
     FsAttributeListColumnDirective,
     FsAttributeTemplateDirective,
-    FsAttributeAutocompleteChipsStaticDirective
+    FsAttributeAutocompleteChipsStaticDirective,
   ],
   declarations: [
     FsAttributeComponent,
@@ -107,17 +106,17 @@ import { AttributesConfig } from './services/attributes-config';
     FsAttributeAutocompleteComponent,
     FsAttributeListColumnDirective,
     FsAttributeTemplateDirective,
-    FsAttributeAutocompleteChipsStaticDirective
-  ]
+    FsAttributeAutocompleteChipsStaticDirective,
+  ],
 })
 export class FsAttributeModule {
-  static forRoot(config?: FsAttributeConfig): ModuleWithProviders<FsAttributeModule> {
+  public static forRoot(config?: FsAttributeConfig): ModuleWithProviders<FsAttributeModule> {
     return {
       ngModule: FsAttributeModule,
       providers: [
         { provide: FS_ATTRIBUTE_DEFAULT_CONFIG, useValue: config || {} },
         AttributesConfig,
-      ]
+      ],
     };
   }
 }

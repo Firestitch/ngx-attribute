@@ -1,9 +1,10 @@
-import { clone, filter } from 'lodash-es';
+import { clone } from 'lodash-es';
 
-import { AttributeConfigItem } from './attribute-config';
+import { AttributeColor, AttributeImage } from '../enums/enums';
 import { getAttributeValue, setAttributeValue } from '../helpers/helpers';
 import { AttributesConfig } from '../services/attributes-config';
-import { AttributeColor, AttributeImage } from '../enums/enums';
+
+import { AttributeConfigItem } from './attribute-config';
 
 
 export class AttributeItem {
@@ -23,50 +24,50 @@ export class AttributeItem {
   private _parent: AttributeItem;
   private _attribute = {};
 
-  get attributesConfig() {
+  public get attributesConfig() {
     return this._attributesConfig;
   }
 
-  get config() {
+  public get config() {
     return this._config;
   }
 
-  get image() {
+  public get image() {
     return this._image;
   }
 
-  set image(value) {
+  public set image(value) {
     this.setImage(value);
   }
 
-  get backgroundColor() {
+  public get backgroundColor() {
     return this._backgroundColor;
   }
 
-  set backgroundColor(value) {
+  public set backgroundColor(value) {
     this.setBackgroundColor(value);
   }
 
-  get color() {
+  public get color() {
     return this._color;
   }
 
-  set color(value) {
+  public set color(value) {
     this.setColor(value);
   }
 
-  get children() {
+  public get children() {
     return this._children.slice();
   }
 
-  get parent() {
+  public get parent() {
     return this._parent;
   }
 
   constructor(
     data: any = {},
     attributesConfig: AttributesConfig,
-    parent: AttributeItem = null
+    parent: AttributeItem = null,
   ) {
     this._attributesConfig = attributesConfig;
     this._parent = parent;
@@ -78,27 +79,15 @@ export class AttributeItem {
   }
 
   public setImage(value) {
-    if (this._config.image === AttributeImage.Parent && this.parent) {
-      this._image = this.parent.image;
-    } else {
-      this._image = value;
-    }
+    this._image = this._config.image === AttributeImage.Parent && this.parent ? this.parent.image : value;
   }
 
   public setBackgroundColor(value) {
-    if (this._config.backgroundColor === AttributeColor.Parent && this.parent) {
-      this._backgroundColor = this.parent.backgroundColor;
-    } else {
-      this._backgroundColor = value;
-    }
+    this._backgroundColor = this._config.backgroundColor === AttributeColor.Parent && this.parent ? this.parent.backgroundColor : value;
   }
 
   public setColor(value) {
-    if (this._config.color === AttributeColor.Parent && this.parent) {
-      this._color = this.parent.color;
-    } else {
-      this._color = value;
-    }
+    this._color = this._config.color === AttributeColor.Parent && this.parent ? this.parent.color : value;
   }
 
   /**

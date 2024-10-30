@@ -8,6 +8,7 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
+
 import { MatDialog } from '@angular/material/dialog';
 
 import { FsTreeChange, FsTreeComponent, ITreeConfig, TreeActionType } from '@firestitch/tree';
@@ -99,17 +100,17 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
 
     const attribute = new AttributeItem(
       { class: this.attributeConfig.klass },
-      this.attributesConfig
+      this.attributesConfig,
     );
 
     const dialogRef = this.dialog.open(FsAttributeEditComponent, {
       data: {
         attribute: attribute,
-        klass: this.klass,
+        attributeConfig: this.attributeConfig,
         mode: 'create',
         queryConfigs: this.queryConfigs,
       },
-      panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.klass}`],
+      panelClass: ['fs-attribute-dialog', 'fs-attribute-dialog-no-scroll', `fs-attribute-${this.klass}`],
     });
 
     dialogRef.afterClosed()
@@ -169,7 +170,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
 
             if (!node.parent) {
               event.parentIds = this.tree.getData().map((rootNode) => {
-                return rootNode.id
+                return rootNode.id;
               });
             } else {
               event.childIds = node.parent.children.map((child) => child.data.id);
@@ -203,7 +204,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
                     mode: 'edit',
                     queryConfigs: this.queryConfigs,
                   },
-                  panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.klass}`],
+                  panelClass: ['fs-attribute-dialog', 'fs-attribute-dialog-no-scroll', `fs-attribute-${this.klass}`],
                 });
 
                 dialogRef.afterClosed()
@@ -218,17 +219,17 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
                       this.tree.updateNodeData(data.getData(), node);
                     }
                   });
-              }
+              },
             },
             {
-              label: 'Create ' + this.childAttributeConfig.name,
+              label: `Create ${  this.childAttributeConfig.name}`,
               show: (node) => {
                 return node.level === 0;
               },
               click: (node) => {
                 const attribute = new AttributeItem(
                   { class: this.attributeConfig.childClass },
-                  this.attributesConfig
+                  this.attributesConfig,
                 );
 
                 const dialogRef = this.dialog.open(FsAttributeEditComponent, {
@@ -240,7 +241,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
                     mode: 'create',
                     queryConfigs: this.queryConfigs,
                   },
-                  panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.klass}`],
+                  panelClass: ['fs-attribute-dialog', 'fs-attribute-dialog-no-scroll', `fs-attribute-${this.klass}`],
                 });
 
                 dialogRef.afterClosed()
@@ -254,23 +255,23 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
                       const data = new AttributeItem(
                         result.attribute,
                         orig.attributesConfig,
-                        node.data.original
+                        node.data.original,
                       );
 
                       this.tree.append(data.getData(), node);
                     }
                   });
-              }
+              },
             },
             {
               label: 'Delete',
               click: (node) => {
                 this._deteleNode(node);
-              }
+              },
             },
-          ]
-        }
-      ]
+          ],
+        },
+      ],
     };
   }
 

@@ -1,26 +1,18 @@
-import { Component, OnInit, Inject, ViewChild, ContentChild } from '@angular/core';
+import { Component, Inject } from '@angular/core';
 
-import { FsTreeComponent } from '@firestitch/tree';
-import { MatDialog } from '@angular/material/dialog';
 
-import { FS_ATTRIBUTE_CONFIG } from 'src/app/providers';
 import { FsAttributeConfig } from 'src/app/interfaces/attribute-config.interface';
-import { FsAttributeTreeComponent } from '../../../../src/app/components/attribute-tree';
-import { FsAttributeEditComponent } from '../../../../src/app/components/attribute-edit';
+import { FS_ATTRIBUTE_CONFIG } from 'src/app/providers';
 
 
 @Component({
   selector: 'tree-example',
-  templateUrl: 'tree-example.component.html',
-  styleUrls: ['tree-example.component.scss']
+  templateUrl: './tree-example.component.html',
+  styleUrls: ['./tree-example.component.scss'],
 })
-export class TreeExampleComponent implements OnInit {
+export class TreeExampleComponent {
 
   constructor(
     @Inject(FS_ATTRIBUTE_CONFIG) private attributeConfig: FsAttributeConfig,
   ) {}
-
-  public ngOnInit() {
-
-  }
 }

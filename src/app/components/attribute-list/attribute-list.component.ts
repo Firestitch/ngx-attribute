@@ -10,34 +10,34 @@ import {
   TemplateRef,
   ViewChild,
 } from '@angular/core';
-import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
-import { FsListComponent, FsListConfig } from '@firestitch/list';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+
 import { ItemType } from '@firestitch/filter';
+import { FsListComponent, FsListConfig } from '@firestitch/list';
 
-import { Observable, Subject } from 'rxjs';
-import { map, filter, takeUntil } from 'rxjs/operators';
-
-import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.component';
-import { AttributeOrder } from '../../enums/enums';
-import { AttributesConfig } from '../../services/attributes-config';
-import { AttributeConfigItem } from '../../models/attribute-config';
-import { AttributeItem } from '../../models/attribute';
+import { Subject } from 'rxjs';
+import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
 
 import { FsAttributeListColumnDirective } from '../../directives/list-column.directive';
+import { AttributeOrder } from '../../enums/enums';
+import { AttributeConfig } from '../../interfaces/attribute-config.interface';
 import { FsAttributeListAction } from '../../interfaces/list-action.interface';
-import { FsAttributeService } from '../../services/attribute-service';
+import { AttributeItem } from '../../models/attribute';
+import { AttributeConfigItem } from '../../models/attribute-config';
+import { AttributesConfig } from '../../services/attributes-config';
+import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.component';
 
 
 @Component({
   selector: 'fs-attribute-list',
   templateUrl: './attribute-list.component.html',
-  styleUrls: [ './attribute-list.component.scss' ],
+  styleUrls: ['./attribute-list.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAttributeListComponent implements OnInit, OnDestroy {
 
-  @ViewChild('list', { static: true })
+  @ViewChild(FsListComponent, { static: true })
   public list: FsListComponent;
 
   @ContentChild(FsAttributeListColumnDirective, { read: TemplateRef })
@@ -48,6 +48,9 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
 
   @Input()
   public actions: FsAttributeListAction[] = [];
+
+  @Input()
+  public config: AttributeConfig;
 
   @Input()
   public data: any;
@@ -61,16 +64,14 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   @Input() public queryParam: boolean = null;
 
   public listConfig: FsListConfig;
-  // public listItems
-  public attributeConfig: AttributeConfigItem = null;
+  public attributeConfigItem: AttributeConfigItem = null;
 
   private _destroy$ = new Subject();
 
   constructor(
-    public attributeService: FsAttributeService,
     public attributesConfig: AttributesConfig,
-    private dialog: MatDialog,
-    private cdRef: ChangeDetectorRef,
+    private _dialog: MatDialog,
+    private _cdRef: ChangeDetectorRef,
     @Optional()
     @Inject(MAT_DIALOG_DATA)
     public dialogData: any,
@@ -80,24 +81,31 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
     this.klass = this.dialogData?.klass || this.klass;
     this.data = this.dialogData?.data || this.data;
     this.queryConfigs = this.dialogData?.queryConfigs || this.queryConfigs;
-    this.attributeConfig = this.attributesConfig.getConfig(this.klass);
+    this.attributeConfigItem = this.dialogData?.attributeConfig || (
+      this.config ? 
+        new AttributeConfigItem(this.config, this.config.mapping) : 
+        this.attributesConfig.getConfig(this.klass)
+    );
 
     this._setListConfig();
   }
 
   public edit(attribute) {
-    const dialogRef = this.dialog.open(FsAttributeEditComponent, {
+    this._dialog.open(FsAttributeEditComponent, {
       data: {
         attribute: attribute,
-        klass: this.klass,
+        attributeConfig: this.attributeConfigItem,
         data: this.data,
         mode: 'edit',
         queryConfigs: this.queryConfigs,
       },
-      panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.klass}`],
-    });
-
-    dialogRef.afterClosed()
+      panelClass: [
+        'fs-attribute-dialog', 
+        'fs-attribute-dialog-no-scroll', 
+        `fs-attribute-${this.attributeConfigItem.klass}`,
+      ],
+    })
+      .afterClosed()
       .pipe(
         filter((response) => !!response),
       )
@@ -105,7 +113,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         const attr = new AttributeItem(response.attribute, attribute.attributesConfig);
         this.list.replaceRow(attr, (listRow) => listRow.id === attribute.id);
 
-        this.cdRef.markForCheck();
+        this._cdRef.markForCheck();
       });
   }
 
@@ -117,53 +125,53 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   private _setListConfig() {
     const config: FsListConfig = {
       paging: {
-        limits: [ 50, 100, 200, 500, 1000 ]
+        limits: [50, 100, 200, 500, 1000],
       },
       filters: [
         {
           name: 'keyword',
           type: ItemType.Keyword,
-          label: 'Search'
-        }
+          label: 'Search',
+        },
       ],
       actions: [
         ...this.actions,
         {
           label: 'Create',
-          click: () => this._createActionClick()
-        }
+          click: () => this._createActionClick(),
+        },
       ],
       rowActions: [
         {
-          click: (row, event) => {
+          click: (row) => {
             return this._deleteRow(row);
           },
           remove: true,
-          label: 'Remove'
-        }
+          label: 'Remove',
+        },
       ],
       fetch: (query) => {
-        if (this.attributeConfig.order == AttributeOrder.Alphabetical) {
+        if (this.attributeConfigItem.order === AttributeOrder.Alphabetical) {
           query.order = 'name,asc';
-        } else if (this.attributeConfig.order == AttributeOrder.Custom) {
+        } else if (this.attributeConfigItem.order === AttributeOrder.Custom) {
           query.order = 'order,asc';
         }
 
         const e = {
           query: query,
           data: this.data,
-          class: this.klass,
+          class: this.attributeConfigItem.klass,
           queryConfigs: this.queryConfigs,
         };
 
         return this.attributesConfig.getAttributes(e)
           .pipe(
-            map((response: any) => ({ data: response.data, paging: response.paging }))
+            map((response: any) => ({ data: response.data, paging: response.paging })),
           );
-      }
+      },
     };
 
-    if (this.attributeConfig.order === AttributeOrder.Custom) {
+    if (this.attributeConfigItem.order === AttributeOrder.Custom) {
       config.reorder = {
         done: (data) => {
           const e = {
@@ -175,12 +183,10 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
 
           this.attributesConfig.reorderAttributes(e)
             .pipe(
-              takeUntil(this._destroy$)
+              takeUntil(this._destroy$),
             )
-            .subscribe(() => {
-
-            });
-        }
+            .subscribe();
+        },
       };
     }
 
@@ -195,25 +201,20 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
    * Biggest cratch in the world. Let's remove it in new future
    */
   private _deleteRow(row) {
-    return new Observable((obs) => {
-      this.attributesConfig.deleteConfirmation(row)
-        .pipe(takeUntil(this._destroy$))
-        .subscribe({
-          next: () => {
-            this.attributesConfig.deleteAttribute(row).subscribe(() => {
-              obs.next(null);
-            })
-          },
-          error: () => {},
-        })
-    });
+    return this.attributesConfig.deleteConfirmation(row)
+      .pipe(
+        switchMap(() => this.attributesConfig.deleteAttribute(row)),
+        takeUntil(this._destroy$),
+      )
+      .subscribe();
   }
 
   private _createActionClick() {
-    const dialogRef = this.attributeService.createAttribute(this.klass, {
-      data: this.data,
-      queryConfigs: this.queryConfigs,
-    });
+    const dialogRef = this
+      ._createAttribute({
+        data: this.data,
+        queryConfigs: this.queryConfigs,
+      });
 
     dialogRef.afterClosed()
       .pipe(
@@ -222,5 +223,23 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
       .subscribe(() => {
         this.list.reload();
       });
+  }
+
+  private _createAttribute(
+    config: { data?: any; queryConfigs?: any } = {},
+  ): MatDialogRef<FsAttributeEditComponent> {
+    return this._dialog.open(FsAttributeEditComponent, {
+      data: {
+        attribute: this.attributeConfigItem,
+        data: config.data,
+        mode: 'create',
+        queryConfigs: config.queryConfigs,
+      },
+      panelClass: [
+        'fs-attribute-dialog',
+        'fs-attribute-dialog-no-scroll',
+        `fs-attribute-${this.attributeConfigItem.klass}`,
+      ],
+    });
   }
 }

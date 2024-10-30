@@ -94,7 +94,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   @Input()
   public config: AttributeConfig;
 
-  public attributeConfigItem: AttributeConfigItem;
+  public attributeConfig: AttributeConfigItem;
 
   public onChange: (value: any) => void;
   public onTouch: (value: any) => void;
@@ -125,20 +125,20 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   }
 
   public ngOnInit() {
-    this.attributeConfigItem = this.config ? 
+    this.attributeConfig = this.config ? 
       new AttributeConfigItem(this.config, this.config.mapping) : 
       this.attributesConfig.getConfig(this.klass);
 
     if (!this.label) {
-      this.label = this.attributeConfigItem.name;
+      this.label = this.attributeConfig.name;
     }
 
-    if (!this.background && this.attributeConfigItem.backgroundColor) {
-      this.background = this.attributeConfigItem.mapping.backgroundColor;
+    if (!this.background && this.attributeConfig.backgroundColor) {
+      this.background = this.attributeConfig.mapping.backgroundColor;
     }
 
-    if (!this.color && this.attributeConfigItem.color) {
-      this.color = this.attributeConfigItem.mapping.color;
+    if (!this.color && this.attributeConfig.color) {
+      this.color = this.attributeConfig.mapping.color;
     }
   }
 
@@ -150,7 +150,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   public fetch = (keyword) => {
     return this.attributesConfig
       .getAttributes({
-        class: this.attributeConfigItem.klass,
+        class: this.attributeConfig.klass,
         data: this.data,
         keyword: keyword,
         queryConfigs: this.queryConfigs,
@@ -211,8 +211,9 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     this._dialog.open(FsAttributeManageComponent, {
       disableClose: true,
       data: {
-        klass: this.attributeConfigItem.klass,
-        pluralName: this.attributeConfigItem.pluralName,
+        klass: this.attributeConfig.klass,
+        attributeConfig: this.config,
+        pluralName: this.attributeConfig.pluralName,
         data: this.data,
         size: this.size,
         // queryConfigs: this.dialogData?.queryConfigs || this.queryConfigs,
@@ -234,7 +235,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
 
   public save(item = null, selected = false, reorder = null) {
     this.attributesConfig.attributeSelectionChanged({
-      class: this.attributeConfigItem.klass,
+      class: this.attributeConfig.klass,
       data: this.data,
       attributes: this.value,
       selected: selected,

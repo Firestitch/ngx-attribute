@@ -2,30 +2,31 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  ViewChild,
   Inject,
   OnDestroy,
-  OnInit
+  OnInit,
+  ViewChild,
 } from '@angular/core';
 
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { MatButton } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { randomColor } from '@firestitch/colorpicker';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
+
 import { cloneDeep, merge } from 'lodash-es';
 
-import { AttributesConfig } from '../../services/attributes-config';
-import { AttributeConfigItem } from '../../models/attribute-config';
-import { AttributeItem } from '../../models/attribute';
 import { getRawAttributeValue } from '../../helpers/raw-attribute-value';
+import { AttributeItem } from '../../models/attribute';
+import { AttributeConfigItem } from '../../models/attribute-config';
+import { AttributesConfig } from '../../services/attributes-config';
 
 
 @Component({
   templateUrl: './attribute-edit.component.html',
-  styleUrls: [ './attribute-edit.component.scss' ],
+  styleUrls: ['./attribute-edit.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAttributeEditComponent implements OnInit, OnDestroy {
@@ -43,11 +44,20 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
 
   constructor(
     public attributesConfig: AttributesConfig,
-    @Inject(MAT_DIALOG_DATA) public data: any,
-    private dialogRef: MatDialogRef<FsAttributeEditComponent>,
+    @Inject(MAT_DIALOG_DATA) public data: {
+      attributeConfig: AttributeConfigItem;
+      attribute: AttributeItem;
+      parent: AttributeItem;
+      mode: string;
+      selectParent: string;
+      queryConfigs: any;
+      data: any;
+    },
+    private _dialogRef: MatDialogRef<FsAttributeEditComponent>,
     private _cd: ChangeDetectorRef,
   ) {
     const attribute = this.data.attribute;
+    this.attributeConfig = this.data.attributeConfig;
     this.attribute = attribute && cloneDeep(attribute) || {};
 
     if (this.data.parent) {
@@ -60,9 +70,11 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
   }
 
   public ngOnInit() {
-    this.attributeConfig = this.attributesConfig.getConfig(this.data.klass);
-
-    if(!this.inEditMode && this.attributeConfig.backgroundColor && !this.attribute.backgroundColor) {
+    if(
+      !this.inEditMode && 
+      this.attributeConfig.backgroundColor && 
+      !this.attribute.backgroundColor
+    ) {
       this.attribute.backgroundColor = randomColor();
     }
   }
@@ -70,7 +82,7 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
   public selectImage(file) {
     const e = {
       attribute: this.attribute,
-      class: this.data.klass,
+      class: this.attributeConfig.klass,
       data: this.data.data,
       file: file,
       queryConfigs: this.data?.queryConfigs,
@@ -122,7 +134,7 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
 
     const eventData = {
       attribute: this.attribute,
-      class: this.data.klass,
+      class: this.attributeConfig.klass,
       data: this.data.data,
       parent: parent,
       queryConfigs: this.data?.queryConfigs,
@@ -130,7 +142,7 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
 
     this.attributesConfig.saveAttribute(eventData)
       .pipe(
-        takeUntil(this._destroy$)
+        takeUntil(this._destroy$),
       )
       .subscribe((response: any) => {
         response.parent = this.selectedParent;
@@ -139,7 +151,7 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
   }
 
   public close(data = null) {
-    this.dialogRef.close(data);
+    this._dialogRef.close(data);
   }
 
   public ngOnDestroy() {
