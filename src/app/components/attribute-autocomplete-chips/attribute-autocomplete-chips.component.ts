@@ -89,6 +89,9 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   public draggable = false;
 
   @Input()
+  public paddless = false;
+
+  @Input()
   public queryConfigs: any;
 
   @Input()
