@@ -35,12 +35,8 @@ export class FsAttributeSelectComponent implements OnDestroy, ControlValueAccess
   public set class(value) {
     this._class = value;
     this.attributeConfig = this.attributesConfig.getConfig(value);
-
-    if (this.attributeConfig) {
-      this.attributeName = this.attributeConfig.name;
-
-      this.fetch();
-    }
+    this.attributeName = this.attributeConfig.name;
+    this.fetch();
   }
 
   @Input()
@@ -96,7 +92,7 @@ export class FsAttributeSelectComponent implements OnDestroy, ControlValueAccess
   public writeValue(value) {
     if (value !== this.value) {
       this._value = value
-        ? new AttributeItem(value, this.attributesConfig.getConfig(value.class))
+        ? new AttributeItem(value, this.attributeConfig)
         : value;
 
       this._cdRef.markForCheck();

@@ -64,8 +64,8 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnChanges, OnDe
   public queryConfigs: any;
 
   public attributeConfig: AttributeConfigItem;
-  public onChange: any = () => {};
-  public onTouch: any = () => {};
+  public onChange: (value: any) => void;
+  public onTouch: (value: any) => void;
 
   private _value;
   private _destroy$ = new Subject();
@@ -75,7 +75,7 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnChanges, OnDe
     private _cdRef: ChangeDetectorRef,
   ) {}
 
-  set value(value) {
+  public set value(value) {
     if (this._value !== value) {
       this._value = value;
 
@@ -85,7 +85,7 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnChanges, OnDe
     }
   }
 
-  get value() {
+  public get value() {
     return this._value;
   }
 

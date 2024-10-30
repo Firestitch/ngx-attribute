@@ -167,9 +167,9 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     if (value) {
       if(this.multiple) {
         this._value = Array.isArray(value) ? 
-          value.map((item) => new AttributeItem(item, this.attributesConfig.getConfig(item.class))) : [];
+          value.map((item) => new AttributeItem(item, this.attributeConfig)) : [];
       } else {
-        this._value = new AttributeItem(value, this.attributesConfig.getConfig(value.class));
+        this._value = new AttributeItem(value, this.attributeConfig);
       }
     } else {
       this._value = null;
@@ -227,20 +227,22 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   }
 
   public staticClick(event, index) {
-    const staticDirective: FsAttributeAutocompleteChipsStaticDirective = this.staticDirectives.toArray()[index];
+    const staticDirective: FsAttributeAutocompleteChipsStaticDirective = this.staticDirectives
+      .toArray()[index];
     staticDirective.click.emit(event);
   }
 
   public save(item = null, selected = false, reorder = null) {
-    this.attributesConfig.attributeSelectionChanged({
-      class: this.attributeConfig.class,
-      data: this.data,
-      attributes: this.value,
-      selected: selected,
-      reorder: reorder,
-      value: item,
-      queryConfigs: this.queryConfigs,
-    })
+    this.attributesConfig
+      .attributeSelectionChanged({
+        class: this.attributeConfig.class,
+        data: this.data,
+        attributes: this.value,
+        selected: selected,
+        reorder: reorder,
+        value: item,
+        queryConfigs: this.queryConfigs,
+      })
       .pipe(
         takeUntil(this._destroy$),
       )
