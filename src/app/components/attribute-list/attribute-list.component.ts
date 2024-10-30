@@ -90,7 +90,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
     this._setListConfig();
   }
 
-  public edit(attribute) {
+  public edit(attribute: AttributeItem) {
     this._dialog.open(FsAttributeEditComponent, {
       data: {
         attribute: attribute,
@@ -110,7 +110,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         filter((response) => !!response),
       )
       .subscribe((response) => {
-        const attr = new AttributeItem(response.attribute, attribute.attributesConfig);
+        const attr = new AttributeItem(response.attribute, this.attributeConfig);
         this.list.replaceRow(attr, (listRow) => listRow.id === attribute.id);
 
         this._cdRef.markForCheck();
@@ -164,7 +164,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
           queryConfigs: this.queryConfigs,
         };
 
-        return this.attributesConfig.getAttributes(e)
+        return this.attributesConfig.getAttributes(e, this.attributeConfig)
           .pipe(
             map((response: any) => ({ data: response.data, paging: response.paging })),
           );
@@ -232,7 +232,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
       data: {
         attribute: new AttributeItem({ 
           class: this.attributeConfig.class, 
-        }, this.attributesConfig),
+        }, this.attributeConfig),
         attributeConfig: this.attributeConfig,
         data: config.data,
         mode: 'create',

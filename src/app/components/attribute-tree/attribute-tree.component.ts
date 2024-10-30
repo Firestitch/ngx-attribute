@@ -100,7 +100,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
 
     const attribute = new AttributeItem(
       { class: this.attributeConfig.class },
-      this.attributesConfig,
+      this.attributesConfig.getConfig(this.attributeConfig.class),
     );
 
     const dialogRef = this.dialog.open(FsAttributeEditComponent, {
@@ -119,7 +119,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
       )
       .subscribe((result) => {
         if (result && result.attribute) {
-          const data = new AttributeItem(result.attribute, this.attributesConfig);
+          const data = new AttributeItem(result.attribute, this.attributesConfig.getConfig(result.attribute.class));
 
           this.tree.append(data.getData());
         }
@@ -229,7 +229,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
               click: (node) => {
                 const attribute = new AttributeItem(
                   { class: this.attributeConfig.childClass },
-                  this.attributesConfig,
+                  this.attributesConfig.getConfig(this.attributeConfig.childClass),
                 );
 
                 const dialogRef = this.dialog.open(FsAttributeEditComponent, {

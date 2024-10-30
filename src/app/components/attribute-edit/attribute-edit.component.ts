@@ -14,7 +14,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { randomColor } from '@firestitch/colorpicker';
 
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { finalize, takeUntil } from 'rxjs/operators';
 
 import { cloneDeep, merge } from 'lodash-es';
 
@@ -61,7 +61,7 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
     this.attribute = attribute && cloneDeep(attribute) || {};
 
     if (this.data.parent) {
-      this.selectedParent = new AttributeItem(this.data.parent, attributesConfig);
+      this.selectedParent = new AttributeItem(this.data.parent, this.attributeConfig.parent);
     }
 
     this.inEditMode = this.data.mode === 'edit';
@@ -91,6 +91,10 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
     this.saving = true;
     this.attributesConfig.saveAttributeImage(e)
       .pipe(
+        finalize(() => {
+          this.saving = false;
+          this._cd.markForCheck();
+        }),
         takeUntil(this._destroy$),
       )
       .subscribe((response: any) => {
@@ -101,23 +105,8 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
           delete response.configs;
         }
 
-        // FIXME
-        // Save link
-        const configs = this.attribute.configs;
-
         const attribute = merge(response, this.attribute.toJSON());
-        this.attribute = new AttributeItem(attribute, this.attributesConfig);
-
-        // restore link
-        this.attribute.configs = configs;
-      },
-      () => {
-        //
-      },
-      () => {
-        this.saving = false;
-
-        this._cd.markForCheck();
+        this.attribute = new AttributeItem(attribute, this.attributeConfig);
       });
   }
 

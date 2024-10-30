@@ -23,12 +23,12 @@ export class AttributesConfig {
     this._initConfigs(_fsAttributeConfig.configs, _fsAttributeConfig.mapping);
   }
 
-  public getAttributes(e: any) {
+  public getAttributes(e: any, attributeConfig: AttributeConfigItem) {
     return this._fsAttributeConfig.getAttributes(e)
       .pipe(
         map((response) => {
           const data = response.data.map((attribute) => {
-            return new AttributeItem(attribute, this);
+            return new AttributeItem(attribute, attributeConfig);
           });
 
           return { data: data, paging: response.paging };
@@ -77,7 +77,7 @@ export class AttributesConfig {
       .pipe(
         map((response) => {
           const data = response.attributes.map((attribute) => {
-            return new AttributeItem(attribute, this).getData();
+            return new AttributeItem(attribute, this.getConfig(attribute.class)).getData();
           });
 
           return { data: data };
@@ -90,7 +90,7 @@ export class AttributesConfig {
       .pipe(
         map((response) => {
           const data = response.data.map((attribute) => {
-            return new AttributeItem(attribute, this);
+            return new AttributeItem(attribute, this.getConfig(attribute.class));
           });
 
           return { data: data, paging: response.paging };

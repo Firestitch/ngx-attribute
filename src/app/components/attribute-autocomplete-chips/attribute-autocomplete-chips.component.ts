@@ -154,7 +154,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
         data: this.data,
         keyword: keyword,
         queryConfigs: this.queryConfigs,
-      })
+      }, this.attributeConfig)
       .pipe(
         map((response) => {
           return response.data;
@@ -167,9 +167,9 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     if (value) {
       if(this.multiple) {
         this._value = Array.isArray(value) ? 
-          value.map((item) => new AttributeItem(item, this.attributesConfig)) : [];
+          value.map((item) => new AttributeItem(item, this.attributesConfig.getConfig(item.class))) : [];
       } else {
-        this._value = new AttributeItem(value, this.attributesConfig);
+        this._value = new AttributeItem(value, this.attributesConfig.getConfig(value.class));
       }
     } else {
       this._value = null;
@@ -211,9 +211,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     this._dialog.open(FsAttributeManageComponent, {
       disableClose: true,
       data: {
-        class: this.attributeConfig.class,
-        attributeConfig: this.config,
-        pluralName: this.attributeConfig.pluralName,
+        attributeConfig: this.attributeConfig,
         data: this.data,
         size: this.size,
         // queryConfigs: this.dialogData?.queryConfigs || this.queryConfigs,

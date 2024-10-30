@@ -63,8 +63,8 @@ export class FsAttributeSelectComponent implements OnDestroy, ControlValueAccess
   public attributes: AttributeItem[] = [];
   public attributeConfig: AttributeConfigItem;
 
-  public onChange: any = () => {};
-  public onTouch: any = () => {};
+  public onChange: (value: any) => void;
+  public onTouch: (value: any) => void;
 
   private _value;
   private _destroy$ = new Subject();
@@ -96,7 +96,7 @@ export class FsAttributeSelectComponent implements OnDestroy, ControlValueAccess
   public writeValue(value) {
     if (value !== this.value) {
       this._value = value
-        ? new AttributeItem(value, this.attributesConfig)
+        ? new AttributeItem(value, this.attributesConfig.getConfig(value.class))
         : value;
 
       this._cdRef.markForCheck();
@@ -110,7 +110,7 @@ export class FsAttributeSelectComponent implements OnDestroy, ControlValueAccess
       queryConfigs: this.queryConfigs,
     };
 
-    this.attributesConfig.getAttributes(e)
+    this.attributesConfig.getAttributes(e, this.attributeConfig)
       .pipe(
         takeUntil(this._destroy$),
       )

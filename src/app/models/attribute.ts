@@ -2,31 +2,23 @@ import { clone } from 'lodash-es';
 
 import { AttributeColor, AttributeImage } from '../enums/enums';
 import { getAttributeValue, setAttributeValue } from '../helpers/helpers';
-import { AttributesConfig } from '../services/attributes-config';
 
 import { AttributeConfigItem } from './attribute-config';
 
 
 export class AttributeItem {
+
   public id = null;
   public class = null;
   public name = null;
-  public configs = null;
 
   private _children: AttributeItem[] = [];
   private _config: AttributeConfigItem;
-
   private _image = null;
   private _backgroundColor = null;
   private _color = null;
-
-  private _attributesConfig: AttributesConfig;
   private _parent: AttributeItem;
   private _attribute = {};
-
-  public get attributesConfig() {
-    return this._attributesConfig;
-  }
 
   public get config() {
     return this._config;
@@ -66,13 +58,11 @@ export class AttributeItem {
 
   constructor(
     data: any = {},
-    attributesConfig: AttributesConfig,
+    config: AttributeConfigItem,
     parent: AttributeItem = null,
   ) {
-    this._attributesConfig = attributesConfig;
     this._parent = parent;
-
-    this._config = this._attributesConfig.getConfig(data.class);
+    this._config = config;
     this._initParent(data);
     this._initAttribute(data);
     this._initChildren(data);
@@ -102,7 +92,6 @@ export class AttributeItem {
     setAttributeValue(attribute, mapping.image, this.image);
     setAttributeValue(attribute, mapping.backgroundColor, this.backgroundColor);
     setAttributeValue(attribute, mapping.color, this.color);
-    setAttributeValue(attribute, mapping.configs, this.configs);
 
     if (mapping.childAttributes && this._children && Array.isArray(this._children)) {
       const children = this._children.reduce((acc, child) => {
@@ -132,7 +121,6 @@ export class AttributeItem {
       image: this.image,
       backgroundColor: this.backgroundColor,
       color: this.color,
-      configs: this.configs,
       original: this,
     };
 
@@ -153,15 +141,9 @@ export class AttributeItem {
   private _initAttribute(data) {
     const mapping = this._config.mapping;
     this._attribute = clone(data);
-
     this.class = data.class;
     this.id = getAttributeValue(data, mapping.id);
     this.name = getAttributeValue(data, mapping.name);
-    this.configs = getAttributeValue(data, mapping.configs);
-
-    if (Array.isArray(this.configs)) {
-      this.configs = {};
-    }
 
     if (this._config.image !== AttributeImage.Disabled) {
       this.setImage(getAttributeValue(data, mapping.image));
@@ -172,23 +154,25 @@ export class AttributeItem {
   }
 
   private _initParent(data) {
-
-    if (!this._parent) {
+    if (this._config.parent && !this._parent) {
       if (this._config.mapping.parentAttribute) {
         const parent = getAttributeValue(data, this._config.mapping.parentAttribute);
 
         if (parent) {
-          this._parent = new AttributeItem(parent, this._attributesConfig);
+          this._parent = new AttributeItem(parent, this._config.parent);
         }
       }
     }
   }
 
   private _initChildren(data) {
-    const children = getAttributeValue(data, this._config.mapping.childAttributes);
+    if (this._config.child) {
+      const children = getAttributeValue(data, this._config.mapping.childAttributes);
 
-    if (children && Array.isArray(children)) {
-      this._children = children.map((child) => new AttributeItem(child, this._attributesConfig, this));
+      if (children && Array.isArray(children)) {
+        this._children = children
+          .map((child) => new AttributeItem(child, this._config.child, this));
+      }
     }
   }
 }

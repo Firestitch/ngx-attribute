@@ -1,6 +1,9 @@
 import { Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
 
 
+import { AttributeConfigItem } from 'src/app/models/attribute-config';
+
+import { AttributeConfig } from '../../interfaces';
 import { AttributeItem } from '../../models/attribute';
 import { AttributesConfig } from '../../services/attributes-config';
 
@@ -12,10 +15,7 @@ import { AttributesConfig } from '../../services/attributes-config';
 })
 export class FsAttributeComponent implements OnInit {
 
-  @HostBinding('class') hostClass = '';
-
-  @Input()
-  public config: any = { background: true, color: true, image: true };
+  @HostBinding('class') public hostClass = '';
 
   @Input()
   public removable: any;
@@ -30,10 +30,21 @@ export class FsAttributeComponent implements OnInit {
   public selected: any;
 
   @Input()
-  set attribute(value) {
-    this._attribute = value instanceof AttributeItem ? value : new AttributeItem(value, this._attributesConfig);
+  public config: AttributeConfig;
+
+  public attributeConfig: AttributeConfigItem;
+
+  @Input()
+  public set attribute(value: any) {
+    this._attribute = value instanceof AttributeItem ? 
+      value : 
+      new AttributeItem(value, this._attributesConfig.getConfig(value.class));
   }
 
+  public get attribute() {
+    return this._attribute;
+  }
+  
   @Input('class')
   public class = '';
 
@@ -42,20 +53,17 @@ export class FsAttributeComponent implements OnInit {
 
   private _attribute: AttributeItem;
 
-  constructor(private _attributesConfig: AttributesConfig) {}
+  constructor(
+    private _attributesConfig: AttributesConfig,
+  ) {}
 
-  get attribute() {
-    return this._attribute;
-  }
 
-  public ngOnInit() {
-    const config = this._attributesConfig.getConfig(this.class);
-
-    this.hostClass = `fs-attribute fs-attribute-${  this.class}`;
-
-    if (config) {
-      this.config = config;
-    }
+  public ngOnInit() {    
+    this.attributeConfig = this.config ? 
+      new AttributeConfigItem(this.attribute, this.config) :
+      this._attributesConfig.getConfig(this.class);
+      
+    this.hostClass = `fs-attribute fs-attribute-${this.attributeConfig.class}`;
   }
 }
 

@@ -10,22 +10,38 @@
       label="Autocomplete Attribute Chips"
       [data]="{ id: 999, name: 'Object A' }"
       (ngModelChange)="changed($event)">
-    <ng-template fsAttributeAutocompleteChipsStatic (click)="staticClick($event)">
+    <ng-template
+        fsAttributeAutocompleteChipsStatic
+        (click)="staticClick($event)">
       Static Item
     </ng-template>
   </fs-attribute-autocomplete-chips>
-
-  <div class="fs-row.gap-xs">
-    <button mat-raised-button color="primary">Submit</button>
-    <mat-select [(ngModel)]="class" fsSelectButton color="primary" placeholder="Unselected" name="class" (ngModelChange)="attributes=[]">
-      <mat-option *ngFor="let item of attributeConfig.configs" [value]="item.class">
+  <!-- <div class="fs-row.gap-xs">
+    <button
+        mat-raised-button
+        color="primary">
+      Submit
+    </button>
+    <mat-select
+        [(ngModel)]="class"
+        fsSelectButton
+        color="primary"
+        placeholder="Unselected"
+        name="class"
+        (ngModelChange)="attributes=[]">
+      <mat-option
+          *ngFor="let item of attributeConfig.configs"
+          [value]="item.class">
         {{ item.name }}
       </mat-option>
     </mat-select>
-  </div>
+  </div> -->
 </form>
-
 <fieldset *ngIf="attributes">
-  <legend>Selected Attributes</legend>
-  <pre>{{attributes|json}}</pre>
+  <legend>
+    Selected Attributes
+  </legend>
+  <pre>
+    {{ attributes|json }}
+  </pre>
 </fieldset>

@@ -126,7 +126,7 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
   public create() {
     const attribute = new AttributeItem(
       { class: this.attributeConfig.childClass },
-      this.attributesConfig,
+      this.attributesConfig.getConfig(this.attributeConfig.childClass),
     );
 
     const dialogRef = this._dialog.open(FsAttributeEditComponent, {
@@ -190,7 +190,7 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
       queryConfigs: this.queryConfigs,
     };
 
-    this.attributesConfig.getAttributes(e)
+    this.attributesConfig.getAttributes(e, this.attributeConfig)
       .pipe(
         takeUntil(this._destroy$),
       )

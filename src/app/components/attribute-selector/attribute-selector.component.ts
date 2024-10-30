@@ -1,7 +1,7 @@
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  ChangeDetectionStrategy,
+  ChangeDetectorRef,
   Component,
-  ElementRef,
   EventEmitter,
   HostBinding,
   Inject,
@@ -74,11 +74,10 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
 
   constructor(
     public attributesConfig: AttributesConfig,
-    private el: ElementRef,
-    private dialog: MatDialog,
+    private _dialog: MatDialog,
+    private _cdRef: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA) @Optional() public dialogData: any,
-    @Optional()private dialogRef: MatDialogRef<FsAttributeSelectorComponent>,
-    private cdRef: ChangeDetectorRef,
+    @Optional()private _dialogRef: MatDialogRef<FsAttributeSelectorComponent>,
   ) {}
 
   public ngOnInit() {
@@ -90,14 +89,14 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
 
       this.selectedAttributes = this.dialogData.selectedAttributes;
 
-      this.initDialog();
+      this._initDialog();
     } else {
       this.hostClass = `fs-attribute fs-attribute-${  this.class}`;
     }
 
     this.attributeConfig = this.attributesConfig.getConfig(this.class);
 
-    this.fetch();
+    this._fetch();
     this.compareFn = this.getCompareFn();
   }
 
@@ -111,16 +110,16 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
   }
 
   public done() {
-    this.dialogRef.close({ attributes: this.selectedAttributes });
+    this._dialogRef.close({ attributes: this.selectedAttributes });
   }
 
   public create() {
     const attribute = new AttributeItem(
       { class: this.attributeConfig.class },
-      this.attributesConfig,
+      this.attributesConfig.getConfig(this.attributeConfig.class),
     );
 
-    const dialogRef = this.dialog.open(FsAttributeEditComponent, {
+    const dialogRef = this._dialog.open(FsAttributeEditComponent, {
       data: {
         attribute: attribute,
         attributeConfig: this.attributeConfig,
@@ -141,12 +140,12 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
         takeUntil(this._destroy$),
       )
       .subscribe((response) => {
-        this.fetch(response?.attribute.id);
+        this._fetch(response?.attribute.id);
       });
   }
 
   public manage() {
-    this.dialog.open(FsAttributeManageComponent, {
+    this._dialog.open(FsAttributeManageComponent, {
       disableClose: true,
       data: {
         class: this.attributeConfig.class,
@@ -161,7 +160,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
         takeUntil(this._destroy$),
       )
       .subscribe((response) => {
-        this.fetch(response?.attribute.id);
+        this._fetch(response?.attribute.id);
       });
   }
 
@@ -179,7 +178,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
       .pipe(
         takeUntil(this._destroy$),
       )
-      .subscribe((e: any) => {});
+      .subscribe();
   }
 
   public ngOnDestroy() {
@@ -195,7 +194,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
     });
   }
 
-  private fetch(attributeId: number = null) {
+  private _fetch(attributeId: number = null) {
     const e = {
       query: {},
       class: this.class,
@@ -203,7 +202,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
       queryConfigs: this.dialogData?.queryConfigs || this.queryConfigs,
     };
 
-    this.attributesConfig.getAttributes(e)
+    this.attributesConfig.getAttributes(e, this.attributeConfig)
       .pipe(
         takeUntil(this._destroy$),
       )
@@ -234,13 +233,13 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
           this.selectedToggle(event);
         }
 
-        this.cdRef.markForCheck();
+        this._cdRef.markForCheck();
       });
   }
 
-  private initDialog() {
-    this.dialogRef.disableClose = true;
-    this.dialogRef.backdropClick().subscribe((result) => {
+  private _initDialog() {
+    this._dialogRef.disableClose = true;
+    this._dialogRef.backdropClick().subscribe(() => {
       this.done();
     });
   }

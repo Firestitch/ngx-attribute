@@ -17,7 +17,7 @@ export class AttributeConfigItem {
   private _order: AttributeOrder;
   private _selectedOrder: boolean;
   private _fields: any[];
-  private _mapping: any;
+  private _mapping: any = {};
 
   public get class() {
     return this._class;
@@ -56,7 +56,7 @@ export class AttributeConfigItem {
   }
 
   public get fields(): any[] {
-    return this._fields;
+    return this._fields || [];
   }
 
   public get mapping(): any {
@@ -85,9 +85,15 @@ export class AttributeConfigItem {
     this._pluralName = data.pluralName;
     this._order = data.order;
     this._selectedOrder = data.selectedOrder;
-    this._fields = Array.isArray(data.fields) ? data.fields.slice() : data.fields;
-    this._mapping = mapping;
-
     this.hasEditableImage = this._image === AttributeImage.Enabled;
+    this._fields = Array.isArray(data.fields) ? data.fields.slice() : data.fields;
+    this._mapping = {
+      id: 'id',
+      name: 'name',
+      image: 'image',
+      backgroundColor: 'backgroundColor',
+      color: 'color',
+      ...mapping,
+    };
   }
 }

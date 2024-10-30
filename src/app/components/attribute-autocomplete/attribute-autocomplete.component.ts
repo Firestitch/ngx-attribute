@@ -105,12 +105,13 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnChanges, OnDe
 
   public fetch = (keyword) => {
 
-    return this.attributesConfig.getAttributes({
-      class: this.class,
-      data: this.data,
-      keyword: keyword,
-      queryConfigs: this.queryConfigs,
-    })
+    return this.attributesConfig
+      .getAttributes({
+        class: this.class,
+        data: this.data,
+        keyword: keyword,
+        queryConfigs: this.queryConfigs,
+      }, this.attributeConfig)
       .pipe(
         map((response) => {
           return response.data;
@@ -128,7 +129,7 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnChanges, OnDe
   public writeValue(value) {
     if (value !== this.value) {
       this._value = value
-        ? new AttributeItem(value, this.attributesConfig)
+        ? new AttributeItem(value, this.attributesConfig.getConfig(value.class))
         : value;
 
       this._cdRef.markForCheck();
