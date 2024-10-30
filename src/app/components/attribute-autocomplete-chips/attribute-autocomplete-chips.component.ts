@@ -150,7 +150,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   public fetch = (keyword) => {
     return this.attributesConfig
       .getAttributes({
-        class: this.klass,
+        class: this.attributeConfigItem.klass,
         data: this.data,
         keyword: keyword,
         queryConfigs: this.queryConfigs,
