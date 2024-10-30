@@ -86,6 +86,9 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   public required = false;
 
   @Input()
+  public floatLabel;
+
+  @Input()
   public draggable = false;
 
   @Input()
