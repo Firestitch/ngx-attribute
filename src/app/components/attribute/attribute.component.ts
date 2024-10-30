@@ -1,10 +1,7 @@
 import { Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
 
-
-import { AttributeConfigItem } from 'src/app/models/attribute-config';
-
 import { AttributeConfig } from '../../interfaces';
-import { AttributeItem } from '../../models/attribute';
+import { AttributeConfigItem, AttributeItem } from '../../models';
 import { AttributesConfig } from '../../services/attributes-config';
 
 
