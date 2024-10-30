@@ -1,6 +1,7 @@
 import { AttributeColor, AttributeImage, AttributeOrder } from '../enums/enums';
 
 export class AttributeConfigItem {
+  
   public parent: AttributeConfigItem;
   public child: AttributeConfigItem;
 
@@ -18,55 +19,55 @@ export class AttributeConfigItem {
   private _fields: any[];
   private _mapping: any;
 
-  get klass() {
+  public get klass() {
     return this._klass;
   }
 
-  get childClass(): string {
+  public get childClass(): string {
     return this._childClass;
   }
 
-  get image() {
+  public get image() {
     return this._image;
   }
 
-  get backgroundColor(): AttributeColor {
+  public get backgroundColor(): AttributeColor {
     return this._backgroundColor;
   }
 
-  get color(): AttributeColor {
+  public  get color(): AttributeColor {
     return this._color;
   }
 
-  get name(): string {
+  public get name(): string {
     return this._name;
   }
 
-  get pluralName(): string {
+  public get pluralName(): string {
     return this._pluralName;
   }
 
-  get order(): AttributeOrder {
+  public get order(): AttributeOrder {
     return this._order;
   }
 
-  get selectedOrder(): boolean {
+  public get selectedOrder(): boolean {
     return this._selectedOrder;
   }
 
-  get fields(): any[] {
+  public get fields(): any[] {
     return this._fields;
   }
 
-  get mapping(): any {
+  public get mapping(): any {
     return this._mapping;
   }
 
-  get hasImage(): boolean {
+  public get hasImage(): boolean {
     return this._image === AttributeImage.Enabled;
   }
 
-  get hasNestedImage(): boolean {
+  public get hasNestedImage(): boolean {
     return this._image === AttributeImage.Parent;
   }
 

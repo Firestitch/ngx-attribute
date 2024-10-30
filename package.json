@@ -2,7 +2,7 @@
   "name": "@firestitch/attribute",
   "title": "Attribute",
   "description": "@firestitch/attribute",
-  "version": "18.0.0",
+  "version": "18.0.1",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/ngx-attribute"
@@ -51,7 +51,7 @@
     "@firestitch/clear": "^18.0.4",
     "@firestitch/colorpicker": "^18.0.0",
     "@firestitch/common": "^18.0.0",
-    "@firestitch/component-tools": "^18.0.12",
+    "@firestitch/component-tools": "^18.0.13",
     "@firestitch/core": "^18.0.1",
     "@firestitch/date": "^18.0.1",
     "@firestitch/datepicker": "^18.0.2",
@@ -64,7 +64,7 @@
     "@firestitch/html": "^18.0.0",
     "@firestitch/iframe": "^18.0.0",
     "@firestitch/label": "^18.0.1",
-    "@firestitch/lint": "^18.0.8",
+    "@firestitch/lint": "^18.0.16",
     "@firestitch/list": "^18.0.1",
     "@firestitch/mask": "^18.0.0",
     "@firestitch/menu": "^18.0.0",

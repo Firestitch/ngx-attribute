@@ -1,4 +1,5 @@
 import { CanDrop } from '@firestitch/tree';
+
 import { Observable } from 'rxjs';
 
 import { AttributeColor, AttributeImage, AttributeOrder } from '../enums/enums';
@@ -42,10 +43,7 @@ export interface AttributeConfig {
   class: string
   backgroundColor?: AttributeColor
   color?: AttributeColor,
-  image?: AttributeImage
-  // backgroundColor?: AttributeColor;
-  // color?: AttributeColor;
-  // image?: AttributeImage;
+  image?: AttributeImage;
   name: string;
   pluralName: string;
   childClass?: string;
@@ -53,6 +51,13 @@ export interface AttributeConfig {
   selectedOrder?: boolean;
   fields?: AttributeConfigField[];
   parentAttributes?: boolean;
+  mapping?: {
+    id: string,
+    name: string,
+    backgroundColor: string,
+    image: string,
+    childAttributes?: string
+  }
 }
 
 export interface AttributeConfigField {

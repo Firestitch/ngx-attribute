@@ -3,22 +3,21 @@ import {
   Component,
   ContentChild,
   EventEmitter,
-  Inject,
   Input,
   OnDestroy,
   OnInit,
   Output,
-  TemplateRef
+  TemplateRef,
 } from '@angular/core';
+
 import { MatDialog } from '@angular/material/dialog';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { FsAttributeTemplateDirective } from '../../directives/attribute-template.component';
-import { AttributeConfig, FsAttributeConfig } from '../../interfaces/attribute-config.interface';
 import { AttributeItem } from '../../models/attribute';
-import { FS_ATTRIBUTE_CONFIG } from '../../providers';
+import { AttributeConfigItem } from '../../models/attribute-config';
 import { AttributesConfig } from '../../services/attributes-config';
 import { FsAttributeSelectorComponent } from '../attribute-selector/attribute-selector.component';
 
@@ -26,7 +25,7 @@ import { FsAttributeSelectorComponent } from '../attribute-selector/attribute-se
 @Component({
   selector: 'fs-attribute-field',
   templateUrl: './attribute-field.component.html',
-  styleUrls: [ './attribute-field.component.scss' ],
+  styleUrls: ['./attribute-field.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAttributeFieldComponent implements OnInit, OnDestroy {
@@ -41,7 +40,7 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
   public showSelect = true;
 
   @Input()
-  set heading(value) {
+  public set heading(value) {
     this.label = value;
   }
 
@@ -64,19 +63,18 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
   public templ: TemplateRef<FsAttributeTemplateDirective>;
 
   public attributes: AttributeItem[] = [];
-  public attributeConfig: AttributeConfig;
-  private destroy$ = new Subject();
+  public attributeConfig: AttributeConfigItem;
+  private _destroy$ = new Subject<void>();
 
   constructor(
     public attributesConfig: AttributesConfig,
-    private dialog: MatDialog,
-    @Inject(FS_ATTRIBUTE_CONFIG) private fsAttributeConfig: FsAttributeConfig,
+    private _dialog: MatDialog,
     private _cdRef: ChangeDetectorRef,
   ) {}
 
   public ngOnInit() {
     this.attributeConfig = this.attributesConfig.getConfig(this.klass);
-    if (this.label === void 0) {
+    if (this.label === undefined) {
       this.label = this.attributeConfig.pluralName;
     }
 
@@ -84,8 +82,8 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
   }
 
   public ngOnDestroy() {
-    this.destroy$.next(null);
-    this.destroy$.complete();
+    this._destroy$.next(null);
+    this._destroy$.complete();
   }
 
   public fetch() {
@@ -97,7 +95,7 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
 
     this.attributesConfig.getSelectedAttributes(e)
       .pipe(
-        takeUntil(this.destroy$)
+        takeUntil(this._destroy$),
       )
       .subscribe((response) => {
         this.attributes = response.data;
@@ -107,20 +105,21 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
   }
 
   public select() {
-   this.dialog.open(FsAttributeSelectorComponent, {
-      data: {
-        selectedAttributes: this.attributes.slice(),
-        class: this.klass,
-        data: this.data,
-        size: this.size,
-        showCreate: this.showCreate,
-        queryConfigs: this.queryConfigs,
-      },
-      panelClass: [`fs-attribute-dialog`, `fs-attribute-dialog-no-scroll`, `fs-attribute-${this.klass}`],
-    })
-    .afterClosed()
+    this._dialog
+      .open(FsAttributeSelectorComponent, {
+        data: {
+          selectedAttributes: this.attributes.slice(),
+          class: this.klass,
+          data: this.data,
+          size: this.size,
+          showCreate: this.showCreate,
+          queryConfigs: this.queryConfigs,
+        },
+        panelClass: ['fs-attribute-dialog', 'fs-attribute-dialog-no-scroll', `fs-attribute-${this.klass}`],
+      })
+      .afterClosed()
       .pipe(
-        takeUntil(this.destroy$)
+        takeUntil(this._destroy$),
       )
       .subscribe((response) => {
         if (response && response.attributes) {
