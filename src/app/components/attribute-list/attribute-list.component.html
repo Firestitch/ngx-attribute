@@ -1,7 +1,7 @@
 <fs-list [config]="listConfig">
   <fs-list-column>
     <ng-template fs-list-header>
-      {{ attributeConfigItem.name }}
+      {{ attributeConfig.name }}
     </ng-template>
     <ng-template
         fs-list-cell
@@ -24,7 +24,7 @@
       </div>
     </ng-template>
   </fs-list-column>
-  <ng-container *ngFor="let field of attributeConfigItem.fields">
+  <ng-container *ngFor="let field of attributeConfig.fields">
     <fs-list-column *ngIf="field.listComponent">
       <ng-template fs-list-header>
         {{ field.label }}

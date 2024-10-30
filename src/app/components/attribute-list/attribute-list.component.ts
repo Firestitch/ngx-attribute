@@ -64,7 +64,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   @Input() public queryParam: boolean = null;
 
   public listConfig: FsListConfig;
-  public attributeConfigItem: AttributeConfigItem = null;
+  public attributeConfig: AttributeConfigItem = null;
 
   private _destroy$ = new Subject();
 
@@ -81,7 +81,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
     this.class = this.dialogData?.class || this.class;
     this.data = this.dialogData?.data || this.data;
     this.queryConfigs = this.dialogData?.queryConfigs || this.queryConfigs;
-    this.attributeConfigItem = this.dialogData?.attributeConfig || (
+    this.attributeConfig = this.dialogData?.attributeConfig || (
       this.config ? 
         new AttributeConfigItem(this.config, this.config.mapping) : 
         this.attributesConfig.getConfig(this.class)
@@ -94,7 +94,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
     this._dialog.open(FsAttributeEditComponent, {
       data: {
         attribute: attribute,
-        attributeConfig: this.attributeConfigItem,
+        attributeConfig: this.attributeConfig,
         data: this.data,
         mode: 'edit',
         queryConfigs: this.queryConfigs,
@@ -102,7 +102,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
       panelClass: [
         'fs-attribute-dialog', 
         'fs-attribute-dialog-no-scroll', 
-        `fs-attribute-${this.attributeConfigItem.class}`,
+        `fs-attribute-${this.attributeConfig.class}`,
       ],
     })
       .afterClosed()
@@ -151,16 +151,16 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         },
       ],
       fetch: (query) => {
-        if (this.attributeConfigItem.order === AttributeOrder.Alphabetical) {
+        if (this.attributeConfig.order === AttributeOrder.Alphabetical) {
           query.order = 'name,asc';
-        } else if (this.attributeConfigItem.order === AttributeOrder.Custom) {
+        } else if (this.attributeConfig.order === AttributeOrder.Custom) {
           query.order = 'order,asc';
         }
 
         const e = {
           query: query,
           data: this.data,
-          class: this.attributeConfigItem.class,
+          class: this.attributeConfig.class,
           queryConfigs: this.queryConfigs,
         };
 
@@ -171,7 +171,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
       },
     };
 
-    if (this.attributeConfigItem.order === AttributeOrder.Custom) {
+    if (this.attributeConfig.order === AttributeOrder.Custom) {
       config.reorder = {
         done: (data) => {
           const e = {
@@ -230,7 +230,10 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   ): MatDialogRef<FsAttributeEditComponent> {
     return this._dialog.open(FsAttributeEditComponent, {
       data: {
-        attribute: this.attributeConfigItem,
+        attribute: new AttributeItem({ 
+          class: this.attributeConfig.class, 
+        }, this.attributesConfig),
+        attributeConfig: this.attributeConfig,
         data: config.data,
         mode: 'create',
         queryConfigs: config.queryConfigs,
@@ -238,7 +241,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
       panelClass: [
         'fs-attribute-dialog',
         'fs-attribute-dialog-no-scroll',
-        `fs-attribute-${this.attributeConfigItem.class}`,
+        `fs-attribute-${this.attributeConfig.class}`,
       ],
     });
   }
