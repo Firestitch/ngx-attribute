@@ -1,8 +1,9 @@
 <form (fsForm)="save()">
-  <div mat-dialog-title>{{ inEditMode ? 'Edit' : 'Create'}} {{attributeConfig?.name}}</div>
+  <div mat-dialog-title>
+    {{ inEditMode ? 'Edit' : 'Create' }}     {{ attributeConfig?.name }}
+  </div>
   <mat-dialog-content>
     <div class="fields">
-
       <fs-file-image-picker
         (select)="selectImage($event)"
         [url]="attribute.image"
@@ -13,32 +14,55 @@
         label="Image"
         *ngIf="attributeConfig?.hasEditableImage">
       </fs-file-image-picker>
-
       <mat-form-field>
-        <mat-label>Name</mat-label>
-        <input matInput [(ngModel)]="attribute.name" [required]="true" name="name">
+        <mat-label>
+          Name
+        </mat-label>
+        <input
+          matInput
+          [(ngModel)]="attribute.name"
+          [required]="true"
+          name="name">
       </mat-form-field>
-
-      <fs-attribute-select *ngIf="parentSelector"
-                           name="parent"
-                           [class]="parentSelector"
-                           [required]="true"
-                           [(ngModel)]="selectedParent"
-      >
+      <fs-attribute-select
+        *ngIf="parentSelector"
+        name="parent"
+        [class]="parentSelector"
+        [required]="true"
+        [(ngModel)]="selectedParent">
       </fs-attribute-select>
-
       <mat-form-field *ngIf="attributeConfig.backgroundColor">
-        <mat-label>Color</mat-label>
-        <input matInput fsColorPicker [(ngModel)]="attribute.backgroundColor" name="color">
+        <mat-label>
+          Color
+        </mat-label>
+        <input
+          matInput
+          fsColorPicker
+          [(ngModel)]="attribute.backgroundColor"
+          name="color">
       </mat-form-field>
-
       <ng-container *ngFor="let field of attributeConfig.fields">
-        <fs-attribute-component-wrapper [field]="field" [data]="attribute" [component]="field.editComponent"></fs-attribute-component-wrapper>
+        <fs-attribute-component-wrapper
+          [field]="field"
+          [data]="attribute"
+          [component]="field.editComponent">
+        </fs-attribute-component-wrapper>
       </ng-container>
     </div>
   </mat-dialog-content>
   <mat-dialog-actions>
-    <button mat-button color="primary" [disabled]="saving" #submitButton>{{ inEditMode ? 'Save' : 'Create'}}</button>
-    <button mat-button (click)="close()" type="button">Cancel</button>
+    <button
+        mat-button
+        color="primary"
+        [disabled]="saving"
+        #submitButton>
+      {{ inEditMode ? 'Save' : 'Create' }}
+    </button>
+    <button
+        mat-button
+        (click)="close()"
+        type="button">
+      Cancel
+    </button>
   </mat-dialog-actions>
 </form>

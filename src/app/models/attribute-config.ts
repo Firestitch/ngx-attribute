@@ -90,9 +90,7 @@ export class AttributeConfigItem {
     this._mapping = {
       id: 'id',
       name: 'name',
-      image: 'image',
-      backgroundColor: 'backgroundColor',
-      color: 'color',
+      backgroundColor: 'color',
       ...mapping,
     };
   }
