@@ -1,12 +1,12 @@
 import { Inject, Injectable } from '@angular/core';
+import { FlatItemNode } from '@firestitch/tree';
+import { sortBy } from 'lodash-es';
+import { map } from 'rxjs/operators';
+import { AttributeOrder } from '../enums/enums';
+import { AttributeConfig, FsAttributeConfig } from '../interfaces/attribute-config.interface';
+import { AttributeItem } from '../models/attribute';
 import { AttributeConfigItem } from '../models/attribute-config';
 import { FS_ATTRIBUTE_CONFIG } from '../providers';
-import { AttributeConfig, FsAttributeConfig } from '../interfaces/attribute-config.interface';
-import { map } from 'rxjs/operators';
-import { AttributeItem } from '../models/attribute';
-import { FlatItemNode } from '@firestitch/tree';
-import { sortBy } from 'lodash-es'
-import { AttributeOrder } from '../enums/enums';
 
 
 @Injectable()
@@ -175,7 +175,6 @@ export class AttributesConfig {
       throw new Error(`Configuration with class "${name}" can not be found. Please check your configs.`);
     }
   }
-
 
   private _initConfigs(configs: AttributeConfig[] = [], mappings) {
     configs.forEach((config) => {

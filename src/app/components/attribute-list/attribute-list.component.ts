@@ -12,17 +12,17 @@ import {
 } from '@angular/core';
 import { MAT_DIALOG_DATA, MatDialog } from '@angular/material/dialog';
 
-import { FsListComponent, FsListConfig } from '@firestitch/list';
 import { ItemType } from '@firestitch/filter';
+import { FsListComponent, FsListConfig } from '@firestitch/list';
 
 import { Observable, Subject } from 'rxjs';
-import { map, filter, takeUntil } from 'rxjs/operators';
+import { filter, map, takeUntil } from 'rxjs/operators';
 
-import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.component';
 import { AttributeOrder } from '../../enums/enums';
-import { AttributesConfig } from '../../services/attributes-config';
-import { AttributeConfigItem } from '../../models/attribute-config';
 import { AttributeItem } from '../../models/attribute';
+import { AttributeConfigItem } from '../../models/attribute-config';
+import { AttributesConfig } from '../../services/attributes-config';
+import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.component';
 
 import { FsAttributeListColumnDirective } from '../../directives/list-column.directive';
 import { FsAttributeListAction } from '../../interfaces/list-action.interface';
@@ -119,6 +119,8 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
       paging: {
         limits: [ 50, 100, 200, 500, 1000 ]
       },
+      status: false,
+      reload: false,
       filters: [
         {
           name: 'keyword',
@@ -142,6 +144,15 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
           label: 'Remove'
         }
       ],
+      restore: {
+        query: { state: 'deleted' },
+        filterLabel: 'Show Deleted',
+        menuLabel: 'Restore',
+        reload: true,
+        click: (row) => {
+          return this.attributesConfig.saveAttribute({ id: row.id, state: 'active' });
+        },
+      },
       fetch: (query) => {
         if (this.attributeConfig.order == AttributeOrder.Alphabetical) {
           query.order = 'name,asc';
