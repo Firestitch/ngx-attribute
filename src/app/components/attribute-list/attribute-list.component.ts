@@ -153,6 +153,15 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
           label: 'Remove',
         },
       ],
+      restore: {
+        query: { state: 'deleted' },
+        filterLabel: 'Show Deleted',
+        menuLabel: 'Restore',
+        reload: true,
+        click: (row) => {
+          return this.attributesConfig.saveAttribute({ id: row.id, state: 'active' });
+        },
+      },
       fetch: (query) => {
         if (this.attributeConfig.order === AttributeOrder.Alphabetical) {
           query.order = 'name,asc';
