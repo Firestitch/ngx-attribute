@@ -124,6 +124,9 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
 
   private _setListConfig() {
     const config: FsListConfig = {
+      reload: false,
+      status: false,
+      style: 'card',
       paging: {
         limits: [50, 100, 200, 500, 1000],
       },

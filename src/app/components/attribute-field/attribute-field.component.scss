@@ -1,32 +1,19 @@
-:host ::ng-deep {
-
-  .fs-attribute, .not-selected {
-    margin-top: 7px;
-  }
-  .not-selected {
-    font-size: 13px;
-  }
-
-  .fs-chip {
-    margin-top: 0;
-  }
-}
-
 .attributes {
   display: flex;
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-  margin-top: -7px;
-  margin-left: -7px;
+  gap: 5px;
 
   .select-button {
-    margin-top: 8px;
-    align-self: center;
-    cursor: pointer;
-  }
+    padding: 0px;
+    height: 24px;
+    width: 24px;
 
-  > * {
-    margin-left: 7px;
+    &.cdk-focused ::ng-deep {
+      .mat-mdc-button-persistent-ripple::before {
+        opacity: 0 !important;
+      }
+    }
   }
 }

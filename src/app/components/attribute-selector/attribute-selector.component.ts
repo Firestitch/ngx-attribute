@@ -59,7 +59,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
   @Output()
   public selectedToggled = new EventEmitter();
 
-  @HostBinding('class') hostClass = '';
+  @HostBinding('class') public hostClass = '';
 
   public attributes: AttributeItem[] = [];
   public filteredAttributes: AttributeItem[] = [];
@@ -86,9 +86,8 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
       this.class = this.dialogData.class;
       this.data = this.dialogData.data;
       this.size = this.dialogData.size;
-
+      this.showManage = this.dialogData.showManage ?? true;
       this.selectedAttributes = this.dialogData.selectedAttributes;
-
       this._initDialog();
     } else {
       this.hostClass = `fs-attribute fs-attribute-${  this.class}`;

@@ -9,12 +9,14 @@
         [attribute]="attribute">
       {{ attribute.name }}
     </fs-attribute>
-    <a
+    <button
+        type="button"
+        mat-icon-button
         (click)="select()"
         class="select-button">
-      <small>
-        Select
-      </small>
-    </a>
+      <mat-icon>
+        {{ selectedAttributes.length ? 'edit' : 'add_circle_outline' }}
+      </mat-icon>
+    </button>
   </div>
 </fs-label-field>

@@ -40,6 +40,9 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
   public showSelect = true;
 
   @Input()
+  public showManage = true;
+
+  @Input()
   public set heading(value) {
     this.label = value;
   }
@@ -113,6 +116,7 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
           data: this.data,
           size: this.size,
           showCreate: this.showCreate,
+          showManage: this.showManage,
           queryConfigs: this.queryConfigs,
         },
         panelClass: ['fs-attribute-dialog', 'fs-attribute-dialog-no-scroll', `fs-attribute-${this.class}`],
