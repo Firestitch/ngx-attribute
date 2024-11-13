@@ -86,9 +86,8 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
       this.klass = this.dialogData.class;
       this.data = this.dialogData.data;
       this.size = this.dialogData.size;
-
+      this.showManage = this.dialogData.showManage ?? true;
       this.selectedAttributes = this.dialogData.selectedAttributes;
-
       this.initDialog();
     } else {
       this.hostClass = 'fs-attribute fs-attribute-' + this.klass;
