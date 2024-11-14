@@ -2,18 +2,20 @@ import {
   AttributeColor,
   AttributeImage,
   AttributeOrder,
-  FsAttributeConfig
+  FsAttributeConfig,
 } from '@firestitch/attribute';
-import { FlatItemNode } from '@firestitch/tree';
 import { FsPrompt } from '@firestitch/prompt';
+import { FlatItemNode } from '@firestitch/tree';
 
 import { of } from 'rxjs';
+import { delay } from 'rxjs/operators';
+
 import { filter, isEqual } from 'lodash-es';
 
-import { ListVisibleComponent } from '../components/list-visible';
 import { EditVisibleComponent } from '../components/edit-visible';
+import { ListVisibleComponent } from '../components/list-visible';
+
 import { attributesStore } from './data';
-import { delay } from 'rxjs/operators';
 
 
 export function attributeConfigFactory(prompt: FsPrompt): FsAttributeConfig {
@@ -31,9 +33,9 @@ export function attributeConfigFactory(prompt: FsPrompt): FsAttributeConfig {
           {
             label: 'Visible on List',
             listComponent: ListVisibleComponent,
-            editComponent: EditVisibleComponent
-          }
-        ]
+            editComponent: EditVisibleComponent,
+          },
+        ],
       },
       {
         class: 'aroma_type',
@@ -48,8 +50,8 @@ export function attributeConfigFactory(prompt: FsPrompt): FsAttributeConfig {
           {
             label: 'Visible on List',
             listComponent: ListVisibleComponent,
-            editComponent: EditVisibleComponent
-          }
+            editComponent: EditVisibleComponent,
+          },
         ],
       },
       {
@@ -69,7 +71,7 @@ export function attributeConfigFactory(prompt: FsPrompt): FsAttributeConfig {
         backgroundColor: AttributeColor.Enabled,
         name: 'Background Color',
         pluralName: 'Background Colors',
-      }
+      },
     ],
     mapping: {
       id: 'id',
@@ -78,7 +80,7 @@ export function attributeConfigFactory(prompt: FsPrompt): FsAttributeConfig {
       backgroundColor: 'backgroundColor',
       configs: 'configs',
       childAttributes: 'attributes',
-      parentAttribute: 'parentAttribute'
+      parentAttribute: 'parentAttribute',
     },
     getAttributeTree: (e) => {
       const data = attributesStore.filter((item) => item.class === e.class);
@@ -87,6 +89,7 @@ export function attributeConfigFactory(prompt: FsPrompt): FsAttributeConfig {
     },
     reorderAttributeTree: (event) => {
       console.log('reorderAttributeTree', event);
+
       return of();
     },
 
@@ -96,7 +99,7 @@ export function attributeConfigFactory(prompt: FsPrompt): FsAttributeConfig {
       toParent?: FlatItemNode,
       dropPosition?: any,
       prevElement?: FlatItemNode,
-      nextElement?: FlatItemNode
+      nextElement?: FlatItemNode,
     ) => {
       return (!fromParent && !toParent) || (fromParent && toParent && fromParent.data.class === toParent.data.class);
     },
@@ -114,7 +117,7 @@ export function attributeConfigFactory(prompt: FsPrompt): FsAttributeConfig {
           if (parent) {
             const attrs = parent[config.mapping.childAttributes];
             if (!attrs || !Array.isArray(attrs)) {
-              parent[config.mapping.childAttributes] = []
+              parent[config.mapping.childAttributes] = [];
             }
 
             parent[config.mapping.childAttributes].push(e.attribute);
@@ -133,8 +136,9 @@ export function attributeConfigFactory(prompt: FsPrompt): FsAttributeConfig {
     },
     saveAttributeImage: (e) => {
       console.log('saveAttributeImage', e);
+
       return of({ attribute: { image: { small: 'https://picsum.photos/200/300/?random' } } })
-            .pipe(delay(4000));
+        .pipe(delay(4000));
     },
     getAttributes: (e) => {
       console.log('getAttributes', e);
@@ -179,11 +183,13 @@ export function attributeConfigFactory(prompt: FsPrompt): FsAttributeConfig {
     },
     reorderAttributes: (e) => {
       console.log('reorderAttributes', e);
+
       // attributesStore = e.attributes;
       return of({ attributes: e.attributes });
     },
     attributeSelectionChanged: (e) => {
       console.log('attributeSelectionChanged', e);
+
       return of({ attribute: e.attribute });
     },
     deleteAttribute: (e) => {
@@ -193,17 +199,18 @@ export function attributeConfigFactory(prompt: FsPrompt): FsAttributeConfig {
           attributesStore.splice(index, 1);
         }
       });
+
       return of({ attribute: e.attribute });
     },
     deleteConfirmation: (event) => {
       return prompt.confirm({
         title: 'Confirm',
-        template: `Sure?`
-      })
+        template: 'Sure?',
+      });
     },
     compareAttributes(o1, o2) {
       return o1 && o2 && o1.id === o2.id;
-    }
+    },
   };
 
   return config;
