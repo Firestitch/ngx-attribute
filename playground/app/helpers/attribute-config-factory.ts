@@ -1,6 +1,7 @@
 import {
   AttributeColor,
   AttributeImage,
+  AttributeItem,
   AttributeOrder,
   FsAttributeConfig,
 } from '@firestitch/attribute';
@@ -199,10 +200,10 @@ export function attributeConfigFactory(prompt: FsPrompt): FsAttributeConfig {
 
       return of({ attribute: e.attribute });
     },
-    deleteConfirmation: (event) => {
+    deleteConfirmation: (attribute: AttributeItem) => {
       return prompt.confirm({
         title: 'Confirm',
-        template: 'Sure?',
+        template: `Are you sure you want to delete this ${attribute.config.name.toLowerCase()}?`,
       });
     },
     compareAttributes(o1, o2) {

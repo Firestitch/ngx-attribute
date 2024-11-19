@@ -14,7 +14,7 @@ import { MatDialog } from '@angular/material/dialog';
 import { FsTreeChange, FsTreeComponent, ITreeConfig, TreeActionType } from '@firestitch/tree';
 
 import { Subject } from 'rxjs';
-import { takeUntil } from 'rxjs/operators';
+import { switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { FsAttributeTemplateDirective } from '../../directives/attribute-template.component';
 import { AttributeItem } from '../../models/attribute';
@@ -52,9 +52,6 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
   @Input()
   public queryConfigs: any;
 
-  // @Output()
-  // public changed = new EventEmitter();
-
   @ContentChild(FsAttributeTemplateDirective, { read: TemplateRef })
   public templ: TemplateRef<FsAttributeTemplateDirective>;
 
@@ -71,8 +68,8 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
 
   constructor(
     public attributesConfig: AttributesConfig,
-    private dialog: MatDialog,
-    private cdRef: ChangeDetectorRef,
+    private _dialog: MatDialog,
+    private _cdRef: ChangeDetectorRef,
   ) {}
 
 
@@ -103,7 +100,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
       this.attributesConfig.getConfig(this.attributeConfig.class),
     );
 
-    const dialogRef = this.dialog.open(FsAttributeEditComponent, {
+    const dialogRef = this._dialog.open(FsAttributeEditComponent, {
       data: {
         attribute: attribute,
         attributeConfig: this.attributeConfig,
@@ -139,7 +136,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
           this.attributes = response.data;
           this._setTreeConfig();
 
-          this.cdRef.markForCheck();
+          this._cdRef.markForCheck();
         }
       });
   }
@@ -180,8 +177,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
               .pipe(
                 takeUntil(this._destroy$),
               )
-              .subscribe(() => {
-              });
+              .subscribe();
           } break;
         }
       },
@@ -195,7 +191,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
             {
               label: 'Edit',
               click: (node) => {
-                const dialogRef = this.dialog.open(FsAttributeEditComponent, {
+                const dialogRef = this._dialog.open(FsAttributeEditComponent, {
                   data: {
                     attribute: node.data.original,
                     class: node.data.class,
@@ -232,7 +228,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
                   this.attributesConfig.getConfig(this.attributeConfig.childClass),
                 );
 
-                const dialogRef = this.dialog.open(FsAttributeEditComponent, {
+                const dialogRef = this._dialog.open(FsAttributeEditComponent, {
                   data: {
                     attribute: attribute,
                     class: this.attributeConfig.childClass,
@@ -277,20 +273,13 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
 
   private _deteleNode(node) {
     this.attributesConfig.deleteConfirmation(node.data.original)
-      .pipe(takeUntil(this._destroy$))
-      .subscribe({
-        next: () => {
-          this.attributesConfig.deleteAttribute(node.data.original)
-            .pipe(
-              takeUntil(this._destroy$),
-            )
-            .subscribe(() => {
-              this.tree.remove(node);
-            });
-        },
-        error: () => {
-
-        },
-      });
+      .pipe(
+        switchMap(() => {
+          return this.attributesConfig.deleteAttribute(node.data.original);
+        }),
+        tap(() => this.tree.remove(node)),
+        takeUntil(this._destroy$),
+      )
+      .subscribe();
   }
 }

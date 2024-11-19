@@ -2,6 +2,7 @@ import { Inject, Injectable } from '@angular/core';
 
 import { FlatItemNode } from '@firestitch/tree';
 
+import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 
 import { sortBy } from 'lodash-es';
@@ -23,8 +24,13 @@ export class AttributesConfig {
     this._initConfigs(_fsAttributeConfig.configs, _fsAttributeConfig.mapping);
   }
 
-  public getAttributes(e: any, attributeConfig: AttributeConfigItem) {
-    return this._fsAttributeConfig.getAttributes(e)
+  public getAttributes(
+    e: any, 
+    attributeConfig: AttributeConfigItem,
+
+  ): Observable<{ data: AttributeItem[], paging: any }> {
+    return this._fsAttributeConfig
+      .getAttributes(e)
       .pipe(
         map((response) => {
           const data = response.data.map((attribute) => {
@@ -57,11 +63,11 @@ export class AttributesConfig {
   }
 
   public deleteAttribute(event: AttributeItem) {
-    return this._fsAttributeConfig.deleteAttribute(event.toJSON());
+    return this._fsAttributeConfig.deleteAttribute(event);
   }
 
-  public deleteConfirmation(event: AttributeItem) {
-    return this._fsAttributeConfig.deleteConfirmation(event.toJSON());
+  public deleteConfirmation(attributeItem: AttributeItem) {
+    return this._fsAttributeConfig.deleteConfirmation(attributeItem);
   }
 
   public saveAttribute(event: any) {
