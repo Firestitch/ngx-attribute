@@ -215,7 +215,6 @@ implements OnInit, OnDestroy, ControlValueAccessor {
 
   public manage() {
     this._dialog.open(FsAttributeManageComponent, {
-      disableClose: true,
       data: {
         attributeConfig: this.attributeConfig,
         data: this.data,

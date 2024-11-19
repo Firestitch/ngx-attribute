@@ -122,6 +122,21 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
     this._destroy$.complete();
   }
 
+  public create() {
+    this
+      ._createAttribute({
+        data: this.data,
+        queryConfigs: this.queryConfigs,
+      })
+      .afterClosed()
+      .pipe(
+        takeUntil(this._destroy$),
+      )
+      .subscribe(() => {
+        this.list.reload();
+      });
+  }
+
   private _setListConfig() {
     const config: FsListConfig = {
       reload: false,
@@ -135,13 +150,6 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
           name: 'keyword',
           type: ItemType.Keyword,
           label: 'Search',
-        },
-      ],
-      actions: [
-        ...this.actions,
-        {
-          label: 'Create',
-          click: () => this._createActionClick(),
         },
       ],
       rowActions: [
@@ -209,32 +217,12 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
     this.listConfig = config;
   }
 
-  /**
-   * Biggest cratch in the world. Let's remove it in new future
-   */
   private _deleteRow(row) {
     return this.attributesConfig.deleteConfirmation(row)
       .pipe(
         switchMap(() => this.attributesConfig.deleteAttribute(row)),
         takeUntil(this._destroy$),
-      )
-      .subscribe();
-  }
-
-  private _createActionClick() {
-    const dialogRef = this
-      ._createAttribute({
-        data: this.data,
-        queryConfigs: this.queryConfigs,
-      });
-
-    dialogRef.afterClosed()
-      .pipe(
-        takeUntil(this._destroy$),
-      )
-      .subscribe(() => {
-        this.list.reload();
-      });
+      );
   }
 
   private _createAttribute(

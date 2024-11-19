@@ -1,10 +1,20 @@
-::ng-deep {
-  .list-attribute {
-    .fs-chip {
-      cursor: pointer;
-      .fs-chip-content {
-        overflow: visible;
-        max-width: none;
+
+:host ::ng-deep {
+  fs-list {
+    &:not(.has-attribute-fields) {
+      thead {
+        display: none;
+      }
+    }
+
+    .list-attribute {
+      .fs-chip {
+        cursor: pointer;
+
+        .fs-chip-content {
+          overflow: visible;
+          max-width: none;
+        }
       }
     }
   }

@@ -97,9 +97,6 @@ export function attributeConfigFactory(prompt: FsPrompt): FsAttributeConfig {
       node?: FlatItemNode,
       fromParent?: FlatItemNode,
       toParent?: FlatItemNode,
-      dropPosition?: any,
-      prevElement?: FlatItemNode,
-      nextElement?: FlatItemNode,
     ) => {
       return (!fromParent && !toParent) || (fromParent && toParent && fromParent.data.class === toParent.data.class);
     },

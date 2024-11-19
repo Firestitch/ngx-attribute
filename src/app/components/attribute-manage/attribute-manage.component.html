@@ -3,6 +3,7 @@
 </div>
 <mat-dialog-content>
   <fs-attribute-list
+    #attributeList
     [config]="data.attributeConfig"
     [size]="data.size">
   </fs-attribute-list>
@@ -15,4 +16,9 @@
       type="button">
     Close
   </button>
+  <a
+      mat-button
+      (click)="attributeList.create()">
+    Create
+  </a>
 </mat-dialog-actions>

@@ -1,4 +1,8 @@
-<fs-list [config]="listConfig">
+<fs-list
+    [config]="listConfig"
+    [ngClass]="{
+      'has-attribute-fields': attributeConfig.fields.length,
+    }">
   <fs-list-column>
     <ng-template fs-list-header>
       {{ attributeConfig.name }}
