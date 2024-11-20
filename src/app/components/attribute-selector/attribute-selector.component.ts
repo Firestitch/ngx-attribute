@@ -153,6 +153,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
         size: this.size,
         queryConfigs: this.dialogData?.queryConfigs || this.queryConfigs,
       },
+      autoFocus: false,
     })
       .afterClosed()
       .pipe(

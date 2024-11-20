@@ -221,6 +221,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
         size: this.size,
         // queryConfigs: this.dialogData?.queryConfigs || this.queryConfigs,
       },
+      autoFocus: false,
     })
       .afterClosed()
       .pipe(
