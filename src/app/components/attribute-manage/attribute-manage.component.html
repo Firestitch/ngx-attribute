@@ -1,24 +1,26 @@
-<div mat-dialog-title>
-  Manage {{ data.pluralName }}
-</div>
-<mat-dialog-content>
-  <fs-attribute-list
-    #attributeList
-    [config]="data.attributeConfig"
-    [size]="data.size">
-  </fs-attribute-list>
-</mat-dialog-content>
-<mat-dialog-actions>
-  <button
-      mat-button
-      (click)="close()"
-      color="primary"
-      type="button">
-    Close
-  </button>
-  <a
-      mat-button
-      (click)="attributeList.create()">
-    Create
-  </a>
-</mat-dialog-actions>
+<fs-dialog>
+  <fs-dialog-title>
+    Manage
+  </fs-dialog-title>
+  <mat-dialog-content>
+    <fs-attribute-list
+      #attributeList
+      [config]="data.attributeConfig"
+      [size]="data.size">
+    </fs-attribute-list>
+  </mat-dialog-content>
+  <mat-dialog-actions>
+    <button
+        mat-button
+        (click)="close()"
+        color="primary"
+        type="button">
+      Done
+    </button>
+    <a
+        mat-button
+        (click)="attributeList.create()">
+      Create
+    </a>
+  </mat-dialog-actions>
+</fs-dialog>

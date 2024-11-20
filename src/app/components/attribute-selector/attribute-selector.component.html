@@ -1,29 +1,45 @@
 <ng-container *ngIf="dialogMode; else chipsList">
   <fs-dialog>
-    <div mat-dialog-title>{{attributeConfig.pluralName}}</div>
+    <div mat-dialog-title>
+      {{ attributeConfig.pluralName }}
+    </div>
     <div mat-dialog-content>
       <ng-template [ngTemplateOutlet]="chipsList"></ng-template>
     </div>
     <div mat-dialog-actions>
-      <button mat-button (click)="done()" color="primary">Close</button>
-      <button mat-button (click)="manage()" *ngIf="showManage !== false">Manage</button>
+      <button
+          mat-button
+          (click)="done()"
+          color="primary">
+        Done
+      </button>
+      <button
+          mat-button
+          (click)="manage()"
+          *ngIf="showManage !== false">
+        Manage
+      </button>
     </div>
   </fs-dialog>
 </ng-container>
-
 <ng-template #chipsList>
-  <mat-form-field class="search-attribute" *ngIf="filter">
+  <mat-form-field
+      class="search-attribute"
+      *ngIf="filter">
     <mat-label>
-      {{placeholder}}
+      {{ placeholder }}
     </mat-label>
-    <mat-icon matPrefix>search</mat-icon>
+    <mat-icon matPrefix>
+      search
+    </mat-icon>
     <div>
-      <input type="text" matInput
-             [(ngModel)]="filterKeyword"
-             (ngModelChange)="filterByKeyword()">
+      <input
+        type="text"
+        matInput
+        [(ngModel)]="filterKeyword"
+        (ngModelChange)="filterByKeyword()">
     </div>
   </mat-form-field>
-
   <fs-chips
       [(ngModel)]="selectedAttributes"
       [compare]="compareFn">

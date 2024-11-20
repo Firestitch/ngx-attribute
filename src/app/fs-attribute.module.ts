@@ -51,6 +51,7 @@ import { AttributesConfig } from './services/attributes-config';
   imports: [
     FormsModule,
     CommonModule,
+
     MatChipsModule,
     MatIconModule,
     MatDialogModule,
@@ -59,6 +60,7 @@ import { AttributesConfig } from './services/attributes-config';
     MatFormFieldModule,
     MatAutocompleteModule,
     MatSelectModule,
+    
     FsColorPickerModule,
     FsFormModule,
     FsLabelModule,
