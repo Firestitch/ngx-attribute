@@ -5,18 +5,16 @@ import {
   Inject,
   OnDestroy,
   OnInit,
-  ViewChild,
 } from '@angular/core';
 
-import { MatButton } from '@angular/material/button';
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
 import { randomColor } from '@firestitch/colorpicker';
 
-import { Subject } from 'rxjs';
-import { finalize, takeUntil } from 'rxjs/operators';
+import { of, Subject } from 'rxjs';
+import { finalize, switchMap, takeUntil } from 'rxjs/operators';
 
-import { cloneDeep, merge } from 'lodash-es';
+import { cloneDeep } from 'lodash-es';
 
 import { getRawAttributeValue } from '../../helpers/raw-attribute-value';
 import { AttributeItem } from '../../models/attribute';
@@ -38,13 +36,11 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
   public selectedParent: AttributeItem;
   public inEditMode = false;
 
-  @ViewChild('submitButton') public submitButton: MatButton = null;
-
   private _destroy$ = new Subject<void>();
 
   constructor(
-    public attributesConfig: AttributesConfig,
-    @Inject(MAT_DIALOG_DATA) public data: {
+    private _attributesConfig: AttributesConfig,
+    @Inject(MAT_DIALOG_DATA) private _data: {
       attributeConfig: AttributeConfigItem;
       attribute: AttributeItem;
       parent: AttributeItem;
@@ -55,21 +51,21 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
     },
     private _dialogRef: MatDialogRef<FsAttributeEditComponent>,
     private _cd: ChangeDetectorRef,
-  ) {
-    const attribute = this.data.attribute;
-    this.attributeConfig = this.data.attributeConfig;
-    this.attribute = attribute && cloneDeep(attribute) || {};
-
-    if (this.data.parent) {
-      this.selectedParent = new AttributeItem(this.data.parent, this.attributeConfig.parent);
-    }
-
-    this.inEditMode = this.data.mode === 'edit';
-
-    this.parentSelector = this.data.selectParent;
-  }
+  ) {}
 
   public ngOnInit() {
+    const attribute = this._data.attribute;
+    this.attributeConfig = this._data.attributeConfig;
+    this.attribute = attribute && cloneDeep(attribute) || {};
+
+    if (this._data.parent) {
+      this.selectedParent = new AttributeItem(this._data.parent, this.attributeConfig.parent);
+    }
+
+    this.inEditMode = this._data.mode === 'edit';
+
+    this.parentSelector = this._data.selectParent;
+
     if(
       !this.inEditMode && 
       this.attributeConfig.backgroundColor && 
@@ -80,32 +76,31 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
   }
 
   public selectImage(file) {
-    const e = {
+    const data = {
       attribute: this.attribute,
       class: this.attributeConfig.class,
-      data: this.data.data,
+      data: this._data.data,
       file: file,
-      queryConfigs: this.data?.queryConfigs,
+      queryConfigs: this._data?.queryConfigs,
     };
-
+    
     this.saving = true;
-    this.attributesConfig.saveAttributeImage(e)
+    of(null)
       .pipe(
+        switchMap(() => this._attributesConfig.saveAttributeImage(data)),
         finalize(() => {
           this.saving = false;
           this._cd.markForCheck();
         }),
         takeUntil(this._destroy$),
       )
-      .subscribe((response: any) => {
-        this.submitButton.disabled = false;
-
-        // TAD-T527 prevent loss config object link (was passed into attribute component wrapper
-        if (Array.isArray(response.configs)) {
-          delete response.configs;
-        }
-
-        const attribute = merge(response, this.attribute.toJSON());
+      .subscribe((attribute: any) => {
+        attribute = {
+          ...attribute,
+          configs: {},
+          ...this.attribute.toJSON(),
+        };
+        
         this.attribute = new AttributeItem(attribute, this.attributeConfig);
       });
   }
@@ -119,19 +114,22 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
     this.saveAttribute();
   }
 
-  public saveAttribute() {
-
+  public saveAttribute$() {
     const parent = getRawAttributeValue(this.selectedParent);
 
     const eventData = {
       attribute: this.attribute,
       class: this.attributeConfig.class,
-      data: this.data.data,
-      parent: parent,
-      queryConfigs: this.data?.queryConfigs,
+      data: this._data.data,
+      parent,
+      queryConfigs: this._data?.queryConfigs,
     };
 
-    this.attributesConfig.saveAttribute(eventData)
+    return this._attributesConfig.saveAttribute(eventData);
+  }
+
+  public saveAttribute() {
+    this.saveAttribute$()
       .pipe(
         takeUntil(this._destroy$),
       )

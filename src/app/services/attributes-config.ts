@@ -59,7 +59,6 @@ export class AttributesConfig {
     }
  
     return attributes;
-    
   }
 
   public deleteAttribute(event: AttributeItem) {
@@ -70,7 +69,13 @@ export class AttributesConfig {
     return this._fsAttributeConfig.deleteConfirmation(attributeItem);
   }
 
-  public saveAttribute(event: any) {
+  public saveAttribute(event: { 
+    attribute: AttributeItem,
+    class?: string,
+    data?: any,
+    parent?: any,
+    queryConfigs?: any
+   }) {
     event.attribute = event && event.attribute
       ? event.attribute.toJSON()
       : null;

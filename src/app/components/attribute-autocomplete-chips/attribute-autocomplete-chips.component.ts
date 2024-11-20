@@ -219,7 +219,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
         attributeConfig: this.attributeConfig,
         data: this.data,
         size: this.size,
-        // queryConfigs: this.dialogData?.queryConfigs || this.queryConfigs,
+        queryConfigs: this.queryConfigs,
       },
       autoFocus: false,
     })

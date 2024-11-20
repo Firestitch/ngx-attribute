@@ -15,7 +15,13 @@ export interface FsAttributeConfig {
     childAttributes?: string
   }
 
-  saveAttribute(e: any): Observable<{ attribute }>;
+  saveAttribute(event: {
+    attribute: AttributeItem,
+    class?: string,
+    data?: any,
+    parent?: any,
+    queryConfigs?: any
+  }): Observable<{ attribute }>;
   deleteAttribute(e: any): Observable<{ attribute }>;
   deleteConfirmation(attributeItem: AttributeItem): Observable<{ attribute }>;
   reorderAttributes(e: any): Observable<{ attributes }>

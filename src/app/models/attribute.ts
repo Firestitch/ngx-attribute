@@ -11,6 +11,7 @@ export class AttributeItem {
   public id = null;
   public class = null;
   public name = null;
+  public state = null;
 
   private _children: AttributeItem[] = [];
   private _config: AttributeConfigItem;
@@ -92,6 +93,7 @@ export class AttributeItem {
     setAttributeValue(attribute, mapping.image, this.image);
     setAttributeValue(attribute, mapping.backgroundColor, this.backgroundColor);
     setAttributeValue(attribute, mapping.color, this.color);
+    setAttributeValue(attribute, mapping.state, this.state);
 
     if (mapping.childAttributes && this._children && Array.isArray(this._children)) {
       const children = this._children.reduce((acc, child) => {
@@ -119,6 +121,7 @@ export class AttributeItem {
       id: this.id,
       name: this.name,
       image: this.image,
+      state: this.state,
       backgroundColor: this.backgroundColor,
       color: this.color,
       original: this,
@@ -142,6 +145,7 @@ export class AttributeItem {
     const mapping = this._config.mapping;
     this._attribute = clone(data);
     this.class = data.class;
+    this.state = data.state;
     this.id = getAttributeValue(data, mapping.id);
     this.name = getAttributeValue(data, mapping.name);
 

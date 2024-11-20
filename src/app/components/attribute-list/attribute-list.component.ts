@@ -166,8 +166,16 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         filterLabel: 'Show Deleted',
         menuLabel: 'Restore',
         reload: true,
-        click: (row) => {
-          return this.attributesConfig.saveAttribute({ id: row.id, state: 'active' });
+        click: (attributeItem: AttributeItem) => {
+          attributeItem.state = 'active';
+
+          return this.attributesConfig
+            .saveAttribute({
+              attribute: attributeItem,
+              class: this.attributeConfig.class,
+              data: this.data,
+              queryConfigs: this.queryConfigs,
+            });
         },
       },
       fetch: (query) => {

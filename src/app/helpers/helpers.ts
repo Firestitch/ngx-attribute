@@ -1,5 +1,5 @@
 import { get as _get, set as _set } from 'lodash-es';
-import { AttributeItem } from '../models/attribute';
+
 
 export function getAttributeValue(attribute, mapping): any {
   if (!mapping) {
