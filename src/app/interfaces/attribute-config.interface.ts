@@ -32,6 +32,7 @@ export interface FsAttributeConfig {
     class: string,
     query?: any,
     data?: any,
+    keyword?: string,
     queryConfigs?: any
    }): Observable<{ data: any[], paging: any }>
   getAttributeTree(e: any): Observable<{ attributes }>

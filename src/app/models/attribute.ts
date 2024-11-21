@@ -145,7 +145,7 @@ export class AttributeItem {
     const mapping = this._config.mapping;
     this._attribute = clone(data);
     this.class = data.class;
-    this.state = data.state;
+      
     this.id = getAttributeValue(data, mapping.id);
     this.name = getAttributeValue(data, mapping.name);
 
