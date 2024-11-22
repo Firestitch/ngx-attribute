@@ -82,8 +82,8 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
     this.data = this.dialogData?.data || this.data;
     this.queryConfigs = this.dialogData?.queryConfigs || this.queryConfigs;
     this.attributeConfig = this.dialogData?.attributeConfig || (
-      this.config ? 
-        new AttributeConfigItem(this.config, this.config.mapping) : 
+      this.config ?
+        new AttributeConfigItem(this.config, this.config.mapping) :
         this.attributesConfig.getConfig(this.class)
     );
 
@@ -100,8 +100,8 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         queryConfigs: this.queryConfigs,
       },
       panelClass: [
-        'fs-attribute-dialog', 
-        'fs-attribute-dialog-no-scroll', 
+        'fs-attribute-dialog',
+        'fs-attribute-dialog-no-scroll',
         `fs-attribute-${this.attributeConfig.class}`,
       ],
     })
@@ -161,6 +161,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
           label: 'Remove',
         },
       ],
+      actions: this.actions,
       restore: {
         query: { state: 'deleted' },
         filterLabel: 'Show Deleted',
@@ -238,8 +239,8 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   ): MatDialogRef<FsAttributeEditComponent> {
     return this._dialog.open(FsAttributeEditComponent, {
       data: {
-        attribute: new AttributeItem({ 
-          class: this.attributeConfig.class, 
+        attribute: new AttributeItem({
+          class: this.attributeConfig.class,
         }, this.attributeConfig),
         attributeConfig: this.attributeConfig,
         data: config.data,
