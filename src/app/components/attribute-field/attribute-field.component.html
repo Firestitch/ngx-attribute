@@ -17,6 +17,7 @@
       </ng-template>
     </fs-attribute>
     <button
+        *ngIf="showSelect"
         type="button"
         mat-icon-button
         (click)="select()"
