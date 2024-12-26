@@ -56,9 +56,6 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
   @Input()
   public size: 'small' | 'tiny';
 
-  @Input()
-  public queryConfigs: any;
-
   @Output()
   public changed = new EventEmitter<AttributeItem[]>();
 
@@ -93,7 +90,6 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
     const e = {
       data: this.data,
       class: this.class,
-      queryConfigs: this.queryConfigs,
     };
 
     this.attributesConfig.getSelectedAttributes(e)
@@ -117,7 +113,6 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
           size: this.size,
           showCreate: this.showCreate,
           showManage: this.showManage,
-          queryConfigs: this.queryConfigs,
         },
         panelClass: ['fs-attribute-dialog', 'fs-attribute-dialog-no-scroll', `fs-attribute-${this.class}`],
       })

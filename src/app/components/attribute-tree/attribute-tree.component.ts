@@ -49,9 +49,6 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
   @Input()
   public showCreate = true;
 
-  @Input()
-  public queryConfigs: any;
-
   @ContentChild(FsAttributeTemplateDirective, { read: TemplateRef })
   public templ: TemplateRef<FsAttributeTemplateDirective>;
 
@@ -61,7 +58,6 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
   public attributes: AttributeItem[] = [];
   public attributeConfig: AttributeConfigItem;
   public childAttributeConfig: AttributeConfigItem;
-
   public treeConfig: ITreeConfig<any>;
 
   private _destroy$ = new Subject();
@@ -105,7 +101,6 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
         attribute: attribute,
         attributeConfig: this.attributeConfig,
         mode: 'create',
-        queryConfigs: this.queryConfigs,
       },
       panelClass: ['fs-attribute-dialog', 'fs-attribute-dialog-no-scroll', `fs-attribute-${this.class}`],
     });
@@ -126,7 +121,6 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
   private _loadData() {
     this.attributesConfig.getAttributeTree({
       class: this.class,
-      queryConfigs: this.queryConfigs,
     })
       .pipe(
         takeUntil(this._destroy$),
@@ -198,7 +192,6 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
                     data: this.data,
                     parent: node.parent && node.parent.data,
                     mode: 'edit',
-                    queryConfigs: this.queryConfigs,
                   },
                   panelClass: ['fs-attribute-dialog', 'fs-attribute-dialog-no-scroll', `fs-attribute-${this.class}`],
                 });
@@ -235,7 +228,6 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
                     data: this.data,
                     parent: node.data,
                     mode: 'create',
-                    queryConfigs: this.queryConfigs,
                   },
                   panelClass: ['fs-attribute-dialog', 'fs-attribute-dialog-no-scroll', `fs-attribute-${this.class}`],
                 });

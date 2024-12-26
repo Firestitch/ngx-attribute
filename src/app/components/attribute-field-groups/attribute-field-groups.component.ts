@@ -37,13 +37,10 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
   public class: string;
 
   @Input()
-  public queryConfigs: any;
-
-  @Input()
   public mode;
 
   @Input()
-  set heading(value) {
+  public set heading(value) {
     this.title = value;
   }
 
@@ -59,14 +56,14 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
 
   constructor(
     public attributesConfig: AttributesConfig,
-    private dialog: MatDialog,
-    private cdRef: ChangeDetectorRef,
+    private _dialog: MatDialog,
+    private _cdRef: ChangeDetectorRef,
   ) {}
 
   public ngOnInit() {
     this.attributeConfig = this.attributesConfig.getConfig(this.class);
 
-    if (this.title === void 0 && this.attributeConfig.child) {
+    if (this.title === undefined && this.attributeConfig.child) {
       this.title = this.attributeConfig.child.pluralName;
     }
 
@@ -74,7 +71,6 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
       data: this.data,
       parentClass: this.class,
       class: this.attributeConfig.childClass,
-      queryConfigs: this.queryConfigs,
     };
 
     this.attributesConfig.getSelectedAttributes(e)
@@ -90,7 +86,7 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
           return acc;
         }, []);
 
-        this.cdRef.markForCheck();
+        this._cdRef.markForCheck();
       });
 
     this.changed
@@ -100,7 +96,7 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
       .subscribe((attributes) => {
         this.selectedAttributes = attributes;
 
-        this.cdRef.markForCheck();
+        this._cdRef.markForCheck();
       });
   }
 
@@ -111,14 +107,13 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
 
   public select() {
 
-    const dialogRef = this.dialog.open(FsAttributeSelectorWithGroupsComponent, {
+    const dialogRef = this._dialog.open(FsAttributeSelectorWithGroupsComponent, {
       data: {
         selectedAttributes: this.selectedAttributes.slice(),
         class: this.class,
         childClass: this.attributeConfig.childClass,
         data: this.data,
         showCreate: this.showCreate,
-        queryConfigs: this.queryConfigs,
       },
       panelClass: ['fs-attribute-dialog', `fs-attribute-${this.class}`],
     });
@@ -136,7 +131,7 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
 
           this.changed.emit(attributes);
 
-          this.cdRef.markForCheck();
+          this._cdRef.markForCheck();
         }
       });
   }

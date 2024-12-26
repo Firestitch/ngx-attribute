@@ -58,9 +58,6 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   @Input()
   public size: 'small' | 'tiny';
 
-  @Input()
-  public queryConfigs: any;
-
   @Input() public queryParam: boolean = null;
 
   public listConfig: FsListConfig;
@@ -80,7 +77,6 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   public ngOnInit() {
     this.class = this.dialogData?.class || this.class;
     this.data = this.dialogData?.data || this.data;
-    this.queryConfigs = this.dialogData?.queryConfigs || this.queryConfigs;
     this.attributeConfig = this.dialogData?.attributeConfig || (
       this.config ?
         new AttributeConfigItem(this.config, this.config.mapping) :
@@ -97,7 +93,6 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         attributeConfig: this.attributeConfig,
         data: this.data,
         mode: 'edit',
-        queryConfigs: this.queryConfigs,
       },
       panelClass: [
         'fs-attribute-dialog',
@@ -126,7 +121,6 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
     this
       ._createAttribute({
         data: this.data,
-        queryConfigs: this.queryConfigs,
       })
       .afterClosed()
       .pipe(
@@ -175,7 +169,6 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
               attribute: attributeItem,
               class: this.attributeConfig.class,
               data: this.data,
-              queryConfigs: this.queryConfigs,
             });
         },
       },
@@ -190,7 +183,6 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
           query: query,
           data: this.data,
           class: this.attributeConfig.class,
-          queryConfigs: this.queryConfigs,
         };
 
         return this.attributesConfig.getAttributes(e, this.attributeConfig)
@@ -207,7 +199,6 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
             attributes: data,
             data: this.data,
             class: this.class,
-            queryConfigs: this.queryConfigs,
           };
 
           this.attributesConfig.reorderAttributes(e)
@@ -235,7 +226,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   }
 
   private _createAttribute(
-    config: { data?: any; queryConfigs?: any } = {},
+    config: { data?: any } = {},
   ): MatDialogRef<FsAttributeEditComponent> {
     return this._dialog.open(FsAttributeEditComponent, {
       data: {
@@ -245,7 +236,6 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         attributeConfig: this.attributeConfig,
         data: config.data,
         mode: 'create',
-        queryConfigs: config.queryConfigs,
       },
       panelClass: [
         'fs-attribute-dialog',

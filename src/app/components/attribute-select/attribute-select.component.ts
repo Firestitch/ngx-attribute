@@ -51,9 +51,6 @@ export class FsAttributeSelectComponent implements OnDestroy, ControlValueAccess
   @Input()
   public noneOption = false;
 
-  @Input()
-  public queryConfigs: any;
-
   public _class;
   public attributeName;
   public attributes: AttributeItem[] = [];
@@ -103,7 +100,6 @@ export class FsAttributeSelectComponent implements OnDestroy, ControlValueAccess
     const e = {
       data: this.data,
       class: this._class,
-      queryConfigs: this.queryConfigs,
     };
 
     this.attributesConfig.getAttributes(e, this.attributeConfig)

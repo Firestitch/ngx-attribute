@@ -46,7 +46,6 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
       parent: AttributeItem;
       mode: string;
       selectParent: string;
-      queryConfigs: any;
       data: any;
     },
     private _dialogRef: MatDialogRef<FsAttributeEditComponent>,
@@ -81,7 +80,6 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
       class: this.attributeConfig.class,
       data: this._data.data,
       file: file,
-      queryConfigs: this._data?.queryConfigs,
     };
     
     this.saving = true;
@@ -122,7 +120,6 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
       class: this.attributeConfig.class,
       data: this._data.data,
       parent,
-      queryConfigs: this._data?.queryConfigs,
     };
 
     return this._attributesConfig.saveAttribute(eventData);

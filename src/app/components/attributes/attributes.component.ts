@@ -24,8 +24,8 @@ import { AttributesConfig } from '../../services/attributes-config';
 
 @Component({
   selector: 'fs-attributes',
-  templateUrl: 'attributes.component.html',
-  styleUrls: ['attributes.component.scss'],
+  templateUrl: './attributes.component.html',
+  styleUrls: ['./attributes.component.scss'],
   changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAttributesComponent implements OnInit, OnDestroy {
@@ -33,7 +33,8 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
   @Input()
   public config: any;
 
-  @Input('attributes') set attributes(value) {
+  @Input('attributes') 
+  public set attributes(value) {
     this._attributes = value;
     this.hasAttributes = value.length;
   }
@@ -50,9 +51,6 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
   public size;
 
   @Input()
-  public queryConfigs: any;
-
-  @Input()
   @HostBinding('class.has-attributes')
   public hasAttributes: boolean;
 
@@ -67,15 +65,12 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
   @ContentChild(FsAttributeTemplateDirective, { read: TemplateRef })
   public templ: TemplateRef<FsAttributeTemplateDirective>;
 
-  // @HostBinding('class')
-  // public hostClass = '';
-
-  public _destroy$ = new Subject();
+  private _destroy$ = new Subject();
 
   constructor(
     public el: ElementRef,
     public attributesConfig: AttributesConfig,
-    private cdRef: ChangeDetectorRef,
+    private _cdRef: ChangeDetectorRef,
   ) {}
 
   public ngOnInit() {
@@ -86,7 +81,6 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
     this.el.nativeElement.classList.add('fs-attributes');
     this.el.nativeElement.classList.add('fs-attribute');
     this.el.nativeElement.classList.add(`fs-attribute-${  this.class}`);
-    // this.hostClass = 'fs-attribute fs-attribute-' + this.class;
   }
 
   public ngOnDestroy() {
@@ -98,7 +92,6 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
     const e = {
       data: this.data,
       class: this.class,
-      queryConfigs: this.queryConfigs,
     };
 
     this.attributesConfig.getSelectedAttributes(e)
@@ -109,7 +102,7 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
         this.attributes = response.data;
         this.dataReceived.emit(cloneDeep(response.data));
 
-        this.cdRef.markForCheck();
+        this._cdRef.markForCheck();
       });
   }
 }

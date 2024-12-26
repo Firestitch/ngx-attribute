@@ -29,13 +29,16 @@ import { AttributesConfig } from '../../services/attributes-config';
   selector: 'fs-attribute-autocomplete',
   templateUrl: './attribute-autocomplete.component.html',
   styleUrls: ['./attribute-autocomplete.component.scss'],
-  providers: [{
-    provide: NG_VALUE_ACCESSOR,
-    useExisting: forwardRef(() => FsAttributeAutocompleteComponent),
-    multi: true,
-  }],
+  providers: [
+    {
+      provide: NG_VALUE_ACCESSOR,
+      useExisting: forwardRef(() => FsAttributeAutocompleteComponent),
+      multi: true,
+    },
+  ],
 })
-export class FsAttributeAutocompleteComponent implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
+export class FsAttributeAutocompleteComponent 
+implements OnInit, OnChanges, OnDestroy, ControlValueAccessor {
 
   @ViewChild(FsAutocompleteComponent, { static: true })
   public autocomplete: FsAutocompleteComponent;
@@ -59,9 +62,6 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnChanges, OnDe
 
   @Input()
   public required = false;
-
-  @Input()
-  public queryConfigs: any;
 
   public attributeConfig: AttributeConfigItem;
   public onChange: (value: any) => void;
@@ -104,13 +104,11 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnChanges, OnDe
   }
 
   public fetch = (keyword) => {
-
     return this.attributesConfig
       .getAttributes({
         class: this.class,
         data: this.data,
         keyword: keyword,
-        queryConfigs: this.queryConfigs,
       }, this.attributeConfig)
       .pipe(
         map((response) => {
@@ -146,10 +144,5 @@ export class FsAttributeAutocompleteComponent implements OnInit, OnChanges, OnDe
   public ngOnDestroy() {
     this._destroy$.next(null);
     this._destroy$.complete();
-  }
-
-  public staticClick(event, index) {
-    // const staticDirective: FsAutocompleteStaticDirective = this.staticDirectives.toArray()[index];
-    // staticDirective.click.emit(event);
   }
 }

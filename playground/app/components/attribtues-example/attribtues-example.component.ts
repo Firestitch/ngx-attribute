@@ -1,13 +1,14 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { FS_ATTRIBUTE_CONFIG } from 'src/app/providers';
+import { Component, Inject, OnInit } from '@angular/core';
+
+
 import { FsAttributeConfig } from 'src/app/interfaces/attribute-config.interface';
-import { timeout, delay } from 'rxjs/operators';
+import { FS_ATTRIBUTE_CONFIG } from 'src/app/providers';
 
 
 @Component({
   selector: 'attribtues-example',
-  templateUrl: 'attribtues-example.component.html',
-  styleUrls: ['attribtues-example.component.scss']
+  templateUrl: './attribtues-example.component.html',
+  styleUrls: ['./attribtues-example.component.scss'],
 })
 export class AttribtuesExampleComponent implements OnInit {
 

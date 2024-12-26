@@ -1,7 +1,6 @@
 import {
   AttributeColor,
   AttributeImage,
-  AttributeItem,
   AttributeOrder,
   FsAttributeConfig,
 } from '@firestitch/attribute';
@@ -20,7 +19,8 @@ import { attributesStore } from './data';
 
 
 export function attributeConfigFactory(prompt: FsPrompt): FsAttributeConfig {
-  const config = {
+  const config: FsAttributeConfig = {
+    apiPath: 'api/attributes',
     configs: [
       {
         class: 'person', // type
@@ -79,9 +79,7 @@ export function attributeConfigFactory(prompt: FsPrompt): FsAttributeConfig {
       name: 'name',
       image: 'image.small',
       backgroundColor: 'backgroundColor',
-      configs: 'configs',
       childAttributes: 'attributes',
-      parentAttribute: 'parentAttribute',
     },
     getAttributeTree: (e) => {
       const data = attributesStore.filter((item) => item.class === e.class);
@@ -93,7 +91,6 @@ export function attributeConfigFactory(prompt: FsPrompt): FsAttributeConfig {
 
       return of();
     },
-
     canDropTreeAttribute: (
       node?: FlatItemNode,
       fromParent?: FlatItemNode,
@@ -199,12 +196,6 @@ export function attributeConfigFactory(prompt: FsPrompt): FsAttributeConfig {
       });
 
       return of({ attribute: e.attribute });
-    },
-    deleteConfirmation: (attribute: AttributeItem) => {
-      return prompt.confirm({
-        title: 'Confirm',
-        template: `Are you sure you want to delete this ${attribute.config.name.toLowerCase()}?`,
-      });
     },
     compareAttributes(o1, o2) {
       return o1 && o2 && o1.id === o2.id;

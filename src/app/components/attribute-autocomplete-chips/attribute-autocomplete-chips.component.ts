@@ -92,10 +92,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   public draggable = false;
 
   @Input()
-  public paddless = false;
-
-  @Input()
-  public queryConfigs: any;
+  public padless = false;
 
   @Input()
   public config: AttributeConfig;
@@ -159,7 +156,6 @@ implements OnInit, OnDestroy, ControlValueAccessor {
         class: this.attributeConfig.class,
         data: this.data,
         keyword: keyword,
-        queryConfigs: this.queryConfigs,
       }, this.attributeConfig)
       .pipe(
         map((response) => {
@@ -219,7 +215,6 @@ implements OnInit, OnDestroy, ControlValueAccessor {
         attributeConfig: this.attributeConfig,
         data: this.data,
         size: this.size,
-        queryConfigs: this.queryConfigs,
       },
       autoFocus: false,
     })
@@ -247,7 +242,6 @@ implements OnInit, OnDestroy, ControlValueAccessor {
         selected: selected,
         reorder: reorder,
         value: item,
-        queryConfigs: this.queryConfigs,
       })
       .pipe(
         takeUntil(this._destroy$),

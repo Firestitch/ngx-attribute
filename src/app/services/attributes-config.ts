@@ -1,5 +1,6 @@
-import { Inject, Injectable } from '@angular/core';
+import { inject, Inject, Injectable } from '@angular/core';
 
+import { FsPrompt } from '@firestitch/prompt';
 import { FlatItemNode } from '@firestitch/tree';
 
 import { Observable } from 'rxjs';
@@ -16,7 +17,9 @@ import { FS_ATTRIBUTE_CONFIG } from '../providers';
 
 @Injectable()
 export class AttributesConfig {
+
   private readonly _configs = new Map<string, AttributeConfigItem>();
+  private readonly _prompt = inject(FsPrompt);
 
   constructor(
     @Inject(FS_ATTRIBUTE_CONFIG) private _fsAttributeConfig: FsAttributeConfig,
@@ -66,7 +69,10 @@ export class AttributesConfig {
   }
 
   public deleteConfirmation(attributeItem: AttributeItem) {
-    return this._fsAttributeConfig.deleteConfirmation(attributeItem);
+    return this._prompt.confirm({
+      title: 'Confirm',
+      template: `Are you sure you want to delete this ${attributeItem.config.name.toLowerCase()}?`,
+    });
   }
 
   public saveAttribute(event: { 
@@ -74,7 +80,6 @@ export class AttributesConfig {
     class?: string,
     data?: any,
     parent?: any,
-    queryConfigs?: any
    }) {
     event.attribute = event && event.attribute
       ? event.attribute.toJSON()
@@ -165,14 +170,15 @@ export class AttributesConfig {
     prevElement?: FlatItemNode,
     nextElement?: FlatItemNode,
   ) {
-    return this._fsAttributeConfig.canDropTreeAttribute(
-      node,
-      fromParent,
-      toParent,
-      dropPosition,
-      prevElement,
-      nextElement,
-    );
+    return this._fsAttributeConfig
+      .canDropTreeAttribute(
+        node,
+        fromParent,
+        toParent,
+        dropPosition,
+        prevElement,
+        nextElement,
+      );
   }
 
   public reorderAttributeTree(event: any) {
@@ -192,7 +198,6 @@ export class AttributesConfig {
       return this._configs.get(name);
     } 
     throw new Error(`Configuration with class "${name}" can not be found. Please check your configs.`);
-    
   }
 
   private _initConfigs(configs: AttributeConfig[] = [], mappings) {

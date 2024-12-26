@@ -1,18 +1,24 @@
 <fs-autocomplete
-  [fetch]="fetch"
-  [fetchOnFocus]="true"
-  [displayWith]="displayWith"
-  [(ngModel)]="value"
-  [placeholder]="label"
-  [required]="required"
-  [disabled]="disabled"
-  name="autocomplete">
-  <ng-template fsAutocompleteTemplate let-data="data">
-    <span *ngIf="data.parent" class="parent">{{ data.parent.name }}:</span>{{ data.name }}
+    [fetch]="fetch"
+    [fetchOnFocus]="true"
+    [displayWith]="displayWith"
+    [(ngModel)]="value"
+    [placeholder]="label"
+    [required]="required"
+    [disabled]="disabled"
+    name="autocomplete">
+  <ng-template
+      fsAutocompleteTemplate
+      let-data="data">
+    <span
+        *ngIf="data.parent"
+        class="parent">
+      {{ data.parent.name }}:
+    </span>
+    {{ data.name }}
   </ng-template>
-
   <ng-container *ngFor="let tmpl of staticTemplates; let i = index">
-    <ng-template fsAutocompleteStatic (selected)="staticClick($event, i)">
+    <ng-template fsAutocompleteStatic>
       <ng-template [ngTemplateOutlet]="tmpl"></ng-template>
     </ng-template>
   </ng-container>

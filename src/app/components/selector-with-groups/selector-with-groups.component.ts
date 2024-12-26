@@ -45,9 +45,6 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
   @Input()
   public placeholder = 'Search';
 
-  @Input()
-  public queryConfigs: any;
-
   @Output()
   public selectedToggled = new EventEmitter();
 
@@ -109,7 +106,6 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
 
     event.data = this.data;
     event.class = this.childClass;
-    event.queryConfigs = this.queryConfigs;
     event.attribute = event.value;
 
     this.attributesConfig.attributeSelectionChanged(event)
@@ -135,7 +131,6 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
         attributeConfig: this.attributeConfig,
         selectParent: this.attributeConfig.class,
         mode: 'create',
-        queryConfigs: this.queryConfigs,
       },
       panelClass: [
         'fs-attribute-dialog',
@@ -187,7 +182,6 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
       keyword: keyword,
       class: this.class,
       data: this.data,
-      queryConfigs: this.queryConfigs,
     };
 
     this.attributesConfig.getAttributes(e, this.attributeConfig)
