@@ -28,7 +28,7 @@ export class AttributesConfig {
   }
 
   public getAttributes(
-    e: any, 
+    e: any,
     attributeConfig: AttributeConfigItem,
 
   ): Observable<{ data: AttributeItem[], paging: any }> {
@@ -57,10 +57,10 @@ export class AttributesConfig {
     const attrConfig = this.getAttributeConfig(klass);
     if (attrConfig && attrConfig.order === AttributeOrder.Alphabetical) {
       return sortBy(attributes, (o) => {
-        return o.name; 
+        return o.name;
       });
     }
- 
+
     return attributes;
   }
 
@@ -75,12 +75,12 @@ export class AttributesConfig {
     });
   }
 
-  public saveAttribute(event: { 
+  public saveAttribute(event: {
     attribute: AttributeItem,
     class?: string,
     data?: any,
     parent?: any,
-   }) {
+  }) {
     event.attribute = event && event.attribute
       ? event.attribute.toJSON()
       : null;
@@ -119,6 +119,14 @@ export class AttributesConfig {
   }
 
   public compareAttributes(o1: AttributeItem, o2: AttributeItem) {
+    if (o1 && !(o1 instanceof AttributeItem)) {
+      o1 = new AttributeItem(o1, this.getConfig((<any>o1).class));
+    }
+
+    if (o2 && !(o2 instanceof AttributeItem)) {
+      o2 = new AttributeItem(o2, this.getConfig((<any>o2).class));
+    }
+
     return this._fsAttributeConfig.compareAttributes(o1 && o1.toJSON(), o2 && o2.toJSON());
   }
 
@@ -196,7 +204,7 @@ export class AttributesConfig {
   public getConfig(name: string): AttributeConfigItem {
     if (this._configs.has(name)) {
       return this._configs.get(name);
-    } 
+    }
     throw new Error(`Configuration with class "${name}" can not be found. Please check your configs.`);
   }
 
