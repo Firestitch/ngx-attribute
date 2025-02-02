@@ -1,4 +1,6 @@
-<fs-label-field *ngIf="label; else attribs">
+<fs-label-field
+    *ngIf="label; else attribs"
+    [padless]="padless">
   <fs-label *ngIf="label">
     {{ label }}
   </fs-label>

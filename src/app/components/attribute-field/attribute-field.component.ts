@@ -43,6 +43,9 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
   public showManage = true;
 
   @Input()
+  public padless = false;
+
+  @Input()
   public set heading(value) {
     this.label = value;
   }
