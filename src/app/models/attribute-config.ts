@@ -77,9 +77,9 @@ export class AttributeConfigItem {
   private _initConfig(config: AttributeConfig) {
     this._class = config.class;
     this._childClass = config.childClass;
-    this._image = config.image;
-    this._backgroundColor = config.backgroundColor;
-    this._color = config.color;
+    this._image = config.image ?? AttributeImage.Disabled;
+    this._color = config.color ?? AttributeColor.Disabled;
+    this._backgroundColor = config.backgroundColor ?? AttributeColor.Disabled;
     this._name = config.name;
     this._pluralName = config.pluralName;
     this._order = config.order;

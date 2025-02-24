@@ -19,7 +19,7 @@ import { takeUntil } from 'rxjs/operators';
 import { cloneDeep } from 'lodash-es';
 
 import { FsAttributeTemplateDirective } from '../../directives/attribute-template.component';
-import { AttributeConfig } from '../../interfaces/attribute-config.interface';
+import { AttributeConfig } from '../../interfaces';
 import { AttributesConfig } from '../../services/attributes-config';
 
 
