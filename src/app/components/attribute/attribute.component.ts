@@ -31,35 +31,30 @@ export class FsAttributeComponent implements OnInit {
 
   public attributeConfig: AttributeConfigItem;
 
-  @Input()
-  public set attribute(value: any) {
-    this._attribute = value instanceof AttributeItem ? 
-      value : 
-      new AttributeItem(value, this._attributesConfig.getConfig(value.class));
-  }
+  @Input() public attribute;
 
-  public get attribute() {
-    return this._attribute;
-  }
-  
   @Input('class')
   public class = '';
 
   @Output()
   public selectedToggled = new EventEmitter();
 
-  private _attribute: AttributeItem;
-
   constructor(
     private _attributesConfig: AttributesConfig,
   ) {}
 
-
   public ngOnInit() {    
     this.attributeConfig = this.config ? 
       new AttributeConfigItem(this.attribute, this.config) :
-      this._attributesConfig.getConfig(this.class);
-      
+      this._attributesConfig.getConfig(this.class || this.attribute.class);
+
+    if(!(this.attribute instanceof AttributeItem)) {
+      this.attribute = new AttributeItem(
+        this.attribute,
+        this._attributesConfig.getConfig(this.attribute.class),
+      );
+    }
+
     this.hostClass = `fs-attribute fs-attribute-${this.attributeConfig.class}`;
   }
 }
