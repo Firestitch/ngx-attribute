@@ -51,7 +51,7 @@ export class FsAttributeComponent implements OnInit {
     if(!(this.attribute instanceof AttributeItem)) {
       this.attribute = new AttributeItem(
         this.attribute,
-        this._attributesConfig.getConfig(this.attribute.class),
+        this.attributeConfig,
       );
     }
 
