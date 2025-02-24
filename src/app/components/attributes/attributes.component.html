@@ -1,13 +1,15 @@
-<fs-attribute
-    *ngFor="let attribute of _attributes"
-    [attribute]="attribute"
-    [size]="size"
-    [class]="class">
-  <ng-template
-    [ngTemplateOutlet]="templ || defaultTemplate"
-    [ngTemplateOutletContext]="{ attribute: attribute }">
-  </ng-template>
-</fs-attribute>
+@for (attribute of attributes; track attribute.id) {
+  <fs-attribute
+      [attribute]="attribute"
+      [size]="size"
+      [config]="config"
+      [class]="class">
+    <ng-template
+      [ngTemplateOutlet]="templ || defaultTemplate"
+      [ngTemplateOutletContext]="{ attribute: attribute }">
+    </ng-template>
+  </fs-attribute>
+}
 <ng-template
     #defaultTemplate
     let-attribute="attribute">

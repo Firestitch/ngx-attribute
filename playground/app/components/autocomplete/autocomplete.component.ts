@@ -1,12 +1,13 @@
-import { Component, OnInit, Inject } from '@angular/core';
-import { FS_ATTRIBUTE_CONFIG } from 'src/app/providers';
+import { Component, Inject, OnInit } from '@angular/core';
+
 import { FsAttributeConfig } from 'src/app/interfaces/attribute-config.interface';
+import { FS_ATTRIBUTE_CONFIG } from 'src/app/providers';
 
 
 @Component({
   selector: 'autocomplete',
-  templateUrl: 'autocomplete.component.html',
-  styleUrls: ['autocomplete.component.scss']
+  templateUrl: './autocomplete.component.html',
+  styleUrls: ['./autocomplete.component.scss'],
 })
 export class AutocompleteComponent implements OnInit {
 

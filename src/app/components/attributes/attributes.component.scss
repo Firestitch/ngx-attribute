@@ -3,40 +3,7 @@
   flex-direction: row;
   flex-wrap: wrap;
   align-items: center;
-
-  &.has-attributes {
-    margin-top: -7px;
-    margin-left: -7px;
-
-    fs-attribute {
-      margin-top: 7px;
-      margin-left: 7px;
-
-      &:last-child {
-        margin-right: 0;
-      }
-    }
-
-    &[size="small"] {
-      margin-top: -5px;
-      margin-left: -5px;
-
-      fs-attribute {
-        margin-top: 5px;
-        margin-left: 5px;
-      }
-    }
-
-    &[size="tiny"] {
-      margin-top: -3px;
-      margin-left: -3px;
-
-      fs-attribute {
-        margin-top: 3px;
-        margin-left: 3px;
-      }
-    }
-  }
+  gap: 5px;
 
   ::ng-deep .fs-chip {
     margin-top: 0;

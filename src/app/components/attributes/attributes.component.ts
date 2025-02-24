@@ -19,6 +19,7 @@ import { takeUntil } from 'rxjs/operators';
 import { cloneDeep } from 'lodash-es';
 
 import { FsAttributeTemplateDirective } from '../../directives/attribute-template.component';
+import { AttributeConfig } from '../../interfaces/attribute-config.interface';
 import { AttributesConfig } from '../../services/attributes-config';
 
 
@@ -31,15 +32,10 @@ import { AttributesConfig } from '../../services/attributes-config';
 export class FsAttributesComponent implements OnInit, OnDestroy {
 
   @Input()
-  public config: any;
+  public config: AttributeConfig;
 
-  @Input('attributes') 
-  public set attributes(value) {
-    this._attributes = value;
-    this.hasAttributes = value.length;
-  }
-
-  public _attributes: any = [];
+  @Input()
+  public attributes: any[];
 
   @Input('class')
   public class: string;
@@ -49,11 +45,6 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
 
   @Input()
   public size;
-
-  @Input()
-  @HostBinding('class.has-attributes')
-  public hasAttributes: boolean;
-
 
   @Input()
   @HostBinding('class.active')
