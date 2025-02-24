@@ -15,16 +15,16 @@ export class FsAttributeComponent implements OnInit {
   @HostBinding('class') public hostClass = '';
 
   @Input()
-  public removable: any;
+  public removable: boolean;
 
   @Input()
-  public selectable: any;
+  public selectable: boolean;
 
   @Input()
   public size: 'small' | 'tiny';
 
   @Input()
-  public selected: any;
+  public selected: boolean;
 
   @Input()
   public config: AttributeConfig;
@@ -45,7 +45,7 @@ export class FsAttributeComponent implements OnInit {
 
   public ngOnInit() {    
     this.attributeConfig = this.config ? 
-      new AttributeConfigItem(this.attribute, this.config) :
+      new AttributeConfigItem(this.config) :
       this._attributesConfig.getConfig(this.class || this.attribute.class);
 
     if(!(this.attribute instanceof AttributeItem)) {

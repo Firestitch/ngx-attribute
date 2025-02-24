@@ -1,15 +1,14 @@
 import { AttributeColor, AttributeImage, AttributeOrder } from '../enums/enums';
+import { AttributeConfig, AttributeMappingConfig } from '../interfaces';
 
 export class AttributeConfigItem {
   
   public parent: AttributeConfigItem;
   public child: AttributeConfigItem;
-
   public hasEditableImage: boolean;
-
   private _class;
   private _childClass: string;
-  private _image;
+  private _image: AttributeImage;
   private _backgroundColor: AttributeColor;
   private _color: AttributeColor;
   private _name: string;
@@ -17,7 +16,7 @@ export class AttributeConfigItem {
   private _order: AttributeOrder;
   private _selectedOrder: boolean;
   private _fields: any[];
-  private _mapping: any = {};
+  private _mapping: AttributeMappingConfig = {};
 
   public get class() {
     return this._class;
@@ -27,7 +26,7 @@ export class AttributeConfigItem {
     return this._childClass;
   }
 
-  public get image() {
+  public get image(): AttributeImage {
     return this._image;
   }
 
@@ -59,7 +58,7 @@ export class AttributeConfigItem {
     return this._fields || [];
   }
 
-  public get mapping(): any {
+  public get mapping(): AttributeMappingConfig {
     return this._mapping;
   }
 
@@ -71,28 +70,30 @@ export class AttributeConfigItem {
     return this._image === AttributeImage.Parent;
   }
 
-  constructor(data: any = {}, mapping: any = {}) {
-    this._initConfig(data, mapping);
+  constructor(config: AttributeConfig) {
+    this._initConfig(config);
   }
 
-  private _initConfig(data, mapping) {
-    this._class = data.class;
-    this._childClass = data.childClass;
-    this._image = data.image;
-    this._backgroundColor = data.backgroundColor;
-    this._color = data.color;
-    this._name = data.name;
-    this._pluralName = data.pluralName;
-    this._order = data.order;
-    this._selectedOrder = data.selectedOrder;
+  private _initConfig(config: AttributeConfig) {
+    this._class = config.class;
+    this._childClass = config.childClass;
+    this._image = config.image;
+    this._backgroundColor = config.backgroundColor;
+    this._color = config.color;
+    this._name = config.name;
+    this._pluralName = config.pluralName;
+    this._order = config.order;
+    this._selectedOrder = config.selectedOrder;
     this.hasEditableImage = this._image === AttributeImage.Enabled;
-    this._fields = Array.isArray(data.fields) ? data.fields.slice() : data.fields;
+    this._fields = Array.isArray(config.fields) ? config.fields.slice() : config.fields;
     this._mapping = {
       id: 'id',
       name: 'name',
-      state: 'state',
       backgroundColor: 'backgroundColor',
-      ...mapping,
+      image: 'image',
+      color: 'color',
+      state: 'state',
+      ...config.mapping,
     };
   }
 }

@@ -8,13 +8,7 @@ import { AttributeItem } from '../models';
 export interface FsAttributeConfig {
   configs?: AttributeConfig[];
   apiPath?: string;
-  mapping?: {
-    id: string,
-    name: string,
-    backgroundColor: string,
-    image: string,
-    childAttributes?: string
-  };
+  mapping?: AttributeMappingConfig;
 
   saveAttribute?: (
     event: {
@@ -43,6 +37,18 @@ export interface FsAttributeConfig {
   compareAttributes?: (o1: any, o2: any) => boolean;
 }
 
+export interface AttributeMappingConfig {
+  id?: string,
+  name?: string,
+  backgroundColor?: string,
+  image?: string,
+  color?: string,
+  state?: string,
+  childAttributes?: string,
+  parentAttribute?: string
+}
+
+
 export interface AttributeConfig {
   class: string
   backgroundColor?: AttributeColor
@@ -55,13 +61,7 @@ export interface AttributeConfig {
   selectedOrder?: boolean;
   fields?: AttributeConfigField[];
   parentAttributes?: boolean;
-  mapping?: {
-    id: string,
-    name: string,
-    backgroundColor: string,
-    image: string,
-    childAttributes?: string
-  }
+  mapping?: AttributeMappingConfig
 }
 
 export interface AttributeConfigField {

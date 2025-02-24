@@ -129,7 +129,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
 
   public ngOnInit() {
     this.attributeConfig = this.config ? 
-      new AttributeConfigItem(this.config, this.config.mapping) : 
+      new AttributeConfigItem(this.config) : 
       this.attributesConfig.getConfig(this.class);
 
     if (!this.label) {

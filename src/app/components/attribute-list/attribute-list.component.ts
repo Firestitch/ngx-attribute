@@ -79,7 +79,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
     this.data = this.dialogData?.data || this.data;
     this.attributeConfig = this.dialogData?.attributeConfig || (
       this.config ?
-        new AttributeConfigItem(this.config, this.config.mapping) :
+        new AttributeConfigItem(this.config) :
         this.attributesConfig.getConfig(this.class)
     );
 

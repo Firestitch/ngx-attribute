@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 import { sortBy } from 'lodash-es';
 
 import { AttributeOrder } from '../enums/enums';
-import { AttributeConfig, FsAttributeConfig } from '../interfaces/attribute-config.interface';
+import { AttributeConfig, AttributeMappingConfig, FsAttributeConfig } from '../interfaces';
 import { AttributeItem } from '../models/attribute';
 import { AttributeConfigItem } from '../models/attribute-config';
 import { FS_ATTRIBUTE_CONFIG } from '../providers';
@@ -208,9 +208,17 @@ export class AttributesConfig {
     throw new Error(`Configuration with class "${name}" can not be found. Please check your configs.`);
   }
 
-  private _initConfigs(configs: AttributeConfig[] = [], mappings) {
+  private _initConfigs(configs: AttributeConfig[] = [], mappings: AttributeMappingConfig) {
     configs.forEach((config) => {
-      const configItem = new AttributeConfigItem(config, mappings);
+      config = {
+        ...config,
+        mapping: {
+          ...mappings,
+          ...(config.mapping || {}),
+        },
+      };
+
+      const configItem = new AttributeConfigItem(config);
 
       this._configs.set(configItem.class, configItem);
     });
