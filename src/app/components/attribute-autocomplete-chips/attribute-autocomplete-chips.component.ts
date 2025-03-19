@@ -47,7 +47,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   public staticDirectives: QueryList<FsAttributeAutocompleteChipsStaticDirective>;
 
   @Input() 
-  public color = '';
+  public color = '#fff';
 
   @Input() 
   public background = '';
@@ -80,7 +80,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   public class;
 
   @Input()
-  public label = 'Select...';
+  public label;
 
   @Input()
   public required = false;
@@ -143,6 +143,9 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     if (!this.color && this.attributeConfig.color) {
       this.color = this.attributeConfig.mapping.color;
     }
+
+    this.label = this.label || 
+      (this.multiple ? this.attributeConfig.pluralName : this.attributeConfig.name);
   }
 
   public ngOnDestroy() {
