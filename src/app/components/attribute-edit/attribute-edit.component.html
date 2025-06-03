@@ -1,6 +1,6 @@
 <form (fsForm)="save()">
   <div mat-dialog-title>
-    {{ inEditMode ? 'Edit' : 'Create' }}     {{ attributeConfig?.name }}
+    {{ title }}
   </div>
   <mat-dialog-content>
     <div class="fields">
@@ -66,3 +66,11 @@
     </button>
   </mat-dialog-actions>
 </form>
+<style>
+  .dialog-title {
+  text-transform: lowercase;
+  }
+  .dialog-title::first-letter {
+  text-transform: uppercase;
+  }
+</style>

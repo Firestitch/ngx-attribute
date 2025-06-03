@@ -36,6 +36,10 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
   public selectedParent: AttributeItem;
   public inEditMode = false;
 
+  public get title() {
+    return `${this.inEditMode ? 'Edit' : 'Create'} ${this.attributeConfig?.name.toLowerCase()}`;
+  }
+  
   private _destroy$ = new Subject<void>();
 
   constructor(
