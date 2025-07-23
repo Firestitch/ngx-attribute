@@ -2,7 +2,7 @@
   "name": "@firestitch/attribute",
   "title": "Attribute",
   "description": "@firestitch/attribute",
-  "version": "18.0.36",
+  "version": "18.0.37",
   "repository": {
     "type": "git",
     "url": "https://github.com/Firestitch/ngx-attribute"

@@ -1,8 +1,8 @@
-import { Component, EventEmitter, HostBinding, inject, Input, OnInit, Output } from '@angular/core';
+import { Component, EnvironmentInjector, EventEmitter, HostBinding, inject, Input, OnInit, Output, runInInjectionContext } from '@angular/core';
 
-import { AttributeConfig } from '../../interfaces';
+import { AttributeConfig, FsAttributeConfig } from '../../interfaces';
 import { AttributeConfigItem, AttributeItem } from '../../models';
-import { AttributesConfig } from '../../services/attributes-config';
+import { AttributeService } from '../../services';
 
 
 @Component({
@@ -30,9 +30,9 @@ export class FsAttributeComponent implements OnInit {
   public config: AttributeConfig;
 
   @Input()
-  public attributesConfig: AttributesConfig;
+  public attributeConfig: FsAttributeConfig;
 
-  public attributeConfig: AttributeConfigItem;
+  public attributeConfigItem: AttributeConfigItem;
 
   @Input() public attribute;
 
@@ -42,22 +42,26 @@ export class FsAttributeComponent implements OnInit {
   @Output()
   public selectedToggled = new EventEmitter();
 
-  private _attributesConfig = inject(AttributesConfig);
+  private _attributeService = inject(AttributeService);
+  private _envInj = inject(EnvironmentInjector);
 
   public ngOnInit() {    
-    this.attributesConfig = this.attributesConfig || this._attributesConfig;
-    this.attributeConfig = this.config ? 
+    this._attributeService = this.attributeConfig ? 
+      runInInjectionContext(this._envInj, () =>  (new AttributeService()).init(this.attributeConfig)) :
+      this._attributeService;
+
+    this.attributeConfigItem = this.config ? 
       new AttributeConfigItem(this.config) :
-      this._attributesConfig.getConfig(this.class || this.attribute.class);
+      this._attributeService.getConfig(this.class || this.attribute.class);
 
     if(!(this.attribute instanceof AttributeItem)) {
       this.attribute = new AttributeItem(
         this.attribute,
-        this.attributeConfig,
+        this.attributeConfigItem,
       );
     }
 
-    this.hostClass = `fs-attribute fs-attribute-${this.attributeConfig.class}`;
+    this.hostClass = `fs-attribute fs-attribute-${this.attributeConfigItem.class}`;
   }
 }
 

@@ -19,7 +19,7 @@ import { cloneDeep } from 'lodash-es';
 import { getRawAttributeValue } from '../../helpers/raw-attribute-value';
 import { AttributeItem } from '../../models/attribute';
 import { AttributeConfigItem } from '../../models/attribute-config';
-import { AttributesConfig } from '../../services/attributes-config';
+import { AttributeService } from '../../services';
 
 
 @Component({
@@ -33,7 +33,7 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
   public attributeConfig: AttributeConfigItem;
   public selectedParent: AttributeItem;
   public inEditMode = false;
-  public attributesConfig: AttributesConfig;
+  public attributeService: AttributeService;
 
   public get title() {
     return `${this.inEditMode ? 'Edit' : 'Create'} ${this.attributeConfig?.name.toLowerCase()}`;
@@ -45,17 +45,17 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
     parent: AttributeItem;
     mode: string;
     data: any;
-    attributesConfig: AttributesConfig;
+    attributeService: AttributeService;
   }>(MAT_DIALOG_DATA, { optional: true });
   private _dialogRef = inject(MatDialogRef<FsAttributeEditComponent>);
   private _cd = inject(ChangeDetectorRef);
-  private _attributesConfig = inject(AttributesConfig);
+  private _attributeService = inject(AttributeService);
   private _destroy$ = new Subject<void>();
 
   public ngOnInit() {
     const attribute = this._data.attribute;
     this.attributeConfig = this._data.attributeConfig;
-    this.attributesConfig = this._data.attributesConfig || this._attributesConfig;
+    this.attributeService = this._data.attributeService || this._attributeService;
     this.attribute = attribute && cloneDeep(attribute) || {};
 
     if (this._data.parent) {
@@ -83,7 +83,7 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
     
     of(null)
       .pipe(
-        switchMap(() => this.attributesConfig.saveAttributeImage(data)),
+        switchMap(() => this.attributeService.saveAttributeImage(data)),
         finalize(() => {
           this._cd.markForCheck();
         }),
@@ -110,7 +110,7 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
       parent,
     };
 
-    return this.attributesConfig.saveAttribute(eventData)
+    return this.attributeService.saveAttribute(eventData)
       .pipe(
         tap((response) => {
           this.close(response);

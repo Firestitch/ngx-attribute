@@ -19,7 +19,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { AttributeItem } from '../../models/attribute';
 import { AttributeConfigItem } from '../../models/attribute-config';
-import { AttributesConfig } from '../../services/attributes-config';
+import { AttributeService } from '../../services';
 import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.component';
 import { FsAttributeManageComponent } from '../attribute-manage';
 
@@ -70,7 +70,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
   private _destroy$ = new Subject();
 
   constructor(
-    public attributesConfig: AttributesConfig,
+    public attributeService: AttributeService,
     private _dialog: MatDialog,
     private _cdRef: ChangeDetectorRef,
     @Inject(MAT_DIALOG_DATA) @Optional() public dialogData: any,
@@ -90,7 +90,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
       this.hostClass = `fs-attribute fs-attribute-${  this.class}`;
     }
 
-    this.attributeConfig = this.attributesConfig.getConfig(this.class);
+    this.attributeConfig = this.attributeService.getConfig(this.class);
 
     this._fetch();
     this.compareFn = this.getCompareFn();
@@ -98,10 +98,10 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
 
   public getCompareFn() {
     if (this.dialogData && this.dialogData.class) {
-      return this.attributesConfig.compareAttributes.bind(this.attributesConfig);
+      return this.attributeService.compareAttributes.bind(this.attributeService);
     }
  
-    return this.attributesConfig.compare.bind(this.attributesConfig);
+    return this.attributeService.compare.bind(this.attributeService);
     
   }
 
@@ -112,7 +112,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
   public create() {
     const attribute = new AttributeItem(
       { class: this.attributeConfig.class },
-      this.attributesConfig.getConfig(this.attributeConfig.class),
+      this.attributeService.getConfig(this.attributeConfig.class),
     );
 
     const dialogRef = this._dialog.open(FsAttributeEditComponent, {
@@ -169,7 +169,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
     event.class = this.class;
     event.attribute = event.value;
 
-    this.attributesConfig.attributeSelectionChanged(event)
+    this.attributeService.attributeSelectionChanged(event)
       .pipe(
         takeUntil(this._destroy$),
       )
@@ -196,7 +196,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
       data: this.data,
     };
 
-    this.attributesConfig.getAttributes(e, this.attributeConfig)
+    this.attributeService.getAttributes(e, this.attributeConfig)
       .pipe(
         takeUntil(this._destroy$),
       )

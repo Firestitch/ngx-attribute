@@ -20,7 +20,7 @@ import { cloneDeep } from 'lodash-es';
 
 import { FsAttributeTemplateDirective } from '../../directives/attribute-template.component';
 import { AttributeConfig } from '../../interfaces';
-import { AttributesConfig } from '../../services/attributes-config';
+import { AttributeService } from '../../services';
 
 
 @Component({
@@ -60,7 +60,7 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
 
   constructor(
     public el: ElementRef,
-    public attributesConfig: AttributesConfig,
+    public attributeService: AttributeService,
     private _cdRef: ChangeDetectorRef,
   ) {}
 
@@ -85,7 +85,7 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
       class: this.class,
     };
 
-    this.attributesConfig.getSelectedAttributes(e)
+    this.attributeService.getSelectedAttributes(e)
       .pipe(
         takeUntil(this._destroy$),
       )

@@ -24,5 +24,6 @@ export * from './app/helpers/helpers';
 export * from './app/interfaces';
 export * from './app/models/attribute';
 export * from './app/providers';
+export * from './app/services';
 
 export { FsAttributeListAction } from './app/interfaces/list-action.interface';

@@ -40,7 +40,7 @@ import { FsAttributeSelectorWithGroupsComponent } from './components/selector-wi
 import { FsAttributeAutocompleteChipsStaticDirective } from './directives/attribute-autocomplete-chips-static.component';
 import { FsAttributeTemplateDirective } from './directives/attribute-template.component';
 import { FsAttributeListColumnDirective } from './directives/list-column.directive';
-import { AttributesConfig } from './services/attributes-config';
+import { AttributeService } from './services';
 
 
 @NgModule({
@@ -108,7 +108,7 @@ export class FsAttributeModule {
     return {
       ngModule: FsAttributeModule,
       providers: [
-        AttributesConfig,
+        AttributeService,
       ],
     };
   }

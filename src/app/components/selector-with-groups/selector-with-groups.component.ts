@@ -18,7 +18,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { AttributeItem } from '../../models/attribute';
 import { AttributeConfigItem } from '../../models/attribute-config';
-import { AttributesConfig } from '../../services/attributes-config';
+import { AttributeService } from '../../services';
 import { FsAttributeEditComponent } from '../attribute-edit';
 
 
@@ -59,7 +59,7 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
   private _destroy$ = new Subject();
 
   constructor(
-    public attributesConfig: AttributesConfig,
+    public attributeService: AttributeService,
     private _dialog: MatDialog,
     @Inject(MAT_DIALOG_DATA) @Optional() public dialogData: any,
     @Optional() private _dialogRef: MatDialogRef<FsAttributeSelectorWithGroupsComponent>,
@@ -81,7 +81,7 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
       Object.assign(this.data, { childAttributes: true });
     }
 
-    this.attributeConfig = this.attributesConfig.getConfig(this.class);
+    this.attributeConfig = this.attributeService.getConfig(this.class);
 
     this.compareFn = this.getCompareFn();
 
@@ -90,10 +90,10 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
 
   public getCompareFn() {
     if (this.dialogData && this.dialogData.class) {
-      return this.attributesConfig.compareAttributes.bind(this.attributesConfig);
+      return this.attributeService.compareAttributes.bind(this.attributeService);
     }
  
-    return this.attributesConfig.compare.bind(this.attributesConfig);
+    return this.attributeService.compare.bind(this.attributeService);
     
   }
 
@@ -108,7 +108,7 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
     event.class = this.childClass;
     event.attribute = event.value;
 
-    this.attributesConfig.attributeSelectionChanged(event)
+    this.attributeService.attributeSelectionChanged(event)
       .pipe(
         takeUntil(this._destroy$),
       )
@@ -122,7 +122,7 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
   public create() {
     const attribute = new AttributeItem(
       { class: this.attributeConfig.childClass },
-      this.attributesConfig.getConfig(this.attributeConfig.childClass),
+      this.attributeService.getConfig(this.attributeConfig.childClass),
     );
 
     const dialogRef = this._dialog.open(FsAttributeEditComponent, {
@@ -184,7 +184,7 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
       data: this.data,
     };
 
-    this.attributesConfig.getAttributes(e, this.attributeConfig)
+    this.attributeService.getAttributes(e, this.attributeConfig)
       .pipe(
         takeUntil(this._destroy$),
       )

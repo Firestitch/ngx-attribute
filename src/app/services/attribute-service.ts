@@ -16,14 +16,14 @@ import { FS_ATTRIBUTE_CONFIG } from '../providers';
 
 
 @Injectable()
-export class AttributesConfig {
+export class AttributeService {
 
   private readonly _configs = new Map<string, AttributeConfigItem>();
   private readonly _prompt = inject(FsPrompt);
   private _config: FsAttributeConfig;
 
   constructor() {
-    this.init(inject(FS_ATTRIBUTE_CONFIG));
+    this.init(inject(FS_ATTRIBUTE_CONFIG, { optional: true }));
   }
 
   public init(config: FsAttributeConfig) {
@@ -60,6 +60,8 @@ export class AttributesConfig {
 
 
     this._initConfigs(this._config.configs, this._config.mapping);
+
+    return this;
   }
 
   public getAttributes(

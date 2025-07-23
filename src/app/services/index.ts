@@ -1,2 +1,2 @@
-export * from './attributes-config';
+export * from './attribute-service';
 

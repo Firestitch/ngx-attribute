@@ -18,7 +18,7 @@ import { takeUntil } from 'rxjs/operators';
 import { FsAttributeTemplateDirective } from '../../directives/attribute-template.component';
 import { AttributeItem } from '../../models/attribute';
 import { AttributeConfigItem } from '../../models/attribute-config';
-import { AttributesConfig } from '../../services/attributes-config';
+import { AttributeService } from '../../services';
 import { FsAttributeSelectorComponent } from '../attribute-selector/attribute-selector.component';
 
 
@@ -70,13 +70,13 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
   private _destroy$ = new Subject<void>();
 
   constructor(
-    public attributesConfig: AttributesConfig,
+    public attributeService: AttributeService,
     private _dialog: MatDialog,
     private _cdRef: ChangeDetectorRef,
   ) {}
 
   public ngOnInit() {
-    this.attributeConfig = this.attributesConfig.getConfig(this.class);
+    this.attributeConfig = this.attributeService.getConfig(this.class);
     if (this.label === undefined) {
       this.label = this.attributeConfig.pluralName;
     }
@@ -95,7 +95,7 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
       class: this.class,
     };
 
-    this.attributesConfig.getSelectedAttributes(e)
+    this.attributeService.getSelectedAttributes(e)
       .pipe(
         takeUntil(this._destroy$),
       )
@@ -126,7 +126,7 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
       .subscribe((response) => {
         if (response && response.attributes) {
 
-          this.attributes = this.attributesConfig.sortAttributes(this.class, response.attributes);
+          this.attributes = this.attributeService.sortAttributes(this.class, response.attributes);
           this.changed.emit(this.attributes);
 
           this._cdRef.markForCheck();

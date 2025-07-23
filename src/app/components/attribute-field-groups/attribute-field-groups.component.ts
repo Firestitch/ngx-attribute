@@ -15,7 +15,7 @@ import { takeUntil } from 'rxjs/operators';
 
 import { AttributeItem } from '../../models/attribute';
 import { AttributeConfigItem } from '../../models/attribute-config';
-import { AttributesConfig } from '../../services/attributes-config';
+import { AttributeService } from '../../services';
 import { FsAttributeSelectorWithGroupsComponent } from '../selector-with-groups/selector-with-groups.component';
 
 
@@ -55,13 +55,13 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
   private _destroy$ = new Subject();
 
   constructor(
-    public attributesConfig: AttributesConfig,
+    public attributeService: AttributeService,
     private _dialog: MatDialog,
     private _cdRef: ChangeDetectorRef,
   ) {}
 
   public ngOnInit() {
-    this.attributeConfig = this.attributesConfig.getConfig(this.class);
+    this.attributeConfig = this.attributeService.getConfig(this.class);
 
     if (this.title === undefined && this.attributeConfig.child) {
       this.title = this.attributeConfig.child.pluralName;
@@ -73,7 +73,7 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
       class: this.attributeConfig.childClass,
     };
 
-    this.attributesConfig.getSelectedAttributes(e)
+    this.attributeService.getSelectedAttributes(e)
       .pipe(
         takeUntil(this._destroy$),
       )
@@ -125,9 +125,9 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
       .subscribe((response) => {
         if (response && response.attributes) {
 
-          const parentAttributeConfig = this.attributesConfig.getAttributeConfig(this.class);
+          const parentAttributeConfig = this.attributeService.getAttributeConfig(this.class);
 
-          const attributes = this.attributesConfig.sortAttributes(parentAttributeConfig.childClass, response.attributes);
+          const attributes = this.attributeService.sortAttributes(parentAttributeConfig.childClass, response.attributes);
 
           this.changed.emit(attributes);
 
