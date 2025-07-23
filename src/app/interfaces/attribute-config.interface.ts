@@ -13,7 +13,7 @@ export type AttributeConfigSaveAttribute = (
   parent?: any,
 }) => Observable<{ attribute }>;
 export type AttributeConfigDeleteAttribute = (e: any) => Observable<{ attribute }>;
-export type AttributeConfigCompareAttribute = (o1: any, o2: any) => boolean;
+export type AttributeConfigCompareAttribute = (o1: AttributeItem, o2: AttributeItem) => boolean;
 export type AttributeConfigSaveAttributeImage = (e: any) => Observable<{ attribute }>;
 export type AttributeConfigSortAttributeTree = (data: any[], parent?: any) => any[];
 export type AttributeConfigCanDropTreeAttribute = CanDrop;
@@ -79,7 +79,6 @@ export interface FsAttributeConfig {
     changed?: AttributeConfigChangedSelectedAttributes;
     fetch?: AttributeConfigFetchSelectedAttributes;
   }
-
 }
 
 export interface AttributeMappingConfig {

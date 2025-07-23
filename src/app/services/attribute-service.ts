@@ -151,8 +151,11 @@ export class AttributeService {
       );
   }
 
-  public compare(o1: any, o2: any) {
-    return this._config.attribute.compare(o1, o2);
+  public compare(o1: AttributeItem, o2: AttributeItem) {
+    const compare = this._config.attribute.compare || 
+      ((a1: AttributeItem, a2: AttributeItem) =>  a1?.id === a2?.id);
+
+    return compare(o1, o2);
   }
 
   public compareAttributes(o1: AttributeItem, o2: AttributeItem) {
@@ -164,7 +167,7 @@ export class AttributeService {
       o2 = new AttributeItem(o2, this.getConfig((<any>o2).class));
     }
 
-    return this._config.attribute.compare(o1 && o1.toJSON(), o2 && o2.toJSON());
+    return this.compare(o1 && o1.toJSON(), o2 && o2.toJSON());
   }
 
   public attributeSelectionChanged(event: any) {
