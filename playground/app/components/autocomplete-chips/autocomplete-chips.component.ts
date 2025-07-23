@@ -19,7 +19,6 @@ export class AutocompleteChipsComponent {
     pluralName: 'Animals',
   };
 
-
   public changed(e) {
     console.log(e);
   }

@@ -129,7 +129,6 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
       data: {
         attribute: attribute,
         attributeConfig: this.attributeConfig,
-        selectParent: this.attributeConfig.class,
         mode: 'create',
       },
       panelClass: [
@@ -139,7 +138,8 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
       ],
     });
 
-    dialogRef.afterClosed()
+    dialogRef
+      .afterClosed()
       .pipe(
         takeUntil(this._destroy$),
       )

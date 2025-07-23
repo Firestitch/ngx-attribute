@@ -2,7 +2,7 @@ import {
   ChangeDetectionStrategy,
   ChangeDetectorRef,
   Component,
-  Inject,
+  inject,
   OnDestroy,
   OnInit,
 } from '@angular/core';
@@ -12,7 +12,7 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 import { randomColor } from '@firestitch/colorpicker';
 
 import { of, Subject } from 'rxjs';
-import { finalize, switchMap, takeUntil } from 'rxjs/operators';
+import { finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { cloneDeep } from 'lodash-es';
 
@@ -31,34 +31,31 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
 
   public attribute: AttributeItem;
   public attributeConfig: AttributeConfigItem;
-  public saving = false;
-  public parentSelector: string;
   public selectedParent: AttributeItem;
   public inEditMode = false;
+  public attributesConfig: AttributesConfig;
 
   public get title() {
     return `${this.inEditMode ? 'Edit' : 'Create'} ${this.attributeConfig?.name.toLowerCase()}`;
   }
   
+  private _data = inject<{
+    attributeConfig: AttributeConfigItem;
+    attribute: AttributeItem;
+    parent: AttributeItem;
+    mode: string;
+    data: any;
+    attributesConfig: AttributesConfig;
+  }>(MAT_DIALOG_DATA, { optional: true });
+  private _dialogRef = inject(MatDialogRef<FsAttributeEditComponent>);
+  private _cd = inject(ChangeDetectorRef);
+  private _attributesConfig = inject(AttributesConfig);
   private _destroy$ = new Subject<void>();
-
-  constructor(
-    private _attributesConfig: AttributesConfig,
-    @Inject(MAT_DIALOG_DATA) private _data: {
-      attributeConfig: AttributeConfigItem;
-      attribute: AttributeItem;
-      parent: AttributeItem;
-      mode: string;
-      selectParent: string;
-      data: any;
-    },
-    private _dialogRef: MatDialogRef<FsAttributeEditComponent>,
-    private _cd: ChangeDetectorRef,
-  ) {}
 
   public ngOnInit() {
     const attribute = this._data.attribute;
     this.attributeConfig = this._data.attributeConfig;
+    this.attributesConfig = this._data.attributesConfig || this._attributesConfig;
     this.attribute = attribute && cloneDeep(attribute) || {};
 
     if (this._data.parent) {
@@ -66,8 +63,6 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
     }
 
     this.inEditMode = this._data.mode === 'edit';
-
-    this.parentSelector = this._data.selectParent;
 
     if(
       !this.inEditMode && 
@@ -86,12 +81,10 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
       file: file,
     };
     
-    this.saving = true;
     of(null)
       .pipe(
-        switchMap(() => this._attributesConfig.saveAttributeImage(data)),
+        switchMap(() => this.attributesConfig.saveAttributeImage(data)),
         finalize(() => {
-          this.saving = false;
           this._cd.markForCheck();
         }),
         takeUntil(this._destroy$),
@@ -107,16 +100,7 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
       });
   }
 
-  public save() {
-    // const mapping = this.fsAttributeConfig.mapping;
-    //
-    // this.attribute[mapping.name] = this.name;
-    // this.attribute[mapping.backgroundColor] = this.backgroundColor;
-
-    this.saveAttribute();
-  }
-
-  public saveAttribute$() {
+  public save = () => {
     const parent = getRawAttributeValue(this.selectedParent);
 
     const eventData = {
@@ -126,19 +110,13 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
       parent,
     };
 
-    return this._attributesConfig.saveAttribute(eventData);
-  }
-
-  public saveAttribute() {
-    this.saveAttribute$()
+    return this.attributesConfig.saveAttribute(eventData)
       .pipe(
-        takeUntil(this._destroy$),
-      )
-      .subscribe((response: any) => {
-        response.parent = this.selectedParent;
-        this.close(response);
-      });
-  }
+        tap((response) => {
+          this.close(response);
+        }),
+      );
+  };
 
   public close(data = null) {
     this._dialogRef.close(data);

@@ -1,4 +1,4 @@
-import { Component, EventEmitter, HostBinding, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, HostBinding, inject, Input, OnInit, Output } from '@angular/core';
 
 import { AttributeConfig } from '../../interfaces';
 import { AttributeConfigItem, AttributeItem } from '../../models';
@@ -29,6 +29,9 @@ export class FsAttributeComponent implements OnInit {
   @Input()
   public config: AttributeConfig;
 
+  @Input()
+  public attributesConfig: AttributesConfig;
+
   public attributeConfig: AttributeConfigItem;
 
   @Input() public attribute;
@@ -39,11 +42,10 @@ export class FsAttributeComponent implements OnInit {
   @Output()
   public selectedToggled = new EventEmitter();
 
-  constructor(
-    private _attributesConfig: AttributesConfig,
-  ) {}
+  private _attributesConfig = inject(AttributesConfig);
 
   public ngOnInit() {    
+    this.attributesConfig = this.attributesConfig || this._attributesConfig;
     this.attributeConfig = this.config ? 
       new AttributeConfigItem(this.config) :
       this._attributesConfig.getConfig(this.class || this.attribute.class);

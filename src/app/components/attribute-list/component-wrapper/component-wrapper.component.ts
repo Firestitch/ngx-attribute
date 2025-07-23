@@ -1,11 +1,14 @@
-import { Component, Injector, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, Input, OnInit } from '@angular/core';
+
 import { FS_ATTRIBUTE_FIELD_DATA } from '../../../providers';
 
 @Component({
   selector: 'fs-attribute-component-wrapper',
-  template: `<ng-container *ngComponentOutlet="component; injector: customInjector"></ng-container>`,
+  template: '<ng-container *ngComponentOutlet="component; injector: customInjector"></ng-container>',
+  changeDetection: ChangeDetectionStrategy.OnPush,
 })
 export class FsAttributeComponentWrapperComponent implements OnInit {
+  
   @Input() public field: any;
   @Input() public data: any;
   @Input() public component: any;
@@ -23,9 +26,9 @@ export class FsAttributeComponentWrapperComponent implements OnInit {
             field: this.field,
             attribute: this.data,
           },
-        }
+        },
       ],
-      parent: this._injector
-    })
+      parent: this._injector,
+    });
   }
 }

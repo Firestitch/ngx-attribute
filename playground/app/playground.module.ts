@@ -6,7 +6,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { MAT_FORM_FIELD_DEFAULT_OPTIONS } from '@angular/material/form-field';
 
 import { FS_ATTRIBUTE_CONFIG, FsAttributeModule } from '@firestitch/attribute';
-import { FsAutocompleteModule } from '@firestitch/autocomplete';
 import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
 import { FsChipModule } from '@firestitch/chip';
 import { FsColorPickerModule } from '@firestitch/colorpicker';
@@ -28,7 +27,6 @@ import { AppComponent } from './app.component';
 import {
   AttribtuesExampleComponent,
   AutocompleteChipsComponent,
-  AutocompleteComponent,
   ConfigExampleComponent,
   EditVisibleComponent,
   ExamplesComponent,
@@ -37,7 +35,6 @@ import {
   GroupSelectorExampleComponent,
   ListExampleComponent,
   ListVisibleComponent,
-  SelectFieldExampleComponent,
   SelectorExampleComponent,
   TreeExampleComponent,
 } from './components';
@@ -57,7 +54,6 @@ const routes: Routes = [
     AppMaterialModule,
     FormsModule,
     FsSelectButtonModule,
-    FsAutocompleteModule,
     FsAutocompleteChipsModule.forRoot(),
     FsChipModule.forRoot(),
     FsListModule.forRoot(),
@@ -81,12 +77,10 @@ const routes: Routes = [
     FieldWithGroupsExampleComponent,
     ListExampleComponent,
     AttribtuesExampleComponent,
-    SelectFieldExampleComponent,
     AutocompleteChipsComponent,
     ListVisibleComponent,
     EditVisibleComponent,
     TreeExampleComponent,
-    AutocompleteComponent,
     GroupSelectorExampleComponent,
     SelectorExampleComponent,
   ],

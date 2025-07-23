@@ -25,14 +25,12 @@ import { FsScrollModule } from '@firestitch/scroll';
 import { FsTreeModule } from '@firestitch/tree';
 
 import { FsAttributeAutocompleteChipsComponent } from './components/attribute-autocomplete-chips/attribute-autocomplete-chips.component';
-import { FsAttributeAutocompleteComponent } from './components/attribute-autocomplete/attribute-autocomplete.component';
 import { FsAttributeEditComponent } from './components/attribute-edit/attribute-edit.component';
 import { FsAttributeFieldGroupsComponent } from './components/attribute-field-groups/attribute-field-groups.component';
 import { FsAttributeFieldComponent } from './components/attribute-field/attribute-field.component';
 import { FsAttributeListComponent } from './components/attribute-list/attribute-list.component';
 import { FsAttributeComponentWrapperComponent } from './components/attribute-list/component-wrapper/component-wrapper.component';
 import { FsAttributeManageComponent } from './components/attribute-manage/attribute-manage.component';
-import { FsAttributeSelectComponent } from './components/attribute-select/attribute-select.component';
 import { FsAttributeSelectorComponent } from './components/attribute-selector/attribute-selector.component';
 import { FsAttributeTreeComponent } from './components/attribute-tree/attribute-tree.component';
 import { FsAttributeComponent } from './components/attribute/attribute.component';
@@ -42,8 +40,6 @@ import { FsAttributeSelectorWithGroupsComponent } from './components/selector-wi
 import { FsAttributeAutocompleteChipsStaticDirective } from './directives/attribute-autocomplete-chips-static.component';
 import { FsAttributeTemplateDirective } from './directives/attribute-template.component';
 import { FsAttributeListColumnDirective } from './directives/list-column.directive';
-import { FsAttributeConfig } from './interfaces/attribute-config.interface';
-import { FS_ATTRIBUTE_DEFAULT_CONFIG } from './providers';
 import { AttributesConfig } from './services/attributes-config';
 
 
@@ -79,11 +75,9 @@ import { AttributesConfig } from './services/attributes-config';
     FsAttributesComponent,
     FsAttributeFieldComponent,
     FsAttributeListComponent,
-    FsAttributeSelectComponent,
     FsAttributeAutocompleteChipsComponent,
     FsAttributeTreeComponent,
     FsAttributeFieldGroupsComponent,
-    FsAttributeAutocompleteComponent,
     FsAttributeSelectorComponent,
     FsAttributeSelectorWithGroupsComponent,
     FsAttributeListColumnDirective,
@@ -98,25 +92,22 @@ import { AttributesConfig } from './services/attributes-config';
     FsAttributeEditComponent,
     FsAttributeManageComponent,
     FsAttributeListComponent,
-    FsAttributeSelectComponent,
     FsAttributeAutocompleteChipsComponent,
     FsAttributeComponentWrapperComponent,
     FsAttributeTreeComponent,
     FsAttributeFieldGroupsComponent,
     FsAttributeSelectorWithGroupsComponent,
     AttributeSearchComponent,
-    FsAttributeAutocompleteComponent,
     FsAttributeListColumnDirective,
     FsAttributeTemplateDirective,
     FsAttributeAutocompleteChipsStaticDirective,
   ],
 })
 export class FsAttributeModule {
-  public static forRoot(config?: FsAttributeConfig): ModuleWithProviders<FsAttributeModule> {
+  public static forRoot(): ModuleWithProviders<FsAttributeModule> {
     return {
       ngModule: FsAttributeModule,
       providers: [
-        { provide: FS_ATTRIBUTE_DEFAULT_CONFIG, useValue: config || {} },
         AttributesConfig,
       ],
     };

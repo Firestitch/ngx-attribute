@@ -2,11 +2,10 @@ import {
   ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
   ContentChild,
-  Inject,
+  inject,
   Input,
   OnDestroy,
   OnInit,
-  Optional,
   TemplateRef,
   ViewChild,
 } from '@angular/core';
@@ -53,6 +52,9 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   public config: AttributeConfig;
 
   @Input()
+  public attributesConfig: AttributesConfig;
+
+  @Input()
   public data: any;
 
   @Input()
@@ -64,20 +66,16 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   public attributeConfig: AttributeConfigItem = null;
 
   private _destroy$ = new Subject();
-
-  constructor(
-    public attributesConfig: AttributesConfig,
-    private _dialog: MatDialog,
-    private _cdRef: ChangeDetectorRef,
-    @Optional()
-    @Inject(MAT_DIALOG_DATA)
-    public dialogData: any,
-  ) { }
+  private _attributesConfig = inject(AttributesConfig);
+  private _dialog = inject(MatDialog);
+  private _cdRef = inject(ChangeDetectorRef);
+  private _data = inject(MAT_DIALOG_DATA, { optional: true });
 
   public ngOnInit() {
-    this.class = this.dialogData?.class || this.class;
-    this.data = this.dialogData?.data || this.data;
-    this.attributeConfig = this.dialogData?.attributeConfig || (
+    this.attributesConfig = this.attributesConfig || this._attributesConfig;
+    this.class = this._data?.class || this.class;
+    this.data = this._data?.data || this.data;
+    this.attributeConfig = this._data?.attributeConfig || (
       this.config ?
         new AttributeConfigItem(this.config) :
         this.attributesConfig.getConfig(this.class)
@@ -228,20 +226,22 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   private _createAttribute(
     config: { data?: any } = {},
   ): MatDialogRef<FsAttributeEditComponent> {
-    return this._dialog.open(FsAttributeEditComponent, {
-      data: {
-        attribute: new AttributeItem({
-          class: this.attributeConfig.class,
-        }, this.attributeConfig),
-        attributeConfig: this.attributeConfig,
-        data: config.data,
-        mode: 'create',
-      },
-      panelClass: [
-        'fs-attribute-dialog',
-        'fs-attribute-dialog-no-scroll',
-        `fs-attribute-${this.attributeConfig.class}`,
-      ],
-    });
+    return this._dialog
+      .open(FsAttributeEditComponent, {
+        data: {
+          attribute: new AttributeItem({
+            class: this.attributeConfig.class,
+          }, this.attributeConfig),
+          attributeConfig: this.attributeConfig,
+          data: config.data,
+          mode: 'create',
+          attributesConfig: this.attributesConfig,
+        },
+        panelClass: [
+          'fs-attribute-dialog',
+          'fs-attribute-dialog-no-scroll',
+          `fs-attribute-${this.attributeConfig.class}`,
+        ],
+      });
   }
 }

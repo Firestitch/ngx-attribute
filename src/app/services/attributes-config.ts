@@ -1,4 +1,4 @@
-import { inject, Inject, Injectable } from '@angular/core';
+import { inject, Injectable } from '@angular/core';
 
 import { FsPrompt } from '@firestitch/prompt';
 import { FlatItemNode } from '@firestitch/tree';
@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 import { sortBy } from 'lodash-es';
 
 import { AttributeOrder } from '../enums/enums';
-import { AttributeConfig, AttributeMappingConfig, FsAttributeConfig } from '../interfaces';
+import { AttributeConfig, AttributeConfigFetchAttributesData, AttributeMappingConfig, FsAttributeConfig } from '../interfaces';
 import { AttributeItem } from '../models/attribute';
 import { AttributeConfigItem } from '../models/attribute-config';
 import { FS_ATTRIBUTE_CONFIG } from '../providers';
@@ -20,35 +20,70 @@ export class AttributesConfig {
 
   private readonly _configs = new Map<string, AttributeConfigItem>();
   private readonly _prompt = inject(FsPrompt);
+  private _config: FsAttributeConfig;
 
-  constructor(
-    @Inject(FS_ATTRIBUTE_CONFIG) private _fsAttributeConfig: FsAttributeConfig,
-  ) {
-    this._initConfigs(_fsAttributeConfig.configs, _fsAttributeConfig.mapping);
+  constructor() {
+    this.init(inject(FS_ATTRIBUTE_CONFIG));
+  }
+
+  public init(config: FsAttributeConfig) {
+    this._config = {
+      ...config,
+      attribute: {   
+        compare: config.compareAttributes,
+        save: config.saveAttribute,
+        delete: config.deleteAttribute,
+        ...config.attribute,
+      },
+      attributeTree: {
+        fetch: config.getAttributeTree,
+        reorder: config.reorderAttributeTree,
+        sort: config.sortByAttributeTree,
+        canDrop: config.canDropTreeAttribute,
+        ...config.attributeTree,
+      },
+      attributes: {
+        reorder: config.reorderAttributes,
+        fetch: config.getAttributes,
+        ...config.attributes,
+      },
+      selectedAttributes: {
+        changed: config.attributeSelectionChanged,
+        fetch: config.getSelectedAttributes,
+        ...config.selectedAttributes,
+      },
+      attributeImage: {
+        save: config.saveAttributeImage,
+        ...config.attributeImage,
+      },
+    };
+
+
+    this._initConfigs(this._config.configs, this._config.mapping);
   }
 
   public getAttributes(
-    e: any,
+    _data: AttributeConfigFetchAttributesData,
     attributeConfig: AttributeConfigItem,
-
   ): Observable<{ data: AttributeItem[], paging: any }> {
-    return this._fsAttributeConfig
-      .getAttributes(e)
+    return this._config
+      .attributes.fetch(_data)
       .pipe(
         map((response) => {
           const data = response.data.map((attribute) => {
             return new AttributeItem(attribute, attributeConfig);
           });
 
-          return { data: data, paging: response.paging };
+          return { data, paging: response.paging };
         }),
       );
   }
 
   public getAttributeConfig(klass) {
-    const attributeConfig = this._fsAttributeConfig.configs.find((eachConfig) => {
-      return eachConfig.class === klass;
-    });
+    const attributeConfig = this._config
+      .configs.find((eachConfig) => {
+        return eachConfig.class === klass;
+      });
 
     return attributeConfig;
   }
@@ -65,7 +100,7 @@ export class AttributesConfig {
   }
 
   public deleteAttribute(event: AttributeItem) {
-    return this._fsAttributeConfig.deleteAttribute(event);
+    return this._config.attribute.delete(event);
   }
 
   public deleteConfirmation(attributeItem: AttributeItem) {
@@ -85,11 +120,11 @@ export class AttributesConfig {
       ? event.attribute.toJSON()
       : null;
 
-    return this._fsAttributeConfig.saveAttribute(event);
+    return this._config.attribute.save(event);
   }
 
   public getAttributeTree(event: any) {
-    return this._fsAttributeConfig.getAttributeTree(event)
+    return this._config.attributeTree.fetch(event)
       .pipe(
         map((response) => {
           const data = response.attributes.map((attribute) => {
@@ -102,7 +137,7 @@ export class AttributesConfig {
   }
 
   public getSelectedAttributes(e: any) {
-    return this._fsAttributeConfig.getSelectedAttributes(e)
+    return this._config.selectedAttributes.fetch(e)
       .pipe(
         map((response) => {
           const data = response.data.map((attribute) => {
@@ -115,7 +150,7 @@ export class AttributesConfig {
   }
 
   public compare(o1: any, o2: any) {
-    return this._fsAttributeConfig.compareAttributes(o1, o2);
+    return this._config.attribute.compare(o1, o2);
   }
 
   public compareAttributes(o1: AttributeItem, o2: AttributeItem) {
@@ -127,7 +162,7 @@ export class AttributesConfig {
       o2 = new AttributeItem(o2, this.getConfig((<any>o2).class));
     }
 
-    return this._fsAttributeConfig.compareAttributes(o1 && o1.toJSON(), o2 && o2.toJSON());
+    return this._config.attribute.compare(o1 && o1.toJSON(), o2 && o2.toJSON());
   }
 
   public attributeSelectionChanged(event: any) {
@@ -151,7 +186,7 @@ export class AttributesConfig {
       }
     }
 
-    return this._fsAttributeConfig.attributeSelectionChanged(event);
+    return this._config.selectedAttributes.changed(event);
   }
 
   public reorderAttributes(event: any) {
@@ -159,7 +194,7 @@ export class AttributesConfig {
       event.attributes = event.attributes.map((attr) => attr.data.toJSON());
     }
 
-    return this._fsAttributeConfig.reorderAttributes(event);
+    return this._config.attributes.reorder(event);
   }
 
   public saveAttributeImage(event: any) {
@@ -167,7 +202,7 @@ export class AttributesConfig {
       ? event.attribute.toJSON()
       : null;
 
-    return this._fsAttributeConfig.saveAttributeImage(event);
+    return this._config.attributeImage.save(event);
   }
 
   public canDropAttribute(
@@ -178,8 +213,9 @@ export class AttributesConfig {
     prevElement?: FlatItemNode,
     nextElement?: FlatItemNode,
   ) {
-    return this._fsAttributeConfig
-      .canDropTreeAttribute(
+    return this._config
+      .attributeTree
+      .canDrop(
         node,
         fromParent,
         toParent,
@@ -194,17 +230,18 @@ export class AttributesConfig {
       event.attribute = event.attribute.toJSON();
     }
 
-    return this._fsAttributeConfig.reorderAttributeTree(event);
+    return this._config.attributeTree.reorder(event);
   }
 
   public sortByAttributeTree(data) {
-    return this._fsAttributeConfig.sortByAttributeTree(data);
+    return this._config.attributeTree.sort(data);
   }
 
   public getConfig(name: string): AttributeConfigItem {
     if (this._configs.has(name)) {
       return this._configs.get(name);
     }
+    
     throw new Error(`Configuration with class "${name}" can not be found. Please check your configs.`);
   }
 

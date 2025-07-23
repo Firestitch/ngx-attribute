@@ -15,26 +15,6 @@
       Static Item
     </ng-template>
   </fs-attribute-autocomplete-chips>
-  <!-- <div class="fs-row.gap-xs">
-    <button
-        mat-raised-button
-        color="primary">
-      Submit
-    </button>
-    <mat-select
-        [(ngModel)]="class"
-        fsSelectButton
-        color="primary"
-        placeholder="Unselected"
-        name="class"
-        (ngModelChange)="attributes=[]">
-      <mat-option
-          *ngFor="let item of attributeConfig.configs"
-          [value]="item.class">
-        {{ item.name }}
-      </mat-option>
-    </mat-select>
-  </div> -->
 </form>
 <fieldset *ngIf="attributes">
   <legend>
