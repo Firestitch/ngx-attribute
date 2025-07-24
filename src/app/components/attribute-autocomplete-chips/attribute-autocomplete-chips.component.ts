@@ -226,8 +226,8 @@ implements OnInit, OnDestroy, ControlValueAccessor {
       .open(FsAttributeManageComponent, {
         data: {
           attributeConfig: this._attributeConfigModel,
+          fsAttributeConfig: this.fsAttributeConfig,
           size: this.size,
-          attributeService: this._attributeService,  
         },
         autoFocus: false,
       })

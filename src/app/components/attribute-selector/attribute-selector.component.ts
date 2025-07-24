@@ -143,9 +143,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
     this._dialog.open(FsAttributeManageComponent, {
       disableClose: true,
       data: {
-        class: this.attributeConfig.class,
-        pluralName: this.attributeConfig.pluralName,
-        data: this.data,
+        attributeConfig: this.attributeConfig,
         size: this.size,
       },
       autoFocus: false,
