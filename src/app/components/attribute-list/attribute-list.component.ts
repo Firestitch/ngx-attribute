@@ -62,8 +62,6 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   @Input()
   public size: 'small' | 'tiny';
 
-  @Input() public queryParam: boolean = null;
-
   public listConfig: FsListConfig;
   public attributeConfigModel: AttributeConfigModel = null;
 
@@ -143,6 +141,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
       reload: false,
       status: false,
       style: 'card',
+      queryParam: false,
       paging: {
         limits: [50, 100, 200, 500, 1000],
       },
@@ -187,7 +186,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         }
 
         const e = {
-          query: query,
+          ...query,
           data: this.data,
           class: this.attributeConfigModel.class,
         };
@@ -215,10 +214,6 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
             .subscribe();
         },
       };
-    }
-
-    if (this.queryParam !== null) {
-      config.queryParam = this.queryParam;
     }
 
     this.listConfig = config;
