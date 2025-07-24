@@ -10,15 +10,15 @@ import { sortBy } from 'lodash-es';
 
 import { AttributeOrder } from '../enums/enums';
 import { AttributeConfig, AttributeConfigFetchAttributesData, AttributeMappingConfig, FsAttributeConfig } from '../interfaces';
-import { AttributeItem } from '../models/attribute';
-import { AttributeConfigItem } from '../models/attribute-config';
+import { AttributeModel } from '../models/attribute';
+import { AttributeConfigModel } from '../models/attribute-config';
 import { FS_ATTRIBUTE_CONFIG } from '../providers';
 
 
 @Injectable()
 export class AttributeService {
 
-  private readonly _configs = new Map<string, AttributeConfigItem>();
+  private readonly _configs = new Map<string, AttributeConfigModel>();
   private readonly _prompt = inject(FsPrompt);
   private _config: FsAttributeConfig;
 
@@ -66,14 +66,14 @@ export class AttributeService {
 
   public getAttributes(
     _data: AttributeConfigFetchAttributesData,
-    attributeConfig: AttributeConfigItem,
-  ): Observable<{ data: AttributeItem[], paging: any }> {
+    attributeConfig: AttributeConfigModel,
+  ): Observable<{ data: AttributeModel[], paging: any }> {
     return this._config
       .attributes.fetch(_data)
       .pipe(
         map((response) => {
           const data = response.data.map((attribute) => {
-            return new AttributeItem(attribute, attributeConfig);
+            return new AttributeModel(attribute, attributeConfig);
           });
 
           return { data, paging: response.paging };
@@ -101,11 +101,11 @@ export class AttributeService {
     return attributes;
   }
 
-  public deleteAttribute(event: AttributeItem) {
+  public deleteAttribute(event: AttributeModel) {
     return this._config.attribute.delete(event);
   }
 
-  public deleteConfirmation(attributeItem: AttributeItem) {
+  public deleteConfirmation(attributeItem: AttributeModel) {
     return this._prompt.confirm({
       title: 'Confirm',
       template: `Are you sure you want to delete this ${attributeItem.config.name.toLowerCase()}?`,
@@ -113,7 +113,7 @@ export class AttributeService {
   }
 
   public saveAttribute(event: {
-    attribute: AttributeItem,
+    attribute: AttributeModel,
     class?: string,
     data?: any,
     parent?: any,
@@ -130,7 +130,7 @@ export class AttributeService {
       .pipe(
         map((response) => {
           const data = response.attributes.map((attribute) => {
-            return new AttributeItem(attribute, this.getConfig(attribute.class)).getData();
+            return new AttributeModel(attribute, this.getConfig(attribute.class)).getData();
           });
 
           return { data: data };
@@ -143,7 +143,7 @@ export class AttributeService {
       .pipe(
         map((response) => {
           const data = response.data.map((attribute) => {
-            return new AttributeItem(attribute, this.getConfig(attribute.class));
+            return new AttributeModel(attribute, this.getConfig(attribute.class));
           });
 
           return { data: data, paging: response.paging };
@@ -151,20 +151,20 @@ export class AttributeService {
       );
   }
 
-  public compare(o1: AttributeItem, o2: AttributeItem) {
+  public compare(o1: AttributeModel, o2: AttributeModel) {
     const compare = this._config.attribute.compare || 
-      ((a1: AttributeItem, a2: AttributeItem) =>  a1?.id === a2?.id);
+      ((a1: AttributeModel, a2: AttributeModel) =>  a1?.id === a2?.id);
 
     return compare(o1, o2);
   }
 
-  public compareAttributes(o1: AttributeItem, o2: AttributeItem) {
-    if (o1 && !(o1 instanceof AttributeItem)) {
-      o1 = new AttributeItem(o1, this.getConfig((<any>o1).class));
+  public compareAttributes(o1: AttributeModel, o2: AttributeModel) {
+    if (o1 && !(o1 instanceof AttributeModel)) {
+      o1 = new AttributeModel(o1, this.getConfig((<any>o1).class));
     }
 
-    if (o2 && !(o2 instanceof AttributeItem)) {
-      o2 = new AttributeItem(o2, this.getConfig((<any>o2).class));
+    if (o2 && !(o2 instanceof AttributeModel)) {
+      o2 = new AttributeModel(o2, this.getConfig((<any>o2).class));
     }
 
     return this.compare(o1 && o1.toJSON(), o2 && o2.toJSON());
@@ -242,7 +242,7 @@ export class AttributeService {
     return this._config.attributeTree.sort(data);
   }
 
-  public getConfig(name: string): AttributeConfigItem {
+  public getConfig(name: string): AttributeConfigModel {
     if (this._configs.has(name)) {
       return this._configs.get(name);
     }
@@ -260,7 +260,7 @@ export class AttributeService {
         },
       };
 
-      const configItem = new AttributeConfigItem(config);
+      const configItem = new AttributeConfigModel(config);
 
       this._configs.set(configItem.class, configItem);
     });

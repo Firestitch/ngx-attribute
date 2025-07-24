@@ -22,8 +22,8 @@ import { Subject } from 'rxjs';
 import { map, takeUntil } from 'rxjs/operators';
 
 import { AttributeConfig, FsAttributeConfig } from '../../interfaces';
-import { AttributeItem } from '../../models/attribute';
-import { AttributeConfigItem } from '../../models/attribute-config';
+import { AttributeModel } from '../../models/attribute';
+import { AttributeConfigModel } from '../../models/attribute-config';
 import { AttributeService } from '../../services';
 import { FsAttributeManageComponent } from '../attribute-manage';
 
@@ -100,16 +100,16 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   public padless = false;
 
   @Input()
-  public config: AttributeConfig;
+  public attributeConfig: AttributeConfig;
 
   @Input()
-  public attributeConfig: FsAttributeConfig;
+  public fsAttributeConfig: FsAttributeConfig;
 
   public onChange: (value: any) => void;
   public onTouch: (value: any) => void;
 
   private _value;
-  private _attributeItemConfig: AttributeConfigItem;
+  private _attributeConfigModel: AttributeConfigModel;
   private _destroy$ = new Subject();
   private _attributeService = inject(AttributeService);
   private _cdRef = inject(ChangeDetectorRef);
@@ -133,28 +133,28 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   }
 
   public ngOnInit() {    
-    this._attributeService = this.attributeConfig ? 
-      runInInjectionContext(this._envInj, () =>  (new AttributeService()).init(this.attributeConfig)) :
+    this._attributeService = this.fsAttributeConfig ? 
+      runInInjectionContext(this._envInj, () =>  (new AttributeService()).init(this.fsAttributeConfig)) :
       this._attributeService;
 
-    this._attributeItemConfig = this.config ? 
-      new AttributeConfigItem(this.config) : 
+    this._attributeConfigModel = this.attributeConfig ? 
+      new AttributeConfigModel(this.attributeConfig) : 
       this._attributeService.getConfig(this.class);
 
     if (!this.label) {
-      this.label = this._attributeItemConfig.name;
+      this.label = this._attributeConfigModel.name;
     }
 
-    if (!this.background && this._attributeItemConfig.backgroundColor) {
-      this.background = this._attributeItemConfig.mapping.backgroundColor;
+    if (!this.background && this._attributeConfigModel.backgroundColor) {
+      this.background = this._attributeConfigModel.mapping.backgroundColor;
     }
 
-    if (!this.color && this._attributeItemConfig.color) {
-      this.color = this._attributeItemConfig.mapping.color;
+    if (!this.color && this._attributeConfigModel.color) {
+      this.color = this._attributeConfigModel.mapping.color;
     }
 
     this.label = this.label || 
-      (this.multiple ? this._attributeItemConfig.pluralName : this._attributeItemConfig.name);
+      (this.multiple ? this._attributeConfigModel.pluralName : this._attributeConfigModel.name);
   }
 
   public ngOnDestroy() {
@@ -165,10 +165,10 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   public fetch = (keyword) => {
     return this._attributeService
       .getAttributes({
-        class: this._attributeItemConfig.class,
+        class: this._attributeConfigModel.class,
         data: this.data,
         keyword: keyword,
-      }, this._attributeItemConfig)
+      }, this._attributeConfigModel)
       .pipe(
         map((response) => {
           return response.data;
@@ -181,9 +181,9 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     if (value) {
       if(this.multiple) {
         this._value = Array.isArray(value) ? 
-          value.map((item) => new AttributeItem(item, this._attributeItemConfig)) : [];
+          value.map((item) => new AttributeModel(item, this._attributeConfigModel)) : [];
       } else {
-        this._value = new AttributeItem(value, this._attributeItemConfig);
+        this._value = new AttributeModel(value, this._attributeConfigModel);
       }
     } else {
       this._value = null;
@@ -225,8 +225,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     this._dialog
       .open(FsAttributeManageComponent, {
         data: {
-          attributeConfig: this._attributeItemConfig,
-          data: this.data,
+          attributeConfig: this._attributeConfigModel,
           size: this.size,
           attributeService: this._attributeService,  
         },
@@ -250,7 +249,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   public save(item = null, selected = false, reorder = null) {
     this._attributeService
       .attributeSelectionChanged({
-        class: this._attributeItemConfig.class,
+        class: this._attributeConfigModel.class,
         data: this.data,
         attributes: this.value,
         selected: selected,

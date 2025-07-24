@@ -32,7 +32,7 @@ import { AttributeService } from '../../services';
 export class FsAttributesComponent implements OnInit, OnDestroy {
 
   @Input()
-  public config: AttributeConfig;
+  public attributeConfig: AttributeConfig;
 
   @Input()
   public attributes: any[];

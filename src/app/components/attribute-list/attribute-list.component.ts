@@ -24,8 +24,8 @@ import { FsAttributeListColumnDirective } from '../../directives/list-column.dir
 import { AttributeOrder } from '../../enums/enums';
 import { AttributeConfig, FsAttributeConfig } from '../../interfaces/attribute-config.interface';
 import { FsAttributeListAction } from '../../interfaces/list-action.interface';
-import { AttributeItem } from '../../models/attribute';
-import { AttributeConfigItem } from '../../models/attribute-config';
+import { AttributeModel } from '../../models/attribute';
+import { AttributeConfigModel } from '../../models/attribute-config';
 import { AttributeService } from '../../services';
 import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.component';
 
@@ -51,10 +51,10 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   public actions: FsAttributeListAction[] = [];
 
   @Input()
-  public config: AttributeConfig;
+  public attributeConfig: AttributeConfig;
 
   @Input()
-  public attributeConfig: FsAttributeConfig;
+  public fsAttributeConfig: FsAttributeConfig;
 
   @Input()
   public data: any;
@@ -65,43 +65,46 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   @Input() public queryParam: boolean = null;
 
   public listConfig: FsListConfig;
-  public attributeItemConfig: AttributeConfigItem = null;
+  public attributeConfigModel: AttributeConfigModel = null;
 
   private _destroy$ = new Subject();
   private _attributeService = inject(AttributeService);
   private _dialog = inject(MatDialog);
   private _cdRef = inject(ChangeDetectorRef);
-  private _data = inject(MAT_DIALOG_DATA, { optional: true });
+  private _data = inject<{
+    attributeConfig: AttributeConfig,
+    fsAttributeConfig: FsAttributeConfig,
+    class: string,
+    data: any,
+  }>(MAT_DIALOG_DATA, { optional: true });
   private _envInj = inject(EnvironmentInjector);
 
   public ngOnInit() {
-    this._attributeService = this.attributeConfig ? 
-      runInInjectionContext(this._envInj, () =>  (new AttributeService()).init(this.attributeConfig)) :
+    this._attributeService = this.fsAttributeConfig ? 
+      runInInjectionContext(this._envInj, () =>  (new AttributeService()).init(this.fsAttributeConfig)) :
       this._attributeService;
 
     this.class = this._data?.class || this.class;
     this.data = this._data?.data || this.data;
-    this.attributeItemConfig = this._data?.attributeConfig || (
-      this.config ?
-        new AttributeConfigItem(this.config) :
-        this._attributeService.getConfig(this.class)
-    );
+    this.attributeConfigModel = this.attributeConfig ?
+      new AttributeConfigModel(this.attributeConfig) :
+      this._attributeService.getConfig(this.class);
 
     this._setListConfig();
   }
 
-  public edit(attribute: AttributeItem) {
+  public edit(attribute: AttributeModel) {
     this._dialog.open(FsAttributeEditComponent, {
       data: {
         attribute: attribute,
-        attributeConfig: this.attributeItemConfig,
+        attributeConfig: this.attributeConfigModel,
         data: this.data,
         mode: 'edit',
       },
       panelClass: [
         'fs-attribute-dialog',
         'fs-attribute-dialog-no-scroll',
-        `fs-attribute-${this.attributeItemConfig.class}`,
+        `fs-attribute-${this.attributeConfigModel.class}`,
       ],
     })
       .afterClosed()
@@ -109,7 +112,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         filter((response) => !!response),
       )
       .subscribe((response) => {
-        const attr = new AttributeItem(response.attribute, this.attributeItemConfig);
+        const attr = new AttributeModel(response.attribute, this.attributeConfigModel);
         this.list.replaceRow(attr, (listRow) => listRow.id === attribute.id);
 
         this._cdRef.markForCheck();
@@ -165,38 +168,38 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         filterLabel: 'Show Deleted',
         menuLabel: 'Restore',
         reload: true,
-        click: (attributeItem: AttributeItem) => {
+        click: (attributeItem: AttributeModel) => {
           attributeItem.state = 'active';
 
           return this._attributeService
             .saveAttribute({
               attribute: attributeItem,
-              class: this.attributeItemConfig.class,
+              class: this.attributeConfigModel.class,
               data: this.data,
             });
         },
       },
       fetch: (query) => {
-        if (this.attributeItemConfig.order === AttributeOrder.Alphabetical) {
+        if (this.attributeConfigModel.order === AttributeOrder.Alphabetical) {
           query.order = 'name,asc';
-        } else if (this.attributeItemConfig.order === AttributeOrder.Custom) {
+        } else if (this.attributeConfigModel.order === AttributeOrder.Custom) {
           query.order = 'order,asc';
         }
 
         const e = {
           query: query,
           data: this.data,
-          class: this.attributeItemConfig.class,
+          class: this.attributeConfigModel.class,
         };
 
-        return this._attributeService.getAttributes(e, this.attributeItemConfig)
+        return this._attributeService.getAttributes(e, this.attributeConfigModel)
           .pipe(
             map((response: any) => ({ data: response.data, paging: response.paging })),
           );
       },
     };
 
-    if (this.attributeItemConfig.order === AttributeOrder.Custom) {
+    if (this.attributeConfigModel.order === AttributeOrder.Custom) {
       config.reorder = {
         done: (data) => {
           const e = {
@@ -235,10 +238,10 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
     return this._dialog
       .open(FsAttributeEditComponent, {
         data: {
-          attribute: new AttributeItem({
-            class: this.attributeItemConfig.class,
-          }, this.attributeItemConfig),
-          attributeConfig: this.attributeItemConfig,
+          attribute: new AttributeModel({
+            class: this.attributeConfigModel.class,
+          }, this.attributeConfigModel),
+          attributeConfig: this.attributeConfigModel,
           data: config.data,
           mode: 'create',
           attributeService: this._attributeService,
@@ -246,7 +249,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
         panelClass: [
           'fs-attribute-dialog',
           'fs-attribute-dialog-no-scroll',
-          `fs-attribute-${this.attributeItemConfig.class}`,
+          `fs-attribute-${this.attributeConfigModel.class}`,
         ],
       });
   }

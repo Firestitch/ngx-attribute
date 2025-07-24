@@ -1,13 +1,14 @@
-import { AttributeItem } from '../models/attribute';
+import { AttributeModel } from '../models/attribute';
 
 
 export function getRawAttributeValue(value) {
   if (value) {
-    if (value instanceof AttributeItem) {
+    if (value instanceof AttributeModel) {
       return value.toJSON();
-    } else {
-      return value;
     }
+ 
+    return value;
+    
   }
 
   return null;

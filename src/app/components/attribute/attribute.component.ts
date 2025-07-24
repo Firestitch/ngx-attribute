@@ -1,7 +1,7 @@
 import { Component, EnvironmentInjector, EventEmitter, HostBinding, inject, Input, OnInit, Output, runInInjectionContext } from '@angular/core';
 
 import { AttributeConfig, FsAttributeConfig } from '../../interfaces';
-import { AttributeConfigItem, AttributeItem } from '../../models';
+import { AttributeConfigModel, AttributeModel } from '../../models';
 import { AttributeService } from '../../services';
 
 
@@ -27,12 +27,10 @@ export class FsAttributeComponent implements OnInit {
   public selected: boolean;
 
   @Input()
-  public config: AttributeConfig;
+  public attributeConfig: AttributeConfig;
 
   @Input()
-  public attributeConfig: FsAttributeConfig;
-
-  public attributeConfigItem: AttributeConfigItem;
+  public fsAttributeConfig: FsAttributeConfig;
 
   @Input() public attribute;
 
@@ -42,20 +40,22 @@ export class FsAttributeComponent implements OnInit {
   @Output()
   public selectedToggled = new EventEmitter();
 
+  public attributeConfigItem: AttributeConfigModel;
+
   private _attributeService = inject(AttributeService);
   private _envInj = inject(EnvironmentInjector);
 
   public ngOnInit() {    
-    this._attributeService = this.attributeConfig ? 
-      runInInjectionContext(this._envInj, () =>  (new AttributeService()).init(this.attributeConfig)) :
+    this._attributeService = this.fsAttributeConfig ? 
+      runInInjectionContext(this._envInj, () =>  (new AttributeService()).init(this.fsAttributeConfig)) :
       this._attributeService;
 
-    this.attributeConfigItem = this.config ? 
-      new AttributeConfigItem(this.config) :
+    this.attributeConfigItem = this.attributeConfig ? 
+      new AttributeConfigModel(this.attributeConfig) :
       this._attributeService.getConfig(this.class || this.attribute.class);
 
-    if(!(this.attribute instanceof AttributeItem)) {
-      this.attribute = new AttributeItem(
+    if(!(this.attribute instanceof AttributeModel)) {
+      this.attribute = new AttributeModel(
         this.attribute,
         this.attributeConfigItem,
       );

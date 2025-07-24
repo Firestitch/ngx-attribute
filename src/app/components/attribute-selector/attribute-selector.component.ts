@@ -17,8 +17,8 @@ import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dial
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { AttributeItem } from '../../models/attribute';
-import { AttributeConfigItem } from '../../models/attribute-config';
+import { AttributeModel } from '../../models/attribute';
+import { AttributeConfigModel } from '../../models/attribute-config';
 import { AttributeService } from '../../services';
 import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.component';
 import { FsAttributeManageComponent } from '../attribute-manage';
@@ -58,9 +58,9 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
 
   @HostBinding('class') public hostClass = '';
 
-  public attributes: AttributeItem[] = [];
-  public filteredAttributes: AttributeItem[] = [];
-  public attributeConfig: AttributeConfigItem = null;
+  public attributes: AttributeModel[] = [];
+  public filteredAttributes: AttributeModel[] = [];
+  public attributeConfig: AttributeConfigModel = null;
   public dialogMode = false;
 
   public filterKeyword = '';
@@ -110,7 +110,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
   }
 
   public create() {
-    const attribute = new AttributeItem(
+    const attribute = new AttributeModel(
       { class: this.attributeConfig.class },
       this.attributeService.getConfig(this.attributeConfig.class),
     );

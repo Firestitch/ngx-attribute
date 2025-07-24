@@ -13,8 +13,8 @@ import { MatDialog } from '@angular/material/dialog';
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
-import { AttributeItem } from '../../models/attribute';
-import { AttributeConfigItem } from '../../models/attribute-config';
+import { AttributeModel } from '../../models/attribute';
+import { AttributeConfigModel } from '../../models/attribute-config';
 import { AttributeService } from '../../services';
 import { FsAttributeSelectorWithGroupsComponent } from '../selector-with-groups/selector-with-groups.component';
 
@@ -45,13 +45,13 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
   }
 
   @Output()
-  public changed = new EventEmitter<AttributeItem[]>();
+  public changed = new EventEmitter<AttributeModel[]>();
 
   public title: string | boolean;
-  public attributes: AttributeItem[] = [];
-  public selectedAttributes: AttributeItem[] = [];
+  public attributes: AttributeModel[] = [];
+  public selectedAttributes: AttributeModel[] = [];
 
-  public attributeConfig: AttributeConfigItem;
+  public attributeConfig: AttributeConfigModel;
   private _destroy$ = new Subject();
 
   constructor(

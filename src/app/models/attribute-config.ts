@@ -1,10 +1,10 @@
 import { AttributeColor, AttributeImage, AttributeOrder } from '../enums/enums';
 import { AttributeConfig, AttributeMappingConfig } from '../interfaces';
 
-export class AttributeConfigItem {
+export class AttributeConfigModel {
   
-  public parent: AttributeConfigItem;
-  public child: AttributeConfigItem;
+  public parent: AttributeConfigModel;
+  public child: AttributeConfigModel;
   public hasEditableImage: boolean;
   private _class;
   private _childClass: string;

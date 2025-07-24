@@ -3,17 +3,17 @@ import { CanDrop } from '@firestitch/tree';
 import { Observable } from 'rxjs';
 
 import { AttributeColor, AttributeImage, AttributeOrder } from '../enums/enums';
-import { AttributeItem } from '../models';
+import { AttributeModel } from '../models';
 
 export type AttributeConfigSaveAttribute = (
   event: {
-  attribute: AttributeItem,
+  attribute: AttributeModel,
   class?: string,
   data?: any,
   parent?: any,
 }) => Observable<{ attribute }>;
 export type AttributeConfigDeleteAttribute = (e: any) => Observable<{ attribute }>;
-export type AttributeConfigCompareAttribute = (o1: AttributeItem, o2: AttributeItem) => boolean;
+export type AttributeConfigCompareAttribute = (o1: AttributeModel, o2: AttributeModel) => boolean;
 export type AttributeConfigSaveAttributeImage = (e: any) => Observable<{ attribute }>;
 export type AttributeConfigSortAttributeTree = (data: any[], parent?: any) => any[];
 export type AttributeConfigCanDropTreeAttribute = CanDrop;

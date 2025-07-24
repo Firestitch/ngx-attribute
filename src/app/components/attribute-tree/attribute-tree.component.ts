@@ -17,8 +17,8 @@ import { Subject } from 'rxjs';
 import { switchMap, takeUntil, tap } from 'rxjs/operators';
 
 import { FsAttributeTemplateDirective } from '../../directives/attribute-template.component';
-import { AttributeItem } from '../../models/attribute';
-import { AttributeConfigItem } from '../../models/attribute-config';
+import { AttributeModel } from '../../models/attribute';
+import { AttributeConfigModel } from '../../models/attribute-config';
 import { AttributeService } from '../../services';
 import { FsAttributeEditComponent } from '../attribute-edit';
 
@@ -55,9 +55,9 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
   @ViewChild(FsTreeComponent)
   public tree: FsTreeComponent<any>;
 
-  public attributes: AttributeItem[] = [];
-  public attributeConfig: AttributeConfigItem;
-  public childAttributeConfig: AttributeConfigItem;
+  public attributes: AttributeModel[] = [];
+  public attributeConfig: AttributeConfigModel;
+  public childAttributeConfig: AttributeConfigModel;
   public treeConfig: ITreeConfig<any>;
 
   private _destroy$ = new Subject();
@@ -91,7 +91,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
 
   public createRootNode() {
 
-    const attribute = new AttributeItem(
+    const attribute = new AttributeModel(
       { class: this.attributeConfig.class },
       this.attributeService.getConfig(this.attributeConfig.class),
     );
@@ -111,7 +111,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
       )
       .subscribe((result) => {
         if (result && result.attribute) {
-          const data = new AttributeItem(result.attribute, this.attributeService.getConfig(result.attribute.class));
+          const data = new AttributeModel(result.attribute, this.attributeService.getConfig(result.attribute.class));
 
           this.tree.append(data.getData());
         }
@@ -203,7 +203,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
                   .subscribe((result) => {
                     if (result) {
                       const orig = node.data.original;
-                      const data = new AttributeItem(result.attribute, orig.attributeService, orig.parent);
+                      const data = new AttributeModel(result.attribute, orig.attributeService, orig.parent);
 
                       this.tree.updateNodeData(data.getData(), node);
                     }
@@ -216,7 +216,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
                 return node.level === 0;
               },
               click: (node) => {
-                const attribute = new AttributeItem(
+                const attribute = new AttributeModel(
                   { class: this.attributeConfig.childClass },
                   this.attributeService.getConfig(this.attributeConfig.childClass),
                 );
@@ -240,7 +240,7 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
                     if (result && result.attribute) {
                       const orig = node.data.original;
 
-                      const data = new AttributeItem(
+                      const data = new AttributeModel(
                         result.attribute,
                         orig.attributeService,
                         node.data.original,

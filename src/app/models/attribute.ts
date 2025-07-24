@@ -3,22 +3,22 @@ import { clone } from 'lodash-es';
 import { AttributeColor, AttributeImage } from '../enums/enums';
 import { getAttributeValue, setAttributeValue } from '../helpers/helpers';
 
-import { AttributeConfigItem } from './attribute-config';
+import { AttributeConfigModel } from './attribute-config';
 
 
-export class AttributeItem {
+export class AttributeModel {
 
   public id = null;
   public class = null;
   public name = null;
   public state = null;
 
-  private _children: AttributeItem[] = [];
-  private _config: AttributeConfigItem;
+  private _children: AttributeModel[] = [];
+  private _config: AttributeConfigModel;
   private _image = null;
   private _backgroundColor = null;
   private _color = null;
-  private _parent: AttributeItem;
+  private _parent: AttributeModel;
   private _attribute = {};
 
   public get config() {
@@ -59,8 +59,8 @@ export class AttributeItem {
 
   constructor(
     data: any = {},
-    config: AttributeConfigItem,
-    parent: AttributeItem = null,
+    config: AttributeConfigModel,
+    parent: AttributeModel = null,
   ) {
     this._parent = parent;
     this._config = config;
@@ -163,7 +163,7 @@ export class AttributeItem {
         const parent = getAttributeValue(data, this._config.mapping.parentAttribute);
 
         if (parent) {
-          this._parent = new AttributeItem(parent, this._config.parent);
+          this._parent = new AttributeModel(parent, this._config.parent);
         }
       }
     }
@@ -175,7 +175,7 @@ export class AttributeItem {
 
       if (children && Array.isArray(children)) {
         this._children = children
-          .map((child) => new AttributeItem(child, this._config.child, this));
+          .map((child) => new AttributeModel(child, this._config.child, this));
       }
     }
   }

@@ -17,8 +17,8 @@ import { finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
 import { cloneDeep } from 'lodash-es';
 
 import { getRawAttributeValue } from '../../helpers/raw-attribute-value';
-import { AttributeItem } from '../../models/attribute';
-import { AttributeConfigItem } from '../../models/attribute-config';
+import { AttributeModel } from '../../models/attribute';
+import { AttributeConfigModel } from '../../models/attribute-config';
 import { AttributeService } from '../../services';
 
 
@@ -29,9 +29,9 @@ import { AttributeService } from '../../services';
 })
 export class FsAttributeEditComponent implements OnInit, OnDestroy {
 
-  public attribute: AttributeItem;
-  public attributeConfig: AttributeConfigItem;
-  public selectedParent: AttributeItem;
+  public attribute: AttributeModel;
+  public attributeConfig: AttributeConfigModel;
+  public selectedParent: AttributeModel;
   public inEditMode = false;
   public attributeService: AttributeService;
 
@@ -40,9 +40,9 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
   }
   
   private _data = inject<{
-    attributeConfig: AttributeConfigItem;
-    attribute: AttributeItem;
-    parent: AttributeItem;
+    attributeConfig: AttributeConfigModel;
+    attribute: AttributeModel;
+    parent: AttributeModel;
     mode: string;
     data: any;
     attributeService: AttributeService;
@@ -59,7 +59,7 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
     this.attribute = attribute && cloneDeep(attribute) || {};
 
     if (this._data.parent) {
-      this.selectedParent = new AttributeItem(this._data.parent, this.attributeConfig.parent);
+      this.selectedParent = new AttributeModel(this._data.parent, this.attributeConfig.parent);
     }
 
     this.inEditMode = this._data.mode === 'edit';
@@ -96,7 +96,7 @@ export class FsAttributeEditComponent implements OnInit, OnDestroy {
           ...this.attribute.toJSON(),
         };
         
-        this.attribute = new AttributeItem(attribute, this.attributeConfig);
+        this.attribute = new AttributeModel(attribute, this.attributeConfig);
       });
   }
 

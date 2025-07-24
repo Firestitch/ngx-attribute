@@ -1,11 +1,11 @@
 <fs-list
     [config]="listConfig"
     [ngClass]="{
-      'has-attribute-fields': attributeItemConfig.fields.length,
+      'has-attribute-fields': attributeConfigModel.fields.length,
     }">
   <fs-list-column>
     <ng-template fs-list-header>
-      {{ attributeItemConfig.name }}
+      {{ attributeConfigModel.name }}
     </ng-template>
     <ng-template
         fs-list-cell
@@ -13,8 +13,8 @@
       <div class="list-attribute">
         <fs-attribute
             [attribute]="row"
-            [config]="config"
-            [attributeConfig]="attributeItemConfig"
+            [attributeConfig]="attributeConfig"
+            [fsAttributeConfig]="fsAttributeConfig"
             [class]="class"
             [size]="size"
             (click)="edit(row)">
@@ -30,7 +30,7 @@
       </div>
     </ng-template>
   </fs-list-column>
-  <ng-container *ngFor="let field of attributeItemConfig.fields">
+  <ng-container *ngFor="let field of attributeConfigModel.fields">
     <fs-list-column *ngIf="field.listComponent">
       <ng-template fs-list-header>
         {{ field.label }}

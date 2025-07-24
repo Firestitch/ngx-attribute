@@ -1,6 +1,6 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
-import { AttributeItem } from '@firestitch/attribute';
+import { AttributeModel } from '@firestitch/attribute';
 
 @Component({
   selector: 'config-example',
@@ -10,7 +10,7 @@ import { AttributeItem } from '@firestitch/attribute';
 })
 export class ConfigExampleComponent {
 
-  public attribute = new AttributeItem({
+  public attribute = new AttributeModel({
     backgroundColor: '#8942CA',
     color: 'white',
     image: '/assets/headshot1.jpg',

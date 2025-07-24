@@ -16,8 +16,8 @@ import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
 
 import { FsAttributeTemplateDirective } from '../../directives/attribute-template.component';
-import { AttributeItem } from '../../models/attribute';
-import { AttributeConfigItem } from '../../models/attribute-config';
+import { AttributeModel } from '../../models/attribute';
+import { AttributeConfigModel } from '../../models/attribute-config';
 import { AttributeService } from '../../services';
 import { FsAttributeSelectorComponent } from '../attribute-selector/attribute-selector.component';
 
@@ -60,13 +60,13 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
   public size: 'small' | 'tiny';
 
   @Output()
-  public changed = new EventEmitter<AttributeItem[]>();
+  public changed = new EventEmitter<AttributeModel[]>();
 
   @ContentChild(FsAttributeTemplateDirective, { read: TemplateRef })
   public templ: TemplateRef<FsAttributeTemplateDirective>;
 
-  public attributes: AttributeItem[] = [];
-  public attributeConfig: AttributeConfigItem;
+  public attributes: AttributeModel[] = [];
+  public attributeConfig: AttributeConfigModel;
   private _destroy$ = new Subject<void>();
 
   constructor(

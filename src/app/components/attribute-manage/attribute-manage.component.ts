@@ -2,6 +2,8 @@ import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
 
 import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 
+import { AttributeConfig, FsAttributeConfig } from '../../interfaces';
+
 
 @Component({
   templateUrl: './attribute-manage.component.html',
@@ -11,7 +13,11 @@ import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
 export class FsAttributeManageComponent {
 
   constructor(
-    @Inject(MAT_DIALOG_DATA) public data: any,
+    @Inject(MAT_DIALOG_DATA) public data: {
+      attributeConfig: AttributeConfig,
+      fsAttributeConfig: FsAttributeConfig,
+      size: 'tiny' | 'small',
+    },
     private _dialogRef: MatDialogRef<FsAttributeManageComponent>,
   ) { }
 
