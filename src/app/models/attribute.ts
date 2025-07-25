@@ -145,16 +145,15 @@ export class AttributeModel {
     const mapping = this._config.mapping;
     this._attribute = clone(data);
     this.class = data.class;
-      
     this.id = getAttributeValue(data, mapping.id);
     this.name = getAttributeValue(data, mapping.name);
+    this.state = getAttributeValue(data, mapping.state);
+    this.setBackgroundColor(getAttributeValue(data, mapping.backgroundColor));
+    this.setColor(getAttributeValue(data, mapping.color));
 
     if (this._config.image !== AttributeImage.Disabled) {
       this.setImage(getAttributeValue(data, mapping.image));
     }
-
-    this.setBackgroundColor(getAttributeValue(data, mapping.backgroundColor));
-    this.setColor(getAttributeValue(data, mapping.color));
   }
 
   private _initParent(data) {
