@@ -1,37 +1,67 @@
-<fs-label-field
-    *ngIf="label; else attribs"
+@if (label) {
+  <fs-label-field
     [padless]="padless">
-  <fs-label *ngIf="label">
-    {{ label }}
-  </fs-label>
-  <ng-container *ngTemplateOutlet="attribs"></ng-container>
-</fs-label-field>
-<ng-template #attribs>
+    @if (label) {
+      <fs-label>
+        {{ label }}
+      </fs-label>
+    }
+    <ng-container *ngTemplateOutlet="attribs"></ng-container>
+  </fs-label-field>
+} @else {
   <div class="attributes">
-    <fs-attribute
-        *ngFor="let attribute of attributes"
+    @for (attribute of attributes; track attribute) {
+      <fs-attribute
         [class]="class"
         [size]="size"
         [attribute]="attribute">
-      <ng-template
-        [ngTemplateOutlet]="templ || defaultNodeTemplate"
-        [ngTemplateOutletContext]="{ attribute: attribute }">
-      </ng-template>
-    </fs-attribute>
-    <button
-        *ngIf="showSelect"
+        <ng-template
+          [ngTemplateOutlet]="templ || defaultNodeTemplate"
+          [ngTemplateOutletContext]="{ attribute: attribute }">
+        </ng-template>
+      </fs-attribute>
+    }
+    @if (showSelect) {
+      <button
         type="button"
         mat-icon-button
         (click)="select()"
         class="select-button">
-      <mat-icon>
-        {{ attributes.length ? 'edit' : 'add_circle_outline' }}
-      </mat-icon>
-    </button>
+        <mat-icon>
+          {{ attributes.length ? 'edit' : 'add_circle_outline' }}
+        </mat-icon>
+      </button>
+    }
+  </div>
+}
+<ng-template #attribs>
+  <div class="attributes">
+    @for (attribute of attributes; track attribute) {
+      <fs-attribute
+        [class]="class"
+        [size]="size"
+        [attribute]="attribute">
+        <ng-template
+          [ngTemplateOutlet]="templ || defaultNodeTemplate"
+          [ngTemplateOutletContext]="{ attribute: attribute }">
+        </ng-template>
+      </fs-attribute>
+    }
+    @if (showSelect) {
+      <button
+        type="button"
+        mat-icon-button
+        (click)="select()"
+        class="select-button">
+        <mat-icon>
+          {{ attributes.length ? 'edit' : 'add_circle_outline' }}
+        </mat-icon>
+      </button>
+    }
   </div>
 </ng-template>
 <ng-template
-    #defaultNodeTemplate
-    let-attribute="attribute">
+  #defaultNodeTemplate
+  let-attribute="attribute">
   {{ attribute.name }}
 </ng-template>

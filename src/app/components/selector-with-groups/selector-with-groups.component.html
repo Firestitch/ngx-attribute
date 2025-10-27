@@ -1,37 +1,64 @@
-<ng-container *ngIf="dialogMode; else groupsList">
+@if (dialogMode) {
   <div mat-dialog-title>Select {{attributeConfig?.child?.pluralName}}</div>
   <mat-dialog-content>
     <ng-template [ngTemplateOutlet]="groupsList"></ng-template>
   </mat-dialog-content>
   <mat-dialog-actions>
     <button mat-button (click)="done()" color="primary">Close</button>
-    <button mat-button (click)="create()" *ngIf="showCreate!==false">Create {{attributeConfig?.child?.name}}</button>
+    @if (showCreate!==false) {
+      <button mat-button (click)="create()">Create {{attributeConfig?.child?.name}}</button>
+    }
   </mat-dialog-actions>
-</ng-container>
+} @else {
+  <fs-attribute-search (keyword)="search($event)" [placeholder]="placeholder"></fs-attribute-search>
+  @for (attribute of attributes; track attribute) {
+    <div class="group-container"
+      >
+      <div class="group-heading">
+        <img [src]="attribute.image" alt="" class="group-image">
+        {{ attribute.name }}
+      </div>
+      <fs-chips
+        [(ngModel)]="selectedAttributes"
+        [compare]="compareFn">
+        @for (childAttribute of attribute.children; track childAttribute) {
+          <fs-chip
+            [selectable]="true"
+            [outlined]="true"
+            [value]="childAttribute"
+            (selectedToggled)="selectedToggle($event)">
+            {{ childAttribute.name }}
+          </fs-chip>
+        }
+      </fs-chips>
+    </div>
+  }
+}
 
 
 <ng-template #groupsList>
   <fs-attribute-search (keyword)="search($event)" [placeholder]="placeholder"></fs-attribute-search>
 
-  <div class="group-container"
-       *ngFor="let attribute of attributes"
-  >
-    <div class="group-heading">
-      <img [src]="attribute.image" alt="" class="group-image">
-      {{ attribute.name }}
+  @for (attribute of attributes; track attribute) {
+    <div class="group-container"
+      >
+      <div class="group-heading">
+        <img [src]="attribute.image" alt="" class="group-image">
+        {{ attribute.name }}
+      </div>
+      <fs-chips
+        [(ngModel)]="selectedAttributes"
+        [compare]="compareFn">
+        @for (childAttribute of attribute.children; track childAttribute) {
+          <fs-chip
+            [selectable]="true"
+            [outlined]="true"
+            [value]="childAttribute"
+            (selectedToggled)="selectedToggle($event)">
+            {{ childAttribute.name }}
+          </fs-chip>
+        }
+      </fs-chips>
     </div>
-
-    <fs-chips
-      [(ngModel)]="selectedAttributes"
-      [compare]="compareFn">
-      <fs-chip
-        *ngFor="let childAttribute of attribute.children"
-        [selectable]="true"
-        [outlined]="true"
-        [value]="childAttribute"
-        (selectedToggled)="selectedToggle($event)">
-        {{ childAttribute.name }}
-      </fs-chip>
-    </fs-chips>
-  </div>
+  }
 </ng-template>

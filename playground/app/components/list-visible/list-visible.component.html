@@ -1,1 +1,3 @@
-<mat-icon *ngIf="data.attribute?.configs?.visible_on_list">check</mat-icon>
+@if (data.attribute?.configs?.visible_on_list) {
+  <mat-icon>check</mat-icon>
+}

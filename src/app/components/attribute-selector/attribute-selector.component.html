@@ -1,4 +1,4 @@
-<ng-container *ngIf="dialogMode; else chipsList">
+@if (dialogMode) {
   <fs-dialog>
     <div mat-dialog-title>
       {{ attributeConfig.pluralName }}
@@ -8,50 +8,90 @@
     </div>
     <div mat-dialog-actions>
       <button
-          mat-button
-          (click)="done()"
-          color="primary">
+        mat-button
+        (click)="done()"
+        color="primary">
         Done
       </button>
-      <button
+      @if (showManage !== false) {
+        <button
           mat-button
           (click)="manage()"
-          *ngIf="showManage !== false">
-        Manage
-      </button>
+          >
+          Manage
+        </button>
+      }
     </div>
   </fs-dialog>
-</ng-container>
-<ng-template #chipsList>
-  <mat-form-field
+} @else {
+  @if (filter) {
+    <mat-form-field
       class="search-attribute"
-      *ngIf="filter">
-    <mat-label>
-      {{ placeholder }}
-    </mat-label>
-    <mat-icon matPrefix>
-      search
-    </mat-icon>
-    <div>
-      <input
-        type="text"
-        matInput
-        [(ngModel)]="filterKeyword"
-        (ngModelChange)="filterByKeyword()">
-    </div>
-  </mat-form-field>
+      >
+      <mat-label>
+        {{ placeholder }}
+      </mat-label>
+      <mat-icon matPrefix>
+        search
+      </mat-icon>
+      <div>
+        <input
+          type="text"
+          matInput
+          [(ngModel)]="filterKeyword"
+          (ngModelChange)="filterByKeyword()">
+      </div>
+    </mat-form-field>
+  }
   <fs-chips
-      [(ngModel)]="selectedAttributes"
-      [compare]="compareFn">
-    <fs-chip
+    [(ngModel)]="selectedAttributes"
+    [compare]="compareFn">
+    @for (attribute of filteredAttributes; track attribute) {
+      <fs-chip
         [size]="size"
-        *ngFor="let attribute of filteredAttributes"
         [selectable]="true"
         [image]="attribute.image"
         [backgroundColor]="attribute.backgroundColor"
         [value]="attribute"
         (selectedToggled)="selectedToggle($event)">
-      {{ attribute.name }}
-    </fs-chip>
+        {{ attribute.name }}
+      </fs-chip>
+    }
+  </fs-chips>
+}
+<ng-template #chipsList>
+  @if (filter) {
+    <mat-form-field
+      class="search-attribute"
+      >
+      <mat-label>
+        {{ placeholder }}
+      </mat-label>
+      <mat-icon matPrefix>
+        search
+      </mat-icon>
+      <div>
+        <input
+          type="text"
+          matInput
+          [(ngModel)]="filterKeyword"
+          (ngModelChange)="filterByKeyword()">
+      </div>
+    </mat-form-field>
+  }
+  <fs-chips
+    [(ngModel)]="selectedAttributes"
+    [compare]="compareFn">
+    @for (attribute of filteredAttributes; track attribute) {
+      <fs-chip
+        [size]="size"
+        [selectable]="true"
+        [image]="attribute.image"
+        [backgroundColor]="attribute.backgroundColor"
+        [value]="attribute"
+        (selectedToggled)="selectedToggle($event)">
+        {{ attribute.name }}
+      </fs-chip>
+    }
   </fs-chips>
 </ng-template>

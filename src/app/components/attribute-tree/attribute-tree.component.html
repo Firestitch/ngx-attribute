@@ -1,53 +1,68 @@
 <div class="heading">
-  <h2 *ngIf="heading">
-    {{ heading }}
-  </h2>
-  <ng-container *ngIf="showExpand || showCollapse || showCreate">
+  @if (heading) {
+    <h2>
+      {{ heading }}
+    </h2>
+  }
+  @if (showExpand || showCollapse || showCreate) {
     <div class="attribute-tree-actions">
-        <button *ngIf="showExpand" mat-button (click)="expandAll()">Expand All</button>
-        &nbsp;
-        <button *ngIf="showCollapse" mat-button (click)="collapseAll()">Collapse All</button>
-        &nbsp;
-        <button *ngIf="showCreate" mat-raised-button color="primary" (click)="createRootNode()">
+      @if (showExpand) {
+        <button mat-button (click)="expandAll()">Expand All</button>
+      }
+      &nbsp;
+      @if (showCollapse) {
+        <button mat-button (click)="collapseAll()">Collapse All</button>
+      }
+      &nbsp;
+      @if (showCreate) {
+        <button mat-raised-button color="primary" (click)="createRootNode()">
           Create {{ attributeConfig.name }}
         </button>
+      }
     </div>
-
     <fs-menu class="attribute-tree-actions-menu">
-      <ng-template fs-menu-item
-                   [ngIf]="showExpand"
-                   (click)="expandAll()">
-        Expand All
-      </ng-template>
-      <ng-template fs-menu-item
-                   [ngIf]="showCollapse"
-                   (click)="collapseAll()">
-        Collapse All
-      </ng-template>
-      <ng-template fs-menu-item
-                   [ngIf]="showCreate"
-                   (click)="createRootNode()">
-        Create {{ attributeConfig.name }}
-      </ng-template>
+      @if (showExpand) {
+        <ng-template fs-menu-item
+          (click)="expandAll()">
+          Expand All
+        </ng-template>
+      }
+      @if (showCollapse) {
+        <ng-template fs-menu-item
+          (click)="collapseAll()">
+          Collapse All
+        </ng-template>
+      }
+      @if (showCreate) {
+        <ng-template fs-menu-item
+          (click)="createRootNode()">
+          Create {{ attributeConfig.name }}
+        </ng-template>
+      }
     </fs-menu>
-  </ng-container>
+  }
 </div>
-<fs-tree *ngIf="treeConfig" [config]="treeConfig">
-  <ng-template 
+@if (treeConfig) {
+  <fs-tree [config]="treeConfig">
+    <ng-template
       fsTreeNode
       let-data="data"
       let-level="level">
-    <img *ngIf="data.image && level === 0" [src]="data.image" alt="">
-    <div class="color"
-         *ngIf="level === 0 && data.color"
-         [style.background]="data.color"
-    ></div>
-    <ng-template
-      [ngTemplateOutlet]="templ || defaultNodeTemplate"
-      [ngTemplateOutletContext]="{ name: data.name, level: level, configs: data.configs }"
-    ></ng-template>
-  </ng-template>
-</fs-tree>
+      @if (data.image && level === 0) {
+        <img [src]="data.image" alt="">
+      }
+      @if (level === 0 && data.color) {
+        <div class="color"
+          [style.background]="data.color"
+        ></div>
+      }
+      <ng-template
+        [ngTemplateOutlet]="templ || defaultNodeTemplate"
+        [ngTemplateOutletContext]="{ name: data.name, level: level, configs: data.configs }"
+      ></ng-template>
+    </ng-template>
+  </fs-tree>
+}
 
 <ng-template #defaultNodeTemplate let-name="name">
   {{ name }}

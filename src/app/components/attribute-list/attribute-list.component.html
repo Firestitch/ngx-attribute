@@ -1,5 +1,5 @@
 <fs-list
-    [config]="listConfig"
+  [config]="listConfig"
     [ngClass]="{
       'has-attribute-fields': attributeConfigModel.fields.length,
     }">
@@ -8,41 +8,39 @@
       {{ attributeConfigModel.name }}
     </ng-template>
     <ng-template
-        fs-list-cell
-        let-row="row">
+      fs-list-cell
+      let-row="row">
       <div class="list-attribute">
         <fs-attribute
-            [attribute]="row"
-            [attributeConfig]="attributeConfig"
-            [fsAttributeConfig]="fsAttributeConfig"
-            [class]="class"
-            [size]="size"
-            (click)="edit(row)">
-          <ng-container *ngIf="!columnTemplate; else columnTemplateRef">
+          [attribute]="row"
+          [attributeConfig]="attributeConfig"
+          [fsAttributeConfig]="fsAttributeConfig"
+          [class]="class"
+          [size]="size"
+          (click)="edit(row)">
+          @if (!columnTemplate) {
             {{ row.name }}
-          </ng-container>
-          <ng-template
-            [ngTemplateOutlet]="columnTemplate"
-            [ngTemplateOutletContext]="{ attribute: row }"
-            #columnTemplateRef>
-          </ng-template>
+          } @else {
+          }
         </fs-attribute>
       </div>
     </ng-template>
   </fs-list-column>
-  <ng-container *ngFor="let field of attributeConfigModel.fields">
-    <fs-list-column *ngIf="field.listComponent">
-      <ng-template fs-list-header>
-        {{ field.label }}
-      </ng-template>
-      <ng-template
+  @for (field of attributeConfigModel.fields; track field) {
+    @if (field.listComponent) {
+      <fs-list-column>
+        <ng-template fs-list-header>
+          {{ field.label }}
+        </ng-template>
+        <ng-template
           fs-list-cell
           let-row="row">
-        <fs-attribute-component-wrapper
-          [data]="row"
-          [component]="field.listComponent">
-        </fs-attribute-component-wrapper>
-      </ng-template>
-    </fs-list-column>
-  </ng-container>
+          <fs-attribute-component-wrapper
+            [data]="row"
+            [component]="field.listComponent">
+          </fs-attribute-component-wrapper>
+        </ng-template>
+      </fs-list-column>
+    }
+  }
 </fs-list>

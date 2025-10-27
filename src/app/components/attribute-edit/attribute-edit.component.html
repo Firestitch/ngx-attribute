@@ -1,21 +1,23 @@
 <form
-    fsForm
-    [submit]="save">
+  fsForm
+  [submit]="save">
   <div mat-dialog-title>
     {{ title }}
   </div>
   <mat-dialog-content>
     <div class="fields">
-      <fs-file-image-picker
-        (select)="selectImage($event)"
-        [url]="attribute.image"
-        [imageQuality]=".8"
-        imageWidth="500"
-        imageHeight="500"
-        [previewDiameter]="75"
-        label="Image"
-        *ngIf="attributeConfig?.hasEditableImage">
-      </fs-file-image-picker>
+      @if (attributeConfig?.hasEditableImage) {
+        <fs-file-image-picker
+          (select)="selectImage($event)"
+          [url]="attribute.image"
+          [imageQuality]=".8"
+          imageWidth="500"
+          imageHeight="500"
+          [previewDiameter]="75"
+          label="Image"
+          >
+        </fs-file-image-picker>
+      }
       <mat-form-field>
         <mat-label>
           Name
@@ -26,36 +28,38 @@
           [required]="true"
           name="name">
       </mat-form-field>
-      <mat-form-field *ngIf="attributeConfig.backgroundColor">
-        <mat-label>
-          Color
-        </mat-label>
-        <input
-          matInput
-          fsColorPicker
-          [(ngModel)]="attribute.backgroundColor"
-          name="color">
-      </mat-form-field>
-      <ng-container *ngFor="let field of attributeConfig.fields">
+      @if (attributeConfig.backgroundColor) {
+        <mat-form-field>
+          <mat-label>
+            Color
+          </mat-label>
+          <input
+            matInput
+            fsColorPicker
+            [(ngModel)]="attribute.backgroundColor"
+            name="color">
+        </mat-form-field>
+      }
+      @for (field of attributeConfig.fields; track field) {
         <fs-attribute-component-wrapper
           [field]="field"
           [data]="attribute"
           [component]="field.editComponent">
         </fs-attribute-component-wrapper>
-      </ng-container>
+      }
     </div>
   </mat-dialog-content>
   <mat-dialog-actions>
     <button
-        mat-button
-        color="primary"
-        type="submit">
+      mat-button
+      color="primary"
+      type="submit">
       {{ inEditMode ? 'Save' : 'Create' }}
     </button>
     <button
-        mat-button
-        (click)="close()"
-        type="button">
+      mat-button
+      (click)="close()"
+      type="button">
       Cancel
     </button>
   </mat-dialog-actions>
@@ -63,8 +67,8 @@
 <style>
   .dialog-title {
   text-transform: lowercase;
-  }
-  .dialog-title::first-letter {
-  text-transform: uppercase;
-  }
+}
+.dialog-title::first-letter {
+text-transform: uppercase;
+}
 </style>

@@ -1,19 +1,22 @@
 <fs-label-field>
-  <fs-label *ngIf="title !== false">
-    {{ title }}
-  </fs-label>
+  @if (title !== false) {
+    <fs-label>
+      {{ title }}
+    </fs-label>
+  }
   <div class="attributes">
-    <fs-attribute
-        *ngFor="let attribute of selectedAttributes"
+    @for (attribute of selectedAttributes; track attribute) {
+      <fs-attribute
         [class]="class"
         [attribute]="attribute">
-      {{ attribute.name }}
-    </fs-attribute>
+        {{ attribute.name }}
+      </fs-attribute>
+    }
     <button
-        type="button"
-        mat-icon-button
-        (click)="select()"
-        class="select-button">
+      type="button"
+      mat-icon-button
+      (click)="select()"
+      class="select-button">
       <mat-icon>
         {{ selectedAttributes.length ? 'edit' : 'add_circle_outline' }}
       </mat-icon>

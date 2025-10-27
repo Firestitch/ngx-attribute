@@ -1,26 +1,28 @@
 <form (fsForm)="save()">
   <fs-attribute-autocomplete-chips
-      name="attribute"
-      [class]="class"
-      [(ngModel)]="attributes"
-      [required]="true"
-      [showManage]="true"
-      [multiple]="false"
-      label="Autocomplete Attribute Chips"
-      [data]="{ id: 999, name: 'Object A' }"
-      (ngModelChange)="changed($event)">
+    name="attribute"
+    [class]="class"
+    [(ngModel)]="attributes"
+    [required]="true"
+    [showManage]="true"
+    [multiple]="false"
+    label="Autocomplete Attribute Chips"
+    [data]="{ id: 999, name: 'Object A' }"
+    (ngModelChange)="changed($event)">
     <ng-template
-        fsAttributeAutocompleteChipsStatic
-        (click)="staticClick($event)">
+      fsAttributeAutocompleteChipsStatic
+      (click)="staticClick($event)">
       Static Item
     </ng-template>
   </fs-attribute-autocomplete-chips>
 </form>
-<fieldset *ngIf="attributes">
-  <legend>
-    Selected Attributes
-  </legend>
-  <pre>
-    {{ attributes|json }}
-  </pre>
-</fieldset>
+@if (attributes) {
+  <fieldset>
+    <legend>
+      Selected Attributes
+    </legend>
+    <pre>
+      {{ attributes|json }}
+    </pre>
+  </fieldset>
+}
