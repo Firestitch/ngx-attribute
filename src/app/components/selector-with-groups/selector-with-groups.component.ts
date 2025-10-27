@@ -11,7 +11,7 @@ import {
   Output,
 } from '@angular/core';
 
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -20,13 +20,33 @@ import { AttributeModel } from '../../models/attribute';
 import { AttributeConfigModel } from '../../models/attribute-config';
 import { AttributeService } from '../../services';
 import { FsAttributeEditComponent } from '../attribute-edit';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { NgTemplateOutlet } from '@angular/common';
+import { MatButton } from '@angular/material/button';
+import { FsFormModule } from '@firestitch/form';
+import { AttributeSearchComponent } from '../search/search.component';
+import { FsChipModule } from '@firestitch/chip';
+import { FormsModule } from '@angular/forms';
 
 
 @Component({
-  selector: 'fs-attribute-selector-with-groups',
-  templateUrl: './selector-with-groups.component.html',
-  styleUrls: ['./selector-with-groups.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fs-attribute-selector-with-groups',
+    templateUrl: './selector-with-groups.component.html',
+    styleUrls: ['./selector-with-groups.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        MatDialogTitle,
+        CdkScrollable,
+        MatDialogContent,
+        NgTemplateOutlet,
+        MatDialogActions,
+        MatButton,
+        FsFormModule,
+        AttributeSearchComponent,
+        FsChipModule,
+        FormsModule,
+    ],
 })
 export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy {
 

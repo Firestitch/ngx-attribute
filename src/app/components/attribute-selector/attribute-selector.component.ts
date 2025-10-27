@@ -12,7 +12,7 @@ import {
   Output,
 } from '@angular/core';
 
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -22,13 +22,41 @@ import { AttributeConfigModel } from '../../models/attribute-config';
 import { AttributeService } from '../../services';
 import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.component';
 import { FsAttributeManageComponent } from '../attribute-manage';
+import { FsDialogModule } from '@firestitch/dialog';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { NgTemplateOutlet } from '@angular/common';
+import { MatButton } from '@angular/material/button';
+import { FsFormModule } from '@firestitch/form';
+import { MatFormField, MatLabel, MatPrefix } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+import { FormsModule } from '@angular/forms';
+import { FsChipModule } from '@firestitch/chip';
 
 
 @Component({
-  selector: 'fs-attribute-selector',
-  templateUrl: './attribute-selector.component.html',
-  styleUrls: ['./attribute-selector.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fs-attribute-selector',
+    templateUrl: './attribute-selector.component.html',
+    styleUrls: ['./attribute-selector.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        FsDialogModule,
+        MatDialogTitle,
+        CdkScrollable,
+        MatDialogContent,
+        NgTemplateOutlet,
+        MatDialogActions,
+        MatButton,
+        FsFormModule,
+        MatFormField,
+        MatLabel,
+        MatIcon,
+        MatPrefix,
+        MatInput,
+        FormsModule,
+        FsChipModule,
+    ],
 })
 export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
 

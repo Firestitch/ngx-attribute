@@ -20,13 +20,26 @@ import { AttributeModel } from '../../models/attribute';
 import { AttributeConfigModel } from '../../models/attribute-config';
 import { AttributeService } from '../../services';
 import { FsAttributeSelectorComponent } from '../attribute-selector/attribute-selector.component';
+import { FsLabelModule } from '@firestitch/label';
+import { NgTemplateOutlet } from '@angular/common';
+import { FsAttributeComponent } from '../attribute/attribute.component';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 
 @Component({
-  selector: 'fs-attribute-field',
-  templateUrl: './attribute-field.component.html',
-  styleUrls: ['./attribute-field.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fs-attribute-field',
+    templateUrl: './attribute-field.component.html',
+    styleUrls: ['./attribute-field.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        FsLabelModule,
+        NgTemplateOutlet,
+        FsAttributeComponent,
+        MatIconButton,
+        MatIcon,
+    ],
 })
 export class FsAttributeFieldComponent implements OnInit, OnDestroy {
 

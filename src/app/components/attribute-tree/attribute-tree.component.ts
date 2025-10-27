@@ -11,7 +11,7 @@ import {
 
 import { MatDialog } from '@angular/material/dialog';
 
-import { FsTreeChange, FsTreeComponent, ITreeConfig, TreeActionType } from '@firestitch/tree';
+import { FsTreeChange, FsTreeComponent, ITreeConfig, TreeActionType, FsTreeModule } from '@firestitch/tree';
 
 import { Subject } from 'rxjs';
 import { switchMap, takeUntil, tap } from 'rxjs/operators';
@@ -21,13 +21,25 @@ import { AttributeModel } from '../../models/attribute';
 import { AttributeConfigModel } from '../../models/attribute-config';
 import { AttributeService } from '../../services';
 import { FsAttributeEditComponent } from '../attribute-edit';
+import { MatButton } from '@angular/material/button';
+import { FsFormModule } from '@firestitch/form';
+import { FsMenuModule } from '@firestitch/menu';
+import { NgTemplateOutlet } from '@angular/common';
 
 
 @Component({
-  selector: 'fs-attribute-tree',
-  templateUrl: './attribute-tree.component.html',
-  styleUrls: ['./attribute-tree.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fs-attribute-tree',
+    templateUrl: './attribute-tree.component.html',
+    styleUrls: ['./attribute-tree.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        MatButton,
+        FsFormModule,
+        FsMenuModule,
+        FsTreeModule,
+        NgTemplateOutlet,
+    ],
 })
 export class FsAttributeTreeComponent implements OnInit, OnDestroy {
 

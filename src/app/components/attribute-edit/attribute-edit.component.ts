@@ -7,9 +7,9 @@ import {
   OnInit,
 } from '@angular/core';
 
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 
-import { randomColor } from '@firestitch/colorpicker';
+import { randomColor, FsColorPickerModule } from '@firestitch/colorpicker';
 
 import { of, Subject } from 'rxjs';
 import { finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
@@ -20,12 +20,36 @@ import { getRawAttributeValue } from '../../helpers/raw-attribute-value';
 import { AttributeModel } from '../../models/attribute';
 import { AttributeConfigModel } from '../../models/attribute-config';
 import { AttributeService } from '../../services';
+import { FormsModule } from '@angular/forms';
+import { FsFormModule } from '@firestitch/form';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { FsFileModule } from '@firestitch/file';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
+import { FsAttributeComponentWrapperComponent } from '../attribute-list/component-wrapper/component-wrapper.component';
+import { MatButton } from '@angular/material/button';
 
 
 @Component({
-  templateUrl: './attribute-edit.component.html',
-  styleUrls: ['./attribute-edit.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    templateUrl: './attribute-edit.component.html',
+    styleUrls: ['./attribute-edit.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        FormsModule,
+        FsFormModule,
+        MatDialogTitle,
+        CdkScrollable,
+        MatDialogContent,
+        FsFileModule,
+        MatFormField,
+        MatLabel,
+        MatInput,
+        FsColorPickerModule,
+        FsAttributeComponentWrapperComponent,
+        MatDialogActions,
+        MatButton,
+    ],
 })
 export class FsAttributeEditComponent implements OnInit, OnDestroy {
 

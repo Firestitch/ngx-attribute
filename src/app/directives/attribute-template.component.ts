@@ -1,7 +1,8 @@
 import { Directive } from '@angular/core';
 
 @Directive({
-  selector: '[fsAttributeTemplate]',
+    selector: '[fsAttributeTemplate]',
+    standalone: true,
 })
 export class FsAttributeTemplateDirective {
   constructor() {}

@@ -3,12 +3,15 @@ import { Component, EnvironmentInjector, EventEmitter, HostBinding, inject, Inpu
 import { AttributeConfig, FsAttributeConfig } from '../../interfaces';
 import { AttributeConfigModel, AttributeModel } from '../../models';
 import { AttributeService } from '../../services';
+import { FsChipModule } from '@firestitch/chip';
 
 
 @Component({
-  selector: 'fs-attribute',
-  templateUrl: './attribute.component.html',
-  styleUrls: ['./attribute.component.scss'],
+    selector: 'fs-attribute',
+    templateUrl: './attribute.component.html',
+    styleUrls: ['./attribute.component.scss'],
+    standalone: true,
+    imports: [FsChipModule],
 })
 export class FsAttributeComponent implements OnInit {
 

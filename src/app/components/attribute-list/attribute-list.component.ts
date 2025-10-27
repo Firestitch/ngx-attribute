@@ -15,7 +15,7 @@ import {
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef } from '@angular/material/dialog';
 
 import { ItemType } from '@firestitch/filter';
-import { FsListComponent, FsListConfig } from '@firestitch/list';
+import { FsListComponent, FsListConfig, FsListModule } from '@firestitch/list';
 
 import { Subject } from 'rxjs';
 import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
@@ -28,13 +28,23 @@ import { AttributeModel } from '../../models/attribute';
 import { AttributeConfigModel } from '../../models/attribute-config';
 import { AttributeService } from '../../services';
 import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.component';
+import { NgClass } from '@angular/common';
+import { FsAttributeComponent } from '../attribute/attribute.component';
+import { FsAttributeComponentWrapperComponent } from './component-wrapper/component-wrapper.component';
 
 
 @Component({
-  selector: 'fs-attribute-list',
-  templateUrl: './attribute-list.component.html',
-  styleUrls: ['./attribute-list.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fs-attribute-list',
+    templateUrl: './attribute-list.component.html',
+    styleUrls: ['./attribute-list.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        FsListModule,
+        NgClass,
+        FsAttributeComponent,
+        FsAttributeComponentWrapperComponent,
+    ],
 })
 export class FsAttributeListComponent implements OnInit, OnDestroy {
 

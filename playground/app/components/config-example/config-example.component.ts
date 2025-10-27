@@ -1,12 +1,16 @@
 import { ChangeDetectionStrategy, Component } from '@angular/core';
 
 import { AttributeModel } from '@firestitch/attribute';
+import { FsLabelModule } from '@firestitch/label';
+import { FsAttributeComponent } from '../../../../src/app/components/attribute/attribute.component';
 
 @Component({
-  selector: 'config-example',
-  templateUrl: './config-example.component.html',
-  styleUrls: ['./config-example.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'config-example',
+    templateUrl: './config-example.component.html',
+    styleUrls: ['./config-example.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [FsLabelModule, FsAttributeComponent],
 })
 export class ConfigExampleComponent {
 

@@ -3,13 +3,16 @@ import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/cor
 
 import { FsAttributeConfig } from 'src/app/interfaces/attribute-config.interface';
 import { FS_ATTRIBUTE_CONFIG } from 'src/app/providers';
+import { FsAttributesComponent } from '../../../../src/app/components/attributes/attributes.component';
 
 
 @Component({
-  selector: 'attribtues-example',
-  templateUrl: './attribtues-example.component.html',
-  styleUrls: ['./attribtues-example.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'attribtues-example',
+    templateUrl: './attribtues-example.component.html',
+    styleUrls: ['./attribtues-example.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [FsAttributesComponent],
 })
 export class AttribtuesExampleComponent implements OnInit {
 

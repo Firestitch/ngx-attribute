@@ -21,13 +21,17 @@ import { cloneDeep } from 'lodash-es';
 import { FsAttributeTemplateDirective } from '../../directives/attribute-template.component';
 import { AttributeConfig } from '../../interfaces';
 import { AttributeService } from '../../services';
+import { FsAttributeComponent } from '../attribute/attribute.component';
+import { NgTemplateOutlet } from '@angular/common';
 
 
 @Component({
-  selector: 'fs-attributes',
-  templateUrl: './attributes.component.html',
-  styleUrls: ['./attributes.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fs-attributes',
+    templateUrl: './attributes.component.html',
+    styleUrls: ['./attributes.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [FsAttributeComponent, NgTemplateOutlet],
 })
 export class FsAttributesComponent implements OnInit, OnDestroy {
 

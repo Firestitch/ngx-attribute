@@ -17,13 +17,24 @@ import { AttributeModel } from '../../models/attribute';
 import { AttributeConfigModel } from '../../models/attribute-config';
 import { AttributeService } from '../../services';
 import { FsAttributeSelectorWithGroupsComponent } from '../selector-with-groups/selector-with-groups.component';
+import { FsLabelModule } from '@firestitch/label';
+import { FsAttributeComponent } from '../attribute/attribute.component';
+import { MatIconButton } from '@angular/material/button';
+import { MatIcon } from '@angular/material/icon';
 
 
 @Component({
-  selector: 'fs-attribute-field-groups',
-  templateUrl: './attribute-field-groups.component.html',
-  styleUrls: ['../attribute-field/attribute-field.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
+    selector: 'fs-attribute-field-groups',
+    templateUrl: './attribute-field-groups.component.html',
+    styleUrls: ['../attribute-field/attribute-field.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    standalone: true,
+    imports: [
+        FsLabelModule,
+        FsAttributeComponent,
+        MatIconButton,
+        MatIcon,
+    ],
 })
 export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
 

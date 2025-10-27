@@ -13,7 +13,7 @@ import {
   inject,
   runInInjectionContext,
 } from '@angular/core';
-import { ControlValueAccessor, NG_VALUE_ACCESSOR } from '@angular/forms';
+import { ControlValueAccessor, NG_VALUE_ACCESSOR, FormsModule } from '@angular/forms';
 
 
 import { MatDialog } from '@angular/material/dialog';
@@ -28,19 +28,29 @@ import { AttributeService } from '../../services';
 import { FsAttributeManageComponent } from '../attribute-manage';
 
 import { FsAttributeAutocompleteChipsStaticDirective } from './../../directives';
+import { FsAutocompleteChipsModule } from '@firestitch/autocomplete-chips';
+import { FsFormModule } from '@firestitch/form';
+import { NgTemplateOutlet } from '@angular/common';
 
 @Component({
-  selector: 'fs-attribute-autocomplete-chips',
-  templateUrl: './attribute-autocomplete-chips.component.html',
-  styleUrls: ['./attribute-autocomplete-chips.component.scss'],
-  changeDetection: ChangeDetectionStrategy.OnPush,
-  providers: [
-    {
-      provide: NG_VALUE_ACCESSOR,
-      useExisting: forwardRef(() => FsAttributeAutocompleteChipsComponent),
-      multi: true,
-    },
-  ],
+    selector: 'fs-attribute-autocomplete-chips',
+    templateUrl: './attribute-autocomplete-chips.component.html',
+    styleUrls: ['./attribute-autocomplete-chips.component.scss'],
+    changeDetection: ChangeDetectionStrategy.OnPush,
+    providers: [
+        {
+            provide: NG_VALUE_ACCESSOR,
+            useExisting: forwardRef(() => FsAttributeAutocompleteChipsComponent),
+            multi: true,
+        },
+    ],
+    standalone: true,
+    imports: [
+        FsAutocompleteChipsModule,
+        FormsModule,
+        FsFormModule,
+        NgTemplateOutlet,
+    ],
 })
 export class FsAttributeAutocompleteChipsComponent 
 implements OnInit, OnDestroy, ControlValueAccessor {

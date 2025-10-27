@@ -2,7 +2,8 @@ import { FsAutocompleteChipsStaticDirective } from '@firestitch/autocomplete-chi
 import { Directive } from '@angular/core';
 
 @Directive({
-  selector: '[fsAttributeAutocompleteChipsStatic]',
+    selector: '[fsAttributeAutocompleteChipsStatic]',
+    standalone: true,
 })
 export class FsAttributeAutocompleteChipsStaticDirective extends FsAutocompleteChipsStaticDirective {
 
