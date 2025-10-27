@@ -1,17 +1,4 @@
-import {
-  ChangeDetectionStrategy,
-  ChangeDetectorRef,
-  Component,
-  ContentChild,
-  ElementRef,
-  EventEmitter,
-  HostBinding,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-  TemplateRef,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, ElementRef, EventEmitter, HostBinding, Input, OnDestroy, OnInit, Output, TemplateRef, inject } from '@angular/core';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -34,6 +21,10 @@ import { NgTemplateOutlet } from '@angular/common';
     imports: [FsAttributeComponent, NgTemplateOutlet],
 })
 export class FsAttributesComponent implements OnInit, OnDestroy {
+  el = inject(ElementRef);
+  attributeService = inject(AttributeService);
+  private _cdRef = inject(ChangeDetectorRef);
+
 
   @Input()
   public attributeConfig: AttributeConfig;
@@ -61,12 +52,6 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
   public templ: TemplateRef<FsAttributeTemplateDirective>;
 
   private _destroy$ = new Subject();
-
-  constructor(
-    public el: ElementRef,
-    public attributeService: AttributeService,
-    private _cdRef: ChangeDetectorRef,
-  ) {}
 
   public ngOnInit() {
     if (this.data) {

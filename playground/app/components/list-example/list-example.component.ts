@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit, ViewChild, inject } from '@angular/core';
 
 import { FsAttributeListAction } from '@firestitch/attribute';
 
@@ -15,11 +15,11 @@ import { FsAttributeListColumnDirective } from '../../../../src/app/directives/l
     imports: [FsAttributeListComponent, FsAttributeListColumnDirective],
 })
 export class ListExampleComponent implements OnInit {
+  private attributeConfig = inject<FsAttributeConfig>(FS_ATTRIBUTE_CONFIG);
+
 
   @ViewChild('attributeList', { static: true })
   public attributeList;
-
-  constructor(@Inject(FS_ATTRIBUTE_CONFIG) private attributeConfig: FsAttributeConfig) { }
 
   public actions: FsAttributeListAction[] = [
     {

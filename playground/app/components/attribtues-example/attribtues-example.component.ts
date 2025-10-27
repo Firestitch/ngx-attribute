@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit, inject } from '@angular/core';
 
 
 import { FsAttributeConfig } from 'src/app/interfaces/attribute-config.interface';
@@ -15,10 +15,10 @@ import { FsAttributesComponent } from '../../../../src/app/components/attributes
     imports: [FsAttributesComponent],
 })
 export class AttribtuesExampleComponent implements OnInit {
+  private _attributeConfig = inject<FsAttributeConfig>(FS_ATTRIBUTE_CONFIG);
+
 
   public attributes = [{}];
-
-  constructor(@Inject(FS_ATTRIBUTE_CONFIG) private _attributeConfig: FsAttributeConfig) {}
 
   public ngOnInit() {
     this._attributeConfig.attributes.fetch({ class: 'person' })

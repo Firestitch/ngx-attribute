@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FS_ATTRIBUTE_CONFIG } from 'src/app/providers';
 import { FsAttributeConfig } from 'src/app/interfaces/attribute-config.interface';
 import { FsAttributeFieldGroupsComponent } from '../../../../src/app/components/attribute-field-groups/attribute-field-groups.component';
@@ -12,8 +12,8 @@ import { FsAttributeFieldGroupsComponent } from '../../../../src/app/components/
     imports: [FsAttributeFieldGroupsComponent]
 })
 export class FieldWithGroupsExampleComponent implements OnInit {
+  private attributeConfig = inject<FsAttributeConfig>(FS_ATTRIBUTE_CONFIG);
 
-  constructor(@Inject(FS_ATTRIBUTE_CONFIG) private attributeConfig: FsAttributeConfig) {}
 
   ngOnInit() {
   }

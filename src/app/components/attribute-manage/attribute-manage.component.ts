@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Inject } from '@angular/core';
+import { ChangeDetectionStrategy, Component, inject } from '@angular/core';
 
 import { MAT_DIALOG_DATA, MatDialogRef, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 
@@ -27,15 +27,9 @@ import { FsFormModule } from '@firestitch/form';
     ],
 })
 export class FsAttributeManageComponent {
+  data = inject(MAT_DIALOG_DATA);
+  private _dialogRef = inject<MatDialogRef<FsAttributeManageComponent>>(MatDialogRef);
 
-  constructor(
-    @Inject(MAT_DIALOG_DATA) public data: {
-      attributeConfig: AttributeConfig,
-      fsAttributeConfig: FsAttributeConfig,
-      size: 'tiny' | 'small',
-    },
-    private _dialogRef: MatDialogRef<FsAttributeManageComponent>,
-  ) { }
 
   public close(): void {
     this._dialogRef.close();

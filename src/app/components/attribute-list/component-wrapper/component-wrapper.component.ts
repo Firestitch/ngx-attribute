@@ -1,4 +1,4 @@
-import { ChangeDetectionStrategy, Component, Injector, Input, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, Injector, Input, OnInit, inject } from '@angular/core';
 
 import { FS_ATTRIBUTE_FIELD_DATA } from '../../../providers';
 import { NgComponentOutlet } from '@angular/common';
@@ -11,14 +11,14 @@ import { NgComponentOutlet } from '@angular/common';
     imports: [NgComponentOutlet],
 })
 export class FsAttributeComponentWrapperComponent implements OnInit {
+  private _injector = inject(Injector);
+
   
   @Input() public field: any;
   @Input() public data: any;
   @Input() public component: any;
 
   public customInjector;
-
-  constructor(private _injector: Injector) {}
 
   public ngOnInit() {
     this.customInjector = Injector.create({

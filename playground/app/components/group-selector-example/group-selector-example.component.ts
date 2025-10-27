@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FS_ATTRIBUTE_CONFIG } from 'src/app/providers';
 import { FsAttributeConfig } from 'src/app/interfaces/attribute-config.interface';
 import { FsAttributeSelectorWithGroupsComponent } from '../../../../src/app/components/selector-with-groups/selector-with-groups.component';
@@ -12,8 +12,8 @@ import { FsAttributeSelectorWithGroupsComponent } from '../../../../src/app/comp
     imports: [FsAttributeSelectorWithGroupsComponent]
 })
 export class GroupSelectorExampleComponent implements OnInit {
+  private attributeConfig = inject<FsAttributeConfig>(FS_ATTRIBUTE_CONFIG);
 
-  constructor(@Inject(FS_ATTRIBUTE_CONFIG) private attributeConfig: FsAttributeConfig) {}
 
   ngOnInit() {
   }

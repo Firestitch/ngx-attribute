@@ -1,12 +1,4 @@
-import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  Input,
-  OnDestroy,
-  OnInit,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, Input, OnDestroy, OnInit, Output, inject } from '@angular/core';
 
 import { MatDialog } from '@angular/material/dialog';
 
@@ -37,6 +29,10 @@ import { MatIcon } from '@angular/material/icon';
     ],
 })
 export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
+  attributeService = inject(AttributeService);
+  private _dialog = inject(MatDialog);
+  private _cdRef = inject(ChangeDetectorRef);
+
 
   @Input()
   public data;
@@ -64,12 +60,6 @@ export class FsAttributeFieldGroupsComponent implements OnInit, OnDestroy {
 
   public attributeConfig: AttributeConfigModel;
   private _destroy$ = new Subject();
-
-  constructor(
-    public attributeService: AttributeService,
-    private _dialog: MatDialog,
-    private _cdRef: ChangeDetectorRef,
-  ) {}
 
   public ngOnInit() {
     this.attributeConfig = this.attributeService.getConfig(this.class);

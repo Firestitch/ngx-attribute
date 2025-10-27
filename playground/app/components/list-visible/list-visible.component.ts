@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 
 import { FS_ATTRIBUTE_FIELD_DATA } from 'src/app/providers';
 import { MatIcon } from '@angular/material/icon';
@@ -12,8 +12,8 @@ import { MatIcon } from '@angular/material/icon';
     imports: [MatIcon],
 })
 export class ListVisibleComponent implements OnInit {
+  data = inject(FS_ATTRIBUTE_FIELD_DATA);
 
-  constructor(@Inject(FS_ATTRIBUTE_FIELD_DATA) public data: any) {}
 
   public ngOnInit() {
 

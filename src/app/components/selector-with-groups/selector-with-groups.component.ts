@@ -1,15 +1,4 @@
-import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
-  Component,
-  EventEmitter,
-  HostBinding,
-  Inject,
-  Input,
-  OnDestroy,
-  OnInit,
-  Optional,
-  Output,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, HostBinding, Input, OnDestroy, OnInit, Output, inject } from '@angular/core';
 
 import { MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
 
@@ -49,6 +38,12 @@ import { FormsModule } from '@angular/forms';
     ],
 })
 export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy {
+  attributeService = inject(AttributeService);
+  private _dialog = inject(MatDialog);
+  dialogData = inject(MAT_DIALOG_DATA, { optional: true });
+  private _dialogRef = inject<MatDialogRef<FsAttributeSelectorWithGroupsComponent>>(MatDialogRef, { optional: true });
+  private _cdRef = inject(ChangeDetectorRef);
+
 
   @Input()
   public data = {};
@@ -77,14 +72,6 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
   public compareFn: (o1: any, o2: any) => boolean;
 
   private _destroy$ = new Subject();
-
-  constructor(
-    public attributeService: AttributeService,
-    private _dialog: MatDialog,
-    @Inject(MAT_DIALOG_DATA) @Optional() public dialogData: any,
-    @Optional() private _dialogRef: MatDialogRef<FsAttributeSelectorWithGroupsComponent>,
-    private _cdRef: ChangeDetectorRef,
-  ) {}
 
   public ngOnInit() {
     if (this.dialogData && this.dialogData.class) {

@@ -1,4 +1,4 @@
-import { Component, Inject, OnInit, SkipSelf } from '@angular/core';
+import { Component, OnInit, SkipSelf, inject } from '@angular/core';
 import { ControlContainer, FormsModule } from '@angular/forms';
 
 import { FS_ATTRIBUTE_FIELD_DATA } from 'src/app/providers';
@@ -28,10 +28,8 @@ import { MatInput } from '@angular/material/input';
     ],
 })
 export class EditVisibleComponent implements OnInit {
+  data = inject(FS_ATTRIBUTE_FIELD_DATA);
 
-  constructor(
-    @Inject(FS_ATTRIBUTE_FIELD_DATA) public data,
-  ) {}
 
   public ngOnInit() {
     if (!this.data.attribute.configs) {

@@ -1,4 +1,4 @@
-import { Component, Inject } from '@angular/core';
+import { Component, inject } from '@angular/core';
 
 
 import { FsAttributeConfig } from 'src/app/interfaces/attribute-config.interface';
@@ -15,8 +15,5 @@ import { FsAttributeTemplateDirective } from '../../../../src/app/directives/att
     imports: [FsAttributeTreeComponent, FsAttributeTemplateDirective],
 })
 export class TreeExampleComponent {
-
-  constructor(
-    @Inject(FS_ATTRIBUTE_CONFIG) private attributeConfig: FsAttributeConfig,
-  ) {}
+  private attributeConfig = inject<FsAttributeConfig>(FS_ATTRIBUTE_CONFIG);
 }

@@ -1,13 +1,4 @@
-import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
-  Component,
-  ContentChild,
-  Input,
-  OnDestroy,
-  OnInit,
-  TemplateRef,
-  ViewChild,
-} from '@angular/core';
+import { ChangeDetectionStrategy, ChangeDetectorRef, Component, ContentChild, Input, OnDestroy, OnInit, TemplateRef, ViewChild, inject } from '@angular/core';
 
 import { MatDialog } from '@angular/material/dialog';
 
@@ -42,6 +33,10 @@ import { NgTemplateOutlet } from '@angular/common';
     ],
 })
 export class FsAttributeTreeComponent implements OnInit, OnDestroy {
+  attributeService = inject(AttributeService);
+  private _dialog = inject(MatDialog);
+  private _cdRef = inject(ChangeDetectorRef);
+
 
   @Input()
   public data;
@@ -73,12 +68,6 @@ export class FsAttributeTreeComponent implements OnInit, OnDestroy {
   public treeConfig: ITreeConfig<any>;
 
   private _destroy$ = new Subject();
-
-  constructor(
-    public attributeService: AttributeService,
-    private _dialog: MatDialog,
-    private _cdRef: ChangeDetectorRef,
-  ) {}
 
 
   public ngOnInit() {

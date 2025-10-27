@@ -1,4 +1,4 @@
-import { Component, OnInit, Inject } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { FS_ATTRIBUTE_CONFIG } from 'src/app/providers';
 import { FsAttributeConfig } from 'src/app/interfaces/attribute-config.interface';
 import { FsAttributeSelectorComponent } from '../../../../src/app/components/attribute-selector/attribute-selector.component';
@@ -12,8 +12,8 @@ import { FsAttributeSelectorComponent } from '../../../../src/app/components/att
     imports: [FsAttributeSelectorComponent]
 })
 export class SelectorExampleComponent implements OnInit {
+  private attributeConfig = inject<FsAttributeConfig>(FS_ATTRIBUTE_CONFIG);
 
-  constructor(@Inject(FS_ATTRIBUTE_CONFIG) private attributeConfig: FsAttributeConfig) {}
 
   ngOnInit() {
   }
