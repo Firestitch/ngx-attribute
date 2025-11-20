@@ -1,3 +1,4 @@
+import { NgClass } from '@angular/common';
 import {
   ChangeDetectionStrategy, ChangeDetectorRef,
   Component,
@@ -22,29 +23,29 @@ import { filter, map, switchMap, takeUntil } from 'rxjs/operators';
 
 import { FsAttributeListColumnDirective } from '../../directives/list-column.directive';
 import { AttributeOrder } from '../../enums/enums';
-import { AttributeConfig, FsAttributeConfig } from '../../interfaces/attribute-config.interface';
+import { AttributeConfig, AttributeConfigFetchAttributesData, FsAttributeConfig } from '../../interfaces/attribute-config.interface';
 import { FsAttributeListAction } from '../../interfaces/list-action.interface';
 import { AttributeModel } from '../../models/attribute';
 import { AttributeConfigModel } from '../../models/attribute-config';
 import { AttributeService } from '../../services';
 import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.component';
-import { NgClass } from '@angular/common';
 import { FsAttributeComponent } from '../attribute/attribute.component';
+
 import { FsAttributeComponentWrapperComponent } from './component-wrapper/component-wrapper.component';
 
 
 @Component({
-    selector: 'fs-attribute-list',
-    templateUrl: './attribute-list.component.html',
-    styleUrls: ['./attribute-list.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        FsListModule,
-        NgClass,
-        FsAttributeComponent,
-        FsAttributeComponentWrapperComponent,
-    ],
+  selector: 'fs-attribute-list',
+  templateUrl: './attribute-list.component.html',
+  styleUrls: ['./attribute-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    FsListModule,
+    NgClass,
+    FsAttributeComponent,
+    FsAttributeComponentWrapperComponent,
+  ],
 })
 export class FsAttributeListComponent implements OnInit, OnDestroy {
 
@@ -195,13 +196,14 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
           query.order = 'order,asc';
         }
 
-        const e = {
-          ...query,
+        const e: AttributeConfigFetchAttributesData = {
+          query,
           data: this.data,
           class: this.attributeConfigModel.class,
         };
 
-        return this._attributeService.getAttributes(e, this.attributeConfigModel)
+        return this._attributeService
+          .getAttributes(e, this.attributeConfigModel)
           .pipe(
             map((response: any) => ({ data: response.data, paging: response.paging })),
           );
