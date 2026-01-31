@@ -1,6 +1,17 @@
+import { NgTemplateOutlet } from '@angular/common';
 import { ChangeDetectionStrategy, ChangeDetectorRef, Component, EventEmitter, HostBinding, Input, OnDestroy, OnInit, Output, inject } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
-import { MAT_DIALOG_DATA, MatDialog, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatButton } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialog, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
+import { MatFormField, MatLabel, MatPrefix } from '@angular/material/form-field';
+import { MatIcon } from '@angular/material/icon';
+import { MatInput } from '@angular/material/input';
+
+import { FsChipModule } from '@firestitch/chip';
+import { FsDialogModule } from '@firestitch/dialog';
+import { FsFormModule } from '@firestitch/form';
 
 import { Subject } from 'rxjs';
 import { takeUntil } from 'rxjs/operators';
@@ -10,49 +21,33 @@ import { AttributeConfigModel } from '../../models/attribute-config';
 import { AttributeService } from '../../services';
 import { FsAttributeEditComponent } from '../attribute-edit/attribute-edit.component';
 import { FsAttributeManageComponent } from '../attribute-manage';
-import { FsDialogModule } from '@firestitch/dialog';
-import { CdkScrollable } from '@angular/cdk/scrolling';
-import { NgTemplateOutlet } from '@angular/common';
-import { MatButton } from '@angular/material/button';
-import { FsFormModule } from '@firestitch/form';
-import { MatFormField, MatLabel, MatPrefix } from '@angular/material/form-field';
-import { MatIcon } from '@angular/material/icon';
-import { MatInput } from '@angular/material/input';
-import { FormsModule } from '@angular/forms';
-import { FsChipModule } from '@firestitch/chip';
 
 
 @Component({
-    selector: 'fs-attribute-selector',
-    templateUrl: './attribute-selector.component.html',
-    styleUrls: ['./attribute-selector.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        FsDialogModule,
-        MatDialogTitle,
-        CdkScrollable,
-        MatDialogContent,
-        NgTemplateOutlet,
-        MatDialogActions,
-        MatButton,
-        FsFormModule,
-        MatFormField,
-        MatLabel,
-        MatIcon,
-        MatPrefix,
-        MatInput,
-        FormsModule,
-        FsChipModule,
-    ],
+  selector: 'fs-attribute-selector',
+  templateUrl: './attribute-selector.component.html',
+  styleUrls: ['./attribute-selector.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    FsDialogModule,
+    MatDialogTitle,
+    CdkScrollable,
+    MatDialogContent,
+    NgTemplateOutlet,
+    MatDialogActions,
+    MatButton,
+    FsFormModule,
+    MatFormField,
+    MatLabel,
+    MatIcon,
+    MatPrefix,
+    MatInput,
+    FormsModule,
+    FsChipModule,
+  ],
 })
 export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
-  attributeService = inject(AttributeService);
-  private _dialog = inject(MatDialog);
-  private _cdRef = inject(ChangeDetectorRef);
-  dialogData = inject(MAT_DIALOG_DATA, { optional: true });
-  private _dialogRef = inject<MatDialogRef<FsAttributeSelectorComponent>>(MatDialogRef, { optional: true });
-
 
   @Input()
   public data = {};
@@ -84,12 +79,15 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
   public filteredAttributes: AttributeModel[] = [];
   public attributeConfig: AttributeConfigModel = null;
   public dialogMode = false;
-
   public filterKeyword = '';
-
   public compareFn: (o1: any, o2: any) => boolean;
+  public attributeService = inject(AttributeService);
+  public dialogData = inject(MAT_DIALOG_DATA, { optional: true });
 
   private _destroy$ = new Subject();
+  private _dialogRef = inject<MatDialogRef<FsAttributeSelectorComponent>>(MatDialogRef, { optional: true });
+  private _dialog = inject(MatDialog);
+  private _cdRef = inject(ChangeDetectorRef);
 
   public ngOnInit() {
     if (this.dialogData && this.dialogData.class) {
@@ -159,6 +157,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
       data: {
         attributeConfig: this.attributeConfig,
         size: this.size,
+        data: this.data,
       },
       autoFocus: false,
     })
