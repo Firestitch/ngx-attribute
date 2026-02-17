@@ -21,8 +21,15 @@ export type AttributeConfigReorderAttributeTree = (e: any) => Observable<any>;
 export type AttributeConfigFetchAttributeTree = (e: any) => Observable<{ attributes }>;
 export type AttributeConfigReorderAttributes = (e: any) => Observable<{ attributes }>;
 export type AttributeConfigFetchAttributes = (e: AttributeConfigFetchAttributesData) => Observable<{ data: any[], paging: any }>;
-export type AttributeConfigChangedSelectedAttributes = (e: any) => Observable<any>;
+export type AttributeConfigChangedSelectedAttributes = (e: AttributeSelectionChangedEvent) => Observable<any>;
 export type AttributeConfigFetchSelectedAttributes = (e: any) => Observable<{ data: any[], paging: any }>;
+
+export interface AttributeSelectionChangedEvent {
+  data?: { disableAutoSave?: boolean, objectId?: number };
+  attribute?: AttributeModel;
+  value?: AttributeModel;
+  selected?: boolean;
+}
 
 export interface AttributeConfigFetchAttributesData {
   class: string;
@@ -50,7 +57,16 @@ export interface FsAttributeConfig {
   getAttributes?: AttributeConfigFetchAttributes;
   reorderAttributes?: AttributeConfigReorderAttributes;
 
+  /**
+   * @deprecated
+   * Use selectedAttributes.changed instead
+   */
   attributeSelectionChanged?: AttributeConfigChangedSelectedAttributes;
+
+  /**
+   * @deprecated
+   * Use selectedAttributes.fetch instead
+   */
   getSelectedAttributes?: AttributeConfigFetchSelectedAttributes;
  
   attributes?: {
@@ -111,4 +127,13 @@ export interface AttributeConfigField {
   label: string,
   listComponent?: any,
   editComponent?: any
+}
+
+
+export interface Attribute {
+  class?: string;
+  name?: string;
+  color?: string;
+  state?: string;
+  image?: any;
 }

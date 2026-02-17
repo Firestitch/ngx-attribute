@@ -1,29 +1,27 @@
 <fs-autocomplete-chips
-  [removable]="true"
-  [chipBackground]="background"
-  [chipColor]="color"
-  [disabled]="disabled"
-  [floatLabel]="floatLabel"
-  [placeholder]="placeholder"
-  [orderable]="draggable"
-  [multiple]="multiple"
-  [padless]="padless"
-  [(ngModel)]="value"
-  (selected)="selected($event)"
-  (removed)="removed($event)"
-  (reordered)="reordered($event)"
-  (ngModelChange)="change($event)"
-  [fetch]="fetch"
-  [size]="size"
-  [initOnClick]="initOnClick"
-  [label]="label"
-  [compareWith]="compare">
+    [removable]="true"
+    [chipBackground]="background"
+    [chipColor]="color"
+    [disabled]="disabled"
+    [floatLabel]="floatLabel"
+    [placeholder]="placeholder"
+    [orderable]="draggable"
+    [multiple]="multiple"
+    [padless]="padless"
+    [(ngModel)]="value"
+    (selected)="selected($event)"
+    (removed)="removed($event)"
+    (ngModelChange)="change($event)"
+    [fetch]="fetch"
+    [size]="size"
+    [initOnClick]="initOnClick"
+    [label]="label"
+    [compareWith]="compare">
   <ng-template
-    fsAutocompleteObject
-    let-object="object">
+      fsAutocompleteObject
+      let-object="object">
     @if (object.parent) {
-      <span
-        class="parent">
+      <span class="parent">
         {{ object.parent.name }}:
       </span>
     }
@@ -31,15 +29,15 @@
   </ng-template>
   @for (tmpl of staticTemplates; track tmpl; let i = $index) {
     <ng-template
-      fsAutocompleteChipsStatic
-      (click)="staticClick($event, i)">
+        fsAutocompleteChipsStatic
+        (click)="staticClick($event, i)">
       <ng-template [ngTemplateOutlet]="tmpl"></ng-template>
     </ng-template>
   }
   @if (showManage) {
     <ng-template
-      fsAutocompleteChipsStatic
-      (click)="manage()">
+        fsAutocompleteChipsStatic
+        (click)="manage()">
       Manage
     </ng-template>
   }

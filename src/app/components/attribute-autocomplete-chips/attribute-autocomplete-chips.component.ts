@@ -214,12 +214,6 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     }
   }
 
-  public reordered(data) {
-    if (this.saveOnChange) {
-      this.save(data.item, false, data);
-    }
-  }
-
   public compare = (o1: any, o2: any) => {
     return this._attributeService.compareAttributes(o1, o2);
   };
@@ -257,14 +251,11 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     staticDirective.click.emit(event);
   }
 
-  public save(item = null, selected = false, reorder = null) {
+  public save(item = null, selected = false) {
     this._attributeService
       .attributeSelectionChanged({
-        class: this._attributeConfigModel.class,
         data: this.data,
-        attributes: this.value,
         selected: selected,
-        reorder: reorder,
         value: item,
       })
       .pipe(

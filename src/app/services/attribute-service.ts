@@ -9,7 +9,7 @@ import { map } from 'rxjs/operators';
 import { sortBy } from 'lodash-es';
 
 import { AttributeOrder } from '../enums/enums';
-import { AttributeConfig, AttributeConfigFetchAttributesData, AttributeMappingConfig, FsAttributeConfig } from '../interfaces';
+import { AttributeConfig, AttributeConfigFetchAttributesData, AttributeMappingConfig, AttributeSelectionChangedEvent, FsAttributeConfig } from '../interfaces';
 import { AttributeModel } from '../models/attribute';
 import { AttributeConfigModel } from '../models/attribute-config';
 import { FS_ATTRIBUTE_CONFIG } from '../providers';
@@ -170,25 +170,13 @@ export class AttributeService {
     return this.compare(o1 && o1.toJSON(), o2 && o2.toJSON());
   }
 
-  public attributeSelectionChanged(event: any) {
+  public attributeSelectionChanged(event: AttributeSelectionChangedEvent) {
     if (event && event.attribute) {
       event.attribute = event.attribute.toJSON();
     }
 
     if (event && event.value) {
       event.value = event.value.toJSON();
-    }
-
-    if (event.attributes && Array.isArray(event.attributes)) {
-      event.attributes = event.attributes.map((attr) => attr.toJSON());
-    }
-
-    if (event.reorder) {
-      event.reorder.item = event.reorder.item.toJSON();
-
-      if (event.reorder.items && Array.isArray(event.reorder.items)) {
-        event.reorder.items = event.reorder.items.map((item) => item.data.toJSON());
-      }
     }
 
     return this._config.selectedAttributes.changed(event);

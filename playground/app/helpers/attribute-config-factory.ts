@@ -163,7 +163,7 @@ export function attributeConfigFactory(): FsAttributeConfig {
     },
     selectedAttributes: {
       changed: (e) => {
-        console.log('attributeSelectionChanged', e);
+        console.log('selectedAttributes', e);
 
         return of({ attribute: e.attribute });
       },
