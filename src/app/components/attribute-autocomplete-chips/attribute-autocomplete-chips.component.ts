@@ -251,12 +251,12 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     staticDirective.click.emit(event);
   }
 
-  public save(item = null, selected = false) {
+  public save(item: { data: AttributeModel }, selected = false) {
     this._attributeService
       .attributeSelectionChanged({
         data: this.data,
         selected: selected,
-        value: item,
+        value: item.data,
       })
       .pipe(
         takeUntil(this._destroy$),
