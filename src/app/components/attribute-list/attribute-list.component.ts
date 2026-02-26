@@ -83,7 +83,6 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   private _data = inject<{
     attributeConfig: AttributeConfig,
     fsAttributeConfig: FsAttributeConfig,
-    class: string,
     data: any,
   }>(MAT_DIALOG_DATA, { optional: true });
   private _envInj = inject(EnvironmentInjector);
@@ -93,7 +92,6 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
       runInInjectionContext(this._envInj, () =>  (new AttributeService()).init(this.fsAttributeConfig)) :
       this._attributeService;
 
-    this.class = this._data?.class || this.class;
     this.data = this._data?.data || this.data;
     this.attributeConfigModel = this.attributeConfig ?
       new AttributeConfigModel(this.attributeConfig) :
@@ -216,7 +214,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
           const e = {
             attributes: data,
             data: this.data,
-            class: this.class,
+            class: this.attributeConfigModel.class,
           };
 
           this._attributeService.reorderAttributes(e)

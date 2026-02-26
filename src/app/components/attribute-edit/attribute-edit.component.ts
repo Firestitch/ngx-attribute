@@ -6,10 +6,17 @@ import {
   OnDestroy,
   OnInit,
 } from '@angular/core';
+import { FormsModule } from '@angular/forms';
 
-import { MAT_DIALOG_DATA, MatDialogRef, MatDialogTitle, MatDialogContent, MatDialogActions } from '@angular/material/dialog';
+import { CdkScrollable } from '@angular/cdk/scrolling';
+import { MatButton } from '@angular/material/button';
+import { MAT_DIALOG_DATA, MatDialogActions, MatDialogContent, MatDialogRef, MatDialogTitle } from '@angular/material/dialog';
+import { MatFormField, MatLabel } from '@angular/material/form-field';
+import { MatInput } from '@angular/material/input';
 
-import { randomColor, FsColorPickerModule } from '@firestitch/colorpicker';
+import { FsColorPickerModule, randomColor } from '@firestitch/colorpicker';
+import { FsFileModule } from '@firestitch/file';
+import { FsFormModule } from '@firestitch/form';
 
 import { of, Subject } from 'rxjs';
 import { finalize, switchMap, takeUntil, tap } from 'rxjs/operators';
@@ -20,36 +27,29 @@ import { getRawAttributeValue } from '../../helpers/raw-attribute-value';
 import { AttributeModel } from '../../models/attribute';
 import { AttributeConfigModel } from '../../models/attribute-config';
 import { AttributeService } from '../../services';
-import { FormsModule } from '@angular/forms';
-import { FsFormModule } from '@firestitch/form';
-import { CdkScrollable } from '@angular/cdk/scrolling';
-import { FsFileModule } from '@firestitch/file';
-import { MatFormField, MatLabel } from '@angular/material/form-field';
-import { MatInput } from '@angular/material/input';
 import { FsAttributeComponentWrapperComponent } from '../attribute-list/component-wrapper/component-wrapper.component';
-import { MatButton } from '@angular/material/button';
 
 
 @Component({
-    templateUrl: './attribute-edit.component.html',
-    styleUrls: ['./attribute-edit.component.scss'],
-    changeDetection: ChangeDetectionStrategy.OnPush,
-    standalone: true,
-    imports: [
-        FormsModule,
-        FsFormModule,
-        MatDialogTitle,
-        CdkScrollable,
-        MatDialogContent,
-        FsFileModule,
-        MatFormField,
-        MatLabel,
-        MatInput,
-        FsColorPickerModule,
-        FsAttributeComponentWrapperComponent,
-        MatDialogActions,
-        MatButton,
-    ],
+  templateUrl: './attribute-edit.component.html',
+  styleUrls: ['./attribute-edit.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush,
+  standalone: true,
+  imports: [
+    FormsModule,
+    FsFormModule,
+    MatDialogTitle,
+    CdkScrollable,
+    MatDialogContent,
+    FsFileModule,
+    MatFormField,
+    MatLabel,
+    MatInput,
+    FsColorPickerModule,
+    FsAttributeComponentWrapperComponent,
+    MatDialogActions,
+    MatButton,
+  ],
 })
 export class FsAttributeEditComponent implements OnInit, OnDestroy {
 

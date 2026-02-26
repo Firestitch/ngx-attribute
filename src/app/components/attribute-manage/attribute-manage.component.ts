@@ -28,6 +28,7 @@ import { FsAttributeListComponent } from '../attribute-list/attribute-list.compo
 export class FsAttributeManageComponent {
 
   public data = inject(MAT_DIALOG_DATA);
+  
   private _dialogRef = inject<MatDialogRef<FsAttributeManageComponent>>(MatDialogRef);
 
   public close(): void {

@@ -15,7 +15,7 @@ export class AttributeModel {
 
   private _children: AttributeModel[] = [];
   private _config: AttributeConfigModel;
-  private _image = null;
+  private _image: string = null;
   private _backgroundColor = null;
   private _color = null;
   private _parent: AttributeModel;

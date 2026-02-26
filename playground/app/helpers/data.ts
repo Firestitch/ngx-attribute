@@ -1,13 +1,13 @@
-export const attributesStore = [
+export const attributesStore: any[] = [
   {
     id: 1,
     class: 'person',
     backgroundColor: '#19A8E2',
     image: {
-      small: '/assets/headshot2.jpg'
+      small: '/assets/headshot2.jpg',
     },
     name: 'Jane Doe',
-    configs: { visible_on_list: true }
+    configs: { visible_on_list: true },
   },
   {
     id: 2,
@@ -17,7 +17,7 @@ export const attributesStore = [
       small: '/assets/headshot3.jpg',
     },
     name: 'Bob Smith',
-    configs: { visible_on_list: false }
+    configs: { visible_on_list: false },
   },
   {
     id: 3,
@@ -26,7 +26,7 @@ export const attributesStore = [
     image: {
       small: '/assets/headshot4.jpg',
     },
-    name: 'John Doe'
+    name: 'John Doe',
   },
   {
     id: 4,
@@ -36,7 +36,7 @@ export const attributesStore = [
       small: '/assets/headshot5.jpg',
     },
     name: 'Tom Bob',
-    configs: { visible_on_list: true }
+    configs: { visible_on_list: true },
   },
 
   // Tree
@@ -45,7 +45,7 @@ export const attributesStore = [
     class: 'aroma_type',
     backgroundColor: '#19A8E2',
     image: {
-      small: '/assets/headshot2.jpg'
+      small: '/assets/headshot2.jpg',
     },
     name: 'Aroma Type 1',
     attributes: [
@@ -63,12 +63,12 @@ export const attributesStore = [
           class: 'aroma_type',
           backgroundColor: '#19A8E2',
           image: {
-            small: '/assets/headshot2.jpg'
+            small: '/assets/headshot2.jpg',
           },
           name: 'Aroma Type 1',
-        }
+        },
       },
-    ]
+    ],
   },
   {
     id: 8,
@@ -91,14 +91,14 @@ export const attributesStore = [
             small: '/assets/headshot3.jpg',
           },
           name: 'Aroma Type 2',
-        }
+        },
       },
       {
         id: 10,
         class: 'aroma',
-        name: 'Aroma 4'
+        name: 'Aroma 4',
       },
-    ]
+    ],
   },
   {
     id: 6,
@@ -109,10 +109,10 @@ export const attributesStore = [
       class: 'aroma_type',
       backgroundColor: '#19A8E2',
       image: {
-        small: '/assets/headshot2.jpg'
+        small: '/assets/headshot2.jpg',
       },
       name: 'Aroma Type 1',
-    }
+    },
   },
   {
     id: 7,
@@ -123,10 +123,10 @@ export const attributesStore = [
       class: 'aroma_type',
       backgroundColor: '#19A8E2',
       image: {
-        small: '/assets/headshot2.jpg'
+        small: '/assets/headshot2.jpg',
       },
       name: 'Aroma Type 1',
-    }
+    },
   },
   {
     id: 9,
@@ -140,7 +140,7 @@ export const attributesStore = [
         small: '/assets/headshot3.jpg',
       },
       name: 'Aroma Type 2',
-    }
+    },
   },
   {
     id: 10,
@@ -154,7 +154,7 @@ export const attributesStore = [
         small: '/assets/headshot3.jpg',
       },
       name: 'Aroma Type 2',
-    }
+    },
   },
 
   // Tree with parents
@@ -162,7 +162,7 @@ export const attributesStore = [
     id: 11,
     class: 'parent_type',
     image: {
-      small: '/assets/headshot2.jpg'
+      small: '/assets/headshot2.jpg',
     },
     name: 'Cherry',
     attributes: [
@@ -174,14 +174,14 @@ export const attributesStore = [
       {
         id: 13,
         class: 'child',
-        name: 'Cranberry'
+        name: 'Cranberry',
       },
       {
         id: 14,
         class: 'child',
-        name: 'Jam'
+        name: 'Jam',
       },
-    ]
+    ],
   },
   {
     id: 15,
@@ -199,9 +199,9 @@ export const attributesStore = [
       {
         id: 17,
         class: 'child',
-        name: 'Elderflower'
+        name: 'Elderflower',
       },
-    ]
+    ],
   },
   {
     id: 18,
@@ -219,8 +219,8 @@ export const attributesStore = [
       {
         id: 20,
         class: 'child',
-        name: 'Moss'
+        name: 'Moss',
       },
-    ]
-  }
+    ],
+  },
 ];

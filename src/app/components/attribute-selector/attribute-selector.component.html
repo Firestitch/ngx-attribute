@@ -8,16 +8,15 @@
     </div>
     <div mat-dialog-actions>
       <button
-        mat-button
-        (click)="done()"
-        color="primary">
+          mat-button
+          (click)="done()"
+          color="primary">
         Done
       </button>
       @if (showManage !== false) {
         <button
-          mat-button
-          (click)="manage()"
-          >
+            mat-button
+            (click)="manage()">
           Manage
         </button>
       }
@@ -25,9 +24,7 @@
   </fs-dialog>
 } @else {
   @if (filter) {
-    <mat-form-field
-      class="search-attribute"
-      >
+    <mat-form-field class="search-attribute">
       <mat-label>
         {{ placeholder }}
       </mat-label>
@@ -44,16 +41,16 @@
     </mat-form-field>
   }
   <fs-chips
-    [(ngModel)]="selectedAttributes"
-    [compare]="compareFn">
+      [(ngModel)]="selectedAttributes"
+      [compare]="compareFn">
     @for (attribute of filteredAttributes; track attribute) {
       <fs-chip
-        [size]="size"
-        [selectable]="true"
-        [image]="attribute.image"
-        [backgroundColor]="attribute.backgroundColor"
-        [value]="attribute"
-        (selectedToggled)="selectedToggle($event)">
+          [size]="size"
+          [selectable]="true"
+          [image]="attribute.image"
+          [backgroundColor]="attribute.backgroundColor"
+          [value]="attribute"
+          (selectedToggled)="selectedToggle($event)">
         {{ attribute.name }}
       </fs-chip>
     }
@@ -61,9 +58,7 @@
 }
 <ng-template #chipsList>
   @if (filter) {
-    <mat-form-field
-      class="search-attribute"
-      >
+    <mat-form-field class="search-attribute">
       <mat-label>
         {{ placeholder }}
       </mat-label>
@@ -80,16 +75,16 @@
     </mat-form-field>
   }
   <fs-chips
-    [(ngModel)]="selectedAttributes"
-    [compare]="compareFn">
+      [(ngModel)]="selectedAttributes"
+      [compare]="compareFn">
     @for (attribute of filteredAttributes; track attribute) {
       <fs-chip
-        [size]="size"
-        [selectable]="true"
-        [image]="attribute.image"
-        [backgroundColor]="attribute.backgroundColor"
-        [value]="attribute"
-        (selectedToggled)="selectedToggle($event)">
+          [size]="size"
+          [selectable]="true"
+          [image]="attribute.image"
+          [backgroundColor]="attribute.backgroundColor"
+          [value]="attribute"
+          (selectedToggled)="selectedToggle($event)">
         {{ attribute.name }}
       </fs-chip>
     }

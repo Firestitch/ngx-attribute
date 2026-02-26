@@ -99,7 +99,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
       this.selectedAttributes = this.dialogData.selectedAttributes;
       this._initDialog();
     } else {
-      this.hostClass = `fs-attribute fs-attribute-${  this.class}`;
+      this.hostClass = `fs-attribute fs-attribute-${this.class}`;
     }
 
     this.attributeConfig = this.attributeService.getConfig(this.class);
