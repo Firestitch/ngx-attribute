@@ -120,7 +120,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
       )
       .subscribe((response) => {
         const attr = new AttributeModel(response.attribute, this.attributeConfigModel);
-        this.list.updateData(attr, (listRow) => listRow.id === attribute.id);
+        this.list.replaceRow(attr, (listRow) => listRow.id === attribute.id);
 
         this._cdRef.markForCheck();
       });
