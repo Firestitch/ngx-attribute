@@ -1,4 +1,4 @@
-import { Component, EnvironmentInjector, EventEmitter, HostBinding, inject, Input, OnInit, Output, runInInjectionContext } from '@angular/core';
+import { Component, EnvironmentInjector, EventEmitter, HostBinding, inject, Input, OnChanges, OnInit, Output, runInInjectionContext, SimpleChanges } from '@angular/core';
 
 import { AttributeConfig, FsAttributeConfig } from '../../interfaces';
 import { AttributeConfigModel, AttributeModel } from '../../models';
@@ -13,7 +13,7 @@ import { FsChipModule } from '@firestitch/chip';
     standalone: true,
     imports: [FsChipModule],
 })
-export class FsAttributeComponent implements OnInit {
+export class FsAttributeComponent implements OnInit, OnChanges {
 
   @HostBinding('class') public hostClass = '';
 
@@ -44,27 +44,43 @@ export class FsAttributeComponent implements OnInit {
   public selectedToggled = new EventEmitter();
 
   public attributeConfigItem: AttributeConfigModel;
+  public attributeModel: AttributeModel;
 
   private _attributeService = inject(AttributeService);
   private _envInj = inject(EnvironmentInjector);
 
-  public ngOnInit() {    
-    this._attributeService = this.fsAttributeConfig ? 
+  public ngOnChanges(changes: SimpleChanges) {
+    if(changes.attribute && !changes.attribute.firstChange) {
+      this._initAttributeModel();
+    }
+  }
+
+  public ngOnInit() {
+    this._attributeService = this.fsAttributeConfig ?
       runInInjectionContext(this._envInj, () =>  (new AttributeService()).init(this.fsAttributeConfig)) :
       this._attributeService;
 
-    this.attributeConfigItem = this.attributeConfig ? 
+    this.attributeConfigItem = this.attributeConfig ?
       new AttributeConfigModel(this.attributeConfig) :
       this._attributeService.getConfig(this.class || this.attribute.class);
 
-    if(!(this.attribute instanceof AttributeModel)) {
-      this.attribute = new AttributeModel(
+    this._initAttributeModel();
+
+    this.hostClass = `fs-attribute fs-attribute-${this.attributeConfigItem.class}`;
+  }
+
+  /**
+   * The attribute input stays raw. Its mapped/config-gated form is derived here so that
+   * re-binding the input (eg. a tracked @for over refetched list rows reusing this instance)
+   * can never leave the template reading unmapped values off the raw attribute.
+   */
+  private _initAttributeModel() {
+    this.attributeModel = this.attribute instanceof AttributeModel ?
+      this.attribute :
+      new AttributeModel(
         this.attribute,
         this.attributeConfigItem,
       );
-    }
-
-    this.hostClass = `fs-attribute fs-attribute-${this.attributeConfigItem.class}`;
   }
 }
 

@@ -2,11 +2,11 @@
     [removable]="removable"
     [selectable]="selectable"
     [selected]="selected"
-    [backgroundColor]="attribute?.backgroundColor"
-    [color]="attribute?.color"
-    [image]="attribute?.image"
+    [backgroundColor]="attributeModel?.backgroundColor"
+    [color]="attributeModel?.color"
+    [image]="attributeModel?.image"
     [size]="size"
     (selectedToggled)="selectedToggled.emit($event)"
-    [value]="attribute">
+    [value]="attributeModel">
   <ng-content></ng-content>
 </fs-chip>
