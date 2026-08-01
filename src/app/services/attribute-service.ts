@@ -182,9 +182,15 @@ export class AttributeService {
     return this._config.selectedAttributes.changed(event);
   }
 
+  /**
+   * Row data is normally an AttributeModel, but fs-list hands back every row in the stack and
+   * its updateData() is public API, so a consumer can leave a plain object in a row. Serialize
+   * what we can and pass the rest through -- a throw here aborts the drag mid-teardown.
+   */
   public reorderAttributes(event: any) {
     if (event && Array.isArray(event.attributes)) {
-      event.attributes = event.attributes.map((attr) => attr.data.toJSON());
+      event.attributes = event.attributes
+        .map(({ data }) => (data instanceof AttributeModel ? data.toJSON() : data));
     }
 
     return this._config.attributes.reorder(event);

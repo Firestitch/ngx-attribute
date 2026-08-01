@@ -1,6 +1,6 @@
 import { NgClass } from '@angular/common';
 import {
-  ChangeDetectionStrategy, ChangeDetectorRef,
+  ChangeDetectionStrategy,
   Component,
   ContentChild,
   EnvironmentInjector,
@@ -79,7 +79,6 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   private _destroy$ = new Subject();
   private _attributeService = inject(AttributeService);
   private _dialog = inject(MatDialog);
-  private _cdRef = inject(ChangeDetectorRef);
   private _data = inject<{
     attributeConfig: AttributeConfig,
     fsAttributeConfig: FsAttributeConfig,
@@ -100,6 +99,11 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
     this._setListConfig();
   }
 
+  /**
+   * Reload rather than patch the row in place: fs-list's updateData() shallow-merges with a
+   * spread, which strips the AttributeModel prototype. The row then loses its colour getters
+   * (the chip renders grey) and its toJSON(), which reorder relies on.
+   */
   public edit(attribute: AttributeModel) {
     this._dialog.open(FsAttributeEditComponent, {
       data: {
@@ -117,12 +121,10 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
       .afterClosed()
       .pipe(
         filter((response) => !!response),
+        takeUntil(this._destroy$),
       )
-      .subscribe((response) => {
-        const attr = new AttributeModel(response.attribute, this.attributeConfigModel);
-        this.list.updateData(attr, (listRow) => listRow.id === attribute.id);
-
-        this._cdRef.markForCheck();
+      .subscribe(() => {
+        this.list.reload();
       });
   }
 
