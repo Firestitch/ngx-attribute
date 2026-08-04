@@ -73,6 +73,9 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   @Input()
   public size: 'small' | 'tiny';
 
+  @Input()
+  public showCreate = true;
+
   public listConfig: FsListConfig;
   public attributeConfigModel: AttributeConfigModel = null;
 
@@ -148,6 +151,15 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   }
 
   private _setListConfig() {
+    const actions: FsAttributeListAction[] = [...this.actions];
+
+    if (this.showCreate) {
+      actions.unshift({
+        label: 'Create',
+        click: () => this.create(),
+      });
+    }
+
     const config: FsListConfig = {
       reload: false,
       status: false,
@@ -172,7 +184,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
           label: 'Remove',
         },
       ],
-      actions: this.actions,
+      actions,
       restore: {
         query: { state: 'deleted' },
         filterLabel: 'Show Deleted',
