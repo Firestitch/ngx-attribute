@@ -181,7 +181,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
             return this._deleteRow(row);
           },
           remove: true,
-          label: 'Remove',
+          label: 'Delete',
         },
       ],
       actions,
