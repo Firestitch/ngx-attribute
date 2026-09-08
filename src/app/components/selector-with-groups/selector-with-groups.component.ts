@@ -155,8 +155,8 @@ export class FsAttributeSelectorWithGroupsComponent implements OnInit, OnDestroy
         this._fetch(
           null,
           {
-            parentId: response?.parent.id,
-            attrId: response?.attribute.id,
+            parentId: response?.parent?.id,
+            attrId: response?.attribute?.id,
           });
       });
   }

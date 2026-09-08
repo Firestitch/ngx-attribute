@@ -147,7 +147,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
         takeUntil(this._destroy$),
       )
       .subscribe((response) => {
-        this._fetch(response?.attribute.id);
+        this._fetch(response?.attribute?.id);
       });
   }
 
@@ -166,7 +166,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
         takeUntil(this._destroy$),
       )
       .subscribe((response) => {
-        this._fetch(response?.attribute.id);
+        this._fetch(response?.attribute?.id);
       });
   }
 

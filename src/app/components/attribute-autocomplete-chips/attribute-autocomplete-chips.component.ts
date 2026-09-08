@@ -225,6 +225,18 @@ implements OnInit, OnDestroy, ControlValueAccessor {
     this.onTouch = fn; 
   }
 
+  /**
+   * Open the list manager. Nothing to do when it closes.
+   *
+   * `fetch` is not ours to call — it is handed to <fs-autocomplete-chips> as
+   * its `[fetch]` callback, and the child invokes it with the user's keyword
+   * every time the panel opens. Calling it from here fired a request whose
+   * result went nowhere (the child owns the list) and whose keyword was wrong
+   * anyway, so the options are re-read correctly on the next focus without it.
+   *
+   * The selected chip renders from `value`, which the manager does not change:
+   * renaming an attribute leaves the id it is held by alone.
+   */
   public manage() {
     this._dialog
       .open(FsAttributeManageComponent, {
@@ -235,13 +247,6 @@ implements OnInit, OnDestroy, ControlValueAccessor {
           data: this.data,
         },
         autoFocus: false,
-      })
-      .afterClosed()
-      .pipe(
-        takeUntil(this._destroy$),
-      )
-      .subscribe((response) => {
-        this.fetch(response?.attribute.id);
       });
   }
 
