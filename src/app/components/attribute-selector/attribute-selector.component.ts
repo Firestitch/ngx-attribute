@@ -68,7 +68,7 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
   public selectedAttributes = [];
 
   @Input()
-  public size: 'small' | 'tiny';
+  public size: 'small' | 'tiny' = 'small';
 
   @Output()
   public selectedToggled = new EventEmitter();
@@ -94,7 +94,9 @@ export class FsAttributeSelectorComponent implements OnInit, OnDestroy {
       this.dialogMode = !!this.dialogData;
       this.class = this.dialogData.class;
       this.data = this.dialogData.data;
-      this.size = this.dialogData.size;
+      // Only when the opener named one, so an absent size keeps the component's
+      // default rather than being overwritten with undefined.
+      this.size = this.dialogData.size ?? this.size;
       this.showManage = this.dialogData.showManage ?? true;
       this.selectedAttributes = this.dialogData.selectedAttributes;
       this._initDialog();

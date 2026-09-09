@@ -39,7 +39,7 @@ export class FsAttributesComponent implements OnInit, OnDestroy {
   public data;
 
   @Input()
-  public size;
+  public size: 'small' | 'tiny' = 'small';
 
   @Input()
   @HostBinding('class.active')

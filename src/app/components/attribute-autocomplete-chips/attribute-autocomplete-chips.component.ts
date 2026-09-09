@@ -80,7 +80,7 @@ implements OnInit, OnDestroy, ControlValueAccessor {
   public placeholder;
 
   @Input()
-  public size: 'small' | 'large' = 'large';
+  public size: 'small' | 'large' = 'small';
 
   @Input()
   public saveOnChange = true;

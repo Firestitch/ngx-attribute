@@ -63,7 +63,7 @@ export class FsAttributeFieldComponent implements OnInit, OnDestroy {
   public label: string | boolean;
 
   @Input()
-  public size: 'small' | 'tiny';
+  public size: 'small' | 'tiny' = 'small';
 
   @Output()
   public changed = new EventEmitter<AttributeModel[]>();

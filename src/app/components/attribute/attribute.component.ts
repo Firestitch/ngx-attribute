@@ -24,7 +24,7 @@ export class FsAttributeComponent implements OnInit, OnChanges {
   public selectable: boolean;
 
   @Input()
-  public size: 'small' | 'tiny';
+  public size: 'small' | 'tiny' = 'small';
 
   @Input()
   public selected: boolean;

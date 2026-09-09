@@ -71,7 +71,7 @@ export class FsAttributeListComponent implements OnInit, OnDestroy {
   public data: any;
 
   @Input()
-  public size: 'small' | 'tiny';
+  public size: 'small' | 'tiny' = 'small';
 
   @Input()
   public showCreate = true;
